@@ -4,76 +4,16 @@ const PROJECTS=Object.freeze({
   core:{id:'ptblnpiroqftcvlsrhac',label:'KC Core · London',targetId:'db-supabase-core',url:'https://ptblnpiroqftcvlsrhac.supabase.co',publishableKey:'sb_publishable_SqXIeGN-clcZ4gjmpLdSww_4DLfyy24'},
   futura:{id:'iddudrxuihdodnvejxcp',label:'Future Academy · Frankfurt',targetId:'db-supabase-futura',url:'https://iddudrxuihdodnvejxcp.supabase.co',publishableKey:'sb_publishable_DWLycZijZEBvakXVncI5IQ_38LZCQxW'}
 });
-
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-function css(){
-  if(document.getElementById('kicc-supabase-auth-style'))return;
-  const s=document.createElement('style');s.id='kicc-supabase-auth-style';s.textContent=`
-  .kicc-auth-panel{margin:0 0 16px;padding:14px;border:1px solid rgba(148,163,184,.18);border-radius:14px;background:rgba(15,23,42,.72)}
-  .kicc-auth-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}.kicc-auth-head h2{margin:0;font-size:16px}.kicc-auth-head p{margin:3px 0 0;color:#94a3b8;font-size:12px}
-  .kicc-auth-form{display:grid;grid-template-columns:minmax(180px,1fr) minmax(180px,1fr) auto;gap:8px;align-items:end}.kicc-auth-field{display:grid;gap:4px}.kicc-auth-field span{font-size:11px;color:#94a3b8}.kicc-auth-field input{min-width:0;padding:9px 10px;border-radius:9px;border:1px solid rgba(148,163,184,.25);background:#0b1220;color:#e5e7eb}
-  .kicc-auth-actions{display:flex;gap:6px;flex-wrap:wrap}.kicc-auth-actions button{padding:9px 11px;border:1px solid rgba(148,163,184,.25);border-radius:9px;background:#172033;color:#e5e7eb;cursor:pointer}.kicc-auth-actions button.primary{background:#1d4ed8;border-color:#2563eb}.kicc-auth-actions button:disabled{opacity:.5;cursor:wait}
-  .kicc-auth-status{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.kicc-auth-card{padding:9px 10px;border-radius:10px;background:#0b1220;border:1px solid rgba(148,163,184,.16)}.kicc-auth-card strong{display:block;font-size:12px}.kicc-auth-card span{font-size:11px;color:#94a3b8}.kicc-auth-card.ready{border-color:rgba(34,197,94,.45)}.kicc-auth-card.error{border-color:rgba(239,68,68,.45)}
-  .kicc-auth-note{margin-top:9px;font-size:11px;color:#94a3b8}.kicc-auth-message{margin-top:8px;font-size:12px;min-height:17px}.kicc-auth-message.error{color:#fca5a5}.kicc-auth-message.ok{color:#86efac}
-  @media(max-width:760px){.kicc-auth-form{grid-template-columns:1fr}.kicc-auth-status{grid-template-columns:1fr}}
-  `;document.head.appendChild(s);
-}
+function css(){if(document.getElementById('kicc-supabase-auth-style'))return;const s=document.createElement('style');s.id='kicc-supabase-auth-style';s.textContent=`
+.kicc-auth-panel{margin:0 0 16px;padding:14px;border:1px solid rgba(148,163,184,.18);border-radius:14px;background:rgba(15,23,42,.72)}.kicc-auth-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}.kicc-auth-head h2{margin:0;font-size:16px}.kicc-auth-head p{margin:3px 0 0;color:#94a3b8;font-size:12px}.kicc-auth-grid{display:grid;grid-template-columns:1.05fr 1fr 1fr auto;gap:8px;align-items:end}.kicc-auth-field{display:grid;gap:4px}.kicc-auth-field span{font-size:11px;color:#94a3b8}.kicc-auth-field input{min-width:0;padding:9px 10px;border-radius:9px;border:1px solid rgba(148,163,184,.25);background:#0b1220;color:#e5e7eb}.kicc-auth-actions{display:flex;gap:6px;flex-wrap:wrap}.kicc-auth-actions button{padding:9px 11px;border:1px solid rgba(148,163,184,.25);border-radius:9px;background:#172033;color:#e5e7eb;cursor:pointer}.kicc-auth-actions button.primary{background:#1d4ed8;border-color:#2563eb}.kicc-auth-actions button:disabled{opacity:.5;cursor:wait}.kicc-auth-status{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.kicc-auth-card{padding:9px 10px;border-radius:10px;background:#0b1220;border:1px solid rgba(148,163,184,.16)}.kicc-auth-card strong{display:block;font-size:12px}.kicc-auth-card span{font-size:11px;color:#94a3b8}.kicc-auth-card.ready{border-color:rgba(34,197,94,.45)}.kicc-auth-card.error{border-color:rgba(239,68,68,.45)}.kicc-auth-note{margin-top:9px;font-size:11px;color:#94a3b8}.kicc-auth-message{margin-top:8px;font-size:12px;min-height:17px}.kicc-auth-message.error{color:#fca5a5}.kicc-auth-message.ok{color:#86efac}@media(max-width:1050px){.kicc-auth-grid{grid-template-columns:1fr 1fr}.kicc-auth-actions{grid-column:1/-1}}@media(max-width:650px){.kicc-auth-grid,.kicc-auth-status{grid-template-columns:1fr}}
+`;document.head.appendChild(s);}
 
-async function signIn(project,email,password){
-  const response=await fetch(`${project.url}/auth/v1/token?grant_type=password`,{
-    method:'POST',cache:'no-store',credentials:'omit',
-    headers:{'content-type':'application/json','apikey':project.publishableKey},
-    body:JSON.stringify({email,password})
-  });
-  let data=null;try{data=await response.json();}catch{}
-  if(!response.ok){const detail=data?.error_description||data?.msg||data?.message||`HTTP ${response.status}`;throw new Error(detail);}
-  if(!data?.access_token)throw new Error('Supabase hat keinen Access-Token geliefert');
-  const expiresAt=Date.now()+Math.max(30,Number(data.expires_in||3600))*1000;
-  setSupabaseSession(project.id,{accessToken:data.access_token,apikey:project.publishableKey,expiresAt});
-  return{expiresAt,user:data.user?.email||email};
-}
-
+async function signIn(project,email,password){const response=await fetch(`${project.url}/auth/v1/token?grant_type=password`,{method:'POST',cache:'no-store',credentials:'omit',headers:{'content-type':'application/json','apikey':project.publishableKey},body:JSON.stringify({email,password})});let data=null;try{data=await response.json();}catch{}if(!response.ok){const detail=data?.error_description||data?.msg||data?.message||`HTTP ${response.status}`;throw new Error(detail==='Invalid login credentials'?'Passwort für dieses Supabase-Projekt stimmt nicht.':detail);}if(!data?.access_token)throw new Error('Supabase hat keinen Access-Token geliefert');const expiresAt=Date.now()+Math.max(30,Number(data.expires_in||3600))*1000;setSupabaseSession(project.id,{accessToken:data.access_token,apikey:project.publishableKey,expiresAt});return{expiresAt,user:data.user?.email||email};}
 function stateByProject(){return new Map(authStatus().map(x=>[x.projectId,x]));}
-function renderStatus(host,errors={}){
-  const state=stateByProject();
-  host.innerHTML=Object.values(PROJECTS).map(p=>{const s=state.get(p.id),err=errors[p.id];const ready=s?.state==='READY';return `<div class="kicc-auth-card ${err?'error':ready?'ready':''}"><strong>${esc(p.label)}</strong><span>${err?esc(err):ready?`LIVE-AUTH bereit · Token nur im RAM${s.expiresAt?` · bis ${new Date(s.expiresAt).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}`:''}`:'AUTH_REQUIRED · noch nicht angemeldet'}</span></div>`;}).join('');
-}
+function renderStatus(host,errors={}){const state=stateByProject();host.innerHTML=Object.values(PROJECTS).map(p=>{const s=state.get(p.id),err=errors[p.id],ready=s?.state==='READY';return `<div class="kicc-auth-card ${err?'error':ready?'ready':''}"><strong>${esc(p.label)}</strong><span>${err?esc(err):ready?`LIVE-AUTH bereit · Token nur im RAM${s.expiresAt?` · bis ${new Date(s.expiresAt).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}`:''}`:'AUTH_REQUIRED · noch nicht angemeldet'}</span></div>`;}).join('');}
 
-function mount(){
-  css();
-  const admin=document.querySelector('[data-kicc-panel="admin"]');if(!admin||document.getElementById('kiccSupabaseAuth'))return;
-  const panel=document.createElement('section');panel.id='kiccSupabaseAuth';panel.className='kicc-auth-panel';panel.innerHTML=`
-    <div class="kicc-auth-head"><div><h2>Supabase Live-Telemetrie</h2><p>Sichere Session für KC Core und Future Academy. Passwort wird nicht gespeichert.</p></div><span class="tab-badge">JWT · RAM only</span></div>
-    <div class="kicc-auth-form">
-      <label class="kicc-auth-field"><span>E-Mail</span><input id="kiccAuthEmail" type="email" autocomplete="username" spellcheck="false"></label>
-      <label class="kicc-auth-field"><span>Passwort</span><input id="kiccAuthPassword" type="password" autocomplete="current-password"></label>
-      <div class="kicc-auth-actions"><button class="primary" data-auth="both">Beide anmelden</button><button data-auth="core">KC Core</button><button data-auth="futura">Futura</button><button data-auth="clear">Abmelden</button></div>
-    </div>
-    <div id="kiccAuthMessage" class="kicc-auth-message"></div><div id="kiccAuthStatus" class="kicc-auth-status"></div>
-    <div class="kicc-auth-note">Die Zugangsdaten gehen direkt vom Browser an Supabase. KICC speichert weder Passwort noch Access-Token dauerhaft; der Token verschwindet beim Neuladen/Schließen der Seite.</div>`;
-  admin.insertBefore(panel,admin.querySelector('.panel'));
-  const statusHost=panel.querySelector('#kiccAuthStatus'),msg=panel.querySelector('#kiccAuthMessage'),email=panel.querySelector('#kiccAuthEmail'),password=panel.querySelector('#kiccAuthPassword');
-  renderStatus(statusHost);
-  panel.addEventListener('click',async event=>{
-    const button=event.target.closest('button[data-auth]');if(!button)return;
-    const action=button.dataset.auth;
-    if(action==='clear'){
-      clearSupabaseSession();password.value='';msg.className='kicc-auth-message ok';msg.textContent='Supabase-Sessions aus dem Arbeitsspeicher entfernt.';renderStatus(statusHost);globalThis.KICC?.runDiscovery?.({force:true});return;
-    }
-    const mail=email.value.trim(),pw=password.value;
-    if(!mail||!pw){msg.className='kicc-auth-message error';msg.textContent='E-Mail und Passwort eingeben.';return;}
-    const keys=action==='both'?['core','futura']:[action],errors={};
-    panel.querySelectorAll('button').forEach(b=>b.disabled=true);msg.className='kicc-auth-message';msg.textContent='Anmeldung und Live-Telemetrie werden geprüft …';
-    try{
-      const results=await Promise.allSettled(keys.map(async key=>({key,result:await signIn(PROJECTS[key],mail,pw)})));
-      let ok=0;results.forEach((r,i)=>{const p=PROJECTS[keys[i]];if(r.status==='fulfilled')ok++;else errors[p.id]=r.reason?.message||'Anmeldung fehlgeschlagen';});
-      password.value='';renderStatus(statusHost,errors);
-      msg.className=`kicc-auth-message ${ok?'ok':'error'}`;msg.textContent=ok?`${ok} Supabase-Projekt(e) angemeldet. Live-Messung wird aktualisiert.`:'Anmeldung fehlgeschlagen.';
-      if(ok)await globalThis.KICC?.runDiscovery?.({force:true});
-    }finally{panel.querySelectorAll('button').forEach(b=>b.disabled=false);}
-  });
-}
-
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
-globalThis.KICC_SUPABASE_LOGIN={mount,projects:PROJECTS};
+function mount(){css();const admin=document.querySelector('[data-kicc-panel="admin"]');if(!admin||document.getElementById('kiccSupabaseAuth'))return;const panel=document.createElement('section');panel.id='kiccSupabaseAuth';panel.className='kicc-auth-panel';panel.innerHTML=`<div class="kicc-auth-head"><div><h2>Supabase Live-Telemetrie</h2><p>KC Core und Future Academy haben getrennte Auth-Identitäten. Passwörter werden nie gespeichert.</p></div><span class="tab-badge">JWT · RAM only</span></div><div class="kicc-auth-grid"><label class="kicc-auth-field"><span>E-Mail</span><input id="kiccAuthEmail" type="email" autocomplete="username" spellcheck="false"></label><label class="kicc-auth-field"><span>KC Core Passwort</span><input id="kiccAuthCorePassword" type="password" autocomplete="current-password"></label><label class="kicc-auth-field"><span>Future Academy Passwort</span><input id="kiccAuthFuturaPassword" type="password" autocomplete="off"></label><div class="kicc-auth-actions"><button class="primary" data-auth="both">Beide anmelden</button><button data-auth="core">KC Core</button><button data-auth="futura">Futura</button><button data-auth="clear">Abmelden</button></div></div><div id="kiccAuthMessage" class="kicc-auth-message"></div><div id="kiccAuthStatus" class="kicc-auth-status"></div><div class="kicc-auth-note">Die Zugangsdaten gehen direkt vom Browser an das jeweilige Supabase-Projekt. Access-Tokens bleiben ausschließlich im Arbeitsspeicher und verschwinden beim Neuladen/Schließen.</div>`;admin.insertBefore(panel,admin.querySelector('.panel'));const statusHost=panel.querySelector('#kiccAuthStatus'),msg=panel.querySelector('#kiccAuthMessage'),email=panel.querySelector('#kiccAuthEmail'),corePw=panel.querySelector('#kiccAuthCorePassword'),futuraPw=panel.querySelector('#kiccAuthFuturaPassword');renderStatus(statusHost);
+panel.addEventListener('click',async event=>{const button=event.target.closest('button[data-auth]');if(!button)return;const action=button.dataset.auth;if(action==='clear'){clearSupabaseSession();corePw.value='';futuraPw.value='';msg.className='kicc-auth-message ok';msg.textContent='Supabase-Sessions aus dem Arbeitsspeicher entfernt.';renderStatus(statusHost);globalThis.KICC?.runDiscovery?.({force:true});globalThis.KICC_MIRROR?.refresh?.();return;}const mail=email.value.trim();if(!mail){msg.className='kicc-auth-message error';msg.textContent='E-Mail eingeben.';return;}const jobs=[];if(action==='core'||action==='both'){if(!corePw.value){msg.className='kicc-auth-message error';msg.textContent='KC-Core-Passwort fehlt.';return;}jobs.push(['core',corePw.value]);}if(action==='futura'||action==='both'){if(!futuraPw.value){msg.className='kicc-auth-message error';msg.textContent='Future-Academy-Passwort fehlt.';return;}jobs.push(['futura',futuraPw.value]);}const errors={};panel.querySelectorAll('button').forEach(b=>b.disabled=true);msg.className='kicc-auth-message';msg.textContent='Anmeldung und Live-Telemetrie werden geprüft …';try{const results=await Promise.allSettled(jobs.map(async([key,pw])=>({key,result:await signIn(PROJECTS[key],mail,pw)})));let ok=0;results.forEach((r,i)=>{const p=PROJECTS[jobs[i][0]];if(r.status==='fulfilled')ok++;else errors[p.id]=r.reason?.message||'Anmeldung fehlgeschlagen';});corePw.value='';futuraPw.value='';renderStatus(statusHost,errors);msg.className=`kicc-auth-message ${ok?'ok':'error'}`;msg.textContent=ok?`${ok} Supabase-Projekt(e) angemeldet. Live-Messungen werden aktualisiert.`:'Anmeldung fehlgeschlagen.';if(ok){await globalThis.KICC?.runDiscovery?.({force:true});await globalThis.KICC_MIRROR?.refresh?.();}}finally{panel.querySelectorAll('button').forEach(b=>b.disabled=false);}});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();globalThis.KICC_SUPABASE_LOGIN={mount,projects:PROJECTS};
