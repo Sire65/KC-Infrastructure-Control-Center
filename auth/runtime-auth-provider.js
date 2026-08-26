@@ -22,7 +22,8 @@ async function resolveSession(projectId){let current=normalizeSession(sessions.g
 export async function getSupabaseBridgeAuth(targetId){const projectId=projectFor(targetId);if(!projectId)return null;return authFromSession(await resolveSession(projectId));}
 export async function getNeonBridgeAuth(targetId){if(targetId!=='db-neon-core-mirror')return null;return authFromSession(await resolveSession(CORE_PROJECT));}
 export async function getMirrorBridgeAuth(flowId){if(flowId!=='flow-supabase-neon-core')return null;return authFromSession(await resolveSession(CORE_PROJECT));}
+export async function getProgramHeartbeatBridgeAuth(){return authFromSession(await resolveSession(CORE_PROJECT));}
 export function status(){return Object.entries(PROJECT_BY_TARGET).map(([targetId,projectId])=>{const s=normalizeSession(sessions.get(projectId));return{targetId,projectId,state:s?'READY':'AUTH_REQUIRED',expiresAt:s?.expiresAt||null,storage:'MEMORY_ONLY'};});}
 
 // Tokens are intentionally memory-only. No localStorage, IndexedDB, service worker or repository persistence.
-globalThis.KICC_AUTH={...(globalThis.KICC_AUTH||{}),setSupabaseSession,clearSupabaseSession,registerSupabaseSessionResolver,getSupabaseBridgeAuth,getNeonBridgeAuth,getMirrorBridgeAuth,status};
+globalThis.KICC_AUTH={...(globalThis.KICC_AUTH||{}),setSupabaseSession,clearSupabaseSession,registerSupabaseSessionResolver,getSupabaseBridgeAuth,getNeonBridgeAuth,getMirrorBridgeAuth,getProgramHeartbeatBridgeAuth,status};
