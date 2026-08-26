@@ -1,4 +1,5 @@
 import '../auth/runtime-auth-provider.js';
+import '../auth/supabase-login-ui.js';
 import '../products/github-telemetry-runtime.js';
 
 const TAB_STORAGE='kicc.active.tab.v1';
