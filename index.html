@@ -11,57 +11,25 @@
 <body>
   <header class="topbar">
     <div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div>
-    <div class="version" id="version">0.1.0-dev.15</div>
+    <div class="version" id="version">0.1.0-dev.16</div>
   </header>
   <main class="shell">
-    <section class="hero">
-      <div><p class="eyebrow">SPRINT 1 · DEV</p><h1>Zentrale KC-Leitwarte</h1><p>KC-Programme, Systemzustand, Datenbanken, Spiegelung, Regionen und notwendige Aktionen auf einen Blick.</p></div>
-      <div class="system-state unknown" id="systemState"><span class="led"></span><div><small>KC-Gesamtstatus</small><strong>UNBEKANNT</strong></div></div>
-    </section>
+    <section class="hero"><div><p class="eyebrow">SPRINT 1 · DEV</p><h1>Zentrale KC-Leitwarte</h1><p>KC-Programme, Systemzustand, Datenbanken, Spiegelung, Regionen und notwendige Aktionen auf einen Blick.</p></div><div class="system-state unknown" id="systemState"><span class="led"></span><div><small>KC-Gesamtstatus</small><strong>UNBEKANNT</strong></div></div></section>
     <section class="kpi-grid" id="kpis"></section>
-
-    <section class="panel db-panel">
-      <div class="panel-head"><h2>KC-Programme</h2><span>Alle bekannten KC-Produkte · private Systeme ausgeschlossen</span></div>
-      <div id="kcProgramCards" class="database-grid"></div>
-    </section>
-
-    <section class="panel db-panel">
-      <div class="panel-head"><h2>KC-Datenbank-Leitwarte</h2><span>Read-only · reale Messung vor Grün</span></div>
-      <div id="databaseCards" class="database-grid"></div>
-    </section>
-
-    <section class="panel db-panel">
-      <div class="panel-head"><h2>Mirror & Failover-Bereitschaft</h2><span>Supabase ↔ Neon · autoritative Sync-Telemetrie</span></div>
-      <div id="mirrorHealth" class="mirror-host"></div>
-    </section>
-
-    <section class="panel db-panel">
-      <div class="panel-head"><h2>Region & Datenresidenz</h2><span>Deutschland bevorzugt · kontrollierter Umzug</span></div>
-      <div id="regionMigrationCards" class="database-grid"></div>
-    </section>
-
-    <section class="panel db-panel">
-      <div class="panel-head"><h2>Migration-Center</h2><span>Recovery · Kopie · Delta-Sync · Verifikation · Cutover · Rollback</span></div>
-      <div id="migrationCenter" class="migration-grid"></div>
-    </section>
-
-    <section class="panel-grid">
-      <article class="panel wide"><div class="panel-head"><h2>Live-Leitwarte</h2><span>Nur KC · nur reale Telemetrie</span></div><div id="topology" class="topology empty">Datenfluss-Topologie folgt nach Anschluss echter Flow-Telemetrie.</div></article>
-      <article class="panel"><div class="panel-head"><h2>Handlungsbedarf</h2><span id="approvalCount">0</span></div><div id="actions" class="empty-list">Keine freigegebenen Aktionen vorhanden.</div></article>
-    </section>
-
-    <section class="panel db-panel">
-      <div class="panel-head"><h2>Private Infrastruktur</h2><span>PC Backup Vault / Backblaze B2 · getrennt von KC</span></div>
-      <div id="privateInfraCards" class="database-grid"></div>
-      <div id="storageCards" style="display:none"></div>
-    </section>
-
+    <section class="panel db-panel"><div class="panel-head"><h2>KC-Programme</h2><span>Alle bekannten KC-Produkte · private Systeme ausgeschlossen</span></div><div id="kcProgramCards" class="database-grid"></div></section>
+    <section class="panel db-panel"><div class="panel-head"><h2>KC-Datenbank-Leitwarte</h2><span>Read-only · reale Messung vor Grün</span></div><div id="databaseCards" class="database-grid"></div></section>
+    <section class="panel db-panel"><div class="panel-head"><h2>Mirror & Failover-Bereitschaft</h2><span>Supabase ↔ Neon · autoritative Sync-Telemetrie</span></div><div id="mirrorHealth" class="mirror-host"></div></section>
+    <section class="panel db-panel"><div class="panel-head"><h2>Region & Datenresidenz</h2><span>Deutschland bevorzugt · kontrollierter Umzug</span></div><div id="regionMigrationCards" class="database-grid"></div></section>
+    <section class="panel db-panel"><div class="panel-head"><h2>Migration-Center</h2><span>Recovery · Kopie · Delta-Sync · Verifikation · Cutover · Rollback</span></div><div id="migrationCenter" class="migration-grid"></div></section>
+    <section class="panel-grid"><article class="panel wide"><div class="panel-head"><h2>Live-Leitwarte</h2><span>Nur KC · nur reale Telemetrie</span></div><div id="topology" class="topology empty">Datenfluss-Topologie folgt nach Anschluss echter Flow-Telemetrie.</div></article><article class="panel"><div class="panel-head"><h2>Handlungsbedarf</h2><span id="approvalCount">0</span></div><div id="actions" class="empty-list">Keine freigegebenen Aktionen vorhanden.</div></article></section>
+    <section class="panel db-panel"><div class="panel-head"><h2>Private Infrastruktur</h2><span>PC Backup Vault / Backblaze B2 · getrennt von KC</span></div><div id="privateInfraCards" class="database-grid"></div><div id="storageCards" style="display:none"></div></section>
     <section class="panel"><div class="panel-head"><h2>KC Registry</h2><span>Discovered ≠ Registered ≠ Healthy</span></div><div class="table-wrap"><table><thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>Rolle</th><th>Messung</th><th>Vertrauen</th></tr></thead><tbody id="registryRows"></tbody></table></div></section>
   </main>
   <script type="module" src="app.js"></script>
   <script type="module" src="products/kc-program-registry.js"></script>
   <script type="module" src="sync/mirror-monitor.js"></script>
   <script type="module" src="migration/prepared-resources.js"></script>
+  <script type="module" src="storage/kc-b2-prepared.js"></script>
   <script type="module" src="storage/storage-monitor.js"></script>
   <script type="module" src="scope/private-infrastructure-ui.js"></script>
   <script type="module" src="migration/region-migration-ui.js"></script>
