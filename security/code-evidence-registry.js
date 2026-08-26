@@ -5,6 +5,7 @@ export const SECURITY_CODE_EVIDENCE=[
     sourceRepo:'Sire65/Kasse',
     sourcePath:'SECURITY_ARCHITECTURE.md',
     evidenceType:'ARCHITECTURE_BASELINE',
+    scope:'PRODUCT_BASELINE',
     trust:'VERIFIED_CODE',
     findings:{
       transportExpected:'HTTPS/TLS',
@@ -15,11 +16,12 @@ export const SECURITY_CODE_EVIDENCE=[
     }
   },
   {
-    id:'evidence-kasse-resilience-runtime',
-    productId:'kc-kasse',
+    id:'evidence-kasse-legacy-resilience-runtime',
+    productId:'kc-kasse-legacy-root',
     sourceRepo:'Sire65/Kasse',
     sourcePath:'shared/kc-resilience.js',
     evidenceType:'CODE_OBSERVATION',
+    scope:'LEGACY_ROOT',
     trust:'OBSERVED_CODE',
     findings:{
       syncEndpoint:'https://kc-failover-gateway.ha-joko.workers.dev',
@@ -31,11 +33,27 @@ export const SECURITY_CODE_EVIDENCE=[
     }
   },
   {
+    id:'evidence-kasse-suite-import',
+    productId:'kc-bilderkasse-current-candidate',
+    sourceRepo:'Sire65/Kasse',
+    sourcePath:'markt-kasse-suite/README.md',
+    evidenceType:'VERSION_SCOPE',
+    scope:'NEWER_SUITE_CANDIDATE',
+    trust:'VERIFIED_CODE',
+    findings:{
+      importedAt:'2026-08-24',
+      rootNotOverwritten:true,
+      productionActivation:false,
+      indexedDbEncryptionRuntime:'UNKNOWN_PENDING_VERIFICATION'
+    }
+  },
+  {
     id:'evidence-gateway-security-baseline',
     productId:'kc-failover-gateway',
     sourceRepo:'Sire65/KC-Failover-Gateway',
     sourcePath:'SECURITY_ARCHITECTURE.md',
     evidenceType:'ARCHITECTURE_BASELINE',
+    scope:'PRODUCT_BASELINE',
     trust:'VERIFIED_CODE',
     findings:{
       syncAuthRequired:true,
@@ -49,15 +67,5 @@ export const SECURITY_CODE_EVIDENCE=[
   }
 ];
 
-export function evidenceForProduct(productId){
-  return SECURITY_CODE_EVIDENCE.filter(x=>x.productId===productId);
-}
-
-export function codeEvidenceSummary(){
-  return {
-    total:SECURITY_CODE_EVIDENCE.length,
-    architectureBaselines:SECURITY_CODE_EVIDENCE.filter(x=>x.evidenceType==='ARCHITECTURE_BASELINE').length,
-    codeObservations:SECURITY_CODE_EVIDENCE.filter(x=>x.evidenceType==='CODE_OBSERVATION').length,
-    rows:SECURITY_CODE_EVIDENCE.map(x=>({...x}))
-  };
-}
+export function evidenceForProduct(productId){return SECURITY_CODE_EVIDENCE.filter(x=>x.productId===productId);}
+export function codeEvidenceSummary(){return{total:SECURITY_CODE_EVIDENCE.length,architectureBaselines:SECURITY_CODE_EVIDENCE.filter(x=>x.evidenceType==='ARCHITECTURE_BASELINE').length,codeObservations:SECURITY_CODE_EVIDENCE.filter(x=>x.evidenceType==='CODE_OBSERVATION').length,rows:SECURITY_CODE_EVIDENCE.map(x=>({...x}))};}
