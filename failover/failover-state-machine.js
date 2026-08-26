@@ -12,15 +12,17 @@ export const FAILOVER_STATES={
   BLOCKED:'BLOCKED'
 };
 
-export function evaluateFailoverState({supabaseHealth='UNKNOWN',neonHealth='UNKNOWN',syncLagMs=null,resyncComplete=false,verificationPassed=false,failbackApproved=false}){
+export function evaluateFailoverState({supabaseHealth='UNKNOWN',neonHealth='UNKNOWN',syncLagMs=null,mirrorReady=null,resyncComplete=false,verificationPassed=false,failbackApproved=false}){
   const supabaseDown=['FAILED','OFFLINE'].includes(supabaseHealth);
   const supabaseUp=['HEALTHY','ONLINE'].includes(supabaseHealth);
   const neonUp=['HEALTHY','ONLINE'].includes(neonHealth);
 
   if(supabaseDown && !neonUp) return {state:FAILOVER_STATES.BLOCKED,primary:'NONE',reason:'Supabase und Neon nicht betriebsbereit'};
-  if(supabaseDown && neonUp) return {state:FAILOVER_STATES.FAILOVER_PENDING,primary:'SUPABASE',candidatePrimary:'NEON',reason:'Supabase ausgefallen, Neon betriebsbereit'};
+  if(supabaseDown && neonUp && mirrorReady!==true) return {state:FAILOVER_STATES.BLOCKED,primary:'SUPABASE',candidatePrimary:'NEON',reason:'Neon erreichbar, aber Mirror-Frische/Integrität für Failover nicht bestätigt'};
+  if(supabaseDown && neonUp && mirrorReady===true) return {state:FAILOVER_STATES.FAILOVER_PENDING,primary:'SUPABASE',candidatePrimary:'NEON',reason:'Supabase ausgefallen; Neon und Mirror-Telemetrie failover-bereit'};
   if(!supabaseUp) return {state:FAILOVER_STATES.DEGRADED,primary:'SUPABASE',reason:'Supabase-Status nicht bestätigt'};
   if(supabaseUp && !neonUp) return {state:FAILOVER_STATES.DEGRADED,primary:'SUPABASE',reason:'Neon Mirror nicht betriebsbereit'};
+  if(supabaseUp && neonUp && mirrorReady===false) return {state:FAILOVER_STATES.DEGRADED,primary:'SUPABASE',reason:'Neon erreichbar, Mirror-Bereitschaft aber nicht bestätigt'};
   if(supabaseUp && neonUp && resyncComplete && verificationPassed && failbackApproved) return {state:FAILOVER_STATES.RECOVERED,primary:'SUPABASE',reason:'Rücksynchronisierung und Failback verifiziert'};
   if(supabaseUp && neonUp && resyncComplete && verificationPassed) return {state:FAILOVER_STATES.FAILBACK_READY,primary:'NEON',candidatePrimary:'SUPABASE',reason:'Supabase wieder synchron und verifiziert'};
   if(supabaseUp && neonUp && resyncComplete) return {state:FAILOVER_STATES.VERIFYING,primary:'NEON',reason:'Rücksynchronisierung abgeschlossen, Verifikation ausstehend'};
@@ -34,6 +36,7 @@ export function failoverRules(){
     approvalRequired:['promote-neon-primary','failback-to-supabase'],
     invariants:[
       'Nie zwei schreibende PRIMARYs gleichzeitig.',
+      'Failover nur bei aktuell bestätigter Mirror-Frische und Integrität.',
       'Failback zu Supabase erst nach vollständigem Resync und Verifikation.',
       'Während Neon PRIMARY ist, werden neue Änderungen auf Neon authoritative.',
       'Nach Rückkehr von Supabase werden Änderungen bidirektional abgeglichen, Konflikte deterministisch aufgelöst und protokolliert.',
