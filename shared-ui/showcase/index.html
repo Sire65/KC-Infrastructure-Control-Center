@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>KC Shared UI – Instrumente & Diagramme</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+:root{--bg:#07111f;--panel:#0d1a2b;--line:#26364b;--text:#e9f0f7;--muted:#8fa2b7;--ok:#33c481;--warn:#f4b740;--bad:#ef5b5b;--blue:#4da3ff;--cyan:#39d0d8;--violet:#9b7cff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#07111f,#0a1422 48%,#08101b);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}header{position:sticky;top:0;z-index:5;background:rgba(7,17,31,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 20px}header h1{margin:0;font-size:20px}header p{margin:5px 0 0;color:var(--muted);font-size:13px}.wrap{padding:16px;max-width:1500px;margin:auto}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}.card{background:linear-gradient(180deg,rgba(20,37,58,.92),rgba(11,25,42,.96));border:1px solid #26384e;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.18);overflow:hidden}.card h2{font-size:14px;margin:0;padding:12px 14px 0}.card p{font-size:11px;color:var(--muted);margin:4px 14px 0}.chart{height:245px;width:100%}.wide{grid-column:span 2}.tiny{height:190px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px}.kpi{padding:13px;border-radius:12px;background:#0a1626;border:1px solid #26384e}.kpi b{display:block;font-size:24px}.kpi span{font-size:11px;color:var(--muted)}.ledrow{display:flex;gap:13px;flex-wrap:wrap;padding:18px}.led{display:flex;align-items:center;gap:8px;background:#0a1626;border:1px solid #26384e;border-radius:999px;padding:8px 11px;font-size:12px}.dot{width:11px;height:11px;border-radius:50%;box-shadow:0 0 13px currentColor}.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}.blue{color:var(--blue)}@media(max-width:800px){.wide{grid-column:span 1}.kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header><h1>KC Shared UI · Instrumenten- & Diagramm-Muster</h1><p>Auswahlseite für PC Backup Vault, KC Communication, DP, Manager und weitere KC-Programme · KCUI 0.2.0</p></header>
+<div class="wrap"><div class="grid">
+<section class="card"><h2>01 · Speed Pro</h2><p>Antwortzeit / Geschwindigkeit</p><div id="g1" class="chart"></div></section>
+<section class="card"><h2>02 · Compact Half Gauge</h2><p>Kompakter Health-/Lastwert</p><div id="g2" class="chart"></div></section>
+<section class="card"><h2>03 · Progress Ring</h2><p>Erfolgsquote / Synchronisation</p><div id="g3" class="chart"></div></section>
+<section class="card"><h2>04 · Multi-Ring</h2><p>Supabase / Neon / IndexedDB</p><div id="g4" class="chart"></div></section>
+<section class="card"><h2>05 · Messskala Linear</h2><p>Last, Temperatur, Füllstand, Qualität</p><div id="scale" class="chart tiny"></div></section>
+<section class="card"><h2>06 · Säulen Pro</h2><p>Versand / Requests / Fehler</p><div id="bar" class="chart"></div></section>
+<section class="card"><h2>07 · Horizontalbalken</h2><p>Provider- oder Programmvergleich</p><div id="hbar" class="chart"></div></section>
+<section class="card"><h2>08 · Donut</h2><p>Statusverteilung</p><div id="donut" class="chart"></div></section>
+<section class="card"><h2>09 · 3D-artige Torte</h2><p>Optischer Tiefeneffekt ohne Zusatzbibliothek</p><div id="pie3d" class="chart"></div></section>
+<section class="card"><h2>10 · Linien + Fläche</h2><p>Traffic / Latenz über Zeit</p><div id="line" class="chart"></div></section>
+<section class="card wide"><h2>11 · Kombi: Säule + Linie</h2><p>Nachrichtenmenge mit Erfolgsquote</p><div id="combo" class="chart"></div></section>
+<section class="card"><h2>12 · Radar / Systemprofil</h2><p>Performance, Sicherheit, Sync, Backup, Verfügbarkeit</p><div id="radar" class="chart"></div></section>
+<section class="card"><h2>13 · KPI-Karten</h2><p>Sehr kompakte Zahlenblöcke</p><div class="kpis"><div class="kpi"><b>99,8%</b><span>Erfolgsquote</span></div><div class="kpi"><b>42 ms</b><span>Antwortzeit</span></div><div class="kpi"><b>1.248</b><span>Events heute</span></div><div class="kpi"><b>0</b><span>kritische Fehler</span></div></div></section>
+<section class="card"><h2>14 · Status-LEDs</h2><p>Verbindung / Traffic / Warnung / Failover</p><div class="ledrow"><div class="led"><i class="dot ok"></i>Supabase</div><div class="led"><i class="dot ok"></i>Neon</div><div class="led"><i class="dot blue"></i>IndexedDB</div><div class="led"><i class="dot warn"></i>Traffic</div><div class="led"><i class="dot bad"></i>Fehler</div></div></section>
+</div></div>
+<script src="showcase.js"></script>
+</body></html>
