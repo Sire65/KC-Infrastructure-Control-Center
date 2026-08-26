@@ -8,13 +8,14 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="navigation/leitstand-tabs.css" />
+  <link rel="stylesheet" href="dashboard/instrument-panel.css" />
   <link rel="stylesheet" href="security/security-agent.css" />
   <link rel="stylesheet" href="explorer/repository-explorer.css" />
 </head>
 <body>
   <header class="topbar">
     <div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div>
-    <div class="version" id="version">0.1.0-dev.41</div>
+    <div class="version" id="version">0.1.0-dev.42</div>
   </header>
   <nav class="leitstand-tabs" data-kicc-tablist role="tablist" aria-label="KICC Bereiche">
     <button class="leitstand-tab active" data-kicc-tab="dashboard" role="tab">Dashboard</button>
@@ -38,6 +39,19 @@
 
     <section class="tab-panel active" data-kicc-panel="dashboard" role="tabpanel">
       <div class="tab-intro"><div><h2>Dashboard</h2><p>Nur Überblick, Abweichungen und Handlungsbedarf. Details liegen in den Fachregistern.</p></div><span class="tab-badge">Leitstand kompakt</span></div>
+
+      <section id="dashboardInstruments" class="dashboard-instruments" aria-label="KICC Instrumente">
+        <div id="dashboardStatusLeds" class="dash-led-strip"></div>
+        <div class="instrument-grid">
+          <article class="instrument-card"><div class="instrument-card-head"><strong>Messabdeckung</strong><span>0–100 %</span></div><div id="gaugeCoverage" class="gauge-host echart"></div></article>
+          <article class="instrument-card"><div class="instrument-card-head"><strong>Primär-DB</strong><span>Latenz</span></div><div id="gaugeLatency" class="gauge-host echart"></div></article>
+          <article class="instrument-card"><div class="instrument-card-head"><strong>Programme</strong><span>Runtime gemessen</span></div><div id="gaugePrograms" class="gauge-host echart"></div></article>
+          <article class="instrument-card chart-wide"><div class="instrument-card-head"><strong>Zustandsverteilung</strong><span>Programme + DB</span></div><div id="statusDistributionChart" class="chart-host echart"></div></article>
+          <article class="instrument-card chart-wide"><div class="instrument-card-head"><strong>Datenbank-Latenzen</strong><span>nur bestätigte Messwerte</span></div><div id="databaseLatencyChart" class="chart-host echart"></div></article>
+        </div>
+        <div class="instrument-truth-note">Keine Fake-Telemetrie: UNKNOWN bleibt grau, fehlende Messwerte erscheinen als „—“. Status-LED und echter Datenverkehr bleiben getrennte Signale.</div>
+      </section>
+
       <div class="dashboard-grid">
         <article class="panel"><div class="panel-head"><h2>Live-Topologie</h2><span>KC · reale Telemetrie</span></div><div id="topology" class="topology empty">Datenfluss-Topologie folgt nach Anschluss echter Flow-Telemetrie.</div></article>
         <article class="panel"><div class="panel-head"><h2>Handlungsbedarf</h2><span id="approvalCount">0</span></div><div id="actions" class="empty-list">Keine freigegebenen Aktionen vorhanden.</div></article>
@@ -108,10 +122,12 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js" crossorigin="anonymous"></script>
   <script type="module" src="navigation/leitstand-tabs.js"></script>
   <script type="module" src="app.js"></script>
   <script type="module" src="products/kc-program-registry.js"></script>
   <script type="module" src="products/non-kc-program-registry.js"></script>
+  <script type="module" src="dashboard/instrument-panel.js"></script>
   <script type="module" src="explorer/git-bridge-client.js"></script>
   <script type="module" src="explorer/repository-explorer-ui.js"></script>
   <script type="module" src="explorer/repository-policy-ui.js"></script>
