@@ -11,6 +11,7 @@ import '../ui/report-tools.js';
 import '../live/live-console.js';
 import '../update/pwa-update-manager.js';
 import '../security/security-action-priority.js';
+import '../dashboard/dashboard-polish.js';
 
 const TAB_STORAGE='kicc.active.tab.v1';
 const DEFAULT_TAB='dashboard';
