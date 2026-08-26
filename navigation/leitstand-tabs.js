@@ -1,7 +1,9 @@
 import '../auth/runtime-auth-provider.js';
 import '../auth/supabase-login-ui.js';
+import '../auth/auto-login-switch-visual-fix.js';
 import '../auth/futura-recovery-controller.js';
 import '../devices/device-center.js';
+import '../programs/program-heartbeat-runtime.js';
 import '../telemetry/neon-runtime-config.js';
 import '../sync/mirror-runtime-config.js';
 import '../products/github-telemetry-runtime.js';
