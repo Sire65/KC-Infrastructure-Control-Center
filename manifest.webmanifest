@@ -1,0 +1,10 @@
+{
+  "name":"KC Infrastructure Control Center",
+  "short_name":"KICC",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#0b1220",
+  "theme_color":"#111827",
+  "description":"Zentrale KC Leitwarte für Infrastruktur, Datenbanken, Geräte und Datenflüsse"
+}
