@@ -2,6 +2,8 @@ export const githubRepositoryAdapter = {
   id: 'github-repository',
   kind: 'REPOSITORY',
   capabilities: ['health.read', 'version.read', 'metadata.read'],
+  refreshMs: 15 * 60 * 1000,
+  maxAgeMs: 20 * 60 * 1000,
 
   async probe(target) {
     if (!target?.owner || !target?.repo) throw new Error('GitHub target requires owner and repo');
@@ -11,7 +13,10 @@ export const githubRepositoryAdapter = {
     });
 
     if (response.status === 404) {
-      return { status: 'OFFLINE', detail: 'Repository nicht öffentlich erreichbar oder nicht vorhanden' };
+      return { status: 'UNKNOWN', detail: 'Repository nicht öffentlich sichtbar; privat, nicht vorhanden oder Zugriff fehlt' };
+    }
+    if (response.status === 403 || response.status === 429) {
+      return { status: 'DEGRADED', detail: `GitHub API limitiert (HTTP ${response.status}); letzte bestätigte Messung weiter beachten` };
     }
     if (!response.ok) {
       throw new Error(`GitHub HTTP ${response.status}`);
