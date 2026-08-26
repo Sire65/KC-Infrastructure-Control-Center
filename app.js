@@ -7,7 +7,7 @@ import { evaluateSystemHealth, normalizedResourceStatus, resourceMaxAge } from '
 import { ProbeScheduler } from './runtime/probe-scheduler.js';
 import { DOMAIN, markDomain } from './scope/domain-model.js';
 
-const VERSION='0.1.0-dev.41';
+const VERSION='0.1.0-dev.42';
 const DEFAULT_MAX_AGE_MS=90_000;
 
 const BRIDGE_ENDPOINTS={
@@ -79,7 +79,7 @@ function render(){
   const mirrorLabel=failoverContext.mirrorReady===true?'READY':failoverContext.mirrorReady===false?'NICHT READY':'UNKNOWN';
   const kpis=[['Bestätigt gesund',healthy,'KC-Komponenten'],['Störungen',failed,'KC aktuell'],['Unbekannt',unknown,'KC nicht bestätigt'],['Abdeckung',`${health.coverage}%`,`${health.unknownRequired} kritisch unbekannt`],['Mirror',mirrorLabel,failoverContext.mirrorStatus],['Primär-DB',f.primary||'—',f.state]];
   document.getElementById('kpis').innerHTML=kpis.map(([l,v,u])=>`<div class="kpi"><small>${l}</small><strong>${v}</strong><em>${u}</em></div>`).join('');
-  document.getElementById('registryRows').innerHTML=resources.map(item=>{const status=normalizeStatus(item),cls=cssStatus(status);return`<tr><td><span class="status-chip ${cls}"><span class="dot"></span>${status}</span></td><td>${item.type}</td><td>${item.name}</td><td>${item.role}${item.requiredForOverall?' · kritisch':''}</td><td>${formatAge(item.measuredAt)}</td><td>${item.trust}</td></tr>`;}).join('');renderDatabases();renderFailover();globalThis.KICC_PRIVATE_INFRA?.render?.();
+  document.getElementById('registryRows').innerHTML=resources.map(item=>{const status=normalizeStatus(item),cls=cssStatus(status);return`<tr><td><span class="status-chip ${cls}"><span class="dot"></span>${status}</span></td><td>${item.type}</td><td>${item.name}</td><td>${item.role}${item.requiredForOverall?' · kritisch':''}</td><td>${formatAge(item.measuredAt)}</td><td>${item.trust}</td></tr>`;}).join('');renderDatabases();renderFailover();globalThis.KICC_PRIVATE_INFRA?.render?.();globalThis.KICC_DASHBOARD_INSTRUMENTS?.render?.();
 }
 async function runDiscovery({force=false,includePrivate=true}={}){const targets=(includePrivate?allProbeTargets():allResources()).filter(x=>x.adapterId),due=force?targets:scheduler.dueTargets(targets,adapters);await Promise.all(due.map(async target=>{scheduler.markAttempt(target.id);const obs=await adapters.probe(target.adapterId,target);Object.assign(target,obs);}));render();}
 window.KICC={version:VERSION,registry,databases,privateDatabases,failoverContext,adapters:adapters.list(),runDiscovery,currentFailoverState,failoverRules:failoverRules(),kcResources:allResources,privateResources:()=>[...privateDatabases],systemHealth:()=>evaluateSystemHealth(allResources(),{adapters,isFreshFn:isFresh,fallbackMs:DEFAULT_MAX_AGE_MS}),databaseSummary:()=>databases.map(summarizeDatabase),bridgeConfigured:id=>Boolean(BRIDGE_ENDPOINTS[id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[id]),markNeonPromoted(){if(failoverContext.mirrorReady!==true)throw new Error('Neon promotion blocked: mirror readiness not confirmed');failoverContext.neonPromoted=true;render();},setResyncProgress({syncLagMs=null,resyncComplete=false,verificationPassed=false,failbackApproved=false}={}){Object.assign(failoverContext,{syncLagMs,resyncComplete,verificationPassed,failbackApproved});render();},ingestObservation(observation){const item=allProbeTargets().find(x=>x.id===observation.targetId);if(!item)throw new Error('Unknown registry target');Object.assign(item,observation,{measuredAt:observation.measuredAt||new Date().toISOString(),trust:'MANUAL_TEST'});render();}};
