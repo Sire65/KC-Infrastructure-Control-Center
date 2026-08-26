@@ -11,11 +11,11 @@
 <body>
   <header class="topbar">
     <div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div>
-    <div class="version" id="version">0.1.0-dev.12</div>
+    <div class="version" id="version">0.1.0-dev.13</div>
   </header>
   <main class="shell">
     <section class="hero">
-      <div><p class="eyebrow">SPRINT 1 · DEV</p><h1>Zentrale KC-Leitwarte</h1><p>Systemzustand, Datenbanken, Objektspeicher, Regionen und notwendige Aktionen auf einen Blick.</p></div>
+      <div><p class="eyebrow">SPRINT 1 · DEV</p><h1>Zentrale KC-Leitwarte</h1><p>Systemzustand, Datenbanken, Spiegelung, Objektspeicher, Regionen und notwendige Aktionen auf einen Blick.</p></div>
       <div class="system-state unknown" id="systemState"><span class="led"></span><div><small>Gesamtstatus</small><strong>UNBEKANNT</strong></div></div>
     </section>
     <section class="kpi-grid" id="kpis"></section>
@@ -23,6 +23,11 @@
     <section class="panel db-panel">
       <div class="panel-head"><h2>Datenbank-Leitwarte</h2><span>Read-only · reale Messung vor Grün</span></div>
       <div id="databaseCards" class="database-grid"></div>
+    </section>
+
+    <section class="panel db-panel">
+      <div class="panel-head"><h2>Mirror & Failover-Bereitschaft</h2><span>Supabase ↔ Neon · echte Sync-Telemetrie</span></div>
+      <div id="mirrorHealth" class="mirror-host"></div>
     </section>
 
     <section class="panel db-panel">
@@ -47,6 +52,7 @@
     <section class="panel"><div class="panel-head"><h2>Registry</h2><span>Discovered ≠ Registered ≠ Healthy</span></div><div class="table-wrap"><table><thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>Rolle</th><th>Messung</th><th>Vertrauen</th></tr></thead><tbody id="registryRows"></tbody></table></div></section>
   </main>
   <script type="module" src="app.js"></script>
+  <script type="module" src="sync/mirror-monitor.js"></script>
   <script type="module" src="migration/prepared-resources.js"></script>
   <script type="module" src="storage/storage-monitor.js"></script>
   <script type="module" src="migration/region-migration-ui.js"></script>
