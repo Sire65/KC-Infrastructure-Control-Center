@@ -1,3 +1,5 @@
+import '../products/github-telemetry-runtime.js';
+
 const TAB_STORAGE='kicc.active.tab.v1';
 const DEFAULT_TAB='dashboard';
 
