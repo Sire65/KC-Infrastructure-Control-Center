@@ -1,3 +1,6 @@
+import { evaluateRepositoryAccess } from './repository-allowlist.js';
+import { authorizeCapability } from './bridge-roles.js';
+
 export const BRIDGE_SCHEMA='kicc.git.bridge.v1';
 
 export const ACTION_CAPABILITY=Object.freeze({
@@ -12,13 +15,14 @@ export const ACTION_CAPABILITY=Object.freeze({
 
 export function requireAuthenticatedContext(ctx){
   if(!ctx?.authenticated||!ctx?.subject)throw new Error('AUTH_REQUIRED');
-  if(!Array.isArray(ctx.capabilities))throw new Error('CAPABILITIES_REQUIRED');
+  if(!Array.isArray(ctx.roles))throw new Error('ROLES_REQUIRED');
   return ctx;
 }
 
 export function requireCapability(ctx,capability){
   requireAuthenticatedContext(ctx);
-  if(!ctx.capabilities.includes(capability))throw new Error(`CAPABILITY_DENIED:${capability}`);
+  const auth=authorizeCapability({roles:ctx.roles,capability});
+  if(!auth.allowed)throw new Error(`CAPABILITY_DENIED:${capability}`);
   return true;
 }
 
@@ -30,10 +34,17 @@ export function validateRepoRef({owner,repo,ref='main',path=''}={}){
   return {owner,repo,ref,path};
 }
 
-export function makeAuditEvent({requestId,subject,action,repository,path,result,detail=null}={}){
+export function requireRepositoryAccess({ctx,policies,owner,repo,ref='main',capability}){
+  requireCapability(ctx,capability);
+  const access=evaluateRepositoryAccess(policies,{owner,repo,ref,capability});
+  if(!access.allowed)throw new Error(access.reason);
+  return access.policy;
+}
+
+export function makeAuditEvent({requestId,subject,action,repository,path,result,detail=null,recoveryPoint=null,approvalId=null}={}){
   return {
     schema:'kicc.git.audit.v1',requestId,at:new Date().toISOString(),subject,action,
-    repository,path:path||null,result,detail
+    repository,path:path||null,result,detail,recoveryPoint,approvalId
   };
 }
 
@@ -48,11 +59,13 @@ export function validateApprovedTransfer(envelope,ctx){
   return true;
 }
 
-export async function executeTransfer({envelope,ctx,adapter,audit}){
+export async function executeTransfer({envelope,ctx,adapter,audit,policies=[]}){
   validateApprovedTransfer(envelope,ctx);
   if(!adapter)throw new Error('ADAPTER_REQUIRED');
   const requestId=envelope.actionId;
-  const journal=async(result,detail)=>audit?.(makeAuditEvent({requestId,subject:ctx.subject,action:envelope.kind,repository:envelope.target||envelope.source,path:envelope.targetPath||envelope.sourcePath,result,detail}));
+  const targetRef=envelope.target||envelope.source;
+  if(targetRef?.owner&&targetRef?.repo)requireRepositoryAccess({ctx,policies,owner:targetRef.owner,repo:targetRef.repo,ref:envelope.branch,capability:envelope.capability});
+  const journal=async(result,detail)=>audit?.(makeAuditEvent({requestId,subject:ctx.subject,action:envelope.kind,repository:targetRef,path:envelope.targetPath||envelope.sourcePath,result,detail,recoveryPoint:envelope.recoveryPoint,approvalId:envelope.approval?.approvalId||null}));
   await journal('STARTED');
   try{
     let result;
