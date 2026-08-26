@@ -1,0 +1,16 @@
+{
+  "name": "KC Shared UI",
+  "version": "0.1.0",
+  "updated": "2026-08-26",
+  "components": {
+    "gauge": {
+      "engine": "Apache ECharts 5",
+      "status": "ready"
+    },
+    "statusLed": {
+      "engine": "CSS/JavaScript",
+      "status": "ready"
+    }
+  },
+  "policy": "Central source. Program-specific copies should retain the KCUI version and be replaced from this library when updated."
+}
