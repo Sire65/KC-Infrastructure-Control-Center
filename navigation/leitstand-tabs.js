@@ -4,6 +4,7 @@ import '../auth/auto-login-switch-visual-fix.js';
 import '../auth/futura-recovery-controller.js';
 import '../devices/device-center.js';
 import '../programs/program-heartbeat-runtime.js';
+import '../programs/remote-heartbeat-server-readiness.js';
 import '../programs/remote-heartbeat-bridge-runtime.js';
 import '../programs/remote-heartbeat-bridge-ui.js';
 import '../telemetry/neon-runtime-config.js';
