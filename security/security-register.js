@@ -84,15 +84,12 @@ async function verifyAutomatic(){
 
 function securityActions(){
   const gaps=securityGapSummary(FLOWS).rows.filter(x=>x.status!=='SECURE').map(x=>({
-    severity:x.status==='INSECURE'?'RED':'YELLOW',
-    source:'SECURITY_FLOW',
-    id:x.flow.id,
+    severity:x.status==='INSECURE'?'RED':'YELLOW',source:'SECURITY_FLOW',id:x.flow.id,
     title:`${x.flow.source} → ${x.flow.target}`,
     detail:x.issues.map(i=>i.message).join(' · ')||'Security-Nachweis unvollständig'
   }));
   const agent=AGENT_TARGETS.flatMap(t=>{
-    const e=evaluateAgentTlsObservation(t.observation);
-    if(e.status==='SECURE')return[];
+    const e=evaluateAgentTlsObservation(t.observation);if(e.status==='SECURE')return[];
     return [{severity:e.status==='INSECURE'?'RED':'YELLOW',source:'SECURITY_AGENT',id:t.id,title:t.name,detail:e.issues.join(' · ')}];
   });
   return [...gaps,...agent];
@@ -100,25 +97,15 @@ function securityActions(){
 
 function ingestAgentObservation(targetId,payload){
   const target=AGENT_TARGETS.find(x=>x.id===targetId);if(!target)throw new Error('Unknown security agent target');
-  const obs=validateSecurityAgentObservation(payload,targetId);
-  target.observation=obs;
-  target.status=evaluateAgentTlsObservation(obs).status;
-  render();return obs;
+  const obs=validateSecurityAgentObservation(payload,targetId);target.observation=obs;target.status=evaluateAgentTlsObservation(obs).status;render();return obs;
 }
 
-function renderControls(){
-  const host=document.getElementById('securityControls');if(!host)return;
-  host.innerHTML=SECURITY_CONTROLS.map(c=>`<article class="security-control"><div><strong>${c.name}</strong><small>${c.category}</small></div><span class="status-chip ${cls(c.status==='SECURE'?'SECURE':c.status==='INSECURE'?'INSECURE':'WARNING')}"><span class="dot"></span>${c.status}</span><p>Soll: ${c.expected}</p><p>Nachweis: ${c.evidence||'noch keiner'}</p></article>`).join('');
-}
-
-function renderTopology(){
-  const host=document.getElementById('securityTopology');if(!host)return;
-  host.innerHTML=FLOWS.map(f=>{const e=evaluateSecurityFlow(f);return `<div class="security-flow ${cls(e.status)}"><div class="security-node"><strong>${f.source}</strong></div><div class="security-link"><span>${mark(e.status)}</span><small>Transport: ${value(f.transport)}<br>Payload: ${value(f.payloadEncryption)}<br>Auth: ${value(f.auth)}</small></div><div class="security-node"><strong>${f.target}</strong></div></div>`;}).join('');
-}
+function renderControls(){const host=document.getElementById('securityControls');if(!host)return;host.innerHTML=SECURITY_CONTROLS.map(c=>`<article class="security-control"><div><strong>${c.name}</strong><small>${c.category}</small></div><span class="status-chip ${cls(c.status==='SECURE'?'SECURE':c.status==='INSECURE'?'INSECURE':'WARNING')}"><span class="dot"></span>${c.status}</span><p>Soll: ${c.expected}</p><p>Nachweis: ${c.evidence||'noch keiner'}</p></article>`).join('');}
+function renderTopology(){const host=document.getElementById('securityTopology');if(!host)return;host.innerHTML=FLOWS.map(f=>{const e=evaluateSecurityFlow(f);return `<div class="security-flow ${cls(e.status)}"><div class="security-node"><strong>${f.source}</strong></div><div class="security-link"><span>${mark(e.status)}</span><small>Transport: ${value(f.transport)}<br>Payload: ${value(f.payloadEncryption)}<br>Auth: ${value(f.auth)}</small></div><div class="security-node"><strong>${f.target}</strong></div></div>`;}).join('');}
 
 function renderMatrix(){
   const body=document.getElementById('securityMatrixRows');if(!body)return;
-  body.innerHTML=FLOWS.map(f=>{const e=evaluateSecurityFlow(f);return `<tr><td><span class="status-chip ${cls(e.status)}"><span class="dot"></span>${e.status}</span></td><td>${f.source}</td><td>${f.target}</td><td>${f.dataClass}</td><td>${value(f.transport)}</td><td>${value(f.payloadEncryption)}</td><td>${value(f.auth)}</td><td>${value(f.keySource)}</td><td>${age(f.lastVerifiedAt)}</td><td>${e.issues.map(i=>i.message).join('; ')||'Kein Gap erkannt'}</td></tr>`;}).join('');
+  body.innerHTML=FLOWS.map(f=>{const e=evaluateSecurityFlow(f);const issues=e.issues.map(i=>i.message).join(' · ')||'Kein Gap erkannt';return `<tr class="security-matrix-main"><td><span class="status-chip ${cls(e.status)}"><span class="dot"></span>${e.status}</span></td><td><strong>${f.source}</strong><small>→ ${f.target}</small></td><td>${value(f.transport)}</td><td>${value(f.payloadEncryption)}</td><td>${value(f.auth)}</td><td>${age(f.lastVerifiedAt)}</td><td><details class="security-detail"><summary>Details</summary><div><strong>Datenklasse:</strong> ${f.dataClass}</div><div><strong>Schlüssel:</strong> ${value(f.keySource)}</div><div><strong>Nachweis:</strong> ${issues}</div><div><strong>Hinweis:</strong> ${f.notes||'—'}</div></details></td></tr>`;}).join('');
 }
 
 function renderSummary(){
@@ -128,12 +115,7 @@ function renderSummary(){
   host.innerHTML=`<div class="security-kpis"><div><small>Sicher</small><strong>${s.secure}</strong></div><div><small>Warnung</small><strong>${s.warning}</strong></div><div><small>Unsicher</small><strong>${s.insecure}</strong></div><div><small>Handlungsbedarf</small><strong>${actions.length}</strong></div></div><div class="security-action-list"><div><strong>Code-Nachweise</strong><span>${code.total} Belege · ${code.architectureBaselines} Baselines · ${code.codeObservations} Runtime-Codebeobachtung</span></div>${s.rows.filter(x=>x.status!=='SECURE').map(x=>`<div><strong>${x.flow.source} → ${x.flow.target}</strong><span>${x.issues.map(i=>i.message).join(' · ')}</span></div>`).join('')||'<div>Kein Security-Handlungsbedarf.</div>'}<div><strong>Zertifikats-Tiefenprüfung</strong><span>${cert.browserCanReadCertificateMetadata?'verfügbar':'Security-Agent vorbereitet; Ablaufdatum, Issuer, Fingerprint, TLS-Version und Cipher werden erst mit OBSERVED_AGENT grün'}</span></div>${agentHtml}</div>`;
 }
 
-function ingest(flowId,observation){
-  const flow=FLOWS.find(x=>x.id===flowId);if(!flow)throw new Error('Unknown security flow');
-  const allowed=['transport','payloadEncryption','auth','keySource','lastVerifiedAt','trust','notes'];
-  for(const k of allowed)if(Object.prototype.hasOwnProperty.call(observation,k))flow[k]=observation[k];
-  render();return flow;
-}
+function ingest(flowId,observation){const flow=FLOWS.find(x=>x.id===flowId);if(!flow)throw new Error('Unknown security flow');const allowed=['transport','payloadEncryption','auth','keySource','lastVerifiedAt','trust','notes'];for(const k of allowed)if(Object.prototype.hasOwnProperty.call(observation,k))flow[k]=observation[k];render();return flow;}
 function render(){renderControls();renderTopology();renderMatrix();renderSummary();}
 window.KICC_SECURITY={flows:FLOWS,controls:SECURITY_CONTROLS,codeEvidence:SECURITY_CODE_EVIDENCE,agentTargets:AGENT_TARGETS,agentInvariants:SECURITY_AGENT_INVARIANTS,ingest,ingestAgentObservation,verifyAutomatic,actions:securityActions,summary:()=>securityGapSummary(FLOWS),render,certificateCapability};
 render();verifyAutomatic();setInterval(verifyAutomatic,5*60*1000);setInterval(()=>{updateDatabaseControls();render();},30000);
