@@ -10,6 +10,7 @@ import '../products/github-telemetry-runtime.js';
 import '../ui/report-tools.js';
 import '../live/live-console.js';
 import '../update/pwa-update-manager.js';
+import '../security/security-action-priority.js';
 
 const TAB_STORAGE='kicc.active.tab.v1';
 const DEFAULT_TAB='dashboard';
