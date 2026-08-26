@@ -1,0 +1,30 @@
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function ensureCss(){if(document.getElementById('kicc-security-polish-css'))return;const s=document.createElement('style');s.id='kicc-security-polish-css';s.textContent=`
+.kicc-security-overview{margin:8px 0 10px;border:1px solid #263244;border-radius:10px;background:rgba(15,23,42,.55);padding:9px}
+.kicc-security-overview-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.kicc-security-overview-grid>div{border:1px solid rgba(148,163,184,.14);border-radius:8px;padding:7px 8px;background:rgba(2,6,23,.22)}
+.kicc-security-overview-grid small{display:block;font-size:8px;color:#94a3b8;margin-bottom:2px}.kicc-security-overview-grid strong{font-size:13px;color:#e5e7eb}
+.kicc-security-bar{display:flex;height:8px;overflow:hidden;border-radius:999px;background:#1e293b;margin-top:8px}.kicc-security-bar span{min-width:0}.kicc-security-bar .safe{background:#22c55e}.kicc-security-bar .action{background:#ef4444}.kicc-security-bar .verify{background:#f59e0b}.kicc-security-bar .unknown{background:#64748b}
+.kicc-security-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;font-size:9px;color:#94a3b8}.kicc-security-legend b{color:#e2e8f0}
+.kicc-security-verification{margin:7px 0;border:1px solid rgba(245,158,11,.2);border-radius:9px;background:rgba(245,158,11,.035)}
+.kicc-security-verification summary{cursor:pointer;padding:8px 10px;font-size:10px;font-weight:700;color:#fbbf24;list-style:none}.kicc-security-verification summary::-webkit-details-marker{display:none}
+.kicc-security-verification-list{padding:0 9px 8px;display:grid;gap:5px}.kicc-security-verification-list>div{border-top:1px solid rgba(148,163,184,.11);padding-top:5px}.kicc-security-verification-list strong{display:block;font-size:9px;color:#dbeafe}.kicc-security-verification-list span{font-size:8px;color:#94a3b8;line-height:1.35}
+@media(max-width:850px){.kicc-security-overview-grid{grid-template-columns:repeat(2,1fr)}}
+`;document.head.appendChild(s);}
+
+function data(){const sec=globalThis.KICC_SECURITY;if(!sec)return null;const summary=sec.summary?.()||{secure:0,warning:0,insecure:0};const actionable=sec.actions?.()||[];const verification=sec.verificationOpen?.()||[];const all=sec.allActions?.()||[...actionable,...verification];const red=all.filter(x=>x.severity==='RED').length;return{summary,actionable,verification,all,red};}
+function pct(n,total){return total?Math.max(0,n/total*100):0;}
+
+function patchKpis(d){const host=document.getElementById('securityGapSummary');const boxes=host?.querySelectorAll('.security-kpis>div');if(!boxes?.length)return;if(boxes[3]){boxes[3].querySelector('small').textContent='Echter Handlungsbedarf';boxes[3].querySelector('strong').textContent=String(d.actionable.length);}let verify=host.querySelector('[data-kicc-security-kpi="verify"]');if(!verify){verify=document.createElement('div');verify.dataset.kiccSecurityKpi='verify';verify.innerHTML='<small>Nachweise offen</small><strong>0</strong>';host.querySelector('.security-kpis')?.appendChild(verify);}verify.querySelector('strong').textContent=String(d.verification.length);}
+
+function overview(d){const host=document.getElementById('securityGapSummary');const kpis=host?.querySelector('.security-kpis');if(!host||!kpis)return;let box=host.querySelector('#kiccSecurityVisualSummary');if(!box){box=document.createElement('div');box.id='kiccSecurityVisualSummary';box.className='kicc-security-overview';kpis.after(box);}const safe=d.summary.secure||0,unknown=Math.max(0,(d.summary.warning||0)-d.verification.length),total=Math.max(1,safe+d.actionable.length+d.verification.length+unknown);box.innerHTML=`<div class="kicc-security-overview-grid"><div><small>Bestätigt sicher</small><strong>${safe}</strong></div><div><small>Echter Handlungsbedarf</small><strong>${d.actionable.length}</strong></div><div><small>Nachweise offen</small><strong>${d.verification.length}</strong></div><div><small>RED-Befunde</small><strong>${d.red}</strong></div></div><div class="kicc-security-bar" aria-label="Security-Verteilung"><span class="safe" style="width:${pct(safe,total)}%"></span><span class="action" style="width:${pct(d.actionable.length,total)}%"></span><span class="verify" style="width:${pct(d.verification.length,total)}%"></span><span class="unknown" style="width:${pct(unknown,total)}%"></span></div><div class="kicc-security-legend"><span>Grün <b>${safe}</b> bestätigt</span><span>Rot <b>${d.actionable.length}</b> handeln</span><span>Gelb <b>${d.verification.length}</b> verifizieren</span></div>`;}
+
+function verificationDetails(d){const host=document.getElementById('securityGapSummary');const list=host?.querySelector('.security-action-list');if(!host||!list)return;let details=host.querySelector('#kiccSecurityVerificationOpen');if(!details){details=document.createElement('details');details.id='kiccSecurityVerificationOpen';details.className='kicc-security-verification';list.before(details);}details.innerHTML=`<summary>Nachweise offen · ${d.verification.length} · keine bestätigte Störung</summary><div class="kicc-security-verification-list">${d.verification.length?d.verification.map(x=>`<div><strong>${esc(x.title)}</strong><span>${esc(x.detail)}</span></div>`).join(''):'<div><strong>Keine offenen Nachweise</strong></div>'}</div>`;
+  const verificationTitles=new Set(d.verification.map(x=>x.title));[...list.children].forEach(row=>{const strong=row.querySelector('strong');if(!strong)return;row.style.display=verificationTitles.has(strong.textContent.trim())?'none':'';});
+}
+
+function apply(){ensureCss();const d=data();if(!d)return;patchKpis(d);overview(d);verificationDetails(d);}
+function start(){apply();const t=setInterval(apply,1500);setTimeout(()=>clearInterval(t),15000);setInterval(apply,10000);addEventListener('kicc:tabchange',e=>{if(e.detail?.tab==='security')setTimeout(apply,50);});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+globalThis.KICC_SECURITY_VISUAL={apply};
