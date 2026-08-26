@@ -36,14 +36,19 @@ async function resolveSession(projectId){
   if(current)sessions.set(projectId,current);
   return current;
 }
-export async function getSupabaseBridgeAuth(targetId){
-  const projectId=projectFor(targetId);
-  if(!projectId)return null;
-  const session=await resolveSession(projectId);
+function authFromSession(session){
   if(!session)return null;
   return{authorization:`Bearer ${session.accessToken}`,...(session.apikey?{apikey:session.apikey}:{})};
 }
-export async function getNeonBridgeAuth(){return null;}
+export async function getSupabaseBridgeAuth(targetId){
+  const projectId=projectFor(targetId);
+  if(!projectId)return null;
+  return authFromSession(await resolveSession(projectId));
+}
+export async function getNeonBridgeAuth(targetId){
+  if(targetId!=='db-neon-core-mirror')return null;
+  return authFromSession(await resolveSession('ptblnpiroqftcvlsrhac'));
+}
 export function status(){
   return Object.entries(PROJECT_BY_TARGET).map(([targetId,projectId])=>{
     const s=normalizeSession(sessions.get(projectId));
