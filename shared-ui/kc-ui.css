@@ -1,0 +1,75 @@
+:root {
+  --kc-ui-surface: rgba(18, 24, 33, 0.88);
+  --kc-ui-border: rgba(255, 255, 255, 0.10);
+  --kc-ui-text: #eaf1f7;
+  --kc-ui-muted: #91a0ae;
+  --kc-ui-ok: #2bd576;
+  --kc-ui-warn: #f3c84b;
+  --kc-ui-error: #ff5e66;
+  --kc-ui-info: #5aa9ff;
+  --kc-ui-idle: #7f8a96;
+}
+
+.kc-instrument-card {
+  min-width: 0;
+  border: 1px solid var(--kc-ui-border);
+  border-radius: 14px;
+  background: var(--kc-ui-surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.kc-instrument-card__gauge {
+  width: 100%;
+  min-height: 150px;
+}
+
+.kc-status-led {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  color: var(--kc-ui-text);
+  font: 600 12px/1.2 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.kc-status-led__dot {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+  background: var(--kc-ui-idle);
+  box-shadow: 0 0 0 3px rgba(127, 138, 150, 0.10), 0 0 8px rgba(127, 138, 150, 0.45);
+}
+
+.kc-status-led--ok .kc-status-led__dot {
+  background: var(--kc-ui-ok);
+  box-shadow: 0 0 0 3px rgba(43, 213, 118, 0.10), 0 0 9px rgba(43, 213, 118, 0.58);
+}
+
+.kc-status-led--warn .kc-status-led__dot {
+  background: var(--kc-ui-warn);
+  box-shadow: 0 0 0 3px rgba(243, 200, 75, 0.10), 0 0 9px rgba(243, 200, 75, 0.58);
+}
+
+.kc-status-led--error .kc-status-led__dot {
+  background: var(--kc-ui-error);
+  box-shadow: 0 0 0 3px rgba(255, 94, 102, 0.10), 0 0 9px rgba(255, 94, 102, 0.58);
+}
+
+.kc-status-led--info .kc-status-led__dot {
+  background: var(--kc-ui-info);
+  box-shadow: 0 0 0 3px rgba(90, 169, 255, 0.10), 0 0 9px rgba(90, 169, 255, 0.58);
+}
+
+.kc-status-led__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .kc-instrument-card__gauge {
+    min-height: 125px;
+  }
+}
