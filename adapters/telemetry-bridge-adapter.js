@@ -17,7 +17,7 @@ function sanitizeCapabilityBlock(value){
   return null;
 }
 
-export function createTelemetryBridgeAdapter({id='telemetry-bridge',endpointResolver}){
+export function createTelemetryBridgeAdapter({id='telemetry-bridge',endpointResolver,authResolver=null}){
   if(typeof endpointResolver!=='function') throw new TypeError('endpointResolver required');
   return {
     id,
@@ -26,7 +26,15 @@ export function createTelemetryBridgeAdapter({id='telemetry-bridge',endpointReso
     async probe(target){
       const endpoint=endpointResolver(target);
       if(!endpoint) return {status:'UNKNOWN',trust:'UNVERIFIED',message:'Keine Telemetrie-Bridge konfiguriert.'};
-      const response=await fetch(endpoint,{method:'GET',headers:{'accept':'application/json'},cache:'no-store',credentials:'omit'});
+      const headers={'accept':'application/json'};
+      if(typeof authResolver==='function'){
+        const auth=await authResolver(target);
+        if(!auth?.authorization) return {status:'UNKNOWN',trust:'AUTH_REQUIRED',message:'Bridge bereit; Anmeldung für Live-Telemetrie erforderlich.'};
+        headers.authorization=auth.authorization;
+        if(auth.apikey) headers.apikey=auth.apikey;
+      }
+      const response=await fetch(endpoint,{method:'GET',headers,cache:'no-store',credentials:'omit'});
+      if(response.status===401||response.status===403) return {status:'UNKNOWN',trust:'AUTH_REQUIRED',message:'Bridge aktiv; Anmeldung fehlt oder ist abgelaufen.'};
       if(!response.ok) throw new Error(`Bridge HTTP ${response.status}`);
       const payload=assertBridgePayload(await response.json(),target.id);
       const observedAt=new Date(payload.measuredAt).getTime();
