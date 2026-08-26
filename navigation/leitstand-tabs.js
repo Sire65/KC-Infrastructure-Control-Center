@@ -1,7 +1,6 @@
 import '../auth/runtime-auth-provider.js';
 import '../auth/supabase-login-ui.js';
-import '../auth/futura-reset-redirect-fix.js';
-import '../auth/futura-password-recovery.js';
+import '../auth/futura-recovery-controller.js';
 import '../telemetry/neon-runtime-config.js';
 import '../sync/mirror-runtime-config.js';
 import '../products/github-telemetry-runtime.js';
