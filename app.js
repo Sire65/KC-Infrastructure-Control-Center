@@ -1,13 +1,17 @@
 import { AdapterRegistry, isFresh } from './adapters/adapter-core.js';
 import { githubRepositoryAdapter } from './adapters/github-repository-adapter.js';
 import { indexedDbLocalAdapter } from './adapters/indexeddb-local-adapter.js';
+import { createTelemetryBridgeAdapter } from './adapters/telemetry-bridge-adapter.js';
 import { makeDatabaseResource, summarizeDatabase } from './database/database-model.js';
 
-const VERSION='0.1.0-dev.4';
+const VERSION='0.1.0-dev.5';
 const MAX_AGE_MS=90_000;
 const adapters=new AdapterRegistry();
 adapters.register(githubRepositoryAdapter);
 adapters.register(indexedDbLocalAdapter);
+adapters.register(createTelemetryBridgeAdapter({
+  endpointResolver(target){return globalThis.KICC_BRIDGE_ENDPOINTS?.[target.id]||null;}
+}));
 
 const registry=[
   {id:'repo-dp3',type:'REPOSITORY',name:'KC DP2 · dp3',role:'CURRENT candidate',status:'UNKNOWN',measuredAt:null,trust:'UNVERIFIED',adapterId:'github-repository',owner:'Sire65',repo:'dp3'},
@@ -18,8 +22,8 @@ const registry=[
 
 const databases=[
   makeDatabaseResource({id:'db-indexeddb-kicc',name:'IndexedDB · KICC Browser-Ursprung',provider:'IndexedDB',role:'LOCAL',scope:'current-origin',adapterId:'indexeddb-local',capabilities:['health','latency','schema','storage']}),
-  makeDatabaseResource({id:'db-supabase',name:'Supabase · KC Cloud',provider:'Supabase',role:'PRIMARY/MIRROR noch zu verifizieren',scope:'remote',capabilities:['health','latency','reads','writes','storage','schema','policies','integrity','drift','sync','backup','restore','failover','migration']}),
-  makeDatabaseResource({id:'db-neon',name:'Neon · KC Cloud',provider:'Neon',role:'MIRROR/FAILOVER noch zu verifizieren',scope:'remote',capabilities:['health','latency','reads','writes','storage','schema','policies','integrity','drift','sync','backup','restore','failover','migration']})
+  makeDatabaseResource({id:'db-supabase',name:'Supabase · KC Cloud',provider:'Supabase',role:'UNVERIFIED',scope:'remote',adapterId:'telemetry-bridge',capabilities:['health','latency','reads','writes','storage','schema','policies','integrity','drift','sync','backup','restore','failover','migration']}),
+  makeDatabaseResource({id:'db-neon',name:'Neon · KC Cloud',provider:'Neon',role:'UNVERIFIED',scope:'remote',adapterId:'telemetry-bridge',capabilities:['health','latency','reads','writes','storage','schema','policies','integrity','drift','sync','backup','restore','failover','migration']})
 ];
 
 const allResources=()=>[...registry,...databases];
@@ -34,7 +38,8 @@ function renderDatabases(){
     const status=normalizeStatus(db),cls=cssStatus(status);
     const caps=['health','schema','policies','sync','backup','failover'].map(cap=>capabilityBadge(db,cap)).join('');
     const latency=Number.isFinite(db.latencyMs)&&isFresh(db,MAX_AGE_MS)?`${db.latencyMs} ms`:'—';
-    return `<article class="db-card"><div class="db-title"><span class="status-chip ${cls}"><span class="dot"></span>${status}</span><strong>${db.name}</strong></div><div class="db-meta"><span>Rolle: ${db.role}</span><span>Latenz: ${latency}</span><span>Messung: ${formatAge(db.measuredAt)}</span></div><div class="caps">${caps}</div><div class="db-note">${db.message||'Noch keine sichere Live-Messung vorhanden.'}</div></article>`;
+    const bridge=db.adapterId==='telemetry-bridge'?(globalThis.KICC_BRIDGE_ENDPOINTS?.[db.id]?'Bridge konfiguriert':'Bridge nicht konfiguriert'):'lokale Messung';
+    return `<article class="db-card"><div class="db-title"><span class="status-chip ${cls}"><span class="dot"></span>${status}</span><strong>${db.name}</strong></div><div class="db-meta"><span>Rolle: ${db.role}</span><span>Latenz: ${latency}</span><span>Messung: ${formatAge(db.measuredAt)}</span><span>${bridge}</span></div><div class="caps">${caps}</div><div class="db-note">${db.message||'Noch keine sichere Live-Messung vorhanden.'}</div></article>`;
   }).join('');
 }
 
@@ -49,7 +54,8 @@ function render(){
   const unknown=resources.filter(x=>normalizeStatus(x)==='UNKNOWN').length;
   const latencies=resources.filter(x=>Number.isFinite(x.latencyMs)&&isFresh(x,MAX_AGE_MS)).map(x=>x.latencyMs);
   const avgLatency=latencies.length?Math.round(latencies.reduce((a,b)=>a+b,0)/latencies.length):'—';
-  const kpis=[['Bestätigt gesund',healthy,'Komponenten'],['Störungen',failed,'aktuell'],['Unbekannt',unknown,'nicht bestätigt'],['Datenbanken',databases.length,'registriert'],['Latenz',avgLatency,latencies.length?'ms Ø':'keine Messung'],['Telemetrie',valid.length,'aktuell']];
+  const bridgeCount=databases.filter(x=>x.adapterId==='telemetry-bridge'&&globalThis.KICC_BRIDGE_ENDPOINTS?.[x.id]).length;
+  const kpis=[['Bestätigt gesund',healthy,'Komponenten'],['Störungen',failed,'aktuell'],['Unbekannt',unknown,'nicht bestätigt'],['DB Bridges',bridgeCount,'von 2 remote'],['Latenz',avgLatency,latencies.length?'ms Ø':'keine Messung'],['Telemetrie',valid.length,'aktuell']];
   document.getElementById('kpis').innerHTML=kpis.map(([l,v,u])=>`<div class="kpi"><small>${l}</small><strong>${v}</strong><em>${u}</em></div>`).join('');
   document.getElementById('registryRows').innerHTML=resources.map(item=>{const status=normalizeStatus(item),cls=cssStatus(status);return`<tr><td><span class="status-chip ${cls}"><span class="dot"></span>${status}</span></td><td>${item.type}</td><td>${item.name}</td><td>${item.role}</td><td>${formatAge(item.measuredAt)}</td><td>${item.trust}</td></tr>`}).join('');
   renderDatabases();
@@ -61,7 +67,7 @@ async function runDiscovery(){
   render();
 }
 
-window.KICC={version:VERSION,registry,databases,adapters:adapters.list(),runDiscovery,databaseSummary:()=>databases.map(summarizeDatabase),ingestObservation(observation){
+window.KICC={version:VERSION,registry,databases,adapters:adapters.list(),runDiscovery,databaseSummary:()=>databases.map(summarizeDatabase),bridgeConfigured:id=>Boolean(globalThis.KICC_BRIDGE_ENDPOINTS?.[id]),ingestObservation(observation){
   const item=allResources().find(x=>x.id===observation.targetId);if(!item)throw new Error('Unknown registry target');Object.assign(item,observation,{measuredAt:observation.measuredAt||new Date().toISOString(),trust:observation.trust||'OBSERVED'});render();
 }};
 
