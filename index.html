@@ -12,7 +12,7 @@
 <body>
   <header class="topbar">
     <div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div>
-    <div class="version" id="version">0.1.0-dev.30</div>
+    <div class="version" id="version">0.1.0-dev.31</div>
   </header>
   <main class="shell">
     <section class="hero">
@@ -52,11 +52,13 @@
       <article class="panel"><div class="panel-head"><h2>Handlungsbedarf</h2><span id="approvalCount">0</span></div><div id="actions" class="empty-list">Keine freigegebenen Aktionen vorhanden.</div></article>
     </section>
 
+    <section class="panel db-panel"><div class="panel-head"><h2>Weitere Programme</h2><span>NON_KC · nur beobachten · beeinflusst KC-Gesamtstatus nicht</span></div><div id="nonKcProgramCards" class="database-grid"></div></section>
     <section class="panel db-panel"><div class="panel-head"><h2>Private Infrastruktur</h2><span>PC Backup Vault / Backblaze B2 · getrennt von KC</span></div><div id="privateInfraCards" class="database-grid"></div><div id="storageCards" style="display:none"></div></section>
     <section class="panel"><div class="panel-head"><h2>KC Registry</h2><span>Discovered ≠ Registered ≠ Healthy</span></div><div class="table-wrap"><table><thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>Rolle</th><th>Messung</th><th>Vertrauen</th></tr></thead><tbody id="registryRows"></tbody></table></div></section>
   </main>
   <script type="module" src="app.js"></script>
   <script type="module" src="products/kc-program-registry.js"></script>
+  <script type="module" src="products/non-kc-program-registry.js"></script>
   <script type="module" src="storage/kc-b2-prepared.js"></script>
   <script type="module" src="security/security-register.js"></script>
   <script type="module" src="security/version-scope-correction.js"></script>
