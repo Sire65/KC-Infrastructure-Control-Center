@@ -12,7 +12,7 @@
 <body>
   <header class="topbar">
     <div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div>
-    <div class="version" id="version">0.1.0-dev.25</div>
+    <div class="version" id="version">0.1.0-dev.26</div>
   </header>
   <main class="shell">
     <section class="hero">
@@ -31,6 +31,8 @@
       <div id="securityControls" class="security-controls"></div>
       <div class="security-subhead"><strong>Security-Agent</strong><span>read-only · TLS · Zertifikat · DNS · Endpoint</span></div>
       <div id="securityAgentCards" class="security-agent-grid"></div>
+      <div class="security-subhead"><strong>Versions-/Build-Sicherheitsnachweise</strong><span>Legacy · Kandidat · produktive Installation strikt getrennt</span></div>
+      <div id="securityVersionEvidence" class="security-summary"></div>
       <div class="security-subhead"><strong>Verschlüsselte Lokaldaten-Migration</strong><span>Marktkasse · parallel · Recovery · Rollback · getrennte Freigaben</span></div>
       <div id="localSecurityMigration" class="migration-grid"></div>
       <div class="security-subhead"><strong>Security-Topologie der Datenflüsse</strong><span>Transport- und Payload-Schutz getrennt</span></div>
@@ -56,6 +58,7 @@
   <script type="module" src="storage/kc-b2-prepared.js"></script>
   <script type="module" src="security/security-register.js"></script>
   <script type="module" src="security/version-scope-correction.js"></script>
+  <script type="module" src="security/version-evidence-ui.js"></script>
   <script type="module" src="security/security-agent-monitor.js"></script>
   <script type="module" src="security/local-storage-migration-ui.js"></script>
   <script type="module" src="sync/mirror-monitor.js"></script>
