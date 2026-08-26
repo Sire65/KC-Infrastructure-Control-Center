@@ -2,6 +2,7 @@ import '../auth/runtime-auth-provider.js';
 import '../auth/supabase-login-ui.js';
 import '../telemetry/neon-runtime-config.js';
 import '../products/github-telemetry-runtime.js';
+import '../ui/report-tools.js';
 
 const TAB_STORAGE='kicc.active.tab.v1';
 const DEFAULT_TAB='dashboard';
