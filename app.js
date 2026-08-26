@@ -7,7 +7,7 @@ import { evaluateFailoverState, failoverRules } from './failover/failover-state-
 import { evaluateSystemHealth, normalizedResourceStatus, resourceMaxAge } from './health/system-health.js';
 import { ProbeScheduler } from './runtime/probe-scheduler.js';
 
-const VERSION='0.1.0-dev.19';
+const VERSION='0.1.0-dev.20';
 const DEFAULT_MAX_AGE_MS=90_000;
 
 const BRIDGE_ENDPOINTS={
@@ -74,8 +74,11 @@ function renderFailover(){
   if(state.state==='VERIFYING')actions.push('Daten-, Schema- und Integritätsvergleich abschließen');
   if(state.state==='FAILBACK_READY')actions.push('Failback zu Supabase kann nach Freigabe erfolgen');
   if(state.state==='BLOCKED')actions.push('Failover blockiert: Mirror-Frische, Integrität oder Datenbankstatus prüfen');
-  document.getElementById('approvalCount').textContent=String(actions.length);
-  document.getElementById('actions').innerHTML=actions.length?`<div class="action-stack"><strong>${state.state}</strong><span>Aktiv: ${state.primary||'—'}</span><span>${state.reason}</span>${actions.map(x=>`<div class="action-item">${x}</div>`).join('')}<small>${rules.invariants[0]} ${rules.invariants[1]}</small></div>`:'<div class="empty-list">Kein aktueller Failover-Handlungsbedarf.</div>';
+  const securityActions=globalThis.KICC_SECURITY?.actions?.()||[];
+  document.getElementById('approvalCount').textContent=String(actions.length+securityActions.length);
+  const failoverHtml=actions.map(x=>`<div class="action-item">${x}</div>`).join('');
+  const securityHtml=securityActions.slice(0,8).map(x=>`<div class="action-item"><strong>${x.severity} · Security</strong><br>${x.title}<br><small>${x.detail}</small></div>`).join('');
+  document.getElementById('actions').innerHTML=(actions.length||securityActions.length)?`<div class="action-stack"><strong>${state.state}</strong><span>Aktiv: ${state.primary||'—'}</span><span>${state.reason}</span>${failoverHtml}${securityHtml}<small>${rules.invariants[0]} ${rules.invariants[1]}</small></div>`:'<div class="empty-list">Kein aktueller Handlungsbedarf.</div>';
   const topology=document.getElementById('topology');topology.className='topology';topology.innerHTML=`<div class="failover-topology"><div class="flow-node">Supabase<br><small>${normalizeStatus(dbById('db-supabase-core')||{})}</small></div><div class="flow-arrow"><strong>${state.primary==='NEON'?'←':'→'}</strong><small>${state.primary==='NEON'?'Resync/Failover':'Mirror'} · ${failoverContext.mirrorStatus||'UNKNOWN'}</small></div><div class="flow-node">Neon<br><small>${normalizeStatus(dbById('db-neon-core-mirror')||{})}</small></div><div class="flow-state"><strong>${state.state}</strong><small>${state.reason}</small></div></div>`;
 }
 
@@ -83,17 +86,14 @@ function renderDatabases(){document.getElementById('databaseCards').innerHTML=da
 
 function render(){
   document.getElementById('version').textContent=VERSION;const resources=allResources(),health=evaluateSystemHealth(resources,{adapters,isFreshFn:isFresh,fallbackMs:DEFAULT_MAX_AGE_MS}),state=health.status,stateEl=document.getElementById('systemState');stateEl.className=`system-state ${cssStatus(state)}`;stateEl.querySelector('strong').textContent=state==='HEALTHY'?'BETRIEBSBEREIT':state==='FAILED'?'STÖRUNG':state==='DEGRADED'?'EINGESCHRÄNKT':'UNBEKANNT';
-  const valid=resources.filter(x=>normalizeStatus(x)!=='UNKNOWN'),healthy=resources.filter(x=>['HEALTHY','ONLINE'].includes(normalizeStatus(x))).length,failed=resources.filter(x=>['FAILED','OFFLINE'].includes(normalizeStatus(x))).length,unknown=resources.filter(x=>normalizeStatus(x)==='UNKNOWN').length,f=currentFailoverState();
+  const healthy=resources.filter(x=>['HEALTHY','ONLINE'].includes(normalizeStatus(x))).length,failed=resources.filter(x=>['FAILED','OFFLINE'].includes(normalizeStatus(x))).length,unknown=resources.filter(x=>normalizeStatus(x)==='UNKNOWN').length,f=currentFailoverState();
   const mirrorLabel=failoverContext.mirrorReady===true?'READY':failoverContext.mirrorReady===false?'NICHT READY':'UNKNOWN';
   const kpis=[['Bestätigt gesund',healthy,'Komponenten'],['Störungen',failed,'aktuell'],['Unbekannt',unknown,'nicht bestätigt'],['Abdeckung',`${health.coverage}%`,`${health.unknownRequired} kritisch unbekannt`],['Mirror',mirrorLabel,failoverContext.mirrorStatus],['Primär-DB',f.primary||'—',f.state]];
   document.getElementById('kpis').innerHTML=kpis.map(([l,v,u])=>`<div class="kpi"><small>${l}</small><strong>${v}</strong><em>${u}</em></div>`).join('');
   document.getElementById('registryRows').innerHTML=resources.map(item=>{const status=normalizeStatus(item),cls=cssStatus(status);return`<tr><td><span class="status-chip ${cls}"><span class="dot"></span>${status}</span></td><td>${item.type}</td><td>${item.name}</td><td>${item.role}${item.requiredForOverall?' · kritisch':''}</td><td>${formatAge(item.measuredAt)}</td><td>${item.trust}</td></tr>`;}).join('');renderDatabases();renderFailover();
 }
 
-async function runDiscovery({force=false}={}){
-  const targets=allResources().filter(x=>x.adapterId),due=force?targets:scheduler.dueTargets(targets,adapters);
-  await Promise.all(due.map(async target=>{scheduler.markAttempt(target.id);const obs=await adapters.probe(target.adapterId,target);Object.assign(target,obs);}));render();
-}
+async function runDiscovery({force=false}={}){const targets=allResources().filter(x=>x.adapterId),due=force?targets:scheduler.dueTargets(targets,adapters);await Promise.all(due.map(async target=>{scheduler.markAttempt(target.id);const obs=await adapters.probe(target.adapterId,target);Object.assign(target,obs);}));render();}
 
 window.KICC={version:VERSION,registry,databases,failoverContext,adapters:adapters.list(),runDiscovery,currentFailoverState,failoverRules:failoverRules(),systemHealth:()=>evaluateSystemHealth(allResources(),{adapters,isFreshFn:isFresh,fallbackMs:DEFAULT_MAX_AGE_MS}),databaseSummary:()=>databases.map(summarizeDatabase),bridgeConfigured:id=>Boolean(BRIDGE_ENDPOINTS[id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[id]),markNeonPromoted(){if(failoverContext.mirrorReady!==true)throw new Error('Neon promotion blocked: mirror readiness not confirmed');failoverContext.neonPromoted=true;render();},setResyncProgress({syncLagMs=null,resyncComplete=false,verificationPassed=false,failbackApproved=false}={}){Object.assign(failoverContext,{syncLagMs,resyncComplete,verificationPassed,failbackApproved});render();},ingestObservation(observation){const item=allResources().find(x=>x.id===observation.targetId);if(!item)throw new Error('Unknown registry target');Object.assign(item,observation,{measuredAt:observation.measuredAt||new Date().toISOString(),trust:'MANUAL_TEST'});render();}};
 render();runDiscovery({force:true});setInterval(()=>runDiscovery(),30_000);setInterval(render,15_000);if('serviceWorker'in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
