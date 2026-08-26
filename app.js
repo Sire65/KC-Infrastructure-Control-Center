@@ -8,7 +8,7 @@ import { evaluateSystemHealth, normalizedResourceStatus, resourceMaxAge } from '
 import { ProbeScheduler } from './runtime/probe-scheduler.js';
 import { DOMAIN, markDomain } from './scope/domain-model.js';
 
-const VERSION='0.1.0-dev.55';
+const VERSION='0.1.0-dev.56';
 const DEFAULT_MAX_AGE_MS=90_000;
 
 const BRIDGE_ENDPOINTS={
@@ -56,18 +56,23 @@ function capabilityBadge(dbItem,cap){const state=summarizeDatabase(dbItem).capab
 function bridgeEndpointFor(dbItem){return BRIDGE_ENDPOINTS[dbItem.id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[dbItem.id]||null;}
 function currentFailoverState(){
   const supabase=dbById('db-supabase-core'),neon=dbById('db-neon-core-mirror');
-  const base=evaluateFailoverState({supabaseHealth:supabase?normalizeStatus(supabase):'UNKNOWN',neonHealth:neon?normalizeStatus(neon):'UNKNOWN',syncLagMs:failoverContext.syncLagMs,mirrorReady:failoverContext.mirrorReady,resyncComplete:failoverContext.resyncComplete,verificationPassed:failoverContext.verificationPassed,failbackApproved:failoverContext.failbackApproved});
-  if(failoverContext.neonPromoted&&['NORMAL','DEGRADED','FAILOVER_PENDING'].includes(base.state)){
-    if(['HEALTHY','ONLINE'].includes(supabase?normalizeStatus(supabase):'UNKNOWN'))return{state:'RESYNC_REQUIRED',primary:'NEON',candidatePrimary:'SUPABASE',reason:'Supabase zurück; Neon bleibt PRIMARY bis Rücksynchronisierung und Verifikation abgeschlossen sind'};
-    return{state:'NEON_PRIMARY',primary:'NEON',candidatePrimary:'SUPABASE',reason:'Neon ist während des Supabase-Ausfalls authoritative PRIMARY'};
-  }
-  return base;
+  return evaluateFailoverState({
+    supabaseHealth:supabase?normalizeStatus(supabase):'UNKNOWN',
+    neonHealth:neon?normalizeStatus(neon):'UNKNOWN',
+    syncLagMs:failoverContext.syncLagMs,
+    mirrorReady:failoverContext.mirrorReady,
+    resyncComplete:failoverContext.resyncComplete,
+    verificationPassed:failoverContext.verificationPassed,
+    failbackApproved:failoverContext.failbackApproved,
+    neonWasPrimary:failoverContext.neonPromoted===true
+  });
 }
 function renderFailover(){
   const state=currentFailoverState(),rules=failoverRules(),actions=[];
   if(state.state==='FAILOVER_PENDING')actions.push('Neon-Promotion vorbereiten und nach Recovery-/Freshness-Prüfung freigeben');
   if(state.state==='NEON_PRIMARY')actions.push('Neon bleibt PRIMARY; Supabase darf nicht gleichzeitig schreibend PRIMARY sein');
   if(state.state==='RESYNC_REQUIRED')actions.push('Rücksynchronisierung Neon → Supabase vorbereiten');
+  if(state.state==='DEGRADED'&&state.primary==='SUPABASE'&&Number.isFinite(failoverContext.syncLagMs)&&failoverContext.syncLagMs>0)actions.push('Mirror-Sync-Lag prüfen; Supabase bleibt PRIMARY');
   if(state.state==='VERIFYING')actions.push('Daten-, Schema- und Integritätsvergleich abschließen');
   if(state.state==='FAILBACK_READY')actions.push('Failback zu Supabase kann nach Freigabe erfolgen');
   if(state.state==='BLOCKED')actions.push('Failover blockiert: Mirror-Frische, Integrität oder Datenbankstatus prüfen');
