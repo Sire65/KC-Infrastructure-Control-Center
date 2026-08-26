@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#111827" />
+  <title>KICC – KC Infrastructure Control Center</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <strong>KICC</strong>
+      <span>KC Infrastructure Control Center</span>
+    </div>
+    <div class="version" id="version">0.1.0-dev.2</div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">SPRINT 1 · DEV</p>
+        <h1>Zentrale KC-Leitwarte</h1>
+        <p>Systemzustand, betroffene Komponenten und notwendige Aktionen auf einen Blick.</p>
+      </div>
+      <div class="system-state unknown" id="systemState">
+        <span class="led"></span>
+        <div><small>Gesamtstatus</small><strong>UNBEKANNT</strong></div>
+      </div>
+    </section>
+
+    <section class="kpi-grid" id="kpis"></section>
+
+    <section class="panel-grid">
+      <article class="panel wide">
+        <div class="panel-head"><h2>Live-Leitwarte</h2><span>Nur reale Telemetrie</span></div>
+        <div id="topology" class="topology empty">Noch keine bestätigte Live-Telemetrie vorhanden.</div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><h2>Handlungsbedarf</h2><span id="approvalCount">0</span></div>
+        <div id="actions" class="empty-list">Keine freigegebenen Aktionen vorhanden.</div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>Registry</h2><span>Discovered ≠ Registered ≠ Healthy</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>Rolle</th><th>Messung</th><th>Vertrauen</th></tr></thead>
+          <tbody id="registryRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
