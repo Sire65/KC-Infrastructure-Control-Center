@@ -7,7 +7,7 @@ import { evaluateFailoverState, failoverRules } from './failover/failover-state-
 import { evaluateSystemHealth, normalizedResourceStatus, resourceMaxAge } from './health/system-health.js';
 import { ProbeScheduler } from './runtime/probe-scheduler.js';
 
-const VERSION='0.1.0-dev.16';
+const VERSION='0.1.0-dev.17';
 const DEFAULT_MAX_AGE_MS=90_000;
 
 const BRIDGE_ENDPOINTS={
@@ -24,7 +24,10 @@ async function bridgeAuthResolver(target){
 const adapters=new AdapterRegistry();
 adapters.register(githubRepositoryAdapter);
 adapters.register(indexedDbLocalAdapter);
-adapters.register(createTelemetryBridgeAdapter({endpointResolver(target){return BRIDGE_ENDPOINTS[target.id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[target.id]||null;},authResolver:bridgeAuthResolver}));
+adapters.register(createTelemetryBridgeAdapter({
+  endpointResolver(target){return BRIDGE_ENDPOINTS[target.id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[target.id]||null;},
+  authResolver:bridgeAuthResolver
+}));
 const scheduler=new ProbeScheduler();
 
 const registry=[
@@ -53,10 +56,44 @@ function formatAge(ts){if(!ts)return'nicht gemessen';const sec=Math.max(0,Math.r
 function capabilityBadge(dbItem,cap){const state=summarizeDatabase(dbItem).capabilities.find(x=>x.capability===cap)?.state||'UNSUPPORTED';return `<span class="cap ${state.toLowerCase()}">${cap}: ${state}</span>`;}
 function bridgeEndpointFor(dbItem){return BRIDGE_ENDPOINTS[dbItem.id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[dbItem.id]||null;}
 
-function currentFailoverState(){const supabase=dbById('db-supabase-core'),neon=dbById('db-neon-core-mirror');const base=evaluateFailoverState({supabaseHealth:supabase?normalizeStatus(supabase):'UNKNOWN',neonHealth:neon?normalizeStatus(neon):'UNKNOWN',syncLagMs:failoverContext.syncLagMs,mirrorReady:failoverContext.mirrorReady,resyncComplete:failoverContext.resyncComplete,verificationPassed:failoverContext.verificationPassed,failbackApproved:failoverContext.failbackApproved});if(failoverContext.neonPromoted&&['NORMAL','DEGRADED','FAILOVER_PENDING'].includes(base.state)){if(['HEALTHY','ONLINE'].includes(supabase?normalizeStatus(supabase):'UNKNOWN'))return{state:'RESYNC_REQUIRED',primary:'NEON',candidatePrimary:'SUPABASE',reason:'Supabase zurück; Neon bleibt PRIMARY bis Rücksynchronisierung und Verifikation abgeschlossen sind'};return{state:'NEON_PRIMARY',primary:'NEON',candidatePrimary:'SUPABASE',reason:'Neon ist während des Supabase-Ausfalls authoritative PRIMARY'};}return base;}
-function renderFailover(){const state=currentFailoverState(),rules=failoverRules(),actions=[];if(state.state==='FAILOVER_PENDING')actions.push('Neon-Promotion vorbereiten und nach Recovery-/Freshness-Prüfung freigeben');if(state.state==='NEON_PRIMARY')actions.push('Neon bleibt PRIMARY; Supabase darf nicht gleichzeitig schreibend PRIMARY sein');if(state.state==='RESYNC_REQUIRED')actions.push('Rücksynchronisierung Neon → Supabase vorbereiten');if(state.state==='VERIFYING')actions.push('Daten-, Schema- und Integritätsvergleich abschließen');if(state.state==='FAILBACK_READY')actions.push('Failback zu Supabase kann nach Freigabe erfolgen');if(state.state==='BLOCKED')actions.push('Failover blockiert: Mirror-Frische, Integrität oder Datenbankstatus prüfen');document.getElementById('approvalCount').textContent=String(actions.length);document.getElementById('actions').innerHTML=actions.length?`<div class="action-stack"><strong>${state.state}</strong><span>Aktiv: ${state.primary||'—'}</span><span>${state.reason}</span>${actions.map(x=>`<div class="action-item">${x}</div>`).join('')}<small>${rules.invariants[0]} ${rules.invariants[1]}</small></div>`:'<div class="empty-list">Kein aktueller Failover-Handlungsbedarf.</div>';const topology=document.getElementById('topology');topology.className='topology';topology.innerHTML=`<div class="failover-topology"><div class="flow-node">Supabase<br><small>${normalizeStatus(dbById('db-supabase-core')||{})}</small></div><div class="flow-arrow"><strong>${state.primary==='NEON'?'←':'→'}</strong><small>${state.primary==='NEON'?'Resync/Failover':'Mirror'} · ${failoverContext.mirrorStatus||'UNKNOWN'}</small></div><div class="flow-node">Neon<br><small>${normalizeStatus(dbById('db-neon-core-mirror')||{})}</small></div><div class="flow-state"><strong>${state.state}</strong><small>${state.reason}</small></div></div>`;}
+function currentFailoverState(){
+  const supabase=dbById('db-supabase-core'),neon=dbById('db-neon-core-mirror');
+  const base=evaluateFailoverState({supabaseHealth:supabase?normalizeStatus(supabase):'UNKNOWN',neonHealth:neon?normalizeStatus(neon):'UNKNOWN',syncLagMs:failoverContext.syncLagMs,mirrorReady:failoverContext.mirrorReady,resyncComplete:failoverContext.resyncComplete,verificationPassed:failoverContext.verificationPassed,failbackApproved:failoverContext.failbackApproved});
+  if(failoverContext.neonPromoted&&['NORMAL','DEGRADED','FAILOVER_PENDING'].includes(base.state)){
+    if(['HEALTHY','ONLINE'].includes(supabase?normalizeStatus(supabase):'UNKNOWN'))return{state:'RESYNC_REQUIRED',primary:'NEON',candidatePrimary:'SUPABASE',reason:'Supabase zurück; Neon bleibt PRIMARY bis Rücksynchronisierung und Verifikation abgeschlossen sind'};
+    return{state:'NEON_PRIMARY',primary:'NEON',candidatePrimary:'SUPABASE',reason:'Neon ist während des Supabase-Ausfalls authoritative PRIMARY'};
+  }
+  return base;
+}
+
+function renderFailover(){
+  const state=currentFailoverState(),rules=failoverRules(),actions=[];
+  if(state.state==='FAILOVER_PENDING')actions.push('Neon-Promotion vorbereiten und nach Recovery-/Freshness-Prüfung freigeben');
+  if(state.state==='NEON_PRIMARY')actions.push('Neon bleibt PRIMARY; Supabase darf nicht gleichzeitig schreibend PRIMARY sein');
+  if(state.state==='RESYNC_REQUIRED')actions.push('Rücksynchronisierung Neon → Supabase vorbereiten');
+  if(state.state==='VERIFYING')actions.push('Daten-, Schema- und Integritätsvergleich abschließen');
+  if(state.state==='FAILBACK_READY')actions.push('Failback zu Supabase kann nach Freigabe erfolgen');
+  if(state.state==='BLOCKED')actions.push('Failover blockiert: Mirror-Frische, Integrität oder Datenbankstatus prüfen');
+  document.getElementById('approvalCount').textContent=String(actions.length);
+  document.getElementById('actions').innerHTML=actions.length?`<div class="action-stack"><strong>${state.state}</strong><span>Aktiv: ${state.primary||'—'}</span><span>${state.reason}</span>${actions.map(x=>`<div class="action-item">${x}</div>`).join('')}<small>${rules.invariants[0]} ${rules.invariants[1]}</small></div>`:'<div class="empty-list">Kein aktueller Failover-Handlungsbedarf.</div>';
+  const topology=document.getElementById('topology');topology.className='topology';topology.innerHTML=`<div class="failover-topology"><div class="flow-node">Supabase<br><small>${normalizeStatus(dbById('db-supabase-core')||{})}</small></div><div class="flow-arrow"><strong>${state.primary==='NEON'?'←':'→'}</strong><small>${state.primary==='NEON'?'Resync/Failover':'Mirror'} · ${failoverContext.mirrorStatus||'UNKNOWN'}</small></div><div class="flow-node">Neon<br><small>${normalizeStatus(dbById('db-neon-core-mirror')||{})}</small></div><div class="flow-state"><strong>${state.state}</strong><small>${state.reason}</small></div></div>`;
+}
+
 function renderDatabases(){document.getElementById('databaseCards').innerHTML=databases.map(item=>{const status=normalizeStatus(item),cls=cssStatus(status),caps=['health','schema','policies','sync','backup','failover'].map(cap=>capabilityBadge(item,cap)).join(''),latency=Number.isFinite(item.latencyMs)&&isFresh(item,resourceMaxAge(item,adapters,DEFAULT_MAX_AGE_MS))?`${item.latencyMs} ms`:'—',bridge=item.adapterId==='telemetry-bridge'?(bridgeEndpointFor(item)?'Bridge bereit':'Bridge noch nicht angebunden'):'lokale Messung';return `<article class="db-card"><div class="db-title"><span class="status-chip ${cls}"><span class="dot"></span>${status}</span><strong>${item.name}</strong></div><div class="db-meta"><span>Rolle: ${item.role}${item.requiredForOverall?' · kritisch':''}</span><span>Region: ${item.scope}</span><span>Latenz: ${latency}</span><span>Messung: ${formatAge(item.measuredAt)}</span><span>${bridge}</span></div><div class="caps">${caps}</div><div class="db-note">${item.message||item.detail||'Noch keine sichere Live-Messung vorhanden.'}</div></article>`;}).join('');}
-function render(){document.getElementById('version').textContent=VERSION;const resources=allResources(),health=evaluateSystemHealth(resources,{adapters,isFreshFn:isFresh,fallbackMs:DEFAULT_MAX_AGE_MS}),state=health.status,stateEl=document.getElementById('systemState');stateEl.className=`system-state ${cssStatus(state)}`;stateEl.querySelector('strong').textContent=state==='HEALTHY'?'BETRIEBSBEREIT':state==='FAILED'?'STÖRUNG':state==='DEGRADED'?'EINGESCHRÄNKT':'UNBEKANNT';const valid=resources.filter(x=>normalizeStatus(x)!=='UNKNOWN'),healthy=resources.filter(x=>['HEALTHY','ONLINE'].includes(normalizeStatus(x))).length,failed=resources.filter(x=>['FAILED','OFFLINE'].includes(normalizeStatus(x))).length,unknown=resources.filter(x=>normalizeStatus(x)==='UNKNOWN').length,f=currentFailoverState();const mirrorLabel=failoverContext.mirrorReady===true?'READY':failoverContext.mirrorReady===false?'NICHT READY':'UNKNOWN';const kpis=[['Bestätigt gesund',healthy,'Komponenten'],['Störungen',failed,'aktuell'],['Unbekannt',unknown,'nicht bestätigt'],['Abdeckung',`${health.coverage}%`,`${health.unknownRequired} kritisch unbekannt`],['Mirror',mirrorLabel,failoverContext.mirrorStatus],['Primär-DB',f.primary||'—',f.state]];document.getElementById('kpis').innerHTML=kpis.map(([l,v,u])=>`<div class="kpi"><small>${l}</small><strong>${v}</strong><em>${u}</em></div>`).join('');document.getElementById('registryRows').innerHTML=resources.map(item=>{const status=normalizeStatus(item),cls=cssStatus(status);return`<tr><td><span class="status-chip ${cls}"><span class="dot"></span>${status}</span></td><td>${item.type}</td><td>${item.name}</td><td>${item.role}${item.requiredForOverall?' · kritisch':''}</td><td>${formatAge(item.measuredAt)}</td><td>${item.trust}</td></tr>`;}).join('');renderDatabases();renderFailover();}
-async function runDiscovery({force=false}={}){const targets=allResources().filter(x=>x.adapterId),due=force?targets:scheduler.dueTargets(targets,adapters);await Promise.all(due.map(async target=>{scheduler.markAttempt(target.id);const obs=await adapters.probe(target.adapterId,target);Object.assign(target,obs);}));render();}
+
+function render(){
+  document.getElementById('version').textContent=VERSION;const resources=allResources(),health=evaluateSystemHealth(resources,{adapters,isFreshFn:isFresh,fallbackMs:DEFAULT_MAX_AGE_MS}),state=health.status,stateEl=document.getElementById('systemState');stateEl.className=`system-state ${cssStatus(state)}`;stateEl.querySelector('strong').textContent=state==='HEALTHY'?'BETRIEBSBEREIT':state==='FAILED'?'STÖRUNG':state==='DEGRADED'?'EINGESCHRÄNKT':'UNBEKANNT';
+  const valid=resources.filter(x=>normalizeStatus(x)!=='UNKNOWN'),healthy=resources.filter(x=>['HEALTHY','ONLINE'].includes(normalizeStatus(x))).length,failed=resources.filter(x=>['FAILED','OFFLINE'].includes(normalizeStatus(x))).length,unknown=resources.filter(x=>normalizeStatus(x)==='UNKNOWN').length,f=currentFailoverState();
+  const mirrorLabel=failoverContext.mirrorReady===true?'READY':failoverContext.mirrorReady===false?'NICHT READY':'UNKNOWN';
+  const kpis=[['Bestätigt gesund',healthy,'Komponenten'],['Störungen',failed,'aktuell'],['Unbekannt',unknown,'nicht bestätigt'],['Abdeckung',`${health.coverage}%`,`${health.unknownRequired} kritisch unbekannt`],['Mirror',mirrorLabel,failoverContext.mirrorStatus],['Primär-DB',f.primary||'—',f.state]];
+  document.getElementById('kpis').innerHTML=kpis.map(([l,v,u])=>`<div class="kpi"><small>${l}</small><strong>${v}</strong><em>${u}</em></div>`).join('');
+  document.getElementById('registryRows').innerHTML=resources.map(item=>{const status=normalizeStatus(item),cls=cssStatus(status);return`<tr><td><span class="status-chip ${cls}"><span class="dot"></span>${status}</span></td><td>${item.type}</td><td>${item.name}</td><td>${item.role}${item.requiredForOverall?' · kritisch':''}</td><td>${formatAge(item.measuredAt)}</td><td>${item.trust}</td></tr>`;}).join('');renderDatabases();renderFailover();
+}
+
+async function runDiscovery({force=false}={}){
+  const targets=allResources().filter(x=>x.adapterId),due=force?targets:scheduler.dueTargets(targets,adapters);
+  await Promise.all(due.map(async target=>{scheduler.markAttempt(target.id);const obs=await adapters.probe(target.adapterId,target);Object.assign(target,obs);}));render();
+}
+
 window.KICC={version:VERSION,registry,databases,failoverContext,adapters:adapters.list(),runDiscovery,currentFailoverState,failoverRules:failoverRules(),systemHealth:()=>evaluateSystemHealth(allResources(),{adapters,isFreshFn:isFresh,fallbackMs:DEFAULT_MAX_AGE_MS}),databaseSummary:()=>databases.map(summarizeDatabase),bridgeConfigured:id=>Boolean(BRIDGE_ENDPOINTS[id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[id]),markNeonPromoted(){if(failoverContext.mirrorReady!==true)throw new Error('Neon promotion blocked: mirror readiness not confirmed');failoverContext.neonPromoted=true;render();},setResyncProgress({syncLagMs=null,resyncComplete=false,verificationPassed=false,failbackApproved=false}={}){Object.assign(failoverContext,{syncLagMs,resyncComplete,verificationPassed,failbackApproved});render();},ingestObservation(observation){const item=allResources().find(x=>x.id===observation.targetId);if(!item)throw new Error('Unknown registry target');Object.assign(item,observation,{measuredAt:observation.measuredAt||new Date().toISOString(),trust:'MANUAL_TEST'});render();}};
 render();runDiscovery({force:true});setInterval(()=>runDiscovery(),30_000);setInterval(render,15_000);if('serviceWorker'in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
