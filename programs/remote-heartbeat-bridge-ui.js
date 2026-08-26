@@ -1,0 +1,7 @@
+function cls(state){return({READY:'healthy',DEGRADED:'degraded',OFFLINE:'failed'})[state]||'unknown';}
+function fmt(ts){if(!ts)return'—';const s=Math.max(0,Math.round((Date.now()-new Date(ts).getTime())/1000));return s<60?`${s}s`:`${Math.round(s/60)}min`;}
+function ensure(){const host=document.getElementById('kiccDeviceCenter');if(!host||document.getElementById('remoteHeartbeatBridgeCard'))return;const card=document.createElement('div');card.id='remoteHeartbeatBridgeCard';card.className='device-kpi remote-heartbeat-card';card.style.marginBottom='10px';host.parentElement?.insertBefore(card,host);}
+function render(){ensure();const card=document.getElementById('remoteHeartbeatBridgeCard');if(!card)return;const s=globalThis.KICC_REMOTE_HEARTBEAT_BRIDGE?.status?.()||{state:'NOT_CONFIGURED',reason:'Noch nicht geladen'};card.innerHTML=`<div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><div><small>Remote-Heartbeat-Bridge</small><strong style="display:block">${s.state}</strong></div><span class="status-chip ${cls(s.state)}"><span class="dot"></span>${s.state}</span></div><div class="device-note">${s.reason||'—'} · letzter Erfolg: ${fmt(s.lastSuccessAt)} · ${s.endpoint?'HTTPS-Endpunkt konfiguriert':'noch kein Endpunkt konfiguriert'}</div>`;}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{setTimeout(render,0);},{once:true});else setTimeout(render,0);
+addEventListener('kicc:remote-heartbeat-bridge',render);setInterval(render,15000);
+globalThis.KICC_REMOTE_HEARTBEAT_UI={render};
