@@ -15,7 +15,7 @@
   </header>
   <main class="shell">
     <section class="hero">
-      <div><p class="eyebrow">SPRINT 1 · DEV</p><h1>Zentrale KC-Leitwarte</h1><p>KC-Programme, Systemzustand, Datenbanken, Spiegelung, Regionen und notwendige Aktionen auf einen Blick.</p></div>
+      <div><p class="eyebrow">SPRINT 1 · DEV</p><h1>Zentrale KC-Leitwarte</h1><p>KC-Programme, Systemzustand, Datenbanken, Security, Spiegelung, Regionen und notwendige Aktionen auf einen Blick.</p></div>
       <div class="system-state unknown" id="systemState"><span class="led"></span><div><small>KC-Gesamtstatus</small><strong>UNBEKANNT</strong></div></div>
     </section>
     <section class="kpi-grid" id="kpis"></section>
@@ -28,6 +28,17 @@
     <section class="panel db-panel">
       <div class="panel-head"><h2>KC-Datenbank-Leitwarte</h2><span>Read-only · reale Messung vor Grün</span></div>
       <div id="databaseCards" class="database-grid"></div>
+    </section>
+
+    <section class="panel db-panel security-panel">
+      <div class="panel-head"><h2>Security</h2><span>Verschlüsselung · Auth · Schlüssel · Gap-Analyse</span></div>
+      <div id="securityGapSummary" class="security-summary"></div>
+      <div class="security-subhead"><strong>Sicherheitsmaßnahmen</strong><span>UNKNOWN bleibt UNKNOWN bis verifiziert</span></div>
+      <div id="securityControls" class="security-controls"></div>
+      <div class="security-subhead"><strong>Security-Topologie der Datenflüsse</strong><span>Transport- und Payload-Schutz getrennt</span></div>
+      <div id="securityTopology" class="security-topology"></div>
+      <div class="security-subhead"><strong>Security-Matrix</strong><span>Quelle · Ziel · Verfahren · Nachweis · Handlungsbedarf</span></div>
+      <div class="table-wrap"><table class="security-table"><thead><tr><th>Status</th><th>Quelle</th><th>Ziel</th><th>Datenklasse</th><th>Transport</th><th>Payload</th><th>Auth</th><th>Schlüssel</th><th>Verifiziert</th><th>Handlungsbedarf</th></tr></thead><tbody id="securityMatrixRows"></tbody></table></div>
     </section>
 
     <section class="panel db-panel">
@@ -61,6 +72,7 @@
   <script type="module" src="app.js"></script>
   <script type="module" src="products/kc-program-registry.js"></script>
   <script type="module" src="storage/kc-b2-prepared.js"></script>
+  <script type="module" src="security/security-register.js"></script>
   <script type="module" src="sync/mirror-monitor.js"></script>
   <script type="module" src="migration/prepared-resources.js"></script>
   <script type="module" src="storage/storage-monitor.js"></script>
