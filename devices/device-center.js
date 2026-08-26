@@ -10,15 +10,14 @@ function ensureUi(){
   ensureCss();
   const tablist=document.querySelector('[data-kicc-tablist]');
   if(tablist&&!tablist.querySelector(`[data-kicc-tab="${TAB_ID}"]`)){
-    const b=document.createElement('button');b.type='button';b.dataset.kiccTab=TAB_ID;b.setAttribute('role','tab');b.setAttribute('aria-selected','false');b.textContent='Geräte & Clients';tablist.appendChild(b);
+    const b=document.createElement('button');b.type='button';b.className='leitstand-tab';b.dataset.kiccTab=TAB_ID;b.setAttribute('role','tab');b.setAttribute('aria-selected','false');b.tabIndex=-1;b.textContent='Geräte & Clients';tablist.appendChild(b);
   }
   const main=document.querySelector('main');
   if(main&&!document.querySelector(`[data-kicc-panel="${TAB_ID}"]`)){
-    const section=document.createElement('section');section.dataset.kiccPanel=TAB_ID;section.hidden=true;section.innerHTML=`<div class="panel"><div class="panel-head"><div><h2>Geräte & Clients</h2><p>Nur echte Heartbeats. Keine Rückmeldung = UNKNOWN/OFFLINE nach Frist.</p></div><span class="tab-badge">Heartbeat</span></div><div id="kiccDeviceCenter"></div></div>`;main.appendChild(section);
+    const section=document.createElement('section');section.className='tab-panel';section.dataset.kiccPanel=TAB_ID;section.setAttribute('role','tabpanel');section.hidden=true;section.innerHTML=`<div class="tab-intro"><div><h2>Geräte & Clients</h2><p>Heartbeats, Versionen, letzter Kontakt, Latenz und Traffic.</p></div><span class="tab-badge">Heartbeat</span></div><section class="panel db-panel"><div class="panel-head"><h2>Geräte-Leitwarte</h2><span>Nur echte Heartbeats · UNKNOWN bleibt UNKNOWN</span></div><div id="kiccDeviceCenter"></div></section>`;main.appendChild(section);
   }
 }
 function localHeartbeat(){
-  const nav=navigator;
   ingestHeartbeat({deviceId:`browser:${location.origin}`,name:'KICC Browser',deviceType:'BROWSER',programId:'kicc',version:globalThis.KICC?.version||null,status:navigator.onLine?'ONLINE':'OFFLINE',measuredAt:new Date().toISOString(),latencyMs:0,trafficRx:0,trafficTx:0,source:'BROWSER_RUNTIME',trust:'OBSERVED_LOCAL'});
 }
 function render(){
