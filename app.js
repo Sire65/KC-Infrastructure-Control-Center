@@ -5,7 +5,7 @@ import { createTelemetryBridgeAdapter } from './adapters/telemetry-bridge-adapte
 import { makeDatabaseResource, summarizeDatabase } from './database/database-model.js';
 import { evaluateFailoverState, failoverRules } from './failover/failover-state-machine.js';
 
-const VERSION='0.1.0-dev.10';
+const VERSION='0.1.0-dev.11';
 const MAX_AGE_MS=90_000;
 
 const BRIDGE_ENDPOINTS={
