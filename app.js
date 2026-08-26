@@ -7,7 +7,7 @@ import { evaluateFailoverState, failoverRules } from './failover/failover-state-
 import { evaluateSystemHealth, normalizedResourceStatus, resourceMaxAge } from './health/system-health.js';
 import { ProbeScheduler } from './runtime/probe-scheduler.js';
 
-const VERSION='0.1.0-dev.18';
+const VERSION='0.1.0-dev.19';
 const DEFAULT_MAX_AGE_MS=90_000;
 
 const BRIDGE_ENDPOINTS={
