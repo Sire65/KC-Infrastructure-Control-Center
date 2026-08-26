@@ -7,7 +7,7 @@ import { evaluateSystemHealth, normalizedResourceStatus, resourceMaxAge } from '
 import { ProbeScheduler } from './runtime/probe-scheduler.js';
 import { DOMAIN, markDomain } from './scope/domain-model.js';
 
-const VERSION='0.1.0-dev.32';
+const VERSION='0.1.0-dev.33';
 const DEFAULT_MAX_AGE_MS=90_000;
 
 const BRIDGE_ENDPOINTS={
