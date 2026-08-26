@@ -1,7 +1,7 @@
 import { evaluateRepositoryAccess, makeRepositoryPolicy } from '../bridge/repository-allowlist.js';
-import { ROLE_CAPABILITIES } from '../bridge/bridge-roles.js';
+import { BRIDGE_ROLES } from '../bridge/bridge-roles.js';
 import { createTransferAction, analyzeTransfer, markRecoveryReady, approveTransfer, executionEnvelope } from '../explorer/transfer-action-model.js';
-import { createAuditPersistence, verifyAuditChain } from '../bridge/audit-persistence.js';
+import { createAuditPersistence } from '../bridge/audit-persistence.js';
 import { validateBridgeStatus, bridgeTemplate } from '../explorer/git-bridge-contract.js';
 
 function result(id,ok,detail=''){return{id,ok:Boolean(ok),detail};}
@@ -16,9 +16,9 @@ export async function runExplorerBridgeSelfTests(){
   out.push(result('ALLOWLIST_WRITE_BLOCKED',!evaluateRepositoryAccess([policy],{owner:'Sire65',repo:'Kasse',ref:'main',capability:'repository.upload'}).allowed,'Prepared-Allowlist darf nicht schreiben'));
   out.push(result('ALLOWLIST_BRANCH_BLOCKED',!evaluateRepositoryAccess([policy],{owner:'Sire65',repo:'Kasse',ref:'dev',capability:'repository.read'}).allowed,'Nicht erlaubter Branch blockiert'));
 
-  out.push(result('ROLE_VIEWER_NO_DELETE',!ROLE_CAPABILITIES.VIEWER.includes('repository.delete'),'Viewer darf nicht löschen'));
-  out.push(result('ROLE_OPERATOR_NO_MOVE',!ROLE_CAPABILITIES.OPERATOR.includes('repository.move'),'Operator darf nicht verschieben'));
-  out.push(result('ROLE_ADMIN_DELETE',ROLE_CAPABILITIES.ADMIN.includes('repository.delete'),'Admin besitzt Delete-Capability'));
+  out.push(result('ROLE_VIEWER_NO_DELETE',!BRIDGE_ROLES.VIEWER.includes('repository.delete'),'Viewer darf nicht löschen'));
+  out.push(result('ROLE_OPERATOR_NO_MOVE',!BRIDGE_ROLES.OPERATOR.includes('repository.move'),'Operator darf nicht verschieben'));
+  out.push(result('ROLE_ADMIN_DELETE',BRIDGE_ROLES.ADMIN.includes('repository.delete'),'Admin besitzt Delete-Capability'));
 
   const draft=createTransferAction({kind:'MOVE',source:'Sire65/Kasse',target:'Sire65/dp3',branch:'main',sourcePath:'a.txt',targetPath:'a.txt',sourceDomain:'KC',targetDomain:'KC'});
   analyzeTransfer(draft);
