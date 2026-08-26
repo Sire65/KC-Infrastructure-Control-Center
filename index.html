@@ -13,7 +13,7 @@
 <body>
   <header class="topbar">
     <div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div>
-    <div class="version" id="version">0.1.0-dev.39</div>
+    <div class="version" id="version">0.1.0-dev.40</div>
   </header>
   <main class="shell">
     <section class="hero">
@@ -22,7 +22,7 @@
     </section>
     <section class="kpi-grid" id="kpis"></section>
 
-    <section class="panel db-panel"><div class="panel-head"><h2>Git / Datei-Explorer</h2><span>Repositories · Ordner · Dateien · Download · sichere Transfer-Vorbereitung</span></div><div id="repositoryExplorer"></div><div class="security-subhead"><strong>Repository-Berechtigungen</strong><span>Deny-by-default · vorbereitete Allowlist · Schreiben gesperrt</span></div><div id="repositoryPolicySummary"></div><div class="security-subhead"><strong>Explorer-/Bridge-Selbsttest</strong><span>Allowlist · Rollen · Recovery · Freigabe · Audit · Bridge-State</span></div><div id="explorerBridgeSelfTest"></div><div class="security-subhead"><strong>Bridge-Readiness</strong><span>Aktivierungsgates · letzter Prüfstand · produktive Freigabe</span></div><div id="explorerBridgeReadiness"></div></section>
+    <section class="panel db-panel"><div class="panel-head"><h2>Git / Datei-Explorer</h2><span>Repositories · Ordner · Dateien · Download · sichere Transfer-Vorbereitung</span></div><div id="repositoryExplorer"></div><div class="security-subhead"><strong>Repository-Berechtigungen</strong><span>Deny-by-default · vorbereitete Allowlist · Schreiben gesperrt</span></div><div id="repositoryPolicySummary"></div><div class="security-subhead"><strong>Explorer-/Bridge-Selbsttest</strong><span>Allowlist · Rollen · Recovery · Freigabe · Audit · Bridge-State</span></div><div id="explorerBridgeSelfTest"></div><div class="security-subhead"><strong>Bridge-Readiness</strong><span>Aktivierungsgates · letzter Prüfstand · produktive Freigabe</span></div><div id="explorerBridgeReadiness"></div><div class="security-subhead"><strong>Runtime-Smoke</strong><span>Boot · Module · DOM · IndexedDB · Schreibschutz</span></div><div id="runtimeSmoke"></div></section>
     <section class="panel db-panel"><div class="panel-head"><h2>KC-Programme</h2><span>Repo · Deployment · Version · Abhängigkeiten · Health</span></div><div id="kcProgramCards" class="database-grid"></div></section>
     <section class="panel db-panel"><div class="panel-head"><h2>KC-Datenbank-Leitwarte</h2><span>Read-only · reale Messung vor Grün</span></div><div id="databaseCards" class="database-grid"></div></section>
 
@@ -37,7 +37,7 @@
       <div id="securityVersionEvidence" class="security-summary"></div>
       <div class="security-subhead"><strong>Runtime-Security-Attestation</strong><span>echter Build · Speicher · Verschlüsselung · Schlüsselversion · Frische</span></div>
       <div id="runtimeSecurityAttestations" class="security-summary"></div>
-      <div class="security-subhead"><strong>Verschlüsselte Lokaldaten-Migration</strong><span>Marktkasse · parallel · Recovery · Rollback · getrennte Freigaben</span></div>
+      <div class="security-subhead"><strong>Verschlüsselte Lokaldaten-Migration</strong><span>Legacy Marktkasse · parallel · Recovery · Rollback · getrennte Freigaben</span></div>
       <div id="localSecurityMigration" class="migration-grid"></div>
       <div class="security-subhead"><strong>Security-Topologie der Datenflüsse</strong><span>Transport- und Payload-Schutz getrennt</span></div>
       <div id="securityTopology" class="security-topology"></div>
@@ -66,6 +66,7 @@
   <script type="module" src="explorer/repository-policy-ui.js"></script>
   <script type="module" src="tests/explorer-bridge-selftest-ui.js"></script>
   <script type="module" src="tests/explorer-bridge-readiness-ui.js"></script>
+  <script type="module" src="tests/runtime-smoke-ui.js"></script>
   <script type="module" src="storage/kc-b2-prepared.js"></script>
   <script type="module" src="security/security-register.js"></script>
   <script type="module" src="security/version-scope-correction.js"></script>
