@@ -1,6 +1,7 @@
 import { SECURITY_CONTROLS, createSecurityFlow, evaluateSecurityFlow, securityGapSummary } from './security-model.js';
 import { verifyHttpsEndpoint, databaseSecurityEvidence, certificateCapability } from './security-verifier.js';
 import { createSecurityAgentTarget, validateSecurityAgentObservation, evaluateAgentTlsObservation, SECURITY_AGENT_INVARIANTS } from './security-agent-contract.js';
+import { SECURITY_CODE_EVIDENCE, codeEvidenceSummary } from './code-evidence-registry.js';
 
 const ENDPOINTS={
   supabaseCore:'https://ptblnpiroqftcvlsrhac.supabase.co/functions/v1/kicc-telemetry',
@@ -18,7 +19,8 @@ const FLOWS=[
   createSecurityFlow({id:'secflow-kicc-supabase-core',source:'KICC',target:'Supabase · KC Core Telemetry',dataClass:'Safe Telemetry',transport:'HTTPS',payloadEncryption:'TLS_ONLY',auth:'JWT',keySource:'SERVER_SIDE',trust:'VERIFIED_CONFIG',notes:'HTTPS/JWT im Bridge-Vertrag konfiguriert; automatische HTTPS-/Auth-Prüfung aktiv.'}),
   createSecurityFlow({id:'secflow-kicc-supabase-futura',source:'KICC',target:'Supabase · Future Academy Telemetry',dataClass:'Safe Telemetry',transport:'HTTPS',payloadEncryption:'TLS_ONLY',auth:'JWT',keySource:'SERVER_SIDE',trust:'VERIFIED_CONFIG',notes:'HTTPS/JWT im Bridge-Vertrag konfiguriert; automatische HTTPS-/Auth-Prüfung aktiv.'}),
   createSecurityFlow({id:'secflow-program-communication',source:'KC-Programme',target:'KC Communication',dataClass:'Meldungen/Events',transport:'UNKNOWN',payloadEncryption:'UNKNOWN',auth:'UNKNOWN',keySource:'UNKNOWN',notes:'Provider- und programmübergreifender Kommunikationspfad; Live-Security noch zu inventarisieren.'}),
-  createSecurityFlow({id:'secflow-kasse-manager',source:'KC Marktkasse',target:'PC Manager / KC Core',dataClass:'Verkauf/Stammdaten/Status',transport:'UNKNOWN',payloadEncryption:'UNKNOWN',auth:'UNKNOWN',keySource:'UNKNOWN',notes:'Offline/Netzwerkpfade getrennt messen; keine Annahme über Verschlüsselung.'})
+  createSecurityFlow({id:'secflow-kasse-local-storage',source:'KC Marktkasse',target:'Browser localStorage',dataClass:'Transaktionen / Outbox / ACK / Konflikte',transport:'LOCAL',payloadEncryption:'UNENCRYPTED',auth:'LOCAL_SESSION',keySource:'NONE',trust:'OBSERVED_CODE',notes:'Im aktuellen Resilience-Modul werden produktive Transaktions-/Outbox-Strukturen als JSON in localStorage geschrieben. Security-Baseline kennzeichnet Plaintext-localStorage als Legacy; Migration erst nach Restore/Offline/Rollback-Tests.'}),
+  createSecurityFlow({id:'secflow-kasse-failover-gateway',source:'KC Marktkasse',target:'KC Failover Gateway',dataClass:'Transaktionen / Reconcile / Restore',transport:'HTTPS',payloadEncryption:'TLS_ONLY',auth:'UNKNOWN',keySource:'UNKNOWN',trust:'OBSERVED_CODE',notes:'Clientcode nutzt HTTPS und x-kc-client. Gateway-Sicherheitsbaseline verlangt per-device Auth und erklärt Client-Label ausdrücklich nicht zur Authentifizierung. Laufzeitnachweis für Signatur/MAC fehlt noch.'})
 ];
 
 function cls(status){return({SECURE:'healthy',WARNING:'degraded',INSECURE:'failed'})[status]||'unknown';}
@@ -121,9 +123,9 @@ function renderMatrix(){
 
 function renderSummary(){
   const host=document.getElementById('securityGapSummary');if(!host)return;
-  const s=securityGapSummary(FLOWS),cert=certificateCapability(),actions=securityActions();
+  const s=securityGapSummary(FLOWS),cert=certificateCapability(),actions=securityActions(),code=codeEvidenceSummary();
   const agentHtml=AGENT_TARGETS.map(t=>{const e=evaluateAgentTlsObservation(t.observation);return `<div><strong>${t.name}</strong><span>Agent: ${e.status} · ${e.issues.join(' · ')||'TLS/Zertifikat vollständig verifiziert'}</span></div>`;}).join('');
-  host.innerHTML=`<div class="security-kpis"><div><small>Sicher</small><strong>${s.secure}</strong></div><div><small>Warnung</small><strong>${s.warning}</strong></div><div><small>Unsicher</small><strong>${s.insecure}</strong></div><div><small>Handlungsbedarf</small><strong>${actions.length}</strong></div></div><div class="security-action-list">${s.rows.filter(x=>x.status!=='SECURE').map(x=>`<div><strong>${x.flow.source} → ${x.flow.target}</strong><span>${x.issues.map(i=>i.message).join(' · ')}</span></div>`).join('')||'<div>Kein Security-Handlungsbedarf.</div>'}<div><strong>Zertifikats-Tiefenprüfung</strong><span>${cert.browserCanReadCertificateMetadata?'verfügbar':'Security-Agent vorbereitet; Ablaufdatum, Issuer, Fingerprint, TLS-Version und Cipher werden erst mit OBSERVED_AGENT grün'}</span></div>${agentHtml}</div>`;
+  host.innerHTML=`<div class="security-kpis"><div><small>Sicher</small><strong>${s.secure}</strong></div><div><small>Warnung</small><strong>${s.warning}</strong></div><div><small>Unsicher</small><strong>${s.insecure}</strong></div><div><small>Handlungsbedarf</small><strong>${actions.length}</strong></div></div><div class="security-action-list"><div><strong>Code-Nachweise</strong><span>${code.total} Belege · ${code.architectureBaselines} Baselines · ${code.codeObservations} Runtime-Codebeobachtung</span></div>${s.rows.filter(x=>x.status!=='SECURE').map(x=>`<div><strong>${x.flow.source} → ${x.flow.target}</strong><span>${x.issues.map(i=>i.message).join(' · ')}</span></div>`).join('')||'<div>Kein Security-Handlungsbedarf.</div>'}<div><strong>Zertifikats-Tiefenprüfung</strong><span>${cert.browserCanReadCertificateMetadata?'verfügbar':'Security-Agent vorbereitet; Ablaufdatum, Issuer, Fingerprint, TLS-Version und Cipher werden erst mit OBSERVED_AGENT grün'}</span></div>${agentHtml}</div>`;
 }
 
 function ingest(flowId,observation){
@@ -133,5 +135,5 @@ function ingest(flowId,observation){
   render();return flow;
 }
 function render(){renderControls();renderTopology();renderMatrix();renderSummary();}
-window.KICC_SECURITY={flows:FLOWS,controls:SECURITY_CONTROLS,agentTargets:AGENT_TARGETS,agentInvariants:SECURITY_AGENT_INVARIANTS,ingest,ingestAgentObservation,verifyAutomatic,actions:securityActions,summary:()=>securityGapSummary(FLOWS),render,certificateCapability};
+window.KICC_SECURITY={flows:FLOWS,controls:SECURITY_CONTROLS,codeEvidence:SECURITY_CODE_EVIDENCE,agentTargets:AGENT_TARGETS,agentInvariants:SECURITY_AGENT_INVARIANTS,ingest,ingestAgentObservation,verifyAutomatic,actions:securityActions,summary:()=>securityGapSummary(FLOWS),render,certificateCapability};
 render();verifyAutomatic();setInterval(verifyAutomatic,5*60*1000);setInterval(()=>{updateDatabaseControls();render();},30000);
