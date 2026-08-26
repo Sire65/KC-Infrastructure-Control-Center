@@ -4,13 +4,26 @@ import { indexedDbLocalAdapter } from './adapters/indexeddb-local-adapter.js';
 import { createTelemetryBridgeAdapter } from './adapters/telemetry-bridge-adapter.js';
 import { makeDatabaseResource, summarizeDatabase } from './database/database-model.js';
 
-const VERSION='0.1.0-dev.5';
+const VERSION='0.1.0-dev.6';
 const MAX_AGE_MS=90_000;
+
+const BRIDGE_ENDPOINTS={
+  'db-supabase-core':'https://ptblnpiroqftcvlsrhac.supabase.co/functions/v1/kicc-telemetry',
+  'db-supabase-futura':'https://iddudrxuihdodnvejxcp.supabase.co/functions/v1/kicc-telemetry'
+};
+
+async function bridgeAuthResolver(target){
+  if(!target.id.startsWith('db-supabase-')) return null;
+  if(typeof globalThis.KICC_AUTH?.getSupabaseBridgeAuth==='function') return await globalThis.KICC_AUTH.getSupabaseBridgeAuth(target.id);
+  return null;
+}
+
 const adapters=new AdapterRegistry();
 adapters.register(githubRepositoryAdapter);
 adapters.register(indexedDbLocalAdapter);
 adapters.register(createTelemetryBridgeAdapter({
-  endpointResolver(target){return globalThis.KICC_BRIDGE_ENDPOINTS?.[target.id]||null;}
+  endpointResolver(target){return BRIDGE_ENDPOINTS[target.id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[target.id]||null;},
+  authResolver:bridgeAuthResolver
 }));
 
 const registry=[
@@ -20,10 +33,12 @@ const registry=[
   {id:'repo-futura',type:'REPOSITORY',name:'KC Futura Academy',role:'CURRENT candidate',status:'UNKNOWN',measuredAt:null,trust:'UNVERIFIED',adapterId:'github-repository',owner:'Sire65',repo:'KC-Futura-Academy'}
 ];
 
+const remoteCaps=['health','latency','reads','writes','storage','schema','policies','integrity','drift','sync','backup','restore','failover','migration'];
 const databases=[
   makeDatabaseResource({id:'db-indexeddb-kicc',name:'IndexedDB · KICC Browser-Ursprung',provider:'IndexedDB',role:'LOCAL',scope:'current-origin',adapterId:'indexeddb-local',capabilities:['health','latency','schema','storage']}),
-  makeDatabaseResource({id:'db-supabase',name:'Supabase · KC Cloud',provider:'Supabase',role:'UNVERIFIED',scope:'remote',adapterId:'telemetry-bridge',capabilities:['health','latency','reads','writes','storage','schema','policies','integrity','drift','sync','backup','restore','failover','migration']}),
-  makeDatabaseResource({id:'db-neon',name:'Neon · KC Cloud',provider:'Neon',role:'UNVERIFIED',scope:'remote',adapterId:'telemetry-bridge',capabilities:['health','latency','reads','writes','storage','schema','policies','integrity','drift','sync','backup','restore','failover','migration']})
+  makeDatabaseResource({id:'db-supabase-core',name:'Supabase · KC Core · London',provider:'Supabase',role:'PRIMARY/MIRROR zu verifizieren',scope:'eu-west-2',adapterId:'telemetry-bridge',capabilities:remoteCaps}),
+  makeDatabaseResource({id:'db-supabase-futura',name:'Supabase · Future Academy · Frankfurt',provider:'Supabase',role:'PRIMARY zu verifizieren',scope:'eu-central-1',adapterId:'telemetry-bridge',capabilities:remoteCaps}),
+  makeDatabaseResource({id:'db-neon-core-mirror',name:'Neon · KC Core Mirror · London',provider:'Neon',role:'MIRROR/FAILOVER zu verifizieren',scope:'aws-eu-west-2',adapterId:'telemetry-bridge',capabilities:remoteCaps})
 ];
 
 const allResources=()=>[...registry,...databases];
@@ -32,14 +47,15 @@ function cssStatus(status){return({HEALTHY:'healthy',ONLINE:'healthy',DEGRADED:'
 function overallStatus(items){const observed=items.filter(x=>isFresh(x,MAX_AGE_MS));if(!observed.length)return'UNKNOWN';const states=observed.map(normalizeStatus);if(states.some(s=>s==='FAILED'||s==='OFFLINE'))return'FAILED';if(states.some(s=>s==='DEGRADED'))return'DEGRADED';return states.every(s=>s==='HEALTHY'||s==='ONLINE')?'HEALTHY':'UNKNOWN'}
 function formatAge(ts){if(!ts)return'nicht gemessen';const sec=Math.max(0,Math.round((Date.now()-new Date(ts).getTime())/1000));return sec<60?`${sec}s alt`:`${Math.round(sec/60)}min alt`}
 function capabilityBadge(db,cap){const state=summarizeDatabase(db).capabilities.find(x=>x.capability===cap)?.state||'UNSUPPORTED';return `<span class="cap ${state.toLowerCase()}">${cap}: ${state}</span>`}
+function bridgeEndpointFor(db){return BRIDGE_ENDPOINTS[db.id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[db.id]||null;}
 
 function renderDatabases(){
   document.getElementById('databaseCards').innerHTML=databases.map(db=>{
     const status=normalizeStatus(db),cls=cssStatus(status);
     const caps=['health','schema','policies','sync','backup','failover'].map(cap=>capabilityBadge(db,cap)).join('');
     const latency=Number.isFinite(db.latencyMs)&&isFresh(db,MAX_AGE_MS)?`${db.latencyMs} ms`:'—';
-    const bridge=db.adapterId==='telemetry-bridge'?(globalThis.KICC_BRIDGE_ENDPOINTS?.[db.id]?'Bridge konfiguriert':'Bridge nicht konfiguriert'):'lokale Messung';
-    return `<article class="db-card"><div class="db-title"><span class="status-chip ${cls}"><span class="dot"></span>${status}</span><strong>${db.name}</strong></div><div class="db-meta"><span>Rolle: ${db.role}</span><span>Latenz: ${latency}</span><span>Messung: ${formatAge(db.measuredAt)}</span><span>${bridge}</span></div><div class="caps">${caps}</div><div class="db-note">${db.message||'Noch keine sichere Live-Messung vorhanden.'}</div></article>`;
+    const bridge=db.adapterId==='telemetry-bridge'?(bridgeEndpointFor(db)?'Bridge bereit':'Bridge noch nicht angebunden'):'lokale Messung';
+    return `<article class="db-card"><div class="db-title"><span class="status-chip ${cls}"><span class="dot"></span>${status}</span><strong>${db.name}</strong></div><div class="db-meta"><span>Rolle: ${db.role}</span><span>Region: ${db.scope}</span><span>Latenz: ${latency}</span><span>Messung: ${formatAge(db.measuredAt)}</span><span>${bridge}</span></div><div class="caps">${caps}</div><div class="db-note">${db.message||'Noch keine sichere Live-Messung vorhanden.'}</div></article>`;
   }).join('');
 }
 
@@ -54,8 +70,8 @@ function render(){
   const unknown=resources.filter(x=>normalizeStatus(x)==='UNKNOWN').length;
   const latencies=resources.filter(x=>Number.isFinite(x.latencyMs)&&isFresh(x,MAX_AGE_MS)).map(x=>x.latencyMs);
   const avgLatency=latencies.length?Math.round(latencies.reduce((a,b)=>a+b,0)/latencies.length):'—';
-  const bridgeCount=databases.filter(x=>x.adapterId==='telemetry-bridge'&&globalThis.KICC_BRIDGE_ENDPOINTS?.[x.id]).length;
-  const kpis=[['Bestätigt gesund',healthy,'Komponenten'],['Störungen',failed,'aktuell'],['Unbekannt',unknown,'nicht bestätigt'],['DB Bridges',bridgeCount,'von 2 remote'],['Latenz',avgLatency,latencies.length?'ms Ø':'keine Messung'],['Telemetrie',valid.length,'aktuell']];
+  const bridgeCount=databases.filter(x=>x.adapterId==='telemetry-bridge'&&bridgeEndpointFor(x)).length;
+  const kpis=[['Bestätigt gesund',healthy,'Komponenten'],['Störungen',failed,'aktuell'],['Unbekannt',unknown,'nicht bestätigt'],['DB Bridges',bridgeCount,'remote bereit'],['Latenz',avgLatency,latencies.length?'ms Ø':'keine Messung'],['Telemetrie',valid.length,'aktuell']];
   document.getElementById('kpis').innerHTML=kpis.map(([l,v,u])=>`<div class="kpi"><small>${l}</small><strong>${v}</strong><em>${u}</em></div>`).join('');
   document.getElementById('registryRows').innerHTML=resources.map(item=>{const status=normalizeStatus(item),cls=cssStatus(status);return`<tr><td><span class="status-chip ${cls}"><span class="dot"></span>${status}</span></td><td>${item.type}</td><td>${item.name}</td><td>${item.role}</td><td>${formatAge(item.measuredAt)}</td><td>${item.trust}</td></tr>`}).join('');
   renderDatabases();
@@ -67,7 +83,7 @@ async function runDiscovery(){
   render();
 }
 
-window.KICC={version:VERSION,registry,databases,adapters:adapters.list(),runDiscovery,databaseSummary:()=>databases.map(summarizeDatabase),bridgeConfigured:id=>Boolean(globalThis.KICC_BRIDGE_ENDPOINTS?.[id]),ingestObservation(observation){
+window.KICC={version:VERSION,registry,databases,adapters:adapters.list(),runDiscovery,databaseSummary:()=>databases.map(summarizeDatabase),bridgeConfigured:id=>Boolean(BRIDGE_ENDPOINTS[id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[id]),ingestObservation(observation){
   const item=allResources().find(x=>x.id===observation.targetId);if(!item)throw new Error('Unknown registry target');Object.assign(item,observation,{measuredAt:observation.measuredAt||new Date().toISOString(),trust:observation.trust||'OBSERVED'});render();
 }};
 
