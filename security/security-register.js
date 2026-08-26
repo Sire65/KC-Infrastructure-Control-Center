@@ -1,10 +1,16 @@
 import { SECURITY_CONTROLS, createSecurityFlow, evaluateSecurityFlow, securityGapSummary } from './security-model.js';
 import { verifyHttpsEndpoint, databaseSecurityEvidence, certificateCapability } from './security-verifier.js';
+import { createSecurityAgentTarget, validateSecurityAgentObservation, evaluateAgentTlsObservation, SECURITY_AGENT_INVARIANTS } from './security-agent-contract.js';
 
 const ENDPOINTS={
   supabaseCore:'https://ptblnpiroqftcvlsrhac.supabase.co/functions/v1/kicc-telemetry',
   supabaseFutura:'https://iddudrxuihdodnvejxcp.supabase.co/functions/v1/kicc-telemetry'
 };
+
+const AGENT_TARGETS=[
+  createSecurityAgentTarget({id:'agent-target-supabase-core',name:'Supabase · KC Core Telemetry',url:ENDPOINTS.supabaseCore,critical:true}),
+  createSecurityAgentTarget({id:'agent-target-supabase-futura',name:'Supabase · Future Academy Telemetry',url:ENDPOINTS.supabaseFutura,critical:true})
+].map(x=>({...x,status:'UNKNOWN',observation:null}));
 
 const FLOWS=[
   createSecurityFlow({id:'secflow-indexeddb-supabase',source:'IndexedDB · KC-Clients',target:'Supabase · KC Core',dataClass:'KC-Fachdaten',transport:'UNKNOWN',payloadEncryption:'UNKNOWN',auth:'UNKNOWN',keySource:'UNKNOWN',notes:'Soll: verschlüsselter Transport und verschlüsselte Payload; konkrete Laufzeitbeobachtung noch anzubinden.'}),
@@ -74,6 +80,30 @@ async function verifyAutomatic(){
   render();
 }
 
+function securityActions(){
+  const gaps=securityGapSummary(FLOWS).rows.filter(x=>x.status!=='SECURE').map(x=>({
+    severity:x.status==='INSECURE'?'RED':'YELLOW',
+    source:'SECURITY_FLOW',
+    id:x.flow.id,
+    title:`${x.flow.source} → ${x.flow.target}`,
+    detail:x.issues.map(i=>i.message).join(' · ')||'Security-Nachweis unvollständig'
+  }));
+  const agent=AGENT_TARGETS.flatMap(t=>{
+    const e=evaluateAgentTlsObservation(t.observation);
+    if(e.status==='SECURE')return[];
+    return [{severity:e.status==='INSECURE'?'RED':'YELLOW',source:'SECURITY_AGENT',id:t.id,title:t.name,detail:e.issues.join(' · ')}];
+  });
+  return [...gaps,...agent];
+}
+
+function ingestAgentObservation(targetId,payload){
+  const target=AGENT_TARGETS.find(x=>x.id===targetId);if(!target)throw new Error('Unknown security agent target');
+  const obs=validateSecurityAgentObservation(payload,targetId);
+  target.observation=obs;
+  target.status=evaluateAgentTlsObservation(obs).status;
+  render();return obs;
+}
+
 function renderControls(){
   const host=document.getElementById('securityControls');if(!host)return;
   host.innerHTML=SECURITY_CONTROLS.map(c=>`<article class="security-control"><div><strong>${c.name}</strong><small>${c.category}</small></div><span class="status-chip ${cls(c.status==='SECURE'?'SECURE':c.status==='INSECURE'?'INSECURE':'WARNING')}"><span class="dot"></span>${c.status}</span><p>Soll: ${c.expected}</p><p>Nachweis: ${c.evidence||'noch keiner'}</p></article>`).join('');
@@ -91,8 +121,9 @@ function renderMatrix(){
 
 function renderSummary(){
   const host=document.getElementById('securityGapSummary');if(!host)return;
-  const s=securityGapSummary(FLOWS),cert=certificateCapability();
-  host.innerHTML=`<div class="security-kpis"><div><small>Sicher</small><strong>${s.secure}</strong></div><div><small>Warnung</small><strong>${s.warning}</strong></div><div><small>Unsicher</small><strong>${s.insecure}</strong></div><div><small>Mit UNKNOWN</small><strong>${s.unknown}</strong></div></div><div class="security-action-list">${s.rows.filter(x=>x.status!=='SECURE').map(x=>`<div><strong>${x.flow.source} → ${x.flow.target}</strong><span>${x.issues.map(i=>i.message).join(' · ')}</span></div>`).join('')||'<div>Kein Security-Handlungsbedarf.</div>'}<div><strong>Zertifikats-Tiefenprüfung</strong><span>${cert.browserCanReadCertificateMetadata?'verfügbar':'Windows-Agent/Server-Prüfung erforderlich für Ablaufdatum, Issuer, Fingerprint, TLS-Version und Cipher'}</span></div></div>`;
+  const s=securityGapSummary(FLOWS),cert=certificateCapability(),actions=securityActions();
+  const agentHtml=AGENT_TARGETS.map(t=>{const e=evaluateAgentTlsObservation(t.observation);return `<div><strong>${t.name}</strong><span>Agent: ${e.status} · ${e.issues.join(' · ')||'TLS/Zertifikat vollständig verifiziert'}</span></div>`;}).join('');
+  host.innerHTML=`<div class="security-kpis"><div><small>Sicher</small><strong>${s.secure}</strong></div><div><small>Warnung</small><strong>${s.warning}</strong></div><div><small>Unsicher</small><strong>${s.insecure}</strong></div><div><small>Handlungsbedarf</small><strong>${actions.length}</strong></div></div><div class="security-action-list">${s.rows.filter(x=>x.status!=='SECURE').map(x=>`<div><strong>${x.flow.source} → ${x.flow.target}</strong><span>${x.issues.map(i=>i.message).join(' · ')}</span></div>`).join('')||'<div>Kein Security-Handlungsbedarf.</div>'}<div><strong>Zertifikats-Tiefenprüfung</strong><span>${cert.browserCanReadCertificateMetadata?'verfügbar':'Security-Agent vorbereitet; Ablaufdatum, Issuer, Fingerprint, TLS-Version und Cipher werden erst mit OBSERVED_AGENT grün'}</span></div>${agentHtml}</div>`;
 }
 
 function ingest(flowId,observation){
@@ -102,5 +133,5 @@ function ingest(flowId,observation){
   render();return flow;
 }
 function render(){renderControls();renderTopology();renderMatrix();renderSummary();}
-window.KICC_SECURITY={flows:FLOWS,controls:SECURITY_CONTROLS,ingest,verifyAutomatic,summary:()=>securityGapSummary(FLOWS),render,certificateCapability};
+window.KICC_SECURITY={flows:FLOWS,controls:SECURITY_CONTROLS,agentTargets:AGENT_TARGETS,agentInvariants:SECURITY_AGENT_INVARIANTS,ingest,ingestAgentObservation,verifyAutomatic,actions:securityActions,summary:()=>securityGapSummary(FLOWS),render,certificateCapability};
 render();verifyAutomatic();setInterval(verifyAutomatic,5*60*1000);setInterval(()=>{updateDatabaseControls();render();},30000);
