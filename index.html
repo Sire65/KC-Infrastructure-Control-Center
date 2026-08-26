@@ -11,7 +11,7 @@
 <body>
   <header class="topbar">
     <div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div>
-    <div class="version" id="version">0.1.0-dev.9</div>
+    <div class="version" id="version">0.1.0-dev.10</div>
   </header>
   <main class="shell">
     <section class="hero">
@@ -35,6 +35,11 @@
       <div id="regionMigrationCards" class="database-grid"></div>
     </section>
 
+    <section class="panel db-panel">
+      <div class="panel-head"><h2>Migration-Center</h2><span>Recovery · Kopie · Delta-Sync · Verifikation · Cutover · Rollback</span></div>
+      <div id="migrationCenter" class="migration-grid"></div>
+    </section>
+
     <section class="panel-grid">
       <article class="panel wide"><div class="panel-head"><h2>Live-Leitwarte</h2><span>Nur reale Telemetrie</span></div><div id="topology" class="topology empty">Datenfluss-Topologie folgt nach Anschluss echter Flow-Telemetrie.</div></article>
       <article class="panel"><div class="panel-head"><h2>Handlungsbedarf</h2><span id="approvalCount">0</span></div><div id="actions" class="empty-list">Keine freigegebenen Aktionen vorhanden.</div></article>
@@ -44,5 +49,6 @@
   <script type="module" src="app.js"></script>
   <script type="module" src="storage/storage-monitor.js"></script>
   <script type="module" src="migration/region-migration-ui.js"></script>
+  <script type="module" src="migration/migration-center.js"></script>
 </body>
 </html>
