@@ -27,12 +27,14 @@ async function authFor(targetId){
   try{return await globalThis.KICC_AUTH.getSupabaseBridgeAuth(targetId)||{};}catch{return{};}
 }
 
-function applyEndpointEvidence(flow,result,configuredAuth='JWT'){
-  flow.transport=result.transport||flow.transport;
-  flow.auth=result.authProtected?configuredAuth:flow.auth;
-  flow.lastVerifiedAt=result.measuredAt||new Date().toISOString();
-  flow.trust=result.trust||'OBSERVED_ATTEMPT';
-  flow.notes=result.evidence||flow.notes;
+function applyEndpointEvidence(flow,unauthResult,authResult,configuredAuth='JWT'){
+  const best=authResult?.ok?authResult:unauthResult;
+  flow.transport=best?.transport||flow.transport;
+  flow.auth=unauthResult?.authProtected?configuredAuth:'UNKNOWN';
+  flow.lastVerifiedAt=best?.measuredAt||new Date().toISOString();
+  flow.trust=best?.trust||'OBSERVED_ATTEMPT';
+  const access=authResult?.httpStatus===200?'Autorisierter Zugriff erfolgreich':authResult?.evidence||'Kein autorisierter Zugriff bestätigt';
+  flow.notes=`${unauthResult?.evidence||'Unauth-Prüfung fehlt'} · ${access}`;
 }
 
 function updateDatabaseControls(){
@@ -45,22 +47,28 @@ function updateDatabaseControls(){
 }
 
 async function verifyAutomatic(){
-  const coreAuth=await authFor('db-supabase-core');
-  const futuraAuth=await authFor('db-supabase-futura');
-  const [core,futura]=await Promise.all([
+  const [coreAuth,futuraAuth]=await Promise.all([authFor('db-supabase-core'),authFor('db-supabase-futura')]);
+  const [coreUnauth,coreWithAuth,futuraUnauth,futuraWithAuth]=await Promise.all([
+    verifyHttpsEndpoint(ENDPOINTS.supabaseCore),
     verifyHttpsEndpoint(ENDPOINTS.supabaseCore,coreAuth),
+    verifyHttpsEndpoint(ENDPOINTS.supabaseFutura),
     verifyHttpsEndpoint(ENDPOINTS.supabaseFutura,futuraAuth)
   ]);
-  applyEndpointEvidence(FLOWS.find(x=>x.id==='secflow-kicc-supabase-core'),core);
-  applyEndpointEvidence(FLOWS.find(x=>x.id==='secflow-kicc-supabase-futura'),futura);
 
-  const results=[core,futura];
-  if(results.every(x=>x.ok&&x.transport==='HTTPS'))setControl('sec-transport-tls','SECURE','KICC-Telemetrie-Endpunkte über HTTPS/TLS erreichbar');
-  else if(results.some(x=>x.status==='INSECURE'))setControl('sec-transport-tls','INSECURE',results.map(x=>x.evidence).join(' · '));
-  else setControl('sec-transport-tls','WARNING',results.map(x=>x.evidence).join(' · '));
+  applyEndpointEvidence(FLOWS.find(x=>x.id==='secflow-kicc-supabase-core'),coreUnauth,coreWithAuth);
+  applyEndpointEvidence(FLOWS.find(x=>x.id==='secflow-kicc-supabase-futura'),futuraUnauth,futuraWithAuth);
 
-  if(results.every(x=>x.authProtected||x.httpStatus===200))setControl('sec-auth-jwt','SECURE','Telemetry-Endpunkte reagieren geschützt bzw. mit gültiger Authentifizierung');
-  else setControl('sec-auth-jwt','WARNING','Authentifizierung noch nicht auf allen Telemetrie-Endpunkten bestätigt');
+  const tlsResults=[coreUnauth,futuraUnauth];
+  if(tlsResults.every(x=>x.ok&&x.transport==='HTTPS'))setControl('sec-transport-tls','SECURE','Beide KICC-Telemetrie-Endpunkte über HTTPS/TLS erreichbar');
+  else if(tlsResults.some(x=>x.status==='INSECURE'))setControl('sec-transport-tls','INSECURE',tlsResults.map(x=>x.evidence).join(' · '));
+  else setControl('sec-transport-tls','WARNING',tlsResults.map(x=>x.evidence).join(' · '));
+
+  const authEnforced=coreUnauth.authProtected===true&&futuraUnauth.authProtected===true;
+  const suppliedAuth=Boolean(coreAuth?.authorization)&&Boolean(futuraAuth?.authorization);
+  const authenticatedWorks=!suppliedAuth||(coreWithAuth.httpStatus===200&&futuraWithAuth.httpStatus===200);
+  if(authEnforced&&authenticatedWorks)setControl('sec-auth-jwt','SECURE',suppliedAuth?'JWT wird ohne Token erzwungen und autorisierter Zugriff funktioniert':'JWT wird ohne Token auf beiden Endpunkten erzwungen; aktueller Benutzer-Token noch nicht verfügbar');
+  else if(!authEnforced)setControl('sec-auth-jwt','INSECURE','Mindestens ein Telemetrie-Endpunkt erzwingt ohne Token kein 401/403');
+  else setControl('sec-auth-jwt','WARNING','JWT wird erzwungen, autorisierter Zugriff konnte aber nicht bestätigt werden');
 
   updateDatabaseControls();
   render();
