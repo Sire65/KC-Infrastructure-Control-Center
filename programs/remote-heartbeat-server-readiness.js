@@ -18,7 +18,7 @@ Object.assign(cfg,{
   endpoint:cfg.endpoint||'https://ptblnpiroqftcvlsrhac.supabase.co/functions/v1/kicc-program-heartbeat',
   authConfigured:true,
   storeConfigured:true,
-  allowedPrograms:['kc-dp2','kc-communication'],
+  allowedPrograms:['kc-dp2','kc-communication','kicc'],
   replayProtection:true,
   rateLimit:true,
   lastProbeOk:cfg.lastProbeOk??null,
