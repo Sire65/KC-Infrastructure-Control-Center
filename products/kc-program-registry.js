@@ -1,4 +1,5 @@
 import { makeKcProduct, evaluateProductHealth, dependencySummary } from './kc-product-model.js';
+import { impactedProducts, buildImpactMatrix, summarizeImpact } from './impact-analysis.js';
 
 const PROGRAMS=[
   makeKcProduct({id:'kc-dp2',name:'KC DP2',repo:'dp3',kind:'DIENSTPLAN',critical:true,dependencies:{databases:['db-supabase-core'],communication:['kc-communication'],failover:['flow-supabase-neon-core']}}),
@@ -41,5 +42,5 @@ function render(){
 }
 
 async function refresh(){await Promise.all(PROGRAMS.map(probeRepo));render();}
-window.KICC_PROGRAMS={programs:PROGRAMS,refresh,render,applyRuntimeObservation,summary:()=>PROGRAMS.map(p=>({...p,health:evaluateProductHealth(p),dependencies:dependencySummary(p)}))};
+window.KICC_PROGRAMS={programs:PROGRAMS,refresh,render,applyRuntimeObservation,impactedBy:resourceId=>impactedProducts(PROGRAMS,resourceId),impact:resourceId=>summarizeImpact(PROGRAMS,resourceId),impactMatrix:()=>buildImpactMatrix(PROGRAMS),summary:()=>PROGRAMS.map(p=>({...p,health:evaluateProductHealth(p),dependencies:dependencySummary(p)}))};
 render();refresh();setInterval(refresh,10*60*1000);setInterval(render,30*1000);
