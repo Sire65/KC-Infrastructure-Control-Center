@@ -11,6 +11,8 @@ export async function runRuntimeSmoke(){
   out.push(check('BOOT_EXPLORER',Boolean(globalThis.KICC_EXPLORER),'Repository-Explorer geladen'));
   out.push(check('BOOT_GIT_BRIDGE_CLIENT',Boolean(globalThis.KICC_GIT_BRIDGE),'Git-Bridge-Client geladen'));
   out.push(check('BOOT_SELFTEST_UI',Boolean(globalThis.KICC_TEST_UI),'Explorer-/Bridge-Selbsttest geladen'));
+  out.push(check('BOOT_REPORT_TOOLS',Boolean(globalThis.KICC_REPORT_TOOLS),'Report-/Tabellen-Werkzeuge geladen'));
+  out.push(check('TABLE_ROW_LIMIT',globalThis.KICC_REPORT_TOOLS?.maxVisibleRows===50,'Große Tabellen auf 50 sichtbare Zeilen begrenzt'));
   out.push(check('INDEXEDDB_AVAILABLE','indexedDB' in globalThis,'IndexedDB im Browser verfügbar'));
 
   const domVersion=document.getElementById('version')?.textContent?.trim()||null;
