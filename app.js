@@ -8,7 +8,7 @@ import { evaluateSystemHealth, normalizedResourceStatus, resourceMaxAge } from '
 import { ProbeScheduler } from './runtime/probe-scheduler.js';
 import { DOMAIN, markDomain } from './scope/domain-model.js';
 
-const VERSION='0.1.0-dev.49';
+const VERSION='0.1.0-dev.50';
 const DEFAULT_MAX_AGE_MS=90_000;
 
 const BRIDGE_ENDPOINTS={
@@ -89,4 +89,4 @@ function render(){
 }
 async function runDiscovery({force=false,includePrivate=true}={}){const targets=(includePrivate?allProbeTargets():allResources()).filter(x=>x.adapterId),due=force?targets:scheduler.dueTargets(targets,adapters);await Promise.all(due.map(async target=>{scheduler.markAttempt(target.id);const obs=await adapters.probe(target.adapterId,target);Object.assign(target,obs);}));render();}
 window.KICC={version:VERSION,registry,databases,privateDatabases,failoverContext,adapters:adapters.list(),runDiscovery,currentFailoverState,failoverRules:failoverRules(),kcResources:allResources,privateResources:()=>[...privateDatabases],systemHealth:()=>evaluateSystemHealth(allResources(),{adapters,isFreshFn:isFresh,fallbackMs:DEFAULT_MAX_AGE_MS}),databaseSummary:()=>databases.map(summarizeDatabase),bridgeConfigured:id=>Boolean(BRIDGE_ENDPOINTS[id]||globalThis.KICC_BRIDGE_ENDPOINTS?.[id]),telemetry:()=>allProbeTargets().map(x=>({id:x.id,type:x.type,status:normalizeStatus(x),trust:x.trust,measuredAt:x.measuredAt,latencyMs:x.latencyMs??null,metrics:x.metrics||null})),markNeonPromoted(){if(failoverContext.mirrorReady!==true)throw new Error('Neon promotion blocked: mirror readiness not confirmed');failoverContext.neonPromoted=true;render();},setResyncProgress({syncLagMs=null,resyncComplete=false,verificationPassed=false,failbackApproved=false}={}){Object.assign(failoverContext,{syncLagMs,resyncComplete,verificationPassed,failbackApproved});render();},ingestObservation(observation){const item=allProbeTargets().find(x=>x.id===observation.targetId);if(!item)throw new Error('Unknown registry target');Object.assign(item,observation,{measuredAt:observation.measuredAt||new Date().toISOString(),trust:observation.trust||'UNVERIFIED'});render();}};
-render();runDiscovery({force:true});setInterval(()=>runDiscovery(),30_000);setInterval(render,15_000);if('serviceWorker'in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
+render();runDiscovery({force:true});setInterval(()=>runDiscovery(),30_000);setInterval(render,15_000);
