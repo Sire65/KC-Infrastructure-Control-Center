@@ -7,57 +7,108 @@
   <title>KICC – KC Infrastructure Control Center</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="navigation/leitstand-tabs.css" />
   <link rel="stylesheet" href="security/security-agent.css" />
   <link rel="stylesheet" href="explorer/repository-explorer.css" />
 </head>
 <body>
   <header class="topbar">
     <div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div>
-    <div class="version" id="version">0.1.0-dev.40</div>
+    <div class="version" id="version">0.1.0-dev.41</div>
   </header>
+  <nav class="leitstand-tabs" data-kicc-tablist role="tablist" aria-label="KICC Bereiche">
+    <button class="leitstand-tab active" data-kicc-tab="dashboard" role="tab">Dashboard</button>
+    <button class="leitstand-tab" data-kicc-tab="live" role="tab">Live-Leitwarte</button>
+    <button class="leitstand-tab" data-kicc-tab="programs" role="tab">Programme</button>
+    <button class="leitstand-tab" data-kicc-tab="explorer" role="tab">Git / Explorer</button>
+    <button class="leitstand-tab" data-kicc-tab="databases" role="tab">Datenbanken</button>
+    <button class="leitstand-tab" data-kicc-tab="security" role="tab">Security</button>
+    <button class="leitstand-tab" data-kicc-tab="backup" role="tab">Backup & Failover</button>
+    <button class="leitstand-tab" data-kicc-tab="migration" role="tab">Migration</button>
+    <button class="leitstand-tab" data-kicc-tab="tests" role="tab">TÜV & Tests</button>
+    <button class="leitstand-tab" data-kicc-tab="admin" role="tab">Administration</button>
+  </nav>
+
   <main class="shell">
     <section class="hero">
-      <div><p class="eyebrow">SPRINT 1 · DEV</p><h1>Zentrale KC-Leitwarte</h1><p>KC-Programme, Systemzustand, Datenbanken, Security, Spiegelung, Regionen und notwendige Aktionen auf einen Blick.</p></div>
+      <div><p class="eyebrow">SPRINT 1 · DEV</p><h1>Zentrale KC-Leitwarte</h1><p>KC-Programme, Systemzustand, Datenbanken, Security, Spiegelung und notwendige Aktionen auf einen Blick.</p></div>
       <div class="system-state unknown" id="systemState"><span class="led"></span><div><small>KC-Gesamtstatus</small><strong>UNBEKANNT</strong></div></div>
     </section>
     <section class="kpi-grid" id="kpis"></section>
 
-    <section class="panel db-panel"><div class="panel-head"><h2>Git / Datei-Explorer</h2><span>Repositories · Ordner · Dateien · Download · sichere Transfer-Vorbereitung</span></div><div id="repositoryExplorer"></div><div class="security-subhead"><strong>Repository-Berechtigungen</strong><span>Deny-by-default · vorbereitete Allowlist · Schreiben gesperrt</span></div><div id="repositoryPolicySummary"></div><div class="security-subhead"><strong>Explorer-/Bridge-Selbsttest</strong><span>Allowlist · Rollen · Recovery · Freigabe · Audit · Bridge-State</span></div><div id="explorerBridgeSelfTest"></div><div class="security-subhead"><strong>Bridge-Readiness</strong><span>Aktivierungsgates · letzter Prüfstand · produktive Freigabe</span></div><div id="explorerBridgeReadiness"></div><div class="security-subhead"><strong>Runtime-Smoke</strong><span>Boot · Module · DOM · IndexedDB · Schreibschutz</span></div><div id="runtimeSmoke"></div></section>
-    <section class="panel db-panel"><div class="panel-head"><h2>KC-Programme</h2><span>Repo · Deployment · Version · Abhängigkeiten · Health</span></div><div id="kcProgramCards" class="database-grid"></div></section>
-    <section class="panel db-panel"><div class="panel-head"><h2>KC-Datenbank-Leitwarte</h2><span>Read-only · reale Messung vor Grün</span></div><div id="databaseCards" class="database-grid"></div></section>
-
-    <section class="panel db-panel security-panel">
-      <div class="panel-head"><h2>Security</h2><span>Verschlüsselung · Auth · Schlüssel · Gap-Analyse · Agent</span></div>
-      <div id="securityGapSummary" class="security-summary"></div>
-      <div class="security-subhead"><strong>Sicherheitsmaßnahmen</strong><span>UNKNOWN bleibt UNKNOWN bis verifiziert</span></div>
-      <div id="securityControls" class="security-controls"></div>
-      <div class="security-subhead"><strong>Security-Agent</strong><span>read-only · TLS · Zertifikat · DNS · Endpoint</span></div>
-      <div id="securityAgentCards" class="security-agent-grid"></div>
-      <div class="security-subhead"><strong>Versions-/Build-Sicherheitsnachweise</strong><span>Legacy · Kandidat · produktive Installation strikt getrennt</span></div>
-      <div id="securityVersionEvidence" class="security-summary"></div>
-      <div class="security-subhead"><strong>Runtime-Security-Attestation</strong><span>echter Build · Speicher · Verschlüsselung · Schlüsselversion · Frische</span></div>
-      <div id="runtimeSecurityAttestations" class="security-summary"></div>
-      <div class="security-subhead"><strong>Verschlüsselte Lokaldaten-Migration</strong><span>Legacy Marktkasse · parallel · Recovery · Rollback · getrennte Freigaben</span></div>
-      <div id="localSecurityMigration" class="migration-grid"></div>
-      <div class="security-subhead"><strong>Security-Topologie der Datenflüsse</strong><span>Transport- und Payload-Schutz getrennt</span></div>
-      <div id="securityTopology" class="security-topology"></div>
-      <div class="security-subhead"><strong>Security-Matrix</strong><span>Quelle · Ziel · Verfahren · Nachweis · Handlungsbedarf</span></div>
-      <div class="table-wrap"><table class="security-table"><thead><tr><th>Status</th><th>Quelle</th><th>Ziel</th><th>Datenklasse</th><th>Transport</th><th>Payload</th><th>Auth</th><th>Schlüssel</th><th>Verifiziert</th><th>Handlungsbedarf</th></tr></thead><tbody id="securityMatrixRows"></tbody></table></div>
+    <section class="tab-panel active" data-kicc-panel="dashboard" role="tabpanel">
+      <div class="tab-intro"><div><h2>Dashboard</h2><p>Nur Überblick, Abweichungen und Handlungsbedarf. Details liegen in den Fachregistern.</p></div><span class="tab-badge">Leitstand kompakt</span></div>
+      <div class="dashboard-grid">
+        <article class="panel"><div class="panel-head"><h2>Live-Topologie</h2><span>KC · reale Telemetrie</span></div><div id="topology" class="topology empty">Datenfluss-Topologie folgt nach Anschluss echter Flow-Telemetrie.</div></article>
+        <article class="panel"><div class="panel-head"><h2>Handlungsbedarf</h2><span id="approvalCount">0</span></div><div id="actions" class="empty-list">Keine freigegebenen Aktionen vorhanden.</div></article>
+      </div>
     </section>
 
-    <section class="panel db-panel"><div class="panel-head"><h2>Mirror & Failover-Bereitschaft</h2><span>Supabase ↔ Neon · autoritative Sync-Telemetrie</span></div><div id="mirrorHealth" class="mirror-host"></div></section>
-    <section class="panel db-panel"><div class="panel-head"><h2>Region & Datenresidenz</h2><span>Deutschland bevorzugt · kontrollierter Umzug</span></div><div id="regionMigrationCards" class="database-grid"></div></section>
-    <section class="panel db-panel"><div class="panel-head"><h2>Migration-Center</h2><span>Recovery · Kopie · Delta-Sync · Verifikation · Cutover · Rollback</span></div><div id="migrationCenter" class="migration-grid"></div></section>
-
-    <section class="panel-grid">
-      <article class="panel wide"><div class="panel-head"><h2>Live-Leitwarte</h2><span>Nur KC · nur reale Telemetrie</span></div><div id="topology" class="topology empty">Datenfluss-Topologie folgt nach Anschluss echter Flow-Telemetrie.</div></article>
-      <article class="panel"><div class="panel-head"><h2>Handlungsbedarf</h2><span id="approvalCount">0</span></div><div id="actions" class="empty-list">Keine freigegebenen Aktionen vorhanden.</div></article>
+    <section class="tab-panel" data-kicc-panel="live" role="tabpanel" hidden>
+      <div class="tab-intro"><div><h2>Live-Leitwarte</h2><p>Aktive Verbindungen, Datenflüsse, Latenzen und Zustände.</p></div><span class="tab-badge">Runtime</span></div>
+      <section class="panel db-panel"><div class="panel-head"><h2>Mirror & Live-Status</h2><span>Supabase ↔ Neon · autoritative Sync-Telemetrie</span></div><div id="mirrorHealth" class="mirror-host"></div></section>
     </section>
 
-    <section class="panel db-panel"><div class="panel-head"><h2>Weitere Programme</h2><span>NON_KC · nur beobachten · beeinflusst KC-Gesamtstatus nicht</span></div><div id="nonKcProgramCards" class="database-grid"></div></section>
-    <section class="panel db-panel"><div class="panel-head"><h2>Private Infrastruktur</h2><span>PC Backup Vault / Backblaze B2 · getrennt von KC</span></div><div id="privateInfraCards" class="database-grid"></div><div id="storageCards" style="display:none"></div></section>
-    <section class="panel"><div class="panel-head"><h2>KC Registry</h2><span>Discovered ≠ Registered ≠ Healthy</span></div><div class="table-wrap"><table><thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>Rolle</th><th>Messung</th><th>Vertrauen</th></tr></thead><tbody id="registryRows"></tbody></table></div></section>
+    <section class="tab-panel" data-kicc-panel="programs" role="tabpanel" hidden>
+      <div class="tab-intro"><div><h2>Programme</h2><p>KC, weitere Programme und Registry getrennt überwachen.</p></div><span class="tab-badge">KC / NON_KC</span></div>
+      <section class="panel db-panel"><div class="panel-head"><h2>KC-Programme</h2><span>Repo · Deployment · Version · Abhängigkeiten · Health</span></div><div id="kcProgramCards" class="database-grid"></div></section>
+      <section class="panel db-panel"><div class="panel-head"><h2>Weitere Programme</h2><span>NON_KC · beeinflusst KC-Gesamtstatus nicht</span></div><div id="nonKcProgramCards" class="database-grid"></div></section>
+      <section class="panel"><div class="panel-head"><h2>KC Registry</h2><span>Discovered ≠ Registered ≠ Healthy</span></div><div class="table-wrap"><table><thead><tr><th>Status</th><th>Typ</th><th>Name</th><th>Rolle</th><th>Messung</th><th>Vertrauen</th></tr></thead><tbody id="registryRows"></tbody></table></div></section>
+    </section>
+
+    <section class="tab-panel explorer-tab" data-kicc-panel="explorer" role="tabpanel" hidden>
+      <div class="tab-intro"><div><h2>Git / Datei-Explorer</h2><p>Repositories, Ordner, Dateien, Download und sichere Transfer-Vorbereitung.</p></div><span class="tab-badge">Schreiben gesperrt</span></div>
+      <section class="panel db-panel"><div class="panel-head"><h2>Explorer</h2><span>KC · NON_KC · PRIVATE</span></div><div id="repositoryExplorer"></div></section>
+    </section>
+
+    <section class="tab-panel" data-kicc-panel="databases" role="tabpanel" hidden>
+      <div class="tab-intro"><div><h2>Datenbanken</h2><p>IndexedDB, Supabase und Neon mit Messung, Rollen und Capabilities.</p></div><span class="tab-badge">Read-only Leitwarte</span></div>
+      <section class="panel db-panel"><div class="panel-head"><h2>KC-Datenbank-Leitwarte</h2><span>Reale Messung vor Grün</span></div><div id="databaseCards" class="database-grid"></div></section>
+    </section>
+
+    <section class="tab-panel" data-kicc-panel="security" role="tabpanel" hidden>
+      <div class="tab-intro"><div><h2>Security</h2><p>Verschlüsselung, Authentifizierung, Schlüssel, Nachweise und Gap-Analyse.</p></div><span class="tab-badge">UNKNOWN bleibt UNKNOWN</span></div>
+      <section class="panel db-panel security-panel">
+        <div class="panel-head"><h2>Security-Leitwarte</h2><span>Verschlüsselung · Auth · Schlüssel · Agent</span></div>
+        <div id="securityGapSummary" class="security-summary"></div>
+        <div class="security-subhead"><strong>Sicherheitsmaßnahmen</strong><span>UNKNOWN bleibt UNKNOWN bis verifiziert</span></div><div id="securityControls" class="security-controls"></div>
+        <div class="security-subhead"><strong>Security-Agent</strong><span>read-only · TLS · Zertifikat · DNS · Endpoint</span></div><div id="securityAgentCards" class="security-agent-grid"></div>
+        <div class="security-subhead"><strong>Versions-/Build-Sicherheitsnachweise</strong><span>Legacy · Kandidat · produktive Installation strikt getrennt</span></div><div id="securityVersionEvidence" class="security-summary"></div>
+        <div class="security-subhead"><strong>Runtime-Security-Attestation</strong><span>Build · Speicher · Verschlüsselung · Schlüsselversion · Frische</span></div><div id="runtimeSecurityAttestations" class="security-summary"></div>
+        <div class="security-subhead"><strong>Verschlüsselte Lokaldaten-Migration</strong><span>Legacy Marktkasse · Recovery · Rollback · Freigaben</span></div><div id="localSecurityMigration" class="migration-grid"></div>
+        <div class="security-subhead"><strong>Security-Topologie der Datenflüsse</strong><span>Transport- und Payload-Schutz getrennt</span></div><div id="securityTopology" class="security-topology"></div>
+        <div class="security-subhead"><strong>Security-Matrix</strong><span>Quelle · Ziel · Verfahren · Nachweis · Handlungsbedarf</span></div><div class="table-wrap"><table class="security-table"><thead><tr><th>Status</th><th>Quelle</th><th>Ziel</th><th>Datenklasse</th><th>Transport</th><th>Payload</th><th>Auth</th><th>Schlüssel</th><th>Verifiziert</th><th>Handlungsbedarf</th></tr></thead><tbody id="securityMatrixRows"></tbody></table></div>
+      </section>
+    </section>
+
+    <section class="tab-panel" data-kicc-panel="backup" role="tabpanel" hidden>
+      <div class="tab-intro"><div><h2>Backup & Failover</h2><p>Spiegelung, Wiederherstellung und private Backup-Infrastruktur getrennt kontrollieren.</p></div><span class="tab-badge">Recovery First</span></div>
+      <section class="panel db-panel"><div class="panel-head"><h2>Private Infrastruktur</h2><span>PC Backup Vault / Backblaze B2 · getrennt von KC</span></div><div id="privateInfraCards" class="database-grid"></div><div id="storageCards" style="display:none"></div></section>
+      <div class="compact-note">Failover-Aktionen bleiben im zentralen Freigabeprozess: Analyse → Recovery-Punkt → Freigabe → Ausführung → Verifikation → Audit.</div>
+    </section>
+
+    <section class="tab-panel" data-kicc-panel="migration" role="tabpanel" hidden>
+      <div class="tab-intro"><div><h2>Migration</h2><p>Regionen, Provider und Datenbanken kontrolliert vorbereiten und umziehen.</p></div><span class="tab-badge">Rollback Pflicht</span></div>
+      <section class="panel db-panel"><div class="panel-head"><h2>Region & Datenresidenz</h2><span>Deutschland bevorzugt · kontrollierter Umzug</span></div><div id="regionMigrationCards" class="database-grid"></div></section>
+      <section class="panel db-panel"><div class="panel-head"><h2>Migration-Center</h2><span>Recovery · Kopie · Delta-Sync · Verifikation · Cutover · Rollback</span></div><div id="migrationCenter" class="migration-grid"></div></section>
+    </section>
+
+    <section class="tab-panel" data-kicc-panel="tests" role="tabpanel" hidden>
+      <div class="tab-intro"><div><h2>TÜV & Tests</h2><p>Explorer, Bridge, Runtime und Aktivierungsbereitschaft zentral prüfen.</p></div><span class="tab-badge">Read-only Tests</span></div>
+      <section class="panel db-panel tests-layout">
+        <div class="security-subhead"><strong>Explorer-/Bridge-Selbsttest</strong><span>Allowlist · Rollen · Recovery · Freigabe · Audit</span></div><div id="explorerBridgeSelfTest"></div>
+        <div class="security-subhead"><strong>Bridge-Readiness</strong><span>Aktivierungsgates · letzter Prüfstand</span></div><div id="explorerBridgeReadiness"></div>
+        <div class="security-subhead"><strong>Runtime-Smoke</strong><span>Boot · Module · DOM · IndexedDB · Schreibschutz</span></div><div id="runtimeSmoke"></div>
+      </section>
+    </section>
+
+    <section class="tab-panel" data-kicc-panel="admin" role="tabpanel" hidden>
+      <div class="tab-intro"><div><h2>Administration</h2><p>Repository-Berechtigungen, Policies und spätere zentrale Einstellungen.</p></div><span class="tab-badge">Deny by default</span></div>
+      <section class="panel db-panel"><div class="panel-head"><h2>Repository-Berechtigungen</h2><span>Prepared Allowlist · Schreiben gesperrt</span></div><div id="repositoryPolicySummary"></div></section>
+    </section>
   </main>
+
+  <script type="module" src="navigation/leitstand-tabs.js"></script>
   <script type="module" src="app.js"></script>
   <script type="module" src="products/kc-program-registry.js"></script>
   <script type="module" src="products/non-kc-program-registry.js"></script>
