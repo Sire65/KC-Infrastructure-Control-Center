@@ -1,3 +1,5 @@
+import './topology-observation-bridge.js';
+
 function prioritizeTopologyPrograms(){
   const list=globalThis.KICC_PROGRAMS?.programs;
   if(!Array.isArray(list)||!list.length)return;
