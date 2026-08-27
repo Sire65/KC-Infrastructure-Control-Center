@@ -14,6 +14,7 @@ import '../sync/mirror-runtime-config.js';
 import '../products/github-telemetry-runtime.js';
 import '../ui/report-tools.js';
 import '../live/live-console.js';
+import '../live/dataflow-topology.js';
 import '../update/pwa-update-manager.js';
 import '../security/security-action-priority.js';
 import '../security/security-visual-polish.js';
