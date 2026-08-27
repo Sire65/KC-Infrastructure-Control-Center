@@ -1,8 +1,6 @@
 import { makeKcProduct, evaluateProductHealth, dependencySummary, REPOSITORY_STATE } from './kc-product-model.js';
 import { impactedProducts, buildImpactMatrix, summarizeImpact } from './impact-analysis.js';
 
-// Offene KC-Produkt-Registry: Ein KC-Programm darf auch ohne GitHub-Repository registriert sein.
-// Repository-Verfügbarkeit, Quellstand, Deployment und Runtime-Health sind getrennte Wahrheiten.
 const PROGRAMS=[
   Object.assign(makeKcProduct({id:'kc-bilderkasse',name:'KC Bilderkasse',repo:'Kasse',kind:'KASSE_UI',critical:true,notes:'Neuere Bilderkassen-/MarktKasse-Suite; Build/Runtime muss separat verifiziert werden.',dependencies:{databases:['db-supabase-core'],communication:['kc-communication'],failover:['flow-supabase-neon-core']}}),{sourceState:'SOURCE_REQUIRED',sourceDetail:'Originalpaket enthält POS; aktueller Suite-Import im Repo enthält die POS-Frontenddateien noch nicht entpackt.'}),
   makeKcProduct({id:'kc-kasse-legacy',name:'KC Marktkasse · Legacy/Root',repo:'Kasse',kind:'KASSE_LEGACY',notes:'Älterer veröffentlichter Root-Stand; Security-Befunde nicht auf Bilderkasse übertragen.',dependencies:{databases:['db-supabase-core']}}),
@@ -15,8 +13,6 @@ const PROGRAMS=[
   makeKcProduct({id:'kc-dp2',name:'KC DP2 · neu',repo:'dp3',kind:'DIENSTPLAN',critical:true,dependencies:{databases:['db-supabase-core'],communication:['kc-communication'],failover:['flow-supabase-neon-core']}}),
   makeKcProduct({id:'kc-dp2-legacy',name:'KC DP2 · alt',repo:'Dienstplan',kind:'DIENSTPLAN_LEGACY',notes:'Älterer Dienstplan-Stand; Beziehung zum aktuellen dp3 bleibt versioniert getrennt.',dependencies:{databases:['db-supabase-core']}}),
   makeKcProduct({id:'kc-weihnachten-praesentation',name:'KC Weihnachtsmarkt-Präsentation',repo:null,kind:'PRESENTATION_TV',repositoryState:REPOSITORY_STATE.REPO_NOT_YET_CREATED,notes:'KC-Präsentations-/TV-Anwendung bekannt; Repository oder Quellort noch zuzuordnen.'}),
-
-  // Bereits bekannte weitere KC-Produkte / Infrastrukturprogramme.
   makeKcProduct({id:'kc-bilderrechner',name:'KC Bilderrechner',repo:'KC-Bilderrechner',kind:'BILDER',dependencies:{databases:['db-supabase-core']}}),
   makeKcProduct({id:'kc-futura',name:'KC Futura Academy',repo:'KC-Futura-Academy',kind:'ACADEMY',critical:true,dependencies:{databases:['db-supabase-futura'],communication:['kc-communication']}}),
   makeKcProduct({id:'kc-failover-gateway',name:'KC Failover Gateway',repo:'KC-Failover-Gateway',kind:'FAILOVER',critical:true,dependencies:{databases:['db-supabase-core','db-neon-core-mirror'],failover:['flow-supabase-neon-core']}}),
@@ -29,6 +25,7 @@ function cls(s){return({HEALTHY:'healthy',DEGRADED:'degraded',FAILED:'failed',MA
 function depText(p){const d=dependencySummary(p);return d.count?`${d.count} Abhängigkeiten`:'keine registrierten Abhängigkeiten';}
 function repoText(p){return p.repo?`${p.owner}/${p.repo}`:`kein Repo · ${p.repositoryState}`;}
 function sourceText(p){return p.sourceState?`${p.sourceState}${p.sourceDetail?` · ${p.sourceDetail}`:''}`:'nicht separat bewertet';}
+function versionText(p){const l=globalThis.KICC_VERSION_LIFECYCLE?.summary?.(p.id)||p.versionLifecycle||{};const update=globalThis.KICC_VERSION_LIFECYCLE?.badge?.(l.updateStatus)||l.updateStatus||'UNBEKANNT';return {git:l.gitVersion||p.gitVersion||'—',deployment:l.deploymentVersion||p.deploymentVersion||'—',runtime:l.runtimeVersion||p.runtimeVersion||'—',stage:l.stage||'UNKNOWN',update,outdated:l.outdatedInstances||[]};}
 
 async function probeRepo(p){
   if(!p.repo){p.repoHealth='NOT_APPLICABLE';p.repoTrust='UNVERIFIED';p.repoMeasuredAt=null;const h=evaluateProductHealth(p);p.status=h.status;p.healthReason=h.reason;return;}
@@ -47,17 +44,18 @@ function applyRuntimeObservation(productId,observation={}){
   const p=PROGRAMS.find(x=>x.id===productId);if(!p)throw new Error('Unknown KC product');
   const measuredAt=observation.measuredAt||new Date().toISOString();
   const runtimeTrust=observation.trust||'UNVERIFIED';
-  const allowed=['deploymentUrl','deploymentHealth','telemetryHealth','version','lastActivityAt'];
+  const allowed=['deploymentUrl','deploymentHealth','telemetryHealth','runtimeVersion','deploymentVersion','lastActivityAt'];
   for(const key of allowed)if(Object.prototype.hasOwnProperty.call(observation,key))p[key]=observation[key];
+  if(Object.prototype.hasOwnProperty.call(observation,'version')&&!Object.prototype.hasOwnProperty.call(observation,'runtimeVersion'))p.runtimeVersion=observation.version;
   Object.assign(p,{runtimeMeasuredAt:measuredAt,runtimeTrust,measuredAt,trust:runtimeTrust});
-  const h=evaluateProductHealth(p);p.status=h.status;p.healthReason=h.reason;render();return p;
+  const h=evaluateProductHealth(p);p.status=h.status;p.healthReason=h.reason;globalThis.KICC_VERSION_LIFECYCLE?.refresh?.();render();return p;
 }
 
 function render(){
   const host=document.getElementById('kcProgramCards');if(!host)return;
-  host.innerHTML=PROGRAMS.map(p=>{const h=evaluateProductHealth(p),d=dependencySummary(p);return`<article class="db-card"><div class="db-title"><span class="status-chip ${cls(h.status)}"><span class="dot"></span>${h.status}</span><strong>${p.name}</strong></div><div class="db-meta"><span>Typ: ${p.kind}${p.critical?' · kritisch':''}</span><span>Repo: ${repoText(p)}</span><span>Quellstand: ${sourceText(p)}</span><span>Version: ${p.version||'—'}</span><span>Deployment: ${p.deploymentUrl||'noch nicht registriert'}</span><span>Repo: ${p.repoHealth} · Live: ${p.deploymentHealth} · Telemetrie: ${p.telemetryHealth}</span><span>Repo-Messung: ${p.repoMeasuredAt?new Date(p.repoMeasuredAt).toLocaleString('de-DE'):'—'} · Runtime: ${p.runtimeMeasuredAt?new Date(p.runtimeMeasuredAt).toLocaleString('de-DE'):'—'}</span><span>${depText(p)}</span></div><div class="caps"><span class="cap ${d.databases.length?'available':'unknown'}">DB ${d.databases.length}</span><span class="cap ${d.communication.length?'available':'unknown'}">Kommunikation ${d.communication.length}</span><span class="cap ${d.failover.length?'available':'unknown'}">Failover ${d.failover.length}</span><span class="cap ${d.storage.length?'available':'unknown'}">Storage ${d.storage.length}</span></div><div class="db-note">${h.reason}${p.notes?` · ${p.notes}`:''}</div></article>`;}).join('');
+  host.innerHTML=PROGRAMS.map(p=>{const h=evaluateProductHealth(p),d=dependencySummary(p),v=versionText(p),old=v.outdated.length?` · ${v.outdated.length} Instanz(en) alt`:'';return`<article class="db-card"><div class="db-title"><span class="status-chip ${cls(h.status)}"><span class="dot"></span>${h.status}</span><strong>${p.name}</strong></div><div class="db-meta"><span>Typ: ${p.kind}${p.critical?' · kritisch':''}</span><span>Repo: ${repoText(p)}</span><span>Quellstand: ${sourceText(p)}</span><span>Git-Version: ${v.git}</span><span>Deployment-Version: ${v.deployment}</span><span>Runtime-Version: ${v.runtime}</span><span>Lifecycle: ${v.stage}</span><span>Update: ${v.update}${old}</span><span>Deployment: ${p.deploymentUrl||'noch nicht registriert'}</span><span>Repo: ${p.repoHealth} · Live: ${p.deploymentHealth} · Telemetrie: ${p.telemetryHealth}</span><span>Repo-Messung: ${p.repoMeasuredAt?new Date(p.repoMeasuredAt).toLocaleString('de-DE'):'—'} · Runtime: ${p.runtimeMeasuredAt?new Date(p.runtimeMeasuredAt).toLocaleString('de-DE'):'—'}</span><span>${depText(p)}</span></div><div class="caps"><span class="cap ${d.databases.length?'available':'unknown'}">DB ${d.databases.length}</span><span class="cap ${d.communication.length?'available':'unknown'}">Kommunikation ${d.communication.length}</span><span class="cap ${d.failover.length?'available':'unknown'}">Failover ${d.failover.length}</span><span class="cap ${d.storage.length?'available':'unknown'}">Storage ${d.storage.length}</span></div><div class="db-note">${h.reason}${p.notes?` · ${p.notes}`:''}</div></article>`;}).join('');
 }
 
-async function refresh(){await Promise.all(PROGRAMS.map(probeRepo));render();}
-window.KICC_PROGRAMS={programs:PROGRAMS,refresh,render,applyRuntimeObservation,impactedBy:resourceId=>impactedProducts(PROGRAMS,resourceId),impact:resourceId=>summarizeImpact(PROGRAMS,resourceId),impactMatrix:()=>buildImpactMatrix(PROGRAMS),summary:()=>PROGRAMS.map(p=>({...p,health:evaluateProductHealth(p),dependencies:dependencySummary(p)}))};
+async function refresh(){await Promise.all(PROGRAMS.map(probeRepo));globalThis.KICC_VERSION_LIFECYCLE?.refresh?.();render();}
+window.KICC_PROGRAMS={programs:PROGRAMS,refresh,render,applyRuntimeObservation,impactedBy:resourceId=>impactedProducts(PROGRAMS,resourceId),impact:resourceId=>summarizeImpact(PROGRAMS,resourceId),impactMatrix:()=>buildImpactMatrix(PROGRAMS),summary:()=>PROGRAMS.map(p=>({...p,health:evaluateProductHealth(p),dependencies:dependencySummary(p),versionLifecycle:globalThis.KICC_VERSION_LIFECYCLE?.summary?.(p.id)||p.versionLifecycle||null}))};
 render();refresh();setInterval(refresh,10*60*1000);setInterval(render,30*1000);
