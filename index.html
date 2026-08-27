@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="security/security-matrix.css">
 </head>
 <body>
-  <header class="topbar"><div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div><div class="version" id="version">0.1.0-dev.67</div></header>
+  <header class="topbar"><div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div><div class="version" id="version">0.1.0-dev.87</div></header>
   <nav class="leitstand-tabs" data-kicc-tablist role="tablist" aria-label="KICC Bereiche">
     <button class="leitstand-tab active" data-kicc-tab="dashboard" role="tab">Dashboard</button>
     <button class="leitstand-tab" data-kicc-tab="live" role="tab">Live-Leitwarte</button>
@@ -43,6 +43,7 @@
     <section class="tab-panel" data-kicc-panel="admin" role="tabpanel" hidden><div class="tab-intro"><div><h2>Administration</h2><p>Repository-Berechtigungen, Policies und spätere zentrale Einstellungen.</p></div><span class="tab-badge">Deny by default</span></div><section class="panel db-panel"><div class="panel-head"><h2>Repository-Berechtigungen</h2><span>Prepared Allowlist · Schreiben gesperrt</span></div><div id="repositoryPolicySummary"></div></section></section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js" crossorigin="anonymous"></script>
+  <script type="module" src="runtime/build-version.js"></script>
   <script type="module" src="navigation/leitstand-tabs.js"></script>
   <script type="module" src="auth/runtime-auth-provider.js"></script>
   <script type="module" src="auth/supabase-login-ui.js"></script>
@@ -52,6 +53,7 @@
   <script type="module" src="programs/program-flow-runtime.js"></script>
   <script type="module" src="programs/remote-program-flow-bridge.js"></script>
   <script type="module" src="app.js"></script>
+  <script type="module" src="runtime/version-runtime-guard.js"></script>
   <script type="module" src="products/kc-program-registry.js"></script>
   <script type="module" src="products/non-kc-program-registry.js"></script>
   <script type="module" src="programs/program-heartbeat-product-link.js"></script>
@@ -73,7 +75,9 @@
   <script type="module" src="security/runtime-security-attestation-ui.js"></script>
   <script type="module" src="security/security-agent-monitor.js"></script>
   <script type="module" src="security/local-storage-migration-ui.js"></script>
+  <script type="module" src="sync/mirror-runtime-config.js"></script>
   <script type="module" src="sync/mirror-monitor.js"></script>
+  <script type="module" src="sync/mirror-morning-report.js"></script>
   <script type="module" src="migration/prepared-resources.js"></script>
   <script type="module" src="storage/storage-monitor.js"></script>
   <script type="module" src="scope/private-infrastructure-ui.js"></script>
