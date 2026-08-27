@@ -17,6 +17,8 @@ function ensureRuntime(migration){
   migration.runtime ||= {precheckOk:false,recoveryPointOk:false,copyComplete:false,deltaSynced:false,verificationPassed:false,cutoverApproved:false,postcheckPassed:false,rollbackRequired:false};
   return migration.runtime;
 }
+function recoverySnapshot(){return globalThis.KICC_BACKUP_TELEMETRY?.snapshot?.().latest||null;}
+function recoveryGate(){return globalThis.KICC_RECOVERY_GATE?.canProceed?.('migration',recoverySnapshot())||{allowed:false,state:'UNKNOWN',reason:'Recovery-Gate noch nicht verfügbar.'};}
 
 function recalc(migration){
   const next=evaluateRegionMigration(migration,ensureRuntime(migration));
@@ -30,6 +32,11 @@ function setGate(migrationId,gate,value=true){
   if(!migration)throw new Error('Unknown migration');
   const runtime=ensureRuntime(migration);
   if(!(gate in runtime))throw new Error('Unknown migration gate');
+  if(gate==='recoveryPointOk'&&value===true){
+    const recovery=recoveryGate();
+    if(!recovery.allowed)throw new Error(`Recovery Point nicht freigegeben: ${recovery.reason}`);
+  }
+  if(gate==='cutoverApproved'&&value===true&&!runtime.recoveryPointOk)throw new Error('Cutover blockiert: Recovery Point wurde noch nicht bestätigt.');
   runtime[gate]=Boolean(value);
   recalc(migration);
   globalThis.KICC_REGION_MIGRATION?.render?.();
@@ -43,9 +50,10 @@ function stateText(state){
 
 function gateRows(m){
   const r=ensureRuntime(m);
+  const recovery=recoveryGate();
   const gates=[
     ['precheckOk','Vorprüfung','Region, Kompatibilität, Kosten/Quota, Abhängigkeiten'],
-    ['recoveryPointOk','Recovery Point','Wiederherstellbarer Ausgangsstand vorhanden'],
+    ['recoveryPointOk','Recovery Point',`Wiederherstellbarer Ausgangsstand vorhanden · Recovery ${recovery.state}`],
     ['copyComplete','Erstkopie','Ziel vollständig initial befüllt'],
     ['deltaSynced','Delta-Sync','Letzte Änderungen aufgeholt / Schreibfenster kontrolliert'],
     ['verificationPassed','Verifikation','Schema, Counts, Checksums, Integrität und App-Test bestanden'],
@@ -67,7 +75,7 @@ function renderCenter(){
   }).join('');
 }
 
-window.KICC_MIGRATION_CENTER={render:renderCenter,setGate,progressForState,stateText,summary(){return (globalThis.KICC_REGION_MIGRATION?.migrations||[]).map(m=>({id:m.id,state:recalc(m).state,progress:progressForState(m.state),targetJurisdiction:m.targetJurisdiction}));}};
+window.KICC_MIGRATION_CENTER={render:renderCenter,setGate,progressForState,stateText,recoveryGate,summary(){return (globalThis.KICC_REGION_MIGRATION?.migrations||[]).map(m=>({id:m.id,state:recalc(m).state,progress:progressForState(m.state),targetJurisdiction:m.targetJurisdiction,recovery:recoveryGate().state}));}};
 
 queueMicrotask(renderCenter);
 setInterval(renderCenter,15000);
