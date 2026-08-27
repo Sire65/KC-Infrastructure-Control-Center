@@ -9,10 +9,10 @@ function instanceId(){
 }
 const INSTANCE_ID=instanceId();
 function networkLatency(){const nav=performance.getEntriesByType?.('navigation')?.[0];return Number.isFinite(nav?.responseStart)&&Number.isFinite(nav?.requestStart)?Math.max(0,Math.round(nav.responseStart-nav.requestStart)):null;}
-function heartbeat(latencyMs=networkLatency()){return{
+function runtimeVersion(){return globalThis.KICC_BUILD_VERSION||globalThis.KICC?.version||document.getElementById('version')?.textContent||null;}
+function heartbeat(latencyMs=networkLatency()){const version=runtimeVersion();return{
   programId:'kicc',instanceId:INSTANCE_ID,name:'KICC',deviceType:'CONTROL_CENTER',
-  version:globalThis.KICC?.version||document.getElementById('version')?.textContent||null,
-  build:globalThis.KICC?.version||null,status:'ONLINE',measuredAt:new Date().toISOString(),
+  version,build:version,status:'ONLINE',measuredAt:new Date().toISOString(),
   latencyMs:Number.isFinite(latencyMs)?Math.round(latencyMs):null,errorCount:0,
   source:'KICC_SELF_HEARTBEAT',trust:'OBSERVED_LOCAL_RUNTIME',message:'KICC Browser Runtime aktiv'
 };}
