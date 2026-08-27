@@ -9,6 +9,7 @@ import '../programs/program-flow-runtime.js';
 import '../programs/remote-program-flow-bridge.js';
 import '../programs/program-heartbeat-product-link.js';
 import '../programs/kicc-self-heartbeat.js';
+import '../programs/failover-gateway-runtime.js';
 import '../programs/remote-heartbeat-server-readiness.js';
 import '../programs/remote-heartbeat-bridge-runtime.js';
 import '../programs/remote-heartbeat-bridge-ui.js';
