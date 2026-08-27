@@ -1,3 +1,14 @@
+function prioritizeTopologyPrograms(){
+  const list=globalThis.KICC_PROGRAMS?.programs;
+  if(!Array.isArray(list)||!list.length)return;
+  const priority=['kc-bilderkasse','kc-pc-manager','kc-dp2','kc-designer','kc-money-butler','kc-communication','kc-futura'];
+  const byId=new Map(list.map(p=>[p.id,p]));
+  const ordered=priority.map(id=>byId.get(id)).filter(Boolean);
+  const rest=list.filter(p=>!priority.includes(p.id));
+  list.splice(0,list.length,...ordered,...rest);
+}
+prioritizeTopologyPrograms();
+
 const FLOW_WINDOW_MS=60_000;
 const TICK_MS=1_000;
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
