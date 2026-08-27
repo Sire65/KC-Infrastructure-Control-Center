@@ -33,6 +33,7 @@ import '../security/security-visual-polish.js';
 import '../dashboard/dashboard-polish.js';
 import '../network/internet-monitor-shell.js';
 import '../dashboard/fritzbox-topology-overlay.js';
+import '../dashboard/topology-link-details.js';
 
 const TAB_STORAGE='kicc.active.tab.v1';
 const DEFAULT_TAB='dashboard';
