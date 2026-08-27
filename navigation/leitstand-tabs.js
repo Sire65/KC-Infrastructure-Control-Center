@@ -17,6 +17,7 @@ import '../telemetry/neon-runtime-config.js';
 import '../sync/mirror-runtime-config.js';
 import '../products/program-version-lifecycle.js';
 import '../products/github-telemetry-runtime.js';
+import '../storage/backup-telemetry-monitor.js';
 import '../ui/report-tools.js';
 import '../live/live-console.js';
 import '../live/dataflow-topology.js';
