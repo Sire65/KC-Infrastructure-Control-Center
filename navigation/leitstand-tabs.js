@@ -22,6 +22,7 @@ import '../storage/recovery-policy.js';
 import '../storage/backup-telemetry-monitor.js';
 import '../incidents/incident-center.js';
 import '../performance/performance-center.js';
+import '../flows/data-lineage-center.js';
 import '../ui/report-tools.js';
 import '../live/live-console.js';
 import '../live/dataflow-topology.js';
