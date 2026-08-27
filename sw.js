@@ -1,4 +1,4 @@
-const CACHE='kicc-0.1.0-dev.75';
+const CACHE='kicc-0.1.0-dev.76';
 const CORE=['./','./index.html','./styles.css','./app.js','./navigation/leitstand-tabs.js','./dashboard/instrument-panel.css','./dashboard/instrument-panel.js','./dashboard/dashboard-polish.js','./live/live-console.js','./live/dataflow-topology.js','./programs/program-flow-contract.js','./programs/program-flow-runtime.js','./programs/remote-program-flow-bridge.js','./programs/program-heartbeat-contract.js','./programs/program-heartbeat-runtime.js','./programs/remote-heartbeat-server-readiness.js','./programs/remote-heartbeat-bridge-runtime.js','./programs/remote-heartbeat-bridge-ui.js','./auth/runtime-auth-provider.js','./update/pwa-update-manager.js'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE))));
 self.addEventListener('message',event=>{if(event.data?.type==='KICC_ACTIVATE_UPDATE')self.skipWaiting();});
