@@ -1,5 +1,5 @@
-const CACHE='kicc-0.1.0-dev.92';
-const CORE=['./','./index.html','./styles.css','./app.js','./navigation/leitstand-tabs.js','./runtime/build-version.js','./runtime/version-runtime-guard.js','./dashboard/instrument-panel.css','./dashboard/instrument-panel.js','./dashboard/live-instrument-telemetry.js','./dashboard/topology-observation-bridge.js','./dashboard/live-topology.js','./dashboard/dashboard-polish.js','./dashboard/fritzbox-topology-overlay.js','./dashboard/topology-link-details.js','./live/live-console.js','./live/dataflow-topology.js','./products/program-version-lifecycle.js','./products/github-telemetry-runtime.js','./programs/program-flow-contract.js','./programs/program-flow-runtime.js','./programs/remote-program-flow-bridge.js','./programs/program-heartbeat-contract.js','./programs/program-heartbeat-runtime.js','./programs/program-heartbeat-product-link.js','./programs/kicc-self-heartbeat.js','./programs/failover-gateway-runtime.js','./programs/remote-heartbeat-server-readiness.js','./programs/remote-heartbeat-bridge-runtime.js','./programs/remote-heartbeat-bridge-ui.js','./storage/recovery-policy.js','./storage/backup-telemetry-monitor.js','./incidents/incident-center.js','./performance/performance-center.js','./flows/data-lineage-center.js','./auth/runtime-auth-provider.js','./auth/supabase-login-ui.js','./sync/mirror-runtime-config.js','./sync/mirror-monitor.js','./sync/mirror-morning-report.js','./network/internet-monitor-shell.js','./network/internet-monitor.js','./security/security-auth-verification-fix.js','./update/pwa-update-manager.js'];
+const CACHE='kicc-0.1.0-dev.92-r1';
+const CORE=['./','./index.html','./styles.css','./app.js','./navigation/leitstand-tabs.js','./runtime/build-version.js','./runtime/version-runtime-guard.js','./dashboard/instrument-panel.css','./dashboard/instrument-panel.js','./dashboard/live-instrument-telemetry.js','./dashboard/topology-observation-bridge.js','./dashboard/live-topology.js','./dashboard/dashboard-polish.js','./dashboard/fritzbox-topology-overlay.js','./dashboard/topology-link-details.js','./live/live-console.js','./live/dataflow-topology.js','./products/program-version-lifecycle.js','./products/github-telemetry-runtime.js','./programs/program-flow-contract.js','./programs/program-flow-runtime.js','./programs/remote-program-flow-bridge.js','./programs/program-heartbeat-contract.js','./programs/program-heartbeat-runtime.js','./programs/program-heartbeat-product-link.js','./programs/kicc-self-heartbeat.js','./programs/failover-gateway-runtime.js','./programs/remote-heartbeat-server-readiness.js','./programs/remote-heartbeat-bridge-runtime.js','./programs/remote-heartbeat-bridge-ui.js','./storage/recovery-policy.js','./storage/backup-telemetry-monitor.js','./incidents/incident-center.js','./performance/performance-center.js','./flows/data-lineage-center.js','./auth/runtime-auth-provider.js','./auth/supabase-login-ui.js','./sync/mirror-runtime-config.js','./sync/mirror-monitor.js','./sync/mirror-morning-report.js','./network/internet-monitor-shell.js','./network/internet-monitor.css','./network/internet-monitor.js','./network/internet-outage-events.js','./security/security-auth-verification-fix.js','./update/pwa-update-manager.js'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE))));
 self.addEventListener('message',event=>{if(event.data?.type==='KICC_ACTIVATE_UPDATE')self.skipWaiting();});
 self.addEventListener('activate',event=>event.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('kicc-')&&k!==CACHE).map(k=>caches.delete(k))))])));
@@ -7,9 +7,14 @@ self.addEventListener('fetch',event=>{
   if(event.request.method!=='GET')return;
   const url=new URL(event.request.url);
   if(url.origin!==self.location.origin)return;
-  event.respondWith(caches.open(CACHE).then(async cache=>{
-    const hit=await cache.match(event.request,{ignoreSearch:false});
-    if(hit)return hit;
-    try{return await fetch(event.request,{cache:'no-store'});}catch{return (await caches.match('./index.html'))||Response.error();}
-  }));
+  event.respondWith((async()=>{
+    const cache=await caches.open(CACHE);
+    try{
+      const fresh=await fetch(event.request,{cache:'no-store'});
+      if(fresh&&fresh.ok)cache.put(event.request,fresh.clone()).catch(()=>{});
+      return fresh;
+    }catch{
+      return (await cache.match(event.request,{ignoreSearch:false}))||(event.request.mode==='navigate'?await cache.match('./index.html'):null)||Response.error();
+    }
+  })());
 });
