@@ -1,4 +1,5 @@
 import '../runtime/build-version.js';
+import '../runtime/version-runtime-guard.js';
 import '../auth/runtime-auth-provider.js';
 import '../auth/supabase-login-ui.js';
 import '../auth/auto-login-switch-visual-fix.js';
