@@ -47,10 +47,12 @@ export function createMirrorBridgeAdapter({flowId,endpointResolver,authResolver,
       const headers={accept:'application/json'};
       if(typeof authResolver==='function'){
         const auth=await authResolver(flowId);
-        if(auth?.authorization)headers.authorization=auth.authorization;
+        if(!auth?.authorization)return {status:'UNKNOWN',trust:'AUTH_REQUIRED',message:'Mirror-Bridge bereit; Anmeldung für Live-Telemetrie erforderlich.'};
+        headers.authorization=auth.authorization;
+        if(auth.apikey)headers.apikey=auth.apikey;
       }
       const response=await fetch(endpoint,{method:'GET',headers,cache:'no-store',credentials:'omit'});
-      if(response.status===401||response.status===403)return {status:'UNKNOWN',trust:'AUTH_REQUIRED',message:'Mirror-Bridge benötigt Anmeldung.'};
+      if(response.status===401||response.status===403)return {status:'UNKNOWN',trust:'AUTH_REQUIRED',message:'Mirror-Bridge benötigt eine gültige Anmeldung.'};
       if(!response.ok)throw new Error(`Mirror bridge HTTP ${response.status}`);
       const type=response.headers.get('content-type')||'';
       if(!type.toLowerCase().includes('application/json'))throw new Error('Mirror bridge response is not JSON');
