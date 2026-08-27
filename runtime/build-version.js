@@ -1,4 +1,4 @@
-const VERSION='0.1.0-dev.87';
+const VERSION='0.1.0-dev.92';
 globalThis.KICC_BUILD_VERSION=VERSION;
 queueMicrotask(()=>{
   if(globalThis.KICC)globalThis.KICC.version=VERSION;
