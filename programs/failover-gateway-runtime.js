@@ -18,31 +18,33 @@ function heartbeat(data,latencyMs,measuredAt){
     status:online?'ONLINE':degraded?'DEGRADED':'UNKNOWN',
     measuredAt,
     latencyMs,
+    queueDepth:null,
     source:'GATEWAY_HEALTH',
     trust:'OBSERVED_REMOTE',
     message:`Backend ${data?.activeBackend||'UNKNOWN'} · Supabase ${data?.primary?.reachable?'OK':'nicht erreichbar'} · Neon ${data?.fallback?.reachable?'OK':'nicht erreichbar'}`
   });
 }
-function flowFor(data,measuredAt){
+function flowFor(data){
   const backend=String(data?.activeBackend||'').toUpperCase();
-  if(backend==='SUPABASE')return {to:'supabase-core',latencyMs:num(data?.primary?.latencyMs),status:data?.primary?.reachable?'OK':'DEGRADED'};
-  if(backend==='NEON')return {to:'neon-core-mirror',latencyMs:num(data?.fallback?.latencyMs),status:data?.fallback?.reachable?'OK':'DEGRADED'};
+  if(backend==='SUPABASE')return {to:'supabase-core',latencyMs:num(data?.primary?.latencyMs),status:data?.primary?.reachable?'OK':'DEGRADED',type:'API'};
+  if(backend==='NEON')return {to:'neon-core-mirror',latencyMs:num(data?.fallback?.latencyMs),status:data?.fallback?.reachable?'OK':'DEGRADED',type:'API'};
+  if(backend==='LOCAL_QUEUE')return {to:'service:Lokale Warteschlange',latencyMs:null,status:'DEGRADED',type:'OTHER'};
   return null;
 }
 function ingestFlow(data,measuredAt){
-  const f=flowFor(data,measuredAt);if(!f)return;
+  const f=flowFor(data);if(!f)return;
   globalThis.KICC_PROGRAM_FLOWS?.ingest?.({
     programId:PROGRAM_ID,
     instanceId:INSTANCE_ID,
     from:`program:${PROGRAM_ID}`,
     to:f.to,
-    type:'API',
+    type:f.type,
     status:f.status,
     latencyMs:f.latencyMs,
     measuredAt,
     source:'GATEWAY_HEALTH',
     trust:'OBSERVED_REMOTE',
-    message:`Aktives Gateway-Backend: ${data.activeBackend}`
+    message:data.activeBackend==='LOCAL_QUEUE'?'Beide Datenbankpfade nicht verfügbar · lokale Warteschlange erforderlich':`Aktives Gateway-Backend: ${data.activeBackend}`
   });
 }
 async function probe(){
