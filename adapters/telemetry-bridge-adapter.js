@@ -53,7 +53,8 @@ export function createTelemetryBridgeAdapter({id='telemetry-bridge',endpointReso
       if(Date.now()-observedAt>120000) return {status:'UNKNOWN',trust:'STALE',message:'Bridge-Telemetrie ist veraltet.'};
       const observation={status:payload.status,measuredAt:payload.measuredAt,trust:'OBSERVED_REMOTE',message:payload.message||'Sichere Telemetrie-Bridge aktiv.'};
       for(const key of this.capabilities){if(key in payload) observation[key]=sanitizeCapabilityBlock(payload[key]);}
-      const runtime=sanitizeProgramRuntime(payload.programRuntime);if(runtime)observation.programRuntime=runtime;
+      const runtime=sanitizeProgramRuntime(payload.programRuntime);
+      if(runtime){observation.programRuntime=runtime;try{globalThis.KICC_PROGRAM_HEARTBEATS?.ingest?.(runtime);}catch{}}
       return observation;
     }
   };
