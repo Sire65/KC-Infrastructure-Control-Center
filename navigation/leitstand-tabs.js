@@ -4,6 +4,7 @@ import '../auth/auto-login-switch-visual-fix.js';
 import '../auth/futura-recovery-controller.js';
 import '../devices/device-center.js';
 import '../programs/program-heartbeat-runtime.js';
+import '../programs/program-flow-runtime.js';
 import '../programs/program-heartbeat-product-link.js';
 import '../programs/kicc-self-heartbeat.js';
 import '../programs/remote-heartbeat-server-readiness.js';
