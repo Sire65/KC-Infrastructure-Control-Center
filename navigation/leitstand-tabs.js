@@ -19,6 +19,7 @@ import '../live/live-console.js';
 import '../live/dataflow-topology.js';
 import '../update/pwa-update-manager.js';
 import '../security/security-action-priority.js';
+import '../security/security-auth-verification-fix.js';
 import '../security/security-visual-polish.js';
 import '../dashboard/dashboard-polish.js';
 
