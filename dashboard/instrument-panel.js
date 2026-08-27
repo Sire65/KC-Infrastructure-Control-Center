@@ -1,5 +1,6 @@
+import './live-topology.js';
 const STATUS_MAP={HEALTHY:'healthy',ONLINE:'healthy',DEGRADED:'degraded',WARNING:'degraded',FAILED:'failed',OFFLINE:'failed',MAINTENANCE:'maintenance',TEST:'maintenance',UNKNOWN:'unknown',NOT_APPLICABLE:'unknown'};
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
 const norm=s=>String(s||'UNKNOWN').toUpperCase();
 const cls=s=>STATUS_MAP[norm(s)]||'unknown';
 function programs(){return [...(globalThis.KICC_PROGRAMS?.programs||[]),...(globalThis.KICC_NON_KC?.programs||[])];}
