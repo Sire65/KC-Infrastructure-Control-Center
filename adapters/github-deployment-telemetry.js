@@ -11,14 +11,14 @@ async function fetchJson(url){
   return{ok:true,status:r.status,data:await r.json()};
 }
 async function probeVersion(owner,repo,branch){
-  const candidates=['VERSION','version.txt','package.json'];
+  const candidates=['VERSION','version.txt','package.json','releases/latest.json'];
   for(const path of candidates){
     try{
       const r=await fetch(githubApi(owner,repo,`contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(branch)}`),{headers:{Accept:'application/vnd.github.raw+json'},cache:'no-store'});
       if(!r.ok)continue;
       const text=(await r.text()).slice(0,MAX_VERSION_BYTES).trim();
-      if(path==='package.json'){
-        try{const p=JSON.parse(text);if(p?.version)return{version:String(p.version),source:path};}catch{}
+      if(path==='package.json'||path==='releases/latest.json'){
+        try{const p=JSON.parse(text);const v=p?.version||p?.tag||p?.releaseVersion;if(v)return{version:String(v),source:path};}catch{}
       }else if(text)return{version:text.split(/\r?\n/)[0].trim(),source:path};
     }catch{}
   }
@@ -53,7 +53,7 @@ export async function probeGithubProduct(product){
   return{
     repoHealth:d.archived?'DEGRADED':'HEALTHY',repoTrust:'OBSERVED_REMOTE',repoMeasuredAt:measuredAt,repoHttpStatus:200,
     repositoryState:'REGISTERED',visibility:d.visibility||'unknown',defaultBranch:branch,lastActivityAt:d.pushed_at||null,repoSizeKb:Number.isFinite(d.size)?d.size:null,
-    version:version.version,versionSource:version.source,hasPages:Boolean(d.has_pages),deploymentUrl,
+    gitVersion:version.version,versionSource:version.source,hasPages:Boolean(d.has_pages),deploymentUrl,
     deploymentHealth:deployment.health,deploymentMeasuredAt:deployment.measuredAt,deploymentHttpStatus:deployment.httpStatus,deploymentLatencyMs:deployment.latencyMs,deploymentDetail:deployment.detail
   };
 }
