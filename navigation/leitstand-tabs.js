@@ -5,6 +5,7 @@ import '../auth/futura-recovery-controller.js';
 import '../devices/device-center.js';
 import '../programs/program-heartbeat-runtime.js';
 import '../programs/program-flow-runtime.js';
+import '../programs/remote-program-flow-bridge.js';
 import '../programs/program-heartbeat-product-link.js';
 import '../programs/kicc-self-heartbeat.js';
 import '../programs/remote-heartbeat-server-readiness.js';
