@@ -15,7 +15,7 @@ function applyKiccRuntime(program){
     deploymentUrl:location.href,
     deploymentHealth:runtime.status==='HEALTHY'?'HEALTHY':runtime.status||'UNKNOWN',
     telemetryHealth:runtime.status==='HEALTHY'?'HEALTHY':runtime.status||'UNKNOWN',
-    version:globalThis.KICC?.version||program.version||null
+    runtimeVersion:globalThis.KICC?.version||program.runtimeVersion||null
   });
 }
 function applyStaticRuntime(program,result){
@@ -26,7 +26,7 @@ function applyStaticRuntime(program,result){
     trust:result.deploymentHealth==='UNKNOWN'?'UNVERIFIED':'OBSERVED_REMOTE',
     deploymentUrl:result.deploymentUrl,
     deploymentHealth:result.deploymentHealth,
-    version:result.version||program.version||null,
+    deploymentVersion:result.gitVersion||program.deploymentVersion||null,
     lastActivityAt:result.lastActivityAt||program.lastActivityAt||null
   });
 }
@@ -52,6 +52,7 @@ export async function refreshGithubTelemetry(){
   running=true;
   try{
     await Promise.all(api.programs.map(probeOne));
+    globalThis.KICC_VERSION_LIFECYCLE?.refresh?.();
     api.render?.();
     globalThis.KICC_DASHBOARD_INSTRUMENTS?.render?.();
     globalThis.dispatchEvent(new CustomEvent('kicc:github-telemetry',{detail:{measuredAt:new Date().toISOString()}}));
