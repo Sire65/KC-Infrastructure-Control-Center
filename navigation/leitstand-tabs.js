@@ -16,6 +16,7 @@ import '../programs/remote-heartbeat-bridge-runtime.js';
 import '../programs/remote-heartbeat-bridge-ui.js';
 import '../telemetry/neon-runtime-config.js';
 import '../sync/mirror-runtime-config.js';
+import '../sync/mirror-morning-report.js';
 import '../products/program-version-lifecycle.js';
 import '../products/github-telemetry-runtime.js';
 import '../storage/recovery-policy.js';
