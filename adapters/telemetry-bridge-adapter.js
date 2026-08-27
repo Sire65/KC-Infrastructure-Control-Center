@@ -24,8 +24,17 @@ function sanitizeProgramRuntime(value){
     schema:'kicc.program-heartbeat.v1',programId:clean(value.programId,100),instanceId:clean(value.instanceId,120)||'server-observed',
     name:clean(value.name,120)||clean(value.programId,100),deviceType:clean(value.deviceType,60)||'WEB_APP',version:clean(value.version,80)||'unknown',build:clean(value.build,80)||clean(value.version,80)||'unknown',
     status:['ONLINE','OFFLINE','DEGRADED','MAINTENANCE'].includes(String(value.status||'').toUpperCase())?String(value.status).toUpperCase():'UNKNOWN',
-    measuredAt,latencyMs:null,trafficRx:null,trafficTx:null,queueDepth:null,errorCount:0,source:clean(value.source,80)||'TELEMETRY_BRIDGE',trust:clean(value.trust,80)||'OBSERVED_SERVER',message:clean(value.deviceName,120)
+    measuredAt,latencyMs:null,trafficRx:null,trafficTx:null,queueDepth:null,errorCount:0,source:clean(value.source,80)||'TELEMETRY_BRIDGE',trust:clean(value.trust,80)||'OBSERVED_SERVER',message:clean(value.message||value.deviceName,240)
   };
+}
+function sanitizeProgramFlow(value){
+  if(!value||typeof value!=='object')return null;
+  const clean=(v,n=160)=>typeof v==='string'?v.trim().slice(0,n):'';
+  const programId=clean(value.programId,100),to=clean(value.to,140),measuredAt=clean(value.measuredAt,60);
+  if(!programId||!to||!measuredAt||!Number.isFinite(new Date(measuredAt).getTime()))return null;
+  const type=['HEARTBEAT','READ','WRITE','SYNC','PUSH','EMAIL','SMS','WHATSAPP','BACKUP','RESTORE','API','OTHER'].includes(String(value.type||'').toUpperCase())?String(value.type).toUpperCase():'OTHER';
+  const status=['OK','DEGRADED','FAILED','UNKNOWN'].includes(String(value.status||'').toUpperCase())?String(value.status).toUpperCase():'UNKNOWN';
+  return {schema:'kicc.program-flow.v1',eventId:clean(value.eventId,180)||`${programId}:${new Date(measuredAt).getTime()}`,programId,instanceId:clean(value.instanceId,120)||'server-observed',from:clean(value.from,140)||`program:${programId}`,to,type,status,count:Number.isFinite(Number(value.count))?Math.max(0,Number(value.count)):null,bytes:Number.isFinite(Number(value.bytes))?Math.max(0,Number(value.bytes)):null,latencyMs:Number.isFinite(Number(value.latencyMs))?Math.max(0,Number(value.latencyMs)):null,measuredAt,source:clean(value.source,80)||'TELEMETRY_BRIDGE',trust:clean(value.trust,80)||'OBSERVED_SERVER',message:clean(value.message,240)};
 }
 
 export function createTelemetryBridgeAdapter({id='telemetry-bridge',endpointResolver,authResolver=null}){
@@ -55,6 +64,8 @@ export function createTelemetryBridgeAdapter({id='telemetry-bridge',endpointReso
       for(const key of this.capabilities){if(key in payload) observation[key]=sanitizeCapabilityBlock(payload[key]);}
       const runtime=sanitizeProgramRuntime(payload.programRuntime);
       if(runtime){observation.programRuntime=runtime;try{globalThis.KICC_PROGRAM_HEARTBEATS?.ingest?.(runtime);}catch{}}
+      const flow=sanitizeProgramFlow(payload.programFlow);
+      if(flow){observation.programFlow=flow;try{globalThis.KICC_PROGRAM_FLOWS?.ingest?.(flow);}catch{}}
       return observation;
     }
   };
