@@ -13,6 +13,7 @@ export async function runRuntimeSmoke(){
  out.push(check('BOOT_INTERNET_MONITOR',Boolean(globalThis.KICC_INTERNET_MONITOR),'Internet-Monitor geladen'));
  out.push(check('BOOT_INTERNET_INSTRUMENTS',Boolean(globalThis.KICC_INTERNET_INSTRUMENTS),'Internet-Rundinstrumente geladen'));
  out.push(check('BOOT_MIRROR_MORNING_REPORT',Boolean(globalThis.KICC_MIRROR_MORNING_REPORT),'Supabase→Neon Morgenreport-Runtime geladen'));
+ out.push(check('BOOT_STARTUP_READINESS',Boolean(globalThis.KICC_STARTUP_READINESS),'Start-Selbstheilung geladen'));
  out.push(check('BOOT_NON_KC',Boolean(globalThis.KICC_NON_KC),'NON_KC-Registry geladen'));
  out.push(check('BOOT_EXPLORER',Boolean(globalThis.KICC_EXPLORER),'Repository-Explorer geladen'));
  out.push(check('BOOT_GIT_BRIDGE_CLIENT',Boolean(globalThis.KICC_GIT_BRIDGE),'Git-Bridge-Client geladen'));
@@ -25,7 +26,9 @@ export async function runRuntimeSmoke(){
  const requiredHosts=['repositoryExplorer','repositoryPolicySummary','explorerBridgeSelfTest','runtimeSmoke','topology','internetMonitor','mirrorHealth','kcProgramCards'];for(const id of requiredHosts)out.push(check(`DOM_${id.toUpperCase()}`,Boolean(document.getElementById(id)),`${id} im DOM vorhanden`));
  out.push(check('DOM_INTERNET_INSTRUMENT_STRIP',Boolean(document.getElementById('internetInstrumentStrip')),'Internet-Rundinstrumente im DOM vorhanden'));
  out.push(check('DOM_MIRROR_MORNING_REPORT',Boolean(document.getElementById('mirrorMorningReport')),'Supabase→Neon Morgenreport im Dashboard vorhanden'));
+ out.push(check('DOM_STARTUP_READINESS',Boolean(document.getElementById('startupReadiness')),'Startprüfung im Dashboard vorhanden','WARN'));
  const gauges=document.querySelectorAll('#internetInstrumentStrip .internet-instrument');out.push(check('INTERNET_GAUGE_COUNT',gauges.length===4,`${gauges.length}/4 Internet-Rundinstrumente gerendert`));
+ const startup=globalThis.KICC_STARTUP_READINESS?.state?.();if(startup)out.push(check('STARTUP_CORE_VISIBLE',startup.morningReport&&startup.internetMonitor&&startup.internetInstruments,`Morgenreport=${startup.morningReport?'OK':'FEHLT'} · Internet=${startup.internetMonitor?'OK':'FEHLT'} · Instrumente=${startup.gaugeCount}/4`));
  const duplicateIds=[...document.querySelectorAll('[id]')].map(x=>x.id).filter((id,i,a)=>a.indexOf(id)!==i);out.push(check('DOM_UNIQUE_IDS',duplicateIds.length===0,duplicateIds.length?`Doppelte IDs: ${[...new Set(duplicateIds)].join(', ')}`:'Keine doppelten DOM-IDs'));
  const panels=[...document.querySelectorAll('[data-kicc-panel]')],activePanels=panels.filter(p=>!p.hidden);out.push(check('NAV_SINGLE_ACTIVE_PANEL',activePanels.length===1,`${activePanels.length} sichtbare Fachregister`));out.push(check('NAV_PANEL_READY',activePanels.every(p=>p.dataset.kiccReady==='1'),'Aktives Fachregister als ready markiert'));
  const preparedWrites=PREPARED_REPOSITORY_ALLOWLIST.filter(p=>p.write===true);out.push(check('PREPARED_ALLOWLIST_READONLY',preparedWrites.length===0,preparedWrites.length?`${preparedWrites.length} vorbereitete Repos mit write=true`:'Alle vorbereiteten Repos write=false'));
