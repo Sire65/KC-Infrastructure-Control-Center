@@ -24,7 +24,7 @@ export function makeKcProduct({id,name,repo=null,kind,owner='Sire65',critical=fa
   };
 }
 
-function isAuthoritative(trust){return ['OBSERVED_REMOTE','OBSERVED_LOCAL'].includes(trust);}
+function isAuthoritative(trust){return ['OBSERVED_REMOTE','OBSERVED_LOCAL','OBSERVED_BRIDGE'].includes(trust);}
 function isFresh(ts,now,maxAgeMs=15*60*1000){
   const measured=Date.parse(ts||'');
   return Number.isFinite(measured)&&now-measured<=maxAgeMs;
