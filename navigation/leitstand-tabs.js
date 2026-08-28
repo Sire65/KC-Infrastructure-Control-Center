@@ -33,6 +33,7 @@ import '../security/security-auth-verification-fix.js';
 import '../security/security-visual-polish.js';
 import '../dashboard/dashboard-polish.js';
 import '../network/internet-monitor-shell.js';
+import '../network/fritzbox-radio-details.js';
 import '../dashboard/fritzbox-topology-overlay.js';
 import '../dashboard/topology-link-details.js';
 
