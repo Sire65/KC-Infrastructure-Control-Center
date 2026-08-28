@@ -1,0 +1,53 @@
+name: KICC Deep Regression TÜV
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deep-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: package.json
+
+      - name: Install test tools
+        run: npm install
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run exactly 50 Chromium regression tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kicc-playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload traces screenshots videos
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kicc-playwright-failures
+          path: test-results/
+          retention-days: 14
