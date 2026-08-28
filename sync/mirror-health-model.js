@@ -8,7 +8,16 @@ export function evaluateMirrorHealth(flow,now=Date.now()){
  const explicit=String(flow.status||'').toUpperCase();if(['FAILED','RESYNC_REQUIRED'].includes(explicit))return{status:explicit,readyForFailover:false,reason:flow.message||'Aktueller Mirror-Lauf meldet einen Fehler'};
  const lag=Number(flow.syncLagSec);if(Number.isFinite(lag)&&lag>300)return{status:'DEGRADED',readyForFailover:false,reason:'Aktueller Sync-Lag über 5 Minuten'};
  if(!flow.lastSuccessAt)return{status:'UNKNOWN',readyForFailover:false,reason:'Kein letzter erfolgreicher Abgleich'};
- const successAge=now-new Date(flow.lastSuccessAt).getTime();if(!Number.isFinite(successAge)||successAge>Math.max(flow.maxAgeMs*2,300000))return{status:'DEGRADED',readyForFailover:false,reason:'Letzter erfolgreicher Abgleich zu alt'};
+ const successAge=now-new Date(flow.lastSuccessAt).getTime();if(!Number.isFinite(successAge)||successAge< -15000||successAge>Math.max(flow.maxAgeMs*2,300000))return{status:'DEGRADED',readyForFailover:false,reason:'Letzter erfolgreicher Abgleich zu alt oder zeitlich ungültig'};
  return{status:'HEALTHY',readyForFailover:true,reason:'Aktueller Mirror-Zustand ohne nachgewiesene Abweichung/Konflikt'};
 }
-export function applyMirrorObservation(flow,observation={}){const allowed=['status','measuredAt','lastSuccessAt','runCount24h','errorCount24h','mismatchCount24h','currentMismatchCount','syncLagSec','queueDepth','conflictCount','currentConflictCount','trust','message'];for(const key of allowed)if(Object.prototype.hasOwnProperty.call(observation,key))flow[key]=observation[key];const evaluated=evaluateMirrorHealth(flow);flow.status=evaluated.status;flow.readyForFailover=evaluated.readyForFailover;flow.healthReason=evaluated.reason;return flow}
+export function applyMirrorObservation(flow,observation={}){
+ const has=(k)=>Object.prototype.hasOwnProperty.call(observation,k);
+ const reportedStatus=has('status')?observation.status:'UNKNOWN';
+ const allowed=['measuredAt','lastSuccessAt','runCount24h','errorCount24h','mismatchCount24h','syncLagSec','queueDepth','conflictCount','trust','message'];
+ for(const key of allowed)if(has(key))flow[key]=observation[key];
+ flow.currentMismatchCount=has('currentMismatchCount')?observation.currentMismatchCount:null;
+ flow.currentConflictCount=has('currentConflictCount')?observation.currentConflictCount:null;
+ const evaluated=evaluateMirrorHealth({...flow,status:reportedStatus});
+ flow.status=evaluated.status;flow.readyForFailover=evaluated.readyForFailover;flow.healthReason=evaluated.reason;return flow
+}
