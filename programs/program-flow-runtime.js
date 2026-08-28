@@ -1,19 +1,22 @@
-import {normalizeProgramFlow,PROGRAM_FLOW_SCHEMA,PROGRAM_FLOW_MAX_AGE_MS} from './program-flow-contract.js';
+import {normalizeProgramFlow,PROGRAM_FLOW_SCHEMA,PROGRAM_FLOW_MAX_AGE_MS,PROGRAM_FLOW_FUTURE_TOLERANCE_MS} from './program-flow-contract.js';
 const CHANNEL='kicc-program-flow-v1';
 const events=[];
 const ids=new Set();
 const MAX_EVENTS=240;
-function purge(){
- const min=Date.now()-PROGRAM_FLOW_MAX_AGE_MS;
- while(events.length&&new Date(events[0].measuredAt).getTime()<min){const old=events.shift();if(old?.eventId)ids.delete(old.eventId);}
- if(events.length>MAX_EVENTS){const removed=events.splice(0,events.length-MAX_EVENTS);for(const old of removed)if(old?.eventId)ids.delete(old.eventId);}
+function validTime(x,now=Date.now(),maxAgeMs=PROGRAM_FLOW_MAX_AGE_MS){const t=Date.parse(x?.measuredAt||'');return Number.isFinite(t)&&t<=now+PROGRAM_FLOW_FUTURE_TOLERANCE_MS&&now-t<=maxAgeMs;}
+function purge(now=Date.now()){
+ const keep=[];ids.clear();
+ for(const x of events){if(validTime(x,now)){keep.push(x);if(x?.eventId)ids.add(x.eventId);}}
+ keep.sort((a,b)=>Date.parse(a.measuredAt)-Date.parse(b.measuredAt));
+ if(keep.length>MAX_EVENTS)keep.splice(0,keep.length-MAX_EVENTS);
+ events.splice(0,events.length,...keep);ids.clear();for(const x of events)if(x?.eventId)ids.add(x.eventId);
 }
 function ingest(raw){
  try{
   if(raw?.schema&&raw.schema!==PROGRAM_FLOW_SCHEMA)return false;
   const flow=normalizeProgramFlow(raw);
   purge();
-  if(flow.eventId&&ids.has(flow.eventId))return false;
+  if(!validTime(flow)||flow.eventId&&ids.has(flow.eventId))return false;
   events.push(flow);if(flow.eventId)ids.add(flow.eventId);purge();
   globalThis.dispatchEvent(new CustomEvent('kicc:program-flow-ingested',{detail:flow}));
   return flow;
@@ -25,4 +28,4 @@ function bind(){
  if('BroadcastChannel'in globalThis){const bc=new BroadcastChannel(CHANNEL);bc.addEventListener('message',e=>ingest(e.data));globalThis.KICC_PROGRAM_FLOW_CHANNEL=bc;}
 }
 bind();
-globalThis.KICC_PROGRAM_FLOWS={schema:PROGRAM_FLOW_SCHEMA,channel:CHANNEL,ingest,list(){purge();return [...events];},recent(ms=45000){purge();const min=Date.now()-ms;return events.filter(x=>new Date(x.measuredAt).getTime()>=min);}};
+globalThis.KICC_PROGRAM_FLOWS={schema:PROGRAM_FLOW_SCHEMA,channel:CHANNEL,maxAgeMs:PROGRAM_FLOW_MAX_AGE_MS,ingest,list(){purge();return [...events];},recent(ms=45000){purge();const max=Math.min(Math.max(0,Number(ms)||0),PROGRAM_FLOW_MAX_AGE_MS);return events.filter(x=>validTime(x,Date.now(),max));},fresh:validTime};
