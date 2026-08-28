@@ -1,0 +1,16 @@
+{
+  "name": "kc-infrastructure-control-center",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:e2e": "playwright test --project=chromium",
+    "test:cross-browser": "playwright test",
+    "test:report": "playwright show-report",
+    "lint": "eslint tests/e2e playwright.config.js"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.55.0",
+    "eslint": "^9.34.0"
+  }
+}
