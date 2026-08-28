@@ -1,8 +1,15 @@
 const ALLOWED_STATUS=new Set(['HEALTHY','DEGRADED','FAILED','UNKNOWN','RESYNC_REQUIRED']);
-const MAX_FUTURE_SKEW_MS=30000;
+const MAX_FUTURE_SKEW_MS=15000;
 
-function safeNumber(value){return Number.isFinite(value)&&value>=0?value:null;}
+function safeNumber(value){const n=Number(value);return Number.isFinite(n)&&n>=0?n:null;}
 function safeText(value,max=300){return typeof value==='string'?value.slice(0,max):'';}
+function safeIso(value,field,now=Date.now(),allowNull=true){
+  if(value==null||value===''){if(allowNull)return null;throw new Error(`${field} missing`);}
+  const t=Date.parse(value);
+  if(!Number.isFinite(t))throw new Error(`Invalid ${field}`);
+  if(t-now>MAX_FUTURE_SKEW_MS)throw new Error(`${field} is in the future`);
+  return new Date(t).toISOString();
+}
 
 function validateEndpoint(value){
   if(!value)return null;
@@ -15,19 +22,19 @@ function validateEndpoint(value){
 export function sanitizeMirrorPayload(payload,expectedFlowId,now=Date.now()){
   if(!payload||typeof payload!=='object')throw new Error('Invalid mirror telemetry payload');
   if(payload.flowId!==expectedFlowId)throw new Error('Mirror flow mismatch');
-  const measuredAt=new Date(payload.measuredAt).getTime();
-  if(!Number.isFinite(measuredAt))throw new Error('Invalid mirror timestamp');
-  if(measuredAt-now>MAX_FUTURE_SKEW_MS)throw new Error('Mirror timestamp is in the future');
+  const measuredAt=safeIso(payload.measuredAt,'mirror timestamp',now,false);
   return {
     status:ALLOWED_STATUS.has(payload.status)?payload.status:'UNKNOWN',
-    measuredAt:new Date(measuredAt).toISOString(),
-    lastSuccessAt:payload.lastSuccessAt?new Date(payload.lastSuccessAt).toISOString():null,
+    measuredAt,
+    lastSuccessAt:safeIso(payload.lastSuccessAt,'lastSuccessAt',now,true),
     runCount24h:safeNumber(payload.runCount24h),
     errorCount24h:safeNumber(payload.errorCount24h),
     mismatchCount24h:safeNumber(payload.mismatchCount24h),
+    currentMismatchCount:safeNumber(payload.currentMismatchCount??payload.current_mismatch_count),
     syncLagSec:safeNumber(payload.syncLagSec),
     queueDepth:safeNumber(payload.queueDepth),
     conflictCount:safeNumber(payload.conflictCount),
+    currentConflictCount:safeNumber(payload.currentConflictCount??payload.current_conflict_count),
     trust:'OBSERVED_REMOTE',
     message:safeText(payload.message)
   };
@@ -58,7 +65,7 @@ export function createMirrorBridgeAdapter({flowId,endpointResolver,authResolver,
       if(!type.toLowerCase().includes('application/json'))throw new Error('Mirror bridge response is not JSON');
       const observation=sanitizeMirrorPayload(await response.json(),flowId);
       const age=Date.now()-new Date(observation.measuredAt).getTime();
-      if(age>maxAgeMs)return {...observation,status:'UNKNOWN',trust:'STALE',message:'Mirror-Telemetrie ist veraltet.'};
+      if(age<0||age>maxAgeMs)return {...observation,status:'UNKNOWN',trust:'STALE',message:'Mirror-Telemetrie ist veraltet oder zeitlich ungültig.'};
       return observation;
     }
   };
