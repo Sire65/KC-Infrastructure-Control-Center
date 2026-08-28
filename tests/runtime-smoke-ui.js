@@ -1,4 +1,5 @@
 import { runRuntimeSmoke } from './runtime-smoke.js';
+import './final-regression-ui.js';
 
 const state={running:false,last:null,error:null};
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
