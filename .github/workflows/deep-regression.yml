@@ -14,7 +14,7 @@ permissions:
 jobs:
   deep-regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 40
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,6 +40,9 @@ jobs:
 
       - name: Chromium regression · exactly 50 tests
         run: npm run test:e2e
+
+      - name: Database security TÜV · read-only only
+        run: npm run test:db-security
 
       - name: Cross-browser regression · Chromium Firefox WebKit
         run: npm run test:cross-browser
