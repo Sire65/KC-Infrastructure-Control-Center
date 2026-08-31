@@ -3,10 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test:e2e": "playwright test --project=chromium",
+    "test:e2e": "playwright test tests/e2e/kicc-50.spec.js --project=chromium",
+    "test:db-security": "playwright test tests/e2e/db-security-readonly.spec.js --project=chromium",
     "test:cross-browser": "playwright test",
     "test:report": "playwright show-report",
-    "lint": "eslint tests/e2e playwright.config.js"
+    "lint": "eslint tests/e2e playwright.config.js database/db-security-readonly.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
