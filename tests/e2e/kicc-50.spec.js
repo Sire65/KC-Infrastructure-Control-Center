@@ -13,7 +13,7 @@ test.describe('KICC Tiefenprüfung · 50 Tests', () => {
   // 01–10 · Grundstruktur
   test('01 Titel ist KICC', async ({ page }) => { await expect(page).toHaveTitle(/KC (?:Infrastructure Control Center|INFRA LEITSTAND)/i); });
   test('02 Versionsanzeige ist vorhanden', async ({ page }) => { await expect(page.locator('#version')).not.toHaveText(''); });
-  test('03 genau 11 Fachregister vorhanden', async ({ page }) => { await expect(page.locator('[data-kicc-tab]')).toHaveCount(11); });
+  test('03 genau 15 Fachregister vorhanden', async ({ page }) => { await expect(page.locator('[data-kicc-tab]')).toHaveCount(15); });
   test('04 genau ein Fachregister ist sichtbar', async ({ page }) => { await expect(page.locator('[data-kicc-panel]:not([hidden])')).toHaveCount(1); });
   test('05 Dashboard ist initial sichtbar', async ({ page }) => { await expect(page.locator('[data-kicc-panel="dashboard"]')).toBeVisible(); });
   test('06 Gesamtstatus-Anzeige vorhanden', async ({ page }) => { await expect(page.locator('#systemState')).toBeVisible(); });
@@ -54,9 +54,9 @@ test.describe('KICC Tiefenprüfung · 50 Tests', () => {
 
   // 41–50 · Robustheit, UI, Accessibility
   test('41 keine doppelten DOM-IDs', async ({ page }) => { const dups=await page.evaluate(() => { const a=[...document.querySelectorAll('[id]')].map(x=>x.id); return a.filter((x,i)=>a.indexOf(x)!==i); }); expect([...new Set(dups)]).toEqual([]); });
-  test('42 genau 11 Tabpanels vorhanden', async ({ page }) => { await expect(page.locator('[data-kicc-panel]')).toHaveCount(11); });
+  test('42 genau 15 Tabpanels vorhanden', async ({ page }) => { await expect(page.locator('[data-kicc-panel]')).toHaveCount(15); });
   test('43 nur ein Panel hat hidden=false', async ({ page }) => { await expect(page.locator('[data-kicc-panel]:not([hidden])')).toHaveCount(1); });
-  test('44 alle 11 Navigationselemente haben role=tab', async ({ page }) => { await expect(page.locator('[data-kicc-tab][role="tab"]')).toHaveCount(11); });
+  test('44 alle 15 Navigationselemente haben role=tab', async ({ page }) => { await expect(page.locator('[data-kicc-tab][role="tab"]')).toHaveCount(15); });
   test('45 jedes Register besitzt ein passendes Panel', async ({ page }) => { const ok=await page.evaluate(() => [...document.querySelectorAll('[data-kicc-tab]')].every(t=>document.querySelector(`[data-kicc-panel="${t.dataset.kiccTab}"]`))); expect(ok).toBe(true); });
   test('46 Internetbereich rendert vier Rundinstrumente', async ({ page }) => { await page.locator('[data-kicc-tab="internet"]').click(); await page.waitForTimeout(800); await expect(page.locator('#internetInstrumentStrip .internet-instrument')).toHaveCount(4); });
   test('47 Morgenreport hat sichtbaren Zustand', async ({ page }) => { const body=page.locator('#mirrorMorningReport [data-mmr-body]'); await expect(body).toBeAttached(); await expect(body).not.toHaveText(''); });
