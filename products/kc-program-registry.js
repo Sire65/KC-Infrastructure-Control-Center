@@ -18,6 +18,7 @@ const PROGRAMS=[
   makeKcProduct({id:'kc-failover-gateway',name:'KC Failover Gateway',repo:'KC-Failover-Gateway',kind:'FAILOVER',critical:true,dependencies:{databases:['db-supabase-core','db-neon-core-mirror'],failover:['flow-supabase-neon-core']}}),
   makeKcProduct({id:'kc-werbewebsite',name:'KC Werbewebsite',repo:'KC-Werbewebsite',kind:'WEBSITE'}),
   makeKcProduct({id:'kc-kuechen-detektiv',name:'KC Küchen-Detektiv',repo:'KC-Kuechen-Detektiv',kind:'GAME'}),
+  makeKcProduct({id:'kc-system-check',name:'KC System Check',repo:'KC-System-Check',kind:'SYSTEM_CHECK',critical:true,notes:'Mobiler Systemprüfer; liefert technischen KICC-Heartbeat und darf keine Fach-, Personen-, Kassen- oder Inhaltsdaten übertragen.',dependencies:{databases:['db-supabase-core'],failover:['flow-supabase-neon-core']}}),
   makeKcProduct({id:'kicc',name:'KICC',repo:'KC-Infrastructure-Control-Center',kind:'CONTROL_CENTER',dependencies:{databases:['db-supabase-core','db-supabase-futura','db-neon-core-mirror'],communication:['kc-communication'],failover:['flow-supabase-neon-core']}})
 ];
 
