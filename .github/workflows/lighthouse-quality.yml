@@ -1,0 +1,59 @@
+name: KICC Lighthouse Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '25 2 * * 2,5'
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Lighthouse CI
+        run: npm install --global @lhci/cli@0.15.x
+
+      - name: Start local KICC test server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/kicc-http.log 2>&1 &
+          echo $! > /tmp/kicc-http.pid
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/kicc-http.log
+          exit 1
+
+      - name: Lighthouse audit
+        run: |
+          mkdir -p lighthouse-report
+          lhci collect --url=http://127.0.0.1:4173/?e2e=1#dashboard --numberOfRuns=2 --settings.chromeFlags='--no-sandbox --headless=new'
+          lhci assert --preset=lighthouse:no-pwa || true
+          cp -r .lighthouseci/* lighthouse-report/ || true
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kicc-lighthouse-report
+          path: lighthouse-report/
+          retention-days: 30
+
+      - name: Stop local server
+        if: always()
+        run: |
+          if [ -f /tmp/kicc-http.pid ]; then kill "$(cat /tmp/kicc-http.pid)" || true; fi

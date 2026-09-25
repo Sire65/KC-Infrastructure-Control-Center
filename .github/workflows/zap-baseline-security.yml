@@ -1,0 +1,58 @@
+name: KICC OWASP ZAP Baseline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '40 2 * * 3'
+
+permissions:
+  contents: read
+
+jobs:
+  zap-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start local KICC test server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/kicc-http.log 2>&1 &
+          echo $! > /tmp/kicc-http.pid
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/kicc-http.log
+          exit 1
+
+      - name: Passive OWASP ZAP baseline scan
+        run: |
+          mkdir -p zap-report
+          docker run --rm --network=host \
+            -v "$PWD/zap-report:/zap/wrk/:rw" \
+            ghcr.io/zaproxy/zaproxy:stable \
+            zap-baseline.py \
+            -t 'http://127.0.0.1:4173/?e2e=1#dashboard' \
+            -I \
+            -m 3 \
+            -r zap-report.html \
+            -J zap-report.json \
+            -w zap-report.md
+
+      - name: Upload ZAP report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kicc-zap-baseline-report
+          path: zap-report/
+          retention-days: 30
+
+      - name: Stop local server
+        if: always()
+        run: |
+          if [ -f /tmp/kicc-http.pid ]; then kill "$(cat /tmp/kicc-http.pid)" || true; fi
