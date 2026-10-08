@@ -68,6 +68,10 @@ async function probe(){
     return last;
   }
 }
-function start(){if(timer)return;probe();timer=setInterval(probe,POLL_MS);}
+// KICC-F-098: Jede Gateway-Abfrage kann Neon wecken. Im Hintergrund (Tab verdeckt/minimiert)
+// wird nicht abgefragt; beim Sichtbarwerden sofort. Veraltete Messung wird regulaer UNKNOWN.
+function visible(){return typeof document==='undefined'||document.visibilityState!=='hidden';}
+function tick(){if(visible())probe();}
+function start(){if(timer)return;tick();timer=setInterval(tick,POLL_MS);document.addEventListener?.('visibilitychange',()=>{if(visible())probe();});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 globalThis.KICC_FAILOVER_GATEWAY={endpoint:ENDPOINT,probe,start,last:()=>last};
