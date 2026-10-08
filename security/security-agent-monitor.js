@@ -1,4 +1,5 @@
 import { validateSecurityAgentObservation, evaluateAgentTlsObservation } from './security-agent-contract.js';
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 const STATE={status:'PREPARED',measuredAt:null,trust:'UNVERIFIED',message:'Security-Agent vorbereitet, aber noch nicht verbunden.',agentId:null,lastAttemptAt:null};
 const POLL_MS=5*60*1000;
@@ -20,9 +21,9 @@ function render(){
   const targetHtml=rows.map(t=>{
     const e=evaluateAgentTlsObservation(t.observation);
     const cert=t.observation?.certificate||{};
-    return `<article class="security-control"><div><strong>${t.name}</strong><small>${t.critical?'KRITISCH':'STANDARD'} · ${t.domain}</small></div><span class="status-chip ${cls(e.status==='SECURE'?'ONLINE':e.status==='INSECURE'?'FAILED':'PREPARED')}"><span class="dot"></span>${e.status}</span><p>TLS: ${t.observation?.tlsVersion||'—'} · Cipher: ${t.observation?.cipher||'—'}</p><p>Zertifikat bis: ${cert.validTo?new Date(cert.validTo).toLocaleString('de-DE'):'—'} · Issuer: ${cert.issuer||'—'}</p><p>${e.issues.join(' · ')||'TLS/Zertifikat vollständig verifiziert.'}</p></article>`;
+    return `<article class="security-control"><div><strong>${esc(t.name)}</strong><small>${t.critical?'KRITISCH':'STANDARD'} · ${esc(t.domain)}</small></div><span class="status-chip ${cls(e.status==='SECURE'?'ONLINE':e.status==='INSECURE'?'FAILED':'PREPARED')}"><span class="dot"></span>${esc(e.status)}</span><p>TLS: ${esc(t.observation?.tlsVersion||'—')} · Cipher: ${esc(t.observation?.cipher||'—')}</p><p>Zertifikat bis: ${cert.validTo?new Date(cert.validTo).toLocaleString('de-DE'):'—'} · Issuer: ${esc(cert.issuer||'—')}</p><p>${esc(e.issues.join(' · ')||'TLS/Zertifikat vollständig verifiziert.')}</p></article>`;
   }).join('');
-  host.innerHTML=`<article class="security-agent-overview"><div><strong>KC Security-Agent</strong><small>read-only · Zertifikate / TLS / DNS / Erreichbarkeit</small></div><span class="status-chip ${cls(STATE.status)}"><span class="dot"></span>${STATE.status}</span><p>${STATE.message}</p><p>Endpoint: ${endpoint()?'konfiguriert':'noch nicht konfiguriert'} · letzte Messung: ${age(STATE.measuredAt)} · Targets: ${rows.length}</p></article>${targetHtml}`;
+  host.innerHTML=`<article class="security-agent-overview"><div><strong>KC Security-Agent</strong><small>read-only · Zertifikate / TLS / DNS / Erreichbarkeit</small></div><span class="status-chip ${cls(STATE.status)}"><span class="dot"></span>${esc(STATE.status)}</span><p>${esc(STATE.message)}</p><p>Endpoint: ${endpoint()?'konfiguriert':'noch nicht konfiguriert'} · letzte Messung: ${age(STATE.measuredAt)} · Targets: ${rows.length}</p></article>${targetHtml}`;
 }
 
 async function refresh(){

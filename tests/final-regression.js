@@ -29,6 +29,26 @@ export async function runFinalRegression(){
   const mirror=globalThis.KICC_MIRROR?.flow,liveHealth=globalThis.KICC_MIRROR?.health?.();
   out.push(check('MIRROR_FAILOVER_REQUIRES_REMOTE',liveHealth?.readyForFailover!==true||mirror?.trust==='OBSERVED_REMOTE',`Live Failover-ready=${liveHealth?.readyForFailover?'JA':'NEIN'} · Trust=${mirror?.trust||'—'}`));
 
+  // KICC-F-094 · Veraltete Backup-/Vault-Nachweise duerfen nie BEREIT ergeben.
+  const gate=globalThis.KICC_RECOVERY_GATE;
+  const okRun={last_backup_status:'SUCCESS',integrity_status:'PASS',last_restore_test_result:'PASS',rto_seconds:60,last_verify_at:nowIso(-3600_000),last_restore_test_at:nowIso(-86400_000)};
+  const fresh=gate?.evaluate?.({...okRun,measured_at:nowIso(-60_000),last_backup_at:nowIso(-3600_000)},gate.defaults);
+  out.push(check('RECOVERY_FRESH_READY',fresh?.state==='READY',`Frischer Vault-Nachweis → ${fresh?.state||'—'}`));
+  const oldReport=gate?.evaluate?.({...okRun,measured_at:nowIso(-7*86400_000),last_backup_at:nowIso(-3600_000)},gate.defaults);
+  out.push(check('RECOVERY_STALE_VAULT_REPORT_NOT_READY',oldReport?.state==='WARNING'&&oldReport.checks.some(x=>x.id==='telemetry'&&x.stale),`7 Tage alte Vault-Meldung → ${oldReport?.state||'—'}`));
+  const noReportTs=gate?.evaluate?.({...okRun,last_backup_at:nowIso(-3600_000)},gate.defaults);
+  out.push(check('RECOVERY_MISSING_REPORT_TS_NOT_READY',noReportTs?.state!=='READY',`Vault-Meldung ohne Zeitstempel → ${noReportTs?.state||'—'}`));
+  const oldBackup=gate?.evaluate?.({...okRun,measured_at:nowIso(-60_000),last_backup_at:nowIso(-20*86400_000)},gate.defaults);
+  out.push(check('RECOVERY_STALE_BACKUP_MARKED',oldBackup?.state!=='READY'&&oldBackup.checks.some(x=>x.id==='backup'&&x.stale),`20 Tage altes Backup → ${oldBackup?.state||'—'}`));
+
+  // KICC-F-095 · Schutz gegen Fremdcode und Token-Abfluss.
+  const csp=document.querySelector('meta[http-equiv="Content-Security-Policy"]')?.content||'';
+  const scriptSrc=(csp.split(';').find(x=>x.trim().startsWith('script-src'))||'');
+  out.push(check('CSP_PRESENT_NO_INLINE_SCRIPT',Boolean(scriptSrc)&&!scriptSrc.includes("'unsafe-inline'")&&!scriptSrc.includes("'unsafe-eval'"),`script-src: ${scriptSrc.trim()||'fehlt'}`));
+  const cdn=[...document.querySelectorAll('script[src^="http"]')];
+  out.push(check('EXTERNAL_SCRIPTS_HAVE_SRI',cdn.every(x=>/^sha(256|384|512)-/.test(x.integrity||'')),`${cdn.filter(x=>x.integrity).length}/${cdn.length} externe Skripte mit Prüfsumme`));
+  out.push(check('NO_GLOBAL_REFRESH_TOKEN_READER',typeof globalThis.KICC_AUTO_LOGIN?.loadRefreshToken!=='function','Refresh-Token nicht über globale API lesbar'));
+
   const panels=[...document.querySelectorAll('[data-kicc-panel]')],visible=panels.filter(p=>!p.hidden);
   out.push(check('NAV_EXACTLY_ONE_PANEL',visible.length===1,`${visible.length} sichtbare Fachregister`));
   out.push(check('INTERNET_GAUGES_4',document.querySelectorAll('#internetInstrumentStrip .internet-instrument').length===4,`${document.querySelectorAll('#internetInstrumentStrip .internet-instrument').length}/4 Internet-Instrumente`));

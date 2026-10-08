@@ -4,6 +4,8 @@ import AxeBuilder from '@axe-core/playwright';
 async function openKicc(page) {
   await page.route('http://127.0.0.1:8765/**', route => route.abort('connectionrefused'));
   await page.goto('/?e2e=1#dashboard', { waitUntil: 'domcontentloaded' });
+  // Auf geladene Module warten statt auf eine feste Zeit (kalter Cache/CDN machte Tests sonst zufaellig rot).
+  await page.waitForFunction(() => ['KICC','KICC_DASHBOARD_INSTRUMENTS','KICC_MIRROR','KICC_PROGRAM_FLOWS','KICC_PROGRAM_HEARTBEATS','KICC_RUNTIME_SMOKE'].every(k => globalThis[k]), null, { timeout: 15000 });
   await page.waitForTimeout(1200);
 }
 
@@ -60,7 +62,7 @@ test.describe('KICC Tiefenprüfung · 50 Tests', () => {
   test('45 jedes Register besitzt ein passendes Panel', async ({ page }) => { const ok=await page.evaluate(() => [...document.querySelectorAll('[data-kicc-tab]')].every(t=>document.querySelector(`[data-kicc-panel="${t.dataset.kiccTab}"]`))); expect(ok).toBe(true); });
   test('46 Internetbereich rendert vier Rundinstrumente', async ({ page }) => { await page.locator('[data-kicc-tab="internet"]').click(); await page.waitForTimeout(800); await expect(page.locator('#internetInstrumentStrip .internet-instrument')).toHaveCount(4); });
   test('47 Morgenreport hat sichtbaren Zustand', async ({ page }) => { const body=page.locator('#mirrorMorningReport [data-mmr-body]'); await expect(body).toBeAttached(); await expect(body).not.toHaveText(''); });
-  test('48 Runtime-Smoke liefert ein Prüfprofil', async ({ page }) => { const r=await page.evaluate(async () => await globalThis.KICC_RUNTIME_SMOKE?.run?.()); expect(r?.profile).toBe('KICC_RUNTIME_SMOKE_FINAL'); expect(r?.total).toBeGreaterThan(20); });
+  test('48 Runtime-Smoke liefert ein Prüfprofil', async ({ page }) => { await page.waitForFunction(() => typeof globalThis.KICC_RUNTIME_SMOKE?.run === 'function', null, { timeout: 15000 }); const r=await page.evaluate(async () => await globalThis.KICC_RUNTIME_SMOKE?.run?.()); expect(r?.profile).toBe('KICC_RUNTIME_SMOKE_FINAL'); expect(r?.total).toBeGreaterThan(20); });
   test('49 Axe findet keine kritischen Accessibility-Verstöße', async ({ page }) => { const result=await new AxeBuilder({page}).analyze(); const critical=result.violations.filter(v=>v.impact==='critical'); expect(critical.map(v=>v.id)).toEqual([]); });
   test('50 Mobile-Viewport erzeugt keinen starken horizontalen Überlauf', async ({ page }) => { await page.setViewportSize({width:390,height:844}); await page.reload({waitUntil:'domcontentloaded'}); await page.waitForTimeout(800); const dims=await page.evaluate(() => ({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth})); expect(dims.scroll-dims.client).toBeLessThanOrEqual(8); });
 });

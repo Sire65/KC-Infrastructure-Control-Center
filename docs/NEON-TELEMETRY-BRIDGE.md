@@ -1,6 +1,6 @@
 # KICC Neon Telemetry Bridge
 
-Status: prepared, not provisioned.
+Status: provisioned (read-only Bridge aktiv). Stand: 2026-10-08, KICC 0.1.0-dev.94.
 
 ## Purpose
 KICC shall receive read-only technical telemetry from Neon without storing database passwords, connection strings or admin credentials in the browser or repository.
@@ -24,4 +24,16 @@ Health, measured timestamp, latency, PostgreSQL version, database size, table/sc
 - Mutation, failover, migration and restore actions use separate capability-gated endpoints and explicit authorization.
 
 ## Provisioning state
-No Neon Data API, Neon Auth, new project, branch, database, migration or endpoint is created by this DEV increment. The bridge is intentionally prepared only, because region migrations are frozen and productive infrastructure changes require separate approval.
+Historisch (bis dev.29) war die Bridge nur vorbereitet. Aktueller, am 2026-10-08 gepruefter Stand:
+
+- Endpunkt `db-neon-core-mirror` ist in `telemetry/neon-runtime-config.js` eingetragen und zeigt auf die Supabase Edge Function `kicc-neon-telemetry`. Die Funktion ist deployt (ACTIVE) und verlangt JWT (`verify_jwt=true`).
+- Backup-Nachweise kommen ueber `kicc-backup-telemetry` aus der Tabelle `kicc_backup_telemetry` (KC Core Mirror).
+- Keine Neon Data API und kein Neon Auth aktiviert; keine Connection-Strings im Repository.
+
+| Projekt | Neon-ID | Region | PG | Zustand 2026-10-08 |
+|---|---|---|---|---|
+| KC Core Mirror | `purple-hat-23047492` | aws-eu-west-2 | 18.6 | Branch `production` bereit, ca. 154 MB von 1 GiB |
+| PC Backup Vault | `restless-lake-98349332` | aws-us-west-2 | 18 | Branch `main` seit 2026-10-02 **archiviert** |
+
+## Freshness (KICC-F-094)
+Die Recovery-Bewertung (`storage/recovery-policy.js`) prueft zusaetzlich das Alter der Vault-Meldung (`measured_at`, Standard ≤ 24 h, `telemetryMaxAgeHours`). Ein zu alter Nachweis ergibt `PRÜFEN`, ein fehlender Zeitstempel `UNBEKANNT` – nie `BEREIT`. Die Karten Backup/Integritaet/Restore zeigen einen veralteten Erfolg als `· veraltet` (gelb) statt gruen.

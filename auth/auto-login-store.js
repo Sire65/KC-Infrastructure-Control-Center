@@ -70,4 +70,5 @@ export async function status(){
   return{enabled,storage:'INDEXEDDB_AES_GCM',passwordStored:false,accessTokenStored:false};
 }
 
-globalThis.KICC_AUTO_LOGIN={isAutoLoginEnabled,setAutoLoginEnabled,saveRefreshToken,loadRefreshToken,removeRefreshToken,clearRefreshTokens,status};
+// KICC-F-095: Klartext-Token werden nicht global angeboten; Zugriff nur ueber den Modul-Import.
+globalThis.KICC_AUTO_LOGIN={isAutoLoginEnabled,setAutoLoginEnabled,removeRefreshToken,clearRefreshTokens,status};

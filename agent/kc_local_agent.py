@@ -22,6 +22,13 @@ PORT = int(os.environ.get('KICC_AGENT_PORT', '8765'))
 FRITZ_HOST = os.environ.get('KICC_FRITZ_HOST', 'fritz.box')
 FRITZ_USER = os.environ.get('KICC_FRITZ_USER', '')
 FRITZ_PASSWORD = os.environ.get('KICC_FRITZ_PASSWORD', '')
+# KICC-F-095: Nur die KICC-Oberflaeche darf den Agenten aus dem Browser nutzen.
+# Erweiterbar per Umgebungsvariable (kommagetrennt), z. B. fuer ein spaeteres eigenes Hosting.
+ALLOWED_ORIGINS = {o.strip().rstrip('/') for o in os.environ.get(
+    'KICC_AGENT_ALLOWED_ORIGINS',
+    'https://sire65.github.io,http://127.0.0.1:4173,http://localhost:4173'
+).split(',') if o.strip()}
+ALLOWED_HOSTS = {f'127.0.0.1:{PORT}', f'localhost:{PORT}', f'[::1]:{PORT}'}
 BRIDGE_HEALTH_URL = os.environ.get('KICC_BRIDGE_HEALTH_URL', '')
 PROBE_TARGETS = [('Cloudflare', '1.1.1.1'), ('Google', '8.8.8.8'), ('Quad9', '9.9.9.9')]
 
@@ -280,7 +287,7 @@ def collect_snapshot():
         bb = dict(_bufferbloat)
     return {
         'schema': 'kicc.local-network.v4',
-        'agent': {'name': 'KC Local Agent', 'version': '0.4.0', 'host': socket.gethostname(), 'platform': platform.platform()},
+        'agent': {'name': 'KC Local Agent', 'version': '0.4.1', 'host': socket.gethostname(), 'platform': platform.platform()},
         'status': _status(ok, degraded),
         'measuredAt': utcnow(),
         'router': router,
@@ -384,23 +391,43 @@ def worker():
 
 
 class Handler(BaseHTTPRequestHandler):
+    def _origin_allowed(self):
+        # Fremde Webseiten (anderer Origin) und DNS-Rebinding (fremder Host) werden abgewiesen.
+        # Ohne Origin-Header (direkter Aufruf, curl, Autostart-Check) bleibt der Zugriff erlaubt.
+        if (self.headers.get('Host') or '').lower() not in ALLOWED_HOSTS:
+            return False
+        origin = (self.headers.get('Origin') or '').rstrip('/')
+        return not origin or origin in ALLOWED_ORIGINS
+
     def _headers(self, code=200):
         self.send_response(code)
         self.send_header('Content-Type', 'application/json; charset=utf-8')
         self.send_header('Cache-Control', 'no-store')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        origin = (self.headers.get('Origin') or '').rstrip('/')
+        if origin in ALLOWED_ORIGINS:
+            self.send_header('Access-Control-Allow-Origin', origin)
+            self.send_header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+            self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+            self.send_header('Access-Control-Allow-Private-Network', 'true')
+        self.send_header('Vary', 'Origin')
         self.end_headers()
 
+    def _reject(self):
+        self._headers(403)
+        self.wfile.write(b'{"error":"origin not allowed"}')
+
     def do_OPTIONS(self):
+        if not self._origin_allowed():
+            return self._reject()
         self._headers(204)
 
     def do_GET(self):
+        if not self._origin_allowed():
+            return self._reject()
         url = urllib.parse.urlparse(self.path)
         if url.path == '/health':
             with _lock:
-                data = {'ok': True, 'service': 'kc-local-agent', 'version': '0.4.0', 'measuredAt': _snapshot.get('measuredAt')}
+                data = {'ok': True, 'service': 'kc-local-agent', 'version': '0.4.1', 'measuredAt': _snapshot.get('measuredAt')}
         elif url.path == '/v1/network':
             with _lock:
                 data = dict(_snapshot)
@@ -418,6 +445,8 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps(data, ensure_ascii=False).encode())
 
     def do_POST(self):
+        if not self._origin_allowed():
+            return self._reject()
         url = urllib.parse.urlparse(self.path)
         if url.path not in ('/v1/speedtest', '/v1/bufferbloat'):
             self._headers(404)
@@ -457,7 +486,7 @@ class Handler(BaseHTTPRequestHandler):
 def main():
     threading.Thread(target=worker, daemon=True).start()
     server = ThreadingHTTPServer((HOST, PORT), Handler)
-    print(f'KC Local Agent 0.4.0 auf http://{HOST}:{PORT}')
+    print(f'KC Local Agent 0.4.1 auf http://{HOST}:{PORT}')
     server.serve_forever()
 
 

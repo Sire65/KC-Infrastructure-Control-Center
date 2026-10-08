@@ -37,6 +37,8 @@ function recoveryToken(){
 function mountRecoveryDialog(){
   const token=recoveryToken();
   if(!token||document.getElementById('kiccFuturaRecoveryDialog'))return;
+  // KICC-F-095: Recovery-Token sofort aus Adresszeile und Verlauf entfernen; er lebt nur noch in dieser Closure.
+  try{history.replaceState(null,'',location.pathname+location.search);}catch{}
   const wrap=document.createElement('div');
   wrap.id='kiccFuturaRecoveryDialog';
   wrap.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(2,6,23,.86);display:grid;place-items:center;padding:20px';
