@@ -4,8 +4,8 @@
 -- bestehenden KC-Communicator-Scheduler (kc_communication_scheduled_jobs).
 -- Daten liegen in kc_internal (nicht per API erreichbar, nicht gespiegelt).
 --
--- STAND 2026-10-08: Tabellen sowie kc_access_device_key/kc_access_notify sind in KC Core eingespielt.
--- kc_access_watch() und der Cron-Job sind NOCH NICHT aktiv (wartet auf Freigabe des Betreibers).
+-- STAND 2026-10-08: vollstaendig in KC Core eingespielt (Migrationen kicc_access_watch_f096_*).
+-- Ereignisse werden bewusst nicht automatisch geloescht (geringes Volumen); Aufbewahrung ggf. spaeter separat.
 
 create table if not exists kc_internal.kc_access_watch_state(
   id text primary key default 'primary',
@@ -178,8 +178,6 @@ begin
       values ('session_burst','warning', jsonb_build_object('sessions_last_hour', v_burst), v_job);
     end if;
 
-    delete from kc_internal.kc_access_events where happened_at < now() - interval '365 days';
-
     update kc_internal.kc_access_watch_state
        set last_session_at = v_max_session, last_user_at = v_max_user, last_run_at = now(), last_error = null
      where id = 'primary';
@@ -195,5 +193,7 @@ revoke all on function kc_internal.kc_access_watch() from public, anon, authenti
 revoke all on function kc_internal.kc_access_notify(text,text,text) from public, anon, authenticated;
 revoke all on function kc_internal.kc_access_device_key(text) from public, anon, authenticated;
 
--- Aktivierung (separat ausfuehren, nach erfolgreichem Test):
--- select cron.schedule('kicc-access-watch-minute', '* * * * *', 'select kc_internal.kc_access_watch();');
+-- Aktivierung (pg_cron, jede Minute):
+select cron.schedule('kicc-access-watch-minute', '* * * * *', 'select kc_internal.kc_access_watch();');
+
+-- Abschalten ohne Loeschen: update kc_internal.kc_access_watch_state set enabled=false where id='primary';
