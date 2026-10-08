@@ -37,3 +37,14 @@ Zusaetzlich war der Versionsvertrag inkonsistent: `VERSION` = dev.93, Laufzeit/S
 - Ausfuehrung: ein `DELETE` in einer Transaktion, 63 Zeilen geloescht.
 - Verifikation: 23 Zeilen verbleiben; kc-clubapp 19, kc-system-check 1, kc-pc-manager 1, kc-dp2 1, kicc 1.
 - Nicht betroffen: `kicc_program_flow_events`, `kicc_backup_telemetry` und alle anderen Tabellen.
+
+### Korrektur: Bereinigung an der Quelle (Regel 2/3)
+- Die Loeschung oben erfolgte zunaechst nur im Spiegel (Neon). Quelle ist jedoch Supabase (`ptblnpiroqftcvlsrhac`); der Spiegel `kc-db-mirror` arbeitet mit `write_mode=replace` und haette den Neon-Stand beim naechsten Lauf wieder an die Quelle angeglichen.
+- An der Quelle wurde daher die bestehende Funktion `public.kc_lebenszeichen_aufraeumen(7)` ausgefuehrt: 63 Zeilen geloescht, 25 verbleiben (inkl. neuer Heartbeats seit der Analyse). Kein neuer Parallel-Mechanismus.
+- Recovery: verschluesseltes Tabellen-Backup des Spiegels vom 2026-10-08 00:12 UTC sowie Neon-Branch `recovery-2026-10-08-heartbeat-cleanup`.
+
+## Automatische Bereinigung
+- Bestehender pg_cron-Job `kc-lebenszeichen-aufraeumen-daily` (jobid 39, Supabase, taeglich 03:40 UTC) war bereits aktiv, mit 30 Tagen Aufbewahrung.
+- Auf Wunsch des Betreibers auf 7 Tage umgestellt: `select public.kc_lebenszeichen_aufraeumen(7);` (Funktionsuntergrenze ist 7 Tage).
+- Regel: Instanzen ohne Meldung seit mehr als 7 Tagen werden entfernt; der neueste Eintrag je Programm bleibt immer erhalten. Der Spiegel uebernimmt den Stand automatisch nach Neon.
+- Ruecknahme: `select cron.alter_job(job_id := 39, command := 'select public.kc_lebenszeichen_aufraeumen(30);');`
