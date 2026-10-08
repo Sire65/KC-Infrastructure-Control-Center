@@ -4,6 +4,8 @@ const INSTANCE_ID='cloudflare-worker';
 const POLL_MS=30000;
 let timer=null,last=null;
 
+// Gateway prueft Neon nur bei gestoertem Primaerpfad (Neon darf schlafen); ungeprueft ist nicht OK und nicht AUS.
+function neonText(f){if(f?.probed===false||f?.reachable===null)return'nicht geprüft (schläft)';return f?.reachable?'OK':'nicht erreichbar';}
 function num(v){return Number.isFinite(Number(v))?Number(v):null;}
 function heartbeat(data,latencyMs,measuredAt){
   const online=data?.status==='OK';
@@ -21,7 +23,7 @@ function heartbeat(data,latencyMs,measuredAt){
     queueDepth:null,
     source:'GATEWAY_HEALTH',
     trust:'OBSERVED_REMOTE',
-    message:`Backend ${data?.activeBackend||'UNKNOWN'} · Supabase ${data?.primary?.reachable?'OK':'nicht erreichbar'} · Neon ${data?.fallback?.reachable?'OK':'nicht erreichbar'}`
+    message:`Backend ${data?.activeBackend||'UNKNOWN'} · Supabase ${data?.primary?.reachable?'OK':'nicht erreichbar'} · Neon ${neonText(data?.fallback)}`
   });
 }
 function flowFor(data){
