@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b1220">
+  <!-- KICC-F-095: Nur eigene Skripte und das gepinnte eCharts duerfen laufen; kein Inline-JS, kein eval. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/npm/echarts@5.6.0/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https: http://127.0.0.1:8765; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'">
   <title>KC Infrastructure Control Center</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
@@ -15,7 +17,7 @@
   <link rel="stylesheet" href="security/security-matrix.css">
 </head>
 <body>
-  <header class="topbar"><div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div><div class="version" id="version">0.1.0-dev.94</div></header>
+  <header class="topbar"><div><strong>KICC</strong><span>KC Infrastructure Control Center</span></div><div class="version" id="version">0.1.0-dev.95</div></header>
   <nav class="leitstand-tabs" data-kicc-tablist role="tablist" aria-label="KICC Bereiche">
     <button class="leitstand-tab active" data-kicc-tab="dashboard" role="tab">Dashboard</button>
     <button class="leitstand-tab" data-kicc-tab="live" role="tab">Live-Leitwarte</button>
@@ -44,7 +46,7 @@
     <section class="tab-panel" data-kicc-panel="tests" role="tabpanel" hidden><div class="tab-intro"><div><h2>TÜV & Tests</h2><p>Explorer, Bridge, Runtime und Aktivierungsbereitschaft zentral prüfen.</p></div><span class="tab-badge">Read-only Tests</span></div><section class="panel db-panel tests-layout"><div class="security-subhead"><strong>Explorer-/Bridge-Selbsttest</strong><span>Allowlist · Rollen · Recovery · Freigabe · Audit</span></div><div id="explorerBridgeSelfTest"></div><div class="security-subhead"><strong>Bridge-Readiness</strong><span>Aktivierungsgates · letzter Prüfstand</span></div><div id="explorerBridgeReadiness"></div><div class="security-subhead"><strong>Runtime-Smoke</strong><span>Boot · Module · DOM · IndexedDB · Schreibschutz</span></div><div id="runtimeSmoke"></div></section></section>
     <section class="tab-panel" data-kicc-panel="admin" role="tabpanel" hidden><div class="tab-intro"><div><h2>Administration</h2><p>Repository-Berechtigungen, Policies und spätere zentrale Einstellungen.</p></div><span class="tab-badge">Deny by default</span></div><section class="panel db-panel"><div class="panel-head"><h2>Repository-Berechtigungen</h2><span>Prepared Allowlist · Schreiben gesperrt</span></div><div id="repositoryPolicySummary"></div></section></section>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js" integrity="sha384-pPi0zxBAoDu6+JXW/C68UZLvBUUtU+7zonhif43rqj7pxsGyqyqzcian2Rj37Rss" crossorigin="anonymous"></script>
   <script type="module" src="runtime/build-version.js"></script>
   <script type="module" src="network/internet-monitor-shell.js"></script>
   <script type="module" src="navigation/leitstand-tabs.js"></script>
