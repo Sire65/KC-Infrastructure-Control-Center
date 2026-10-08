@@ -48,3 +48,8 @@ Zusaetzlich war der Versionsvertrag inkonsistent: `VERSION` = dev.93, Laufzeit/S
 - Auf Wunsch des Betreibers auf 7 Tage umgestellt: `select public.kc_lebenszeichen_aufraeumen(7);` (Funktionsuntergrenze ist 7 Tage).
 - Regel: Instanzen ohne Meldung seit mehr als 7 Tagen werden entfernt; der neueste Eintrag je Programm bleibt immer erhalten. Der Spiegel uebernimmt den Stand automatisch nach Neon.
 - Ruecknahme: `select cron.alter_job(job_id := 39, command := 'select public.kc_lebenszeichen_aufraeumen(30);');`
+
+### Abschluss Recovery-Punkt (2026-10-08)
+- Spiegel-Lauf 12:10 UTC fuer `kicc_program_heartbeats`: „source and target identical“, 0 Abweichungen.
+- Abgleich Supabase ↔ Neon: je 25 Zeilen, identischer Schluessel-Hash (`9c205805…`).
+- Neon-Branch `recovery-2026-10-08-heartbeat-cleanup` (`br-plain-shadow-zaop286i`) danach geloescht (12:26 UTC, Operation `delete_timeline`).
