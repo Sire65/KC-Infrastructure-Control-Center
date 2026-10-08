@@ -29,4 +29,11 @@ Zusaetzlich war der Versionsvertrag inkonsistent: `VERSION` = dev.93, Laufzeit/S
 
 ## Nicht geaendert
 - Keine Neon-/Supabase-Ressource veraendert, kein Branch reaktiviert, keine Daten geloescht.
-- Bereinigung alter Heartbeat-Instanzen in `kicc_program_heartbeats` (ca. 85 Zeilen) bleibt offen und braucht eine eigene Freigabe.
+
+## Audit: Heartbeat-Bereinigung (2026-10-08, vom Betreiber freigegeben)
+- Analyse: `kicc_program_heartbeats` (KC Core Mirror, `purple-hat-23047492`) enthielt 86 Zeilen, davon 66 aelter als 7 Tage. Keine Fremdschluessel, keine Trigger.
+- Auswirkung: Es wurden nur veraltete Instanzen geloescht. Pro `program_id` bleibt der neueste Eintrag erhalten, damit „zuletzt gesehen“ fuer Programme ohne frischen Heartbeat (`kicc`, `kc-dp2`, `kc-pc-manager`) nachweisbar bleibt.
+- Recovery-Punkt: Neon-Branch `recovery-2026-10-08-heartbeat-cleanup` (`br-plain-shadow-zaop286i`, Parent-LSN `1/19CE99A8`, ohne Compute).
+- Ausfuehrung: ein `DELETE` in einer Transaktion, 63 Zeilen geloescht.
+- Verifikation: 23 Zeilen verbleiben; kc-clubapp 19, kc-system-check 1, kc-pc-manager 1, kc-dp2 1, kicc 1.
+- Nicht betroffen: `kicc_program_flow_events`, `kicc_backup_telemetry` und alle anderen Tabellen.
