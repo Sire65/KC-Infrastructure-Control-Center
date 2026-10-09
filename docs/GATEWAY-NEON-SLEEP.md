@@ -40,3 +40,6 @@ Ausrollen: Commit auf `main` von `KC-Failover-Gateway` → Workflow „Deploy Cl
 
 ## Nebenbefund Sicherheit (Gateway, nicht geaendert)
 Die Gateway-Endpunkte `/sync/transactions` (GET, liefert Kassenbuchungen je `register_id`), `/sync/*` (POST) sowie `/supergau` und `/scenario/*` sind ohne Anmeldung aufrufbar (CORS `*`). Empfehlung nach dem Weihnachtsmarkt: Geraete-Token fuer `/sync/*`, Test-Szenarien nur mit Admin-Token.
+
+## Tests (KICC-F-098)
+Die Playwright-Suite (`tests/e2e/kicc-50.spec.js`) beantwortet Gateway-Abfragen mit einer simulierten Antwort („Supabase ok, Neon nicht geprueft“). CI-Laeufe wecken Neon damit nicht mehr; zuvor fielen ungeplante Neon-Starts mit den CI-Laeufen zusammen.

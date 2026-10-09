@@ -3,6 +3,14 @@ import AxeBuilder from '@axe-core/playwright';
 
 async function openKicc(page) {
   await page.route('http://127.0.0.1:8765/**', route => route.abort('connectionrefused'));
+  // Produktiv-Gateway nicht aufrufen: jede echte Abfrage weckt Neon (docs/GATEWAY-NEON-SLEEP.md).
+  await page.route('https://kc-failover-gateway.ha-joko.workers.dev/**', route => route.fulfill({
+    status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' },
+    body: JSON.stringify({ service: 'KC Failover Gateway', status: 'OK', activeBackend: 'SUPABASE',
+      primary: { name: 'SUPABASE', reachable: true, statusCode: 200, latencyMs: 50 },
+      fallback: { name: 'NEON', hyperdriveBinding: true, probed: false, reachable: null, reason: 'NOT_PROBED_PRIMARY_HEALTHY' },
+      durablePosJournal: null, localQueueRequired: false, timestamp: new Date().toISOString() })
+  }));
   await page.goto('/?e2e=1#dashboard', { waitUntil: 'domcontentloaded' });
   // Auf geladene Module warten statt auf eine feste Zeit (kalter Cache/CDN machte Tests sonst zufaellig rot).
   await page.waitForFunction(() => ['KICC','KICC_DASHBOARD_INSTRUMENTS','KICC_MIRROR','KICC_PROGRAM_FLOWS','KICC_PROGRAM_HEARTBEATS','KICC_RUNTIME_SMOKE'].every(k => globalThis[k]), null, { timeout: 15000 });
