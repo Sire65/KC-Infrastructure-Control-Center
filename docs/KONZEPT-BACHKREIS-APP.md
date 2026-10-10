@@ -659,6 +659,27 @@ Die Limits sind ein Stand aus dem Gedächtnis und **beim Anlegen zu prüfen**
    (Dokument im Repo, ohne Passwörter) eintragen. KICC kann diese Registry
    später optional überwachen.
 
+### 9.5 Kurzübersicht: was wann gebraucht wird
+
+Grundregel: **Nur anlegen, was die aktuelle Phase wirklich braucht.**
+Jedes Konto gibt genau einen Schlüssel an GitHub ab; alles Weitere legt die
+CI automatisch an, nichts wird von Hand in Dashboards zusammengeklickt.
+
+| Wann | Dienst | Von Hand (Hansi) | Ergebnis → GitHub Secret | Automatisch per CI |
+|---|---|---|---|---|
+| Start | Mailadresse | anlegen, 2FA | – | – |
+| Start | Passwort-Tresor | anlegen, 2. Admin einladen | – | – |
+| Start | GitHub | Organisation + Repo | – | Pages-Hosting, Tests |
+| Start | Supabase | Konto, Projekt (Frankfurt), Access Token erzeugen | `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`, DB-Passwort | Tabellen, Functions, Cron, Secrets, VAPID |
+| Start | Brevo | Konto, Absender bestätigen, API-Key | `BREVO_API_KEY` | – |
+| Phase 2 | Cloudflare | Konto, **ein** API-Token (R2 + Pages) | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` | R2-Bucket, ggf. Pages |
+| Phase 2 | Neon | Konto, API-Key | `NEON_API_KEY` | Projekt, Spiegel-Job |
+| Phase 2 | Backblaze B2 | Konto, Application Key | `B2_KEY_ID`, `B2_APP_KEY` | Bucket, Backup-Job |
+| Phase 3 | Cloudflare Worker/KV (Notbetrieb) | – | (Token von oben) | Worker, KV, Signaturschlüssel |
+
+Nicht nötig: eigene Domain, DNS-Einträge, Cloudflare-Dashboard-Konfiguration,
+WhatsApp-API.
+
 ---
 
 ## 10. Offene Entscheidungen
