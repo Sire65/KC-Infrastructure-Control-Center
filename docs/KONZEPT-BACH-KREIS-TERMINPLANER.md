@@ -18,6 +18,54 @@ atomares PWA-Update, Registry + Adapter).
 
 ---
 
+## 1a. Recherche: Bachkreis Bergkamen (Stand 10.10.2026, öffentliche Quellen)
+
+- **Was ist es?** Jugendsinfonieorchester des Städtischen Gymnasiums Bergkamen
+  und der Musikschule Bergkamen, gegründet 1969 (Horst Römer). Leitung: Bettina Jacka.
+  Seit 2017 Partnerorchester der Neuen Philharmonie Westfalen. >900 Konzerte,
+  Austausch u. a. mit dem Johannes-Althusius-Gymnasium Emden.
+- **Struktur** (bestätigt die Gruppen-Idee):
+  - **A-Orchester** – Jahrgänge 9–12, ca. 50 Schüler
+  - **B-Orchester** – Jahrgänge 5–9, ca. 50 Schüler
+  - Vorstufen: **Orchesterklasse** (Erprobungsstufe, mit Musikschule), **Streicher- und Bläser-AGs**
+  - **Ehemaligenorchester** (Alumni, Kontakt per Gmail-Adresse)
+  → Kandidaten für Gruppen C/D. Übergang B → A entspricht dem „generellen Gruppenwechsel“
+  (Jahrgangswechsel); Aushilfe eines B-Schülers im A-Orchester = „temporärer Wechsel“.
+- **Förderverein des Bachkreises Bergkamen e.V.** (gegr. 1980): finanziert
+  Instrumente zum Verleih, Orchestermaterial (= Noten), Probenfreizeiten,
+  Konzerte, Austausche. Beitrag 15 € Schüler / 25 € Erwachsene, SEPA-Einzug.
+- **Online-Präsenz**: Unterseite der Schulwebsite (QR-Code im Förderverein-Flyer
+  führt ebenfalls dorthin), Facebook-Seite, YouTube-Kanal.
+- **Login**: In öffentlichen Quellen wurde **kein eigener Bachkreis-Login /
+  Mitgliederbereich** gefunden. Vorhanden ist das schulweite **IServ-Portal**
+  (`portal-gymnasium-bergkamen.de`); Mail-Adressen der Schule laufen darüber.
+  Eine eigene Domain `bachkreis-bergkamen.de` war nicht erreichbar.
+
+### Folgen für das Konzept
+1. **Teilnehmer sind überwiegend minderjährig (10–18)** → Datenschutz verschärft:
+   Elternkontakt je Kind, Einwilligung der Eltern, Benachrichtigung an Kind **und/oder**
+   Eltern (wählbar), Absage auch durch Eltern, Datensparsamkeit, keine öffentlichen
+   Teilnehmerlisten, Löschkonzept beim Verlassen.
+2. **WhatsApp-Übergabe** nur als Option; Mindestalter von WhatsApp beachten,
+   bei Jüngeren an Eltern-Nummer.
+3. **Login-Optionen** (Entscheidung offen):
+   a) Link-/QR-Login wie Club-App (einfach, ohne Schulabhängigkeit),
+   b) Anmeldung über **IServ** (Single Sign-On, falls die Schule es freigibt –
+      technisch und organisatorisch zu prüfen; Schüler haben dort bereits Konten),
+   c) Kombination: IServ für Schüler/Lehrkräfte, Link-Login für Eltern, Alumni, Aushilfen.
+   Login als **Adapter**, damit beides möglich bleibt (AGENTS.md Regel 18).
+4. **Schuljahres-Logik**: Jahrgangsstufe je Teilnehmer, Schuljahreswechsel als
+   Sammel-Gruppenwechsel (Vorschlag B → A ab Jg. 9/10, Leitung bestätigt).
+   Ferienkalender NRW zur Probenplanung.
+5. **Terminarten ergänzen**: Probenfreizeit (mehrtägig, mit Zimmer-/Elternerklärung),
+   Austausch/Reise, Fördervereinsfest, Gottesdienst-Mitwirkung.
+6. **Instrumentenverleih** des Fördervereins = Inventar-Modul (BK-F11), inkl.
+   Wartung/Reparatur.
+7. **Förderverein-Mitglieder** (Eltern, Ehemalige) sind eigene Personengruppe;
+   Beitragsverwaltung bleibt außen vor (nicht Ziel der App).
+
+---
+
 ## 2. Was die Club-App schon kann (und wir übernehmen)
 
 | Bedarf Bach Kreis | Vorhanden in KC Club App | Übernahme |
