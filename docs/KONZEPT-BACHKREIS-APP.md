@@ -568,6 +568,46 @@ Jede Phase durchläuft Regression, Visual-TÜV, Security und Release-TÜV (AGENT
 Ziel ist eine App, die **unabhängig von den KC-Konten** läuft und sich bei Bedarf
 **komplett an den Bachkreis bzw. Förderverein übergeben** lässt.
 
+### 9.0 Eigenes Supabase-Projekt – lohnt sich der Aufwand?
+Ist-Stand am 10.10.2026 (Abfrage über Supabase-MCP):
+- Org „ha-joko@web.de's Org“ mit **2 aktiven Projekten** (KC-Projekt, Future Academy).
+  Beide Free-Plätze sind also belegt.
+- KC-Projekt: 123 MB DB, 276 Tabellen, rund 90 Edge Functions, davon etwa 30 für
+  den KC Communicator (31 `kc_communication_*`-Tabellen).
+
+| | A) Tabellen im KC-Projekt | B) Eigenes Projekt in eigenem Konto (**Empfehlung**) |
+|---|---|---|
+| Einrichtung | sofort | ca. 1–2 Std. einmalig, weitgehend automatisierbar |
+| Communicator | per API mitnutzen | **derselbe Code** zusätzlich deployt (kein Neubau) |
+| Daten Minderjähriger | liegen zwischen Club-, Kassen- und DP-Daten | sauber getrennt |
+| Fehler / Ausfall | trifft KC **und** Bachkreis | getrennt |
+| Limits (500 MB, Function-Anzahl) | geteilt, KC wächst bereits | eigenes Kontingent |
+| Übergabe an den Förderverein | praktisch unmöglich | Konto übergeben, fertig |
+| Datenschutzvertrag (AVV) | Förderverein müsste mit Privat-Infrastruktur arbeiten | Förderverein bzw. Bachkreis-Konto ist Vertragspartner |
+| Späterer Umzug | teuer, mit Live-Daten – genau das Problem der Club-App | entfällt |
+
+**Warum B weniger Aufwand bedeutet als befürchtet:**
+- Die Bachkreis-Tabellen und -Funktionen sind ohnehin neu; sie entstehen in A und B gleich.
+- Den **Communicator bauen wir nicht neu**. Sein Code wird zu einem portablen
+  Kern (eine Quelle, Konfiguration je Projekt) und in beide Projekte deployt.
+  Nach AGENTS.md Regel 3 ist das kein Parallel-Core. Der Bachkreis braucht
+  davon nur Versand (Push/Mail), Vorlagen, Empfänger und Quittungen; Test- und
+  Einmal-Funktionen entfallen.
+- Für die Schlüssel und Geheimnisse gilt:
+  - VAPID-Schlüssel erzeugt ein Skript in Sekunden.
+  - Service-Role und Anon-Key liefert Supabase automatisch.
+  - Dazu kommen ein Brevo-Key und ein Cron-Secret.
+  - Gesetzt werden sie einmalig per GitHub Action, nach dem Muster
+    `db-einspielen` der Club-App.
+- Migrationen und Deploy laufen von Anfang an per CI. Ein neues Projekt ist
+  damit reproduzierbar; auch eine Wiederherstellung nach einem Totalausfall
+  funktioniert so.
+
+**Plan B (nur falls kein neues Konto gewünscht)**: In der Entwicklung nur
+Testdaten in einem eigenen Schema `bachkreis` im KC-Projekt halten. Echte Daten
+von Kindern dürfen erst ins eigene Projekt. Der Umzug muss vor dem ersten
+Echtbetrieb erfolgen.
+
 ### 9.1 Grundsatz Eigentum
 - Alle Konten laufen auf **eine neue, neutrale Funktionsadresse**
   (z. B. eine eigene Mailadresse „Bachkreis-App“), **nicht auf eine Privatadresse**.
