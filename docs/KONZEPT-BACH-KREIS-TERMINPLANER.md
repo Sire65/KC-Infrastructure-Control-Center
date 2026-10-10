@@ -57,12 +57,49 @@ DP2/Twinkey-Dienstplan, Anruf/Video, Standort/SOS, Wetter, Köcheclub-Branding,
 
 ### 3.1 Personen & Besetzung
 - **Teilnehmer**: Name, Kontakt (Mail, Mobil für WhatsApp), Stimme/Register,
-  gespielte Instrumente, Status (aktiv / pausiert / Gast / Aushilfe),
+  Status (aktiv / pausiert / Gast / Aushilfe),
   Benachrichtigungswunsch je Kanal, Ruhezeit.
 - **Register / Stimmgruppen** (Registry, nicht fest codiert):
   z. B. Sopran, Alt, Tenor, Bass, Violine I/II, Viola, Cello, Kontrabass,
   Holz, Blech, Pauke, Continuo/Orgel. Jeder Kreis pflegt seine Liste selbst.
-- **Gruppen**: Chor, Orchester, Solisten, Vorstand – für zielgerichtete Einladungen.
+- **Weitere Verteiler**: Chor, Orchester, Solisten, Vorstand – für zielgerichtete Einladungen.
+
+### 3.1a Gruppen A / B / C / D
+- Gruppen-Registry, Standard **A, B, C, D** (Name, Farbe, Sortierung, Beschreibung);
+  weitere Gruppen kann die Leitung ergänzen – nichts fest codiert.
+- Jeder Teilnehmer hat **genau eine Stammgruppe** (Zuordnung mit „gültig ab“).
+- **Gruppenwechsel**:
+  - **generell** – neue Stammgruppe ab Datum X; die alte Zuordnung bleibt als
+    Historie erhalten (`gueltig_bis` wird gesetzt), Auswertungen der Vergangenheit
+    bleiben korrekt.
+  - **temporär** – Gastzuordnung zu einer anderen Gruppe für einen **Zeitraum**,
+    ein **Projekt** oder **einzelne Termine** (z. B. „Anna spielt im
+    Weihnachtsoratorium in Gruppe C mit“). Läuft automatisch aus; danach gilt
+    wieder die Stammgruppe.
+  - Wechsel durch Leitung; optional **Wechselwunsch** durch Teilnehmer
+    (Antrag → Freigabe durch Leitung), jeweils mit Protokoll (wer, wann, warum).
+- **Wirksame Gruppe** zu einem Termin = temporäre Zuordnung falls vorhanden,
+  sonst Stammgruppe zum Termindatum. Diese Regel steuert Einladungen,
+  Besetzungsampel, Notenzuteilung und Auswertungen.
+- Termine können an eine oder mehrere Gruppen gerichtet sein
+  („Probe Gruppe A + B“). Bei Gruppenwechsel nach Einladung: Einladung wird
+  nachgezogen bzw. entfernt, bereits gegebene Antworten bleiben erhalten und
+  werden markiert.
+- Ansichten: Gruppenübersicht mit Mitgliedern je Register, Drag & Drop bzw.
+  Auswahl-Dialog zum Verschieben (Auswahl statt Freitext), Filter „nur temporär
+  verschobene“.
+
+### 3.1b Mehrere Instrumente je Teilnehmer
+- Ein Teilnehmer kann **beliebig viele Instrumente/Stimmen** haben
+  (z. B. Violine + Viola, Sopran + Blockflöte).
+- Je Zuordnung: **Hauptinstrument** ja/nein, optional Niveau/Bemerkung,
+  „eigenes Instrument vorhanden“ ja/nein (sonst Bedarf aus Inventar).
+- **Besetzung je Termin/Projekt**: Bei Mehrfach-Instrumentalisten legt die
+  Leitung (oder der Teilnehmer bei der Zusage) fest, **mit welchem Instrument**
+  er bei diesem Termin spielt. Standard = Hauptinstrument.
+- Besetzungsampel zählt jede Person nur **einmal** pro Termin – in dem
+  Register des gewählten Instruments; als „könnte auch“ werden alternative
+  Instrumente angezeigt (Hilfe zum Ausgleichen roter Register).
 
 ### 3.2 Instrumente-DB (zwei Sichten)
 1. **Instrumententypen** (Katalog): Violine, Cello, Oboe d'amore, Truhenorgel …
@@ -71,6 +108,44 @@ DP2/Twinkey-Dienstplan, Anruf/Video, Standort/SOS, Wetter, Köcheclub-Branding,
    Zustand, Standort, Versicherung/Wert, Wartung/Stimmung fällig,
    Fotos/Dokumente, **Ausleihe** an Teilnehmer (Workflow aus Club-Leihmodul).
    Ausbaustufe: Transport-/Aufbauplanung je Termin (z. B. Truhenorgel zum Konzertort).
+
+### 3.2a Notenarchiv
+**Aufbau**
+- **Werk**: Komponist, Titel, BWV/Werkverzeichnis-Nr., Besetzung, Verlag/Ausgabe,
+  Dauer, Schlagworte, Rechte-/Lizenzhinweis.
+- **Stimme (Part)**: gehört zu einem Werk, z. B. „Partitur“, „Klavierauszug“,
+  „Violine I“, „Oboe d'amore II“, „Continuo“, „Sopran“.
+  Jede Stimme ist einem oder mehreren **Instrumententypen / Registern** zugeordnet.
+- **Datei**: PDF (Ansicht im Browser via pdfjs, wie in der Club-App), optional
+  Audio-Übungsdatei (z. B. Stimme zum Mitsingen); Version/Ausgabe, Upload-Datum.
+- **Physisches Exemplar** (optional): Notenmappen/Hefte mit Inventarnr.,
+  Ausgabe an Teilnehmer und Rückgabe – gleicher Ausleih-Workflow wie Instrumente.
+
+**Zuordnung**
+- Werk → **Projekt** („Weihnachtsoratorium 2026“: Kantaten I–III) und
+  optional → **einzelne Termine** („heute: Nr. 1–9“) als Probenplan.
+- Stimme → **Instrument/Register** (Grundregel) und bei Bedarf
+  → **Gruppe** (z. B. Gruppe A spielt Violine I, Gruppe B Violine II)
+  → oder direkt → **Person** (Sonderzuteilung, z. B. Solostimme).
+
+**Wer sieht was** (automatisch, Auswahl statt Suche)
+- Teilnehmer sieht unter „Meine Noten“ genau die Stimmen, die zu
+  *seinen Instrumenten* × *seiner wirksamen Gruppe* × *seinen Projekten/Terminen*
+  passen. Mehrfach-Instrumentalisten sehen alle passenden Stimmen, die für den
+  Termin gewählte zuerst.
+- Bei temporärem Gruppenwechsel wechseln die angezeigten Stimmen mit.
+- Leitung/Notenwart sieht das gesamte Archiv inkl. Partituren.
+- Hinweis in der Termin-Einladung: „Bitte mitbringen: Stimme Violine II, Nr. 1–9“.
+
+**Rechte & Kosten**
+- Nur Nutzer mit Login (Link-Token) erhalten Zugriff; Download über kurzlebige,
+  signierte URLs; kein öffentlicher Ordner (anders als `dokumente/` der Club-App).
+- Urheberrecht: Archiv kennzeichnet je Datei „gemeinfrei / lizenziert /
+  nur intern“; Lizenzen werden nicht von der App geprüft – Verantwortung beim Kreis.
+- **Speicher-Engpass**: Supabase Free Storage = 1 GB. Noten-PDFs schnell
+  50–100 MB pro Werk → Speicher über austauschbaren Storage-Adapter
+  (Supabase Storage, Cloudflare R2 Free 10 GB, ggf. vorhandenes B2-Backup aus
+  KICC) – Zero-Cost-Check nötig.
 
 ### 3.3 Terminarten (Registry)
 | Art | Typische Eigenschaften |
@@ -119,9 +194,12 @@ Rot → Aktion „Aushilfe anfragen“ bzw. gezielte Nachricht an das Register.
 | BK-F13 | Auswertungen + Export CSV/PDF | Club `druckTreffen` + neu | 2 |
 | BK-F14 | Terminfindung (Doodle) für Zusatzproben | Club `terminumfragen` | 2 |
 | BK-F15 | Mitfahrgelegenheiten zu Proben/Konzerten | Club `mitfahrt` | 3 |
-| BK-F16 | Noten/Dokumente je Projekt (PDF-Anzeige) | Club Archiv + pdfjs | 3 |
+| BK-F16 | Notenarchiv: Werke, Stimmen, Dateien, Zuordnung zu Instrument/Gruppe/Person/Projekt/Termin, „Meine Noten“ | Club Archiv + pdfjs + neu | **2** |
 | BK-F17 | Offline-/Notbetrieb (signierte Vorab-Antworten, Schreib-Eingang) | Club Notbetrieb | 3 |
 | BK-F18 | Mandantenfähigkeit (`kreis_id`) für weitere Chöre/Ensembles | neu | optional |
+| BK-F19 | Gruppen A/B/C/D (Registry), Stammgruppe, Gruppenwechsel generell (mit Historie) und temporär (Zeitraum/Projekt/Termin), Wechselwunsch + Protokoll | neu | **1** |
+| BK-F20 | Mehrere Instrumente je Teilnehmer (Haupt/Neben), Instrumentwahl je Termin/Projekt | neu | **1** |
+| BK-F21 | Notenexemplare (Papier) ausgeben/zurücknehmen | Club Leihmodul | 3 |
 
 ---
 
@@ -178,8 +256,22 @@ WhatsApp-Business-API wird **nicht** genutzt (kostenpflichtig) – Zero-Cost-Gat
 ```
 bk_person(id, name, mail, mobil, status, ruhezeit, login_token_hash, …)
 bk_register(id, name, gruppe, sort)                     -- Registry
-bk_person_register(person_id, register_id, haupt bool)
+bk_gruppe(id, kuerzel, name, farbe, sort, aktiv)          -- Registry: A, B, C, D …
+bk_gruppe_zuordnung(id, person_id, gruppe_id, art,        -- art: 'stamm' | 'temporaer'
+          gueltig_von, gueltig_bis, projekt_id, termin_id, grund, erstellt_von)
+bk_gruppe_wechselwunsch(id, person_id, ziel_gruppe_id, art, von, bis, status)
 bk_instrument_typ(id, name, register_id)
+bk_person_instrument(person_id, instrument_typ_id, haupt bool, niveau,
+          eigenes_instrument bool, bemerkung)              -- n Instrumente je Person
+bk_termin_besetzung(termin_id, person_id, instrument_typ_id)  -- „spielt heute mit …“
+bk_werk(id, komponist, titel, werkverzeichnis, verlag, besetzung, rechte, …)
+bk_stimme(id, werk_id, bezeichnung, sort)
+bk_stimme_zuordnung(stimme_id, instrument_typ_id|register_id, gruppe_id NULL)
+bk_stimme_person(stimme_id, person_id, projekt_id)         -- Sonderzuteilung
+bk_notendatei(id, stimme_id, speicher_adapter, pfad, art, version, groesse, rechte)
+bk_projekt_werk(projekt_id, werk_id, sort)
+bk_termin_werk(termin_id, werk_id, abschnitt)              -- Probenplan „Nr. 1–9“
+bk_notenexemplar(id, stimme_id, inventar_nr, zustand)     -- Phase 3
 bk_instrument(id, inventar_nr, typ_id, zustand, standort, wert, wartung_faellig, …)
 bk_ausleihe(id, instrument_id, person_id, von, bis, status)
 bk_terminart(id, schluessel, name, farbe, pflicht bool)  -- Registry
@@ -206,9 +298,9 @@ bk_konfig(schluessel, wert jsonb)
 | Phase | Inhalt | Ergebnis |
 |---|---|---|
 | 0 | Entscheidungen (Abschnitt 9), Repo anlegen, Zero-Cost-Check, Grundgerüst aus Club-Mustern (sw.js, Versionsvertrag, Tests) | lauffähige leere PWA, DEV |
-| 1 | BK-F01 … F10: Teilnehmer, Login, Termine, Antworten, Terminplan, Besetzungsampel, Push/Mail/WhatsApp, ICS | **nutzbarer Kern**, RC für Testgruppe |
-| 2 | BK-F11 … F14: Instrumente, Präsenz, Auswertungen + CSV, Terminfindung | FINAL 1.0 |
-| 3 | BK-F15 … F17: Mitfahrten, Noten, Notbetrieb | 1.x |
+| 1 | BK-F01 … F10, F19, F20: Teilnehmer, Gruppen A–D inkl. Wechsel, Mehrfach-Instrumente, Login, Termine, Antworten, Terminplan, Besetzungsampel, Push/Mail/WhatsApp, ICS | **nutzbarer Kern**, RC für Testgruppe |
+| 2 | BK-F11 … F14, F16: Instrumente-Inventar, Präsenz, Auswertungen + CSV, Terminfindung, **Notenarchiv** | FINAL 1.0 |
+| 3 | BK-F15, F17, F21: Mitfahrten, Notbetrieb, Papier-Notenexemplare | 1.x |
 
 Jede Phase: Regression, Visual-TÜV, Security, Release-TÜV (AGENTS.md Regel 9).
 
@@ -226,3 +318,10 @@ Jede Phase: Regression, Visual-TÜV, Security, Release-TÜV (AGENTS.md Regel 9).
 8. **Externe/Aushilfen**: Sollen Aushilfsmusiker ohne Konto per Link zu-/absagen können (wie `termin.html` in der Club-App)?
 9. **Datenschutz**: Wer darf Telefonnummern und Anwesenheitsquoten sehen?
 10. **Verhältnis zu KICC**: nur Registrierung/Heartbeat, oder mehr?
+11. **Bedeutung der Gruppen A–D**: Leistungs-/Besetzungsgruppen, Probengruppen
+    (z. B. wechselnde Probenabende) oder Teilensembles? Gehört jeder Teilnehmer
+    immer genau einer Gruppe an, oder gibt es auch „keine Gruppe“?
+12. **Gruppenwechsel**: Darf der Teilnehmer selbst einen Wunsch stellen, oder nur die Leitung umsetzen?
+13. **Notenzuteilung**: reicht Instrument (+ Gruppe), oder werden Stimmen oft individuell an Personen vergeben?
+14. **Noten-Speicher**: geschätzte Menge (Anzahl Werke/PDFs)? Entscheidet über Storage-Adapter.
+15. **Notenwart**: Gibt es eine eigene Rolle für die Pflege des Archivs?
