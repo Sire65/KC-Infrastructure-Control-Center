@@ -1,20 +1,57 @@
-# Konzept: Bach-Kreis-Terminplaner (abgeleitet aus KC Club App)
+# Konzept: Bachkreis-App – Verwaltung des Bachkreises Bergkamen
 
 Status: **IDEE / KONZEPT** – es wird noch nichts gebaut.
 Stand: 10.10.2026 · Basis-Analyse: `Sire65/KC-Clubapp` v2.220.0 RC
+Arbeitstitel vorher: „Bach-Kreis-Terminplaner“ (Umfang am 10.10.2026 erweitert).
 
 ---
 
 ## 1. Ziel
 
-Eine eigenständige PWA, mit der der Bach Kreis seine Proben, Premieren und
-Orchestertermine plant, Zu-/Absagen einsammelt, die Besetzung je Termin
-sicherstellt und das Ganze auswertet. Benachrichtigung per Push, E-Mail und
-WhatsApp-Übergabe.
+Eine eigenständige PWA für die **komplette Verwaltung des Bachkreises**. Die
+Terminplanung ist dabei nur ein Teil.
 
-Leitsatz: **Bewährte Muster der Club-App übernehmen, aber nicht den Monolithen
-forken.** Gleiche Grundsätze (Zero-Cost, DEV → RC → FINAL, Versionsvertrag,
-atomares PWA-Update, Registry + Adapter).
+Die **Leitung (Bettina Jacka)** sieht im **Leitungs-Cockpit** alle laufenden
+Vorgänge und ihren Stand. Dazu gehören:
+- Termine, Proben und Konzerte
+- Reisen und Probenfreizeiten
+- Instrumentenverleih, Reparatur und Einkauf
+- Genehmigungen der Eltern
+- Noten
+- Kommunikation mit Schülern, Eltern, Schule, Lehrkräften, Musikschule,
+  Partnerorchestern, Unterstützern und Spendern
+
+Die App läuft **autark**: Sie hat eigene, kostenlose Konten, die nicht an die
+KC-Infrastruktur gebunden sind. Sie kann an den Bachkreis bzw. den Förderverein
+übergeben werden (siehe Abschnitt 9).
+
+Leitsatz: **Bewährte Muster der Club-App übernehmen, aber den Monolithen nicht
+forken.** Es gelten dieselben Grundsätze wie in der Club-App:
+- Zero-Cost
+- DEV → RC → FINAL
+- Versionsvertrag
+- atomares PWA-Update
+- Registry + Adapter
+
+### 1.1 Module im Überblick
+
+| Nr. | Modul | Kurzbeschreibung |
+|---|---|---|
+| M1 | Personen & Rollen | Schüler, Eltern, Lehrkräfte, Leitung, Schule, Förderverein, Unterstützer, Spender, Partner, Dienstleister, Ehemalige |
+| M2 | Gruppen & Besetzung | A/B/C/D, Gruppenwechsel, mehrere Instrumente, Schuljahreswechsel |
+| M3 | Termine & Proben | Terminarten, Zusage/Vielleicht/Absage, Besetzungsampel, Präsenz |
+| M4 | Konzerte & Auftritte | Programm, Ablauf, Ort, Transport, Helfer, Presse |
+| M5 | Reisen & Probenfreizeiten | Austausch, Fahrten, Teilnehmer, Zimmer, Kosten, Notfallkontakte |
+| M6 | Genehmigungen & Einverständnisse | digitale Elternzustimmung mit Fristen und Nachweis |
+| M7 | Instrumente | Inventar, Verleih, Wartung/Reparatur, Einkauf/Beschaffung |
+| M8 | Notenarchiv | Werke, Stimmen, Zuordnung zu Instrumenten, Gruppen und Personen |
+| M9 | Kommunikation | Zielgruppen-Verteiler, Push/Mail/WhatsApp/Brief, Vorlagen, Rückmeldungen |
+| M10 | Unterstützer & Spender | Kontakte, Zuwendungen, Dank, Sponsoren |
+| M11 | Vorgänge & Aufgaben | einheitlicher Status, Zuständigkeit und Frist für alles, was offen ist |
+| M12 | Leitungs-Cockpit | „Was braucht heute meine Aufmerksamkeit?“ |
+| M13 | Dokumente | Verträge, Satzung, Protokolle, Fotos, Vorlagen |
+| M14 | Auswertungen & Berichte | Beteiligung, Inventar, Jahresbericht |
+| M15 | Administration | Rechte, Konfiguration, Audit, Datenschutz, Schuljahreswechsel |
 
 ---
 
@@ -108,9 +145,12 @@ DP2/Twinkey-Dienstplan, Anruf/Video, Standort/SOS, Wetter, Köcheclub-Branding,
   Status (aktiv / pausiert / Gast / Aushilfe),
   Benachrichtigungswunsch je Kanal, Ruhezeit.
 - **Register / Stimmgruppen** (Registry, nicht fest codiert):
-  z. B. Sopran, Alt, Tenor, Bass, Violine I/II, Viola, Cello, Kontrabass,
-  Holz, Blech, Pauke, Continuo/Orgel. Jeder Kreis pflegt seine Liste selbst.
-- **Weitere Verteiler**: Chor, Orchester, Solisten, Vorstand – für zielgerichtete Einladungen.
+  z. B. Violine I/II, Viola, Cello, Kontrabass, Flöte, Oboe, Klarinette,
+  Fagott, Horn, Trompete, Posaune, Tuba, Schlagwerk, Harfe/Klavier.
+  Die Leitung pflegt die Liste selbst.
+- **Erziehungsberechtigte** je Schüler (1–n), mit eigenem Zugang, Kontakt und Benachrichtigungswahl.
+- **Jahrgangsstufe** und Schule (auch Nachbarschulen) je Schüler.
+- **Weitere Verteiler**: Solisten, Registerführer, Vorstand – für zielgerichtete Einladungen.
 
 ### 3.1a Gruppen A / B / C / D
 - Gruppen-Registry, Standard **A, B, C, D** (Name, Farbe, Sortierung, Beschreibung);
@@ -223,6 +263,159 @@ Rot → Aktion „Aushilfe anfragen“ bzw. gezielte Nachricht an das Register.
 
 ---
 
+### 3.6 Rollen & Rechte (M1/M15)
+
+| Rolle | Sieht / darf |
+|---|---|
+| **Leitung** | alles, inkl. Cockpit, Freigaben und Kommunikation an alle |
+| Stellvertretung / Lehrkraft | wie Leitung, ohne Systemverwaltung |
+| Förderverein-Vorstand | Einkauf, Reparatur und Spender freigeben; Inventar lesen; Kommunikation an Mitglieder und Spender |
+| Instrumentenwart | Inventar, Verleih, Wartung |
+| Notenwart | Notenarchiv |
+| Registerführer (Schüler) | eigenes Register: Antworten sehen, Erinnerungen auslösen |
+| Schüler | eigene Termine, Noten, Leihinstrumente, Nachrichten |
+| Eltern / Erziehungsberechtigte | **nur eigene Kinder**: Zusagen, Genehmigungen, Leihverträge, Nachrichten |
+| Externe (Schule, Musikschule, Partner, Dienstleister, Spender) | **kein** App-Zugang nötig; Kommunikation per Mail und Link, nur bei Bedarf Lese-Link auf einzelne Vorgänge |
+
+Rechte werden fein je Funktion vergeben, nach dem Muster `funktion_freigabe` der
+Club-App. Jede Änderung wird im Audit-Log festgehalten.
+
+### 3.7 Konzerte & Auftritte (M4)
+- Ein Konzert ist ein **Projekt** mit Generalprobe, Aufführung(en) und Nachbereitung.
+- Programmfolge mit Werken aus dem Notenarchiv, Dauer und Solisten.
+- Ablaufplan: Treffpunkt, Einspielen, Pause, Ende.
+- Ort mit Ansprechpartner, Bühne, Technik und Stühlen.
+- Transportliste: Pauken, Kontrabässe, Notenständer; dazu Fahrer und Helfer (Eltern).
+- Kleiderordnung, Eintritt (nur als Info, kein Kartenverkauf), Pressetext und
+  Plakat als Dokument.
+- Checkliste je Konzert, abgeleitet aus einer Vorlage. Offene Punkte erscheinen im Cockpit.
+
+### 3.8 Reisen, Austausch & Probenfreizeiten (M5)
+- Mehrtägige Termine mit Anmeldung und Teilnehmerliste.
+- Zimmer-, Bus- und Gastfamilienzuteilung (Austausch Emden u. a.).
+- **Pflicht-Einverständnisse** (M6): Reise, Foto, Gesundheitsangaben.
+- **Notfallkontakte** und Gesundheitsinfos (Allergien, Medikamente):
+  - besonders geschützt
+  - nur für Leitung und Begleitpersonen sichtbar
+  - werden nach der Reise automatisch gelöscht
+- Kosten je Teilnehmer, nur Status „bezahlt ja/nein“. Die Buchhaltung bleibt beim Förderverein.
+- Packliste und Infobrief an die Eltern (M9).
+
+### 3.9 Genehmigungen & Einverständnisse (M6)
+- **Vorlagen-Registry**:
+  - Teilnahme am Bachkreis
+  - Datenschutz
+  - Foto/Video-Veröffentlichung (einzeln: Website, Presse, Social Media)
+  - Reise/Probenfreizeit
+  - Instrumenten-Leihvertrag
+  - Medikamentengabe
+  - Heimweg allein
+- **Ablauf**: Die Leitung wählt Vorlage und Empfänger (Gruppe, Reise, einzelne Kinder).
+  Die Eltern erhalten einen Link und stimmen in der App zu oder lehnen ab.
+  - Nachweis: Name, Zeitpunkt, Version des Textes
+  - optional Unterschrift per Finger
+  - **Erinnerungen bis zur Frist**
+- **Status je Kind**: ausstehend / erteilt / abgelehnt / abgelaufen / widerrufen.
+  - „Ausstehend“ wird **nie** als erteilt gezählt.
+  - Ein Widerruf ist jederzeit möglich.
+- **Papier-Fallback**: Druck als PDF. Die Leitung trägt den Eingang manuell ein
+  und lädt optional einen Scan hoch.
+- **Wirkung**: Fehlt die Reisegenehmigung, wird das Kind im Cockpit und auf der
+  Teilnehmerliste rot markiert. Fehlt die Foto-Erlaubnis, bekommt die Galerie einen Hinweis.
+
+### 3.10 Instrumente: Verleih, Reparatur, Einkauf (M7)
+Ergänzt Abschnitt 3.2 (Inventar).
+- **Verleih**:
+  - Leihvertrag (M6) mit Elternzustimmung, Ausgabe- und Rückgabe-Protokoll mit
+    Zustand und Fotos
+  - Leihfrist und Verlängerung, Erinnerung vor Ablauf
+  - Schadensmeldung durch Schüler oder Eltern
+- **Wartung & Reparatur**: Ein Reparaturauftrag läuft so ab:
+  1. Meldung (Schaden, Foto)
+  2. Prüfung
+  3. Kostenvoranschlag der Werkstatt (Dienstleister aus M1)
+  4. **Freigabe** durch den Förderverein bzw. die Leitung, je nach Betragsgrenze
+  5. in Reparatur
+  6. zurück
+  7. abgeschlossen
+
+  Kosten werden je Instrument dokumentiert. Wiederkehrende Wartung (z. B. neue
+  Saiten, Bogen behaaren) erscheint als Fälligkeit im Cockpit.
+- **Einkauf / Beschaffung**: Ein Einkauf läuft so ab:
+  1. Bedarf (Instrument, Zubehör, Noten)
+  2. Angebote einholen und vergleichen
+  3. **Freigabe** nach Betragsgrenze
+  4. Bestellung
+  5. Lieferung
+  6. **Inventarisierung** (das Inventarobjekt wird automatisch angelegt)
+  7. Rechnung als Dokument
+
+  Finanzierung über Förderverein, Schuletat oder Spende, mit Verknüpfung zu M10.
+- **Inventur**: Zählliste per Handy, mit QR-Etikett je Instrument (QR-Erzeugung
+  gibt es bereits in der Club-App).
+
+### 3.11 Kommunikation (M9)
+- **Zielgruppen-Verteiler** werden automatisch aus den Daten gebildet, ohne Pflege
+  von Hand. Beispiele: „Eltern B-Orchester“, „alle Celli“, „Teilnehmer Reise Emden“,
+  „Spender 2026“, „Lehrkräfte“, „Förderverein-Vorstand“.
+- **Kanäle**: Push, E-Mail, WhatsApp-Übergabe, PDF-Brief zum Drucken. Je
+  Empfänger gilt der Kanal, den er bevorzugt; Externe erreicht die App nur per E-Mail.
+- **Nachrichtentypen**:
+  - Info
+  - Rundschreiben / Elternbrief **mit Rückmeldung** (z. B. „gelesen“ oder
+    „komme / komme nicht“, wie bei einem Termin)
+  - Erinnerung
+  - Dank
+  - Einladung
+- **Vorlagen** mit Platzhaltern (Name, Kind, Termin) und Serienversand.
+- **Gesprächsverläufe** in der App (Leitung ↔ Eltern/Schüler) mit Lesebestätigung.
+  Vorlage ist der Communicator der Club-App.
+- **Versandprotokoll**: Wer hat was wann über welchen Kanal erhalten oder gelesen?
+  Ein Fehlversand ist sichtbar.
+- **Schutzregeln**: keine Direktnachrichten zwischen Erwachsenen und einzelnen
+  Minderjährigen ohne Leitung/Eltern in Kopie (Kinderschutzkonzept der Schule beachten).
+
+### 3.12 Unterstützer & Spender (M10)
+- Kontakte von Personen, Firmen und Stiftungen mit Ansprechpartner,
+  Einwilligung zur Kontaktaufnahme und Interessen.
+- Zuwendungen: Datum, Betrag bzw. Sachspende, Zweck (z. B. „Cello-Kauf“),
+  verknüpft mit Einkauf und Inventar („gespendet von …“).
+- Dankschreiben aus Vorlage. Die **Zuwendungsbestätigung** stellt der
+  Förderverein aus; die App liefert nur die Liste.
+- Unterstützer-Rundbrief: Konzerteinladungen, Jahresbericht.
+- **Abgrenzung**: keine Buchhaltung, keine Mitgliedsbeiträge und keine
+  SEPA-Einzüge. Das bleibt beim Förderverein, ggf. als späterer Adapter.
+
+### 3.13 Vorgänge & Aufgaben (M11)
+Alles, was offen sein kann, ist ein **Vorgang** mit einheitlichen Feldern:
+- Typ, Status, Verantwortlicher, Frist, Bezug (Kind, Instrument, Termin, Konzert …)
+- Verlauf und Kommentare
+
+Beispiele für Vorgänge: Genehmigung, Reparatur, Einkauf, Leihrückgabe,
+Konzert-Checkpunkt, Antwort auf eine Elternnachricht, Gruppenwechselwunsch.
+Statusmodelle sind konfigurierbar (Registry). Aufgaben lassen sich delegieren,
+z. B. an Instrumentenwart oder Förderverein.
+
+### 3.14 Leitungs-Cockpit (M12)
+Startseite der Leitung, sortiert nach Dringlichkeit:
+1. **Heute / diese Woche**: Termine mit Besetzungsampel, Konzerte mit offenen Checkpunkten.
+2. **Wartet auf mich**: Freigaben (Einkauf, Reparatur), Gruppenwechselwünsche, unbeantwortete Nachrichten.
+3. **Wartet auf andere**:
+   - fehlende Elterngenehmigungen je Termin/Reise
+   - fällige Leihrückgaben
+   - Reparaturen in der Werkstatt
+   - offene Bestellungen
+4. **Fällig bald**: Wartungen, Fristen, auslaufende temporäre Gruppenwechsel, Schuljahreswechsel.
+5. **Kennzahlen**: Beteiligung, Antwortquote, verliehene Instrumente.
+   - Jede Zahl trägt einen „Stand“.
+   - Was unbekannt ist, wird als UNBEKANNT gezeigt (AGENTS.md Regel 11).
+
+Jeder Eintrag lässt sich per Klick öffnen und direkt erledigen (freigeben,
+erinnern, nachfassen). Die Kacheln lassen sich je Rolle anpassen; der
+Förderverein-Vorstand sieht z. B. ein eigenes, kleineres Cockpit.
+
+---
+
 ## 4. Funktionen (mit vorläufigen Feature-IDs)
 
 | ID | Funktion | Quelle | Phase |
@@ -248,6 +441,19 @@ Rot → Aktion „Aushilfe anfragen“ bzw. gezielte Nachricht an das Register.
 | BK-F19 | Gruppen A/B/C/D (Registry), Stammgruppe, Gruppenwechsel generell (mit Historie) und temporär (Zeitraum/Projekt/Termin), Wechselwunsch + Protokoll | neu | **1** |
 | BK-F20 | Mehrere Instrumente je Teilnehmer (Haupt/Neben), Instrumentwahl je Termin/Projekt | neu | **1** |
 | BK-F21 | Notenexemplare (Papier) ausgeben/zurücknehmen | Club Leihmodul | 3 |
+| BK-F22 | Erweitertes Personen- und Rollenmodell (Eltern–Kind-Verknüpfung, Lehrkräfte, Schule, Förderverein, Unterstützer, Spender, Partner, Dienstleister, Ehemalige), feine Rechte | Club Rollen + neu | **1** |
+| BK-F23 | Leitungs-Cockpit (je Rolle anpassbar) | neu | **1** (v1), 2 (voll) |
+| BK-F24 | Vorgänge & Aufgaben (einheitliches Status-/Frist-Modell) | Club Protokoll-Aufgaben + neu | **1** |
+| BK-F25 | Kommunikation: automatische Zielgruppen-Verteiler, Vorlagen, Rundschreiben mit Rückmeldung, Gesprächsverläufe, Versandprotokoll | Club Communicator-Muster + neu | **1** (Basis), 2 |
+| BK-F26 | Genehmigungen & Einverständnisse der Eltern (Vorlagen, Fristen, Nachweis, Widerruf, Papier-Fallback) | neu | **2** |
+| BK-F27 | Konzerte & Auftritte (Programm, Ablauf, Transport, Helfer, Checklisten) | neu | 2 |
+| BK-F28 | Reisen, Austausch & Probenfreizeiten (Anmeldung, Zuteilung, Notfallinfos mit Auto-Löschung) | neu | 3 |
+| BK-F29 | Reparatur & Wartung (Auftrag, Kostenvoranschlag, Freigabe, Kosten je Instrument) | neu | 2 |
+| BK-F30 | Einkauf / Beschaffung (Bedarf → Angebot → Freigabe → Bestellung → Inventarisierung) | neu | 3 |
+| BK-F31 | Unterstützer & Spender (Kontakte, Zuwendungen, Dank, Liste für Zuwendungsbestätigung) | neu | 3 |
+| BK-F32 | Inventur per QR-Etikett | Club QR | 3 |
+| BK-F33 | Schuljahreswechsel (Jahrgang +1, Vorschläge B → A, Abgänger → Ehemalige, Datenlöschung) | neu | 2 |
+| BK-F34 | Datenschutz-Werkzeuge (Auskunft, Löschung, Aufbewahrungsfristen, Audit-Log) | neu | **1** |
 
 ---
 
@@ -287,7 +493,8 @@ WhatsApp-Business-API wird **nicht** genutzt (kostenpflichtig) – Zero-Cost-Gat
 
 - **Frontend**: Vanilla-JS-PWA wie die Club-App (kein Build, läuft auf alten
   Handys), aber **modular** (ES-Module pro Bereich statt eines 2,7-MB-Monolithen).
-- **Backend**: Supabase Free (Postgres + Edge Functions + pg_cron).
+- **Backend**: Supabase Free (Postgres, Edge Functions, pg_cron, Storage),
+  **Region EU (Frankfurt)**.
   Zugriff wie in der Club-App ausschließlich über eine Edge Function,
   **zusätzlich** echte RLS-Policies als zweite Verteidigungslinie.
 - **Hosting**: GitHub Pages oder Cloudflare Pages (Free).
@@ -296,9 +503,10 @@ WhatsApp-Business-API wird **nicht** genutzt (kostenpflichtig) – Zero-Cost-Gat
 - **Adapter**: Mail, Push, Kalender jeweils hinter Interface (AGENTS.md Regel 4/18).
 - **Übernommen 1:1**: `sw.js`-Update-Mechanik, Versionsvertrag (`version.json`
   + Test), Test „jede Client-Aktion existiert im Server“, Test „keine Secrets im Browser“.
-- **KICC-Anbindung**: Bach-Kreis-App wird in der KICC-Produkt-Registry als
-  Programm registriert (Heartbeat/Version), KICC bleibt aber reiner Beobachter
-  (Regel 12: kein Single Point of Failure).
+- **KICC-Anbindung (optional)**: Die Bachkreis-App läuft autark auf eigenen
+  Konten (Abschnitt 9). KICC kann sie über einen schreibgeschützten Heartbeat
+  (Version und Status) beobachten. Personendaten fließen **nicht** zu KICC, und
+  KICC ist keine Betriebsvoraussetzung (Regel 12).
 
 ### Datenmodell-Skizze (Präfix `bk_`)
 ```
@@ -345,20 +553,82 @@ bk_konfig(schluessel, wert jsonb)
 
 | Phase | Inhalt | Ergebnis |
 |---|---|---|
-| 0 | Entscheidungen (Abschnitt 9), Repo anlegen, Zero-Cost-Check, Grundgerüst aus Club-Mustern (sw.js, Versionsvertrag, Tests) | lauffähige leere PWA, DEV |
-| 1 | BK-F01 … F10, F19, F20: Teilnehmer, Gruppen A–D inkl. Wechsel, Mehrfach-Instrumente, Login, Termine, Antworten, Terminplan, Besetzungsampel, Push/Mail/WhatsApp, ICS | **nutzbarer Kern**, RC für Testgruppe |
-| 2 | BK-F11 … F14, F16: Instrumente-Inventar, Präsenz, Auswertungen + CSV, Terminfindung, **Notenarchiv** | FINAL 1.0 |
-| 3 | BK-F15, F17, F21: Mitfahrten, Notbetrieb, Papier-Notenexemplare | 1.x |
+| 0 | Konten anlegen (Abschnitt 9), Datenschutz mit Schule klären, Repo, Zero-Cost-Check, Grundgerüst aus Club-Mustern (sw.js, Versionsvertrag, Tests) | lauffähige leere PWA, DEV |
+| 1 | **Fundament & Alltag**: Personen/Rollen/Eltern (F01, F02, F22, F34), Gruppen & Instrumente je Person (F19, F20), Termine & Antworten & Besetzungsampel (F03–F06, F10), Kommunikation Basis (F07–F09, F25), Vorgänge (F24), Cockpit v1 (F23) | **nutzbarer Kern**, RC mit Leitung + Testgruppe |
+| 2 | **Verwaltung**: Genehmigungen (F26), Instrumente-Inventar & Verleih (F11), Reparatur (F29), Notenarchiv (F16), Konzerte (F27), Präsenz & Auswertungen (F12, F13), Terminfindung (F14), Schuljahreswechsel (F33), Cockpit voll | **FINAL 1.0** |
+| 3 | **Ausbau**: Einkauf (F30), Spender (F31), Reisen (F28), Inventur QR (F32), Mitfahrten (F15), Papier-Noten (F21), Notbetrieb (F17) | 1.x |
+| 4 | Optional: IServ-Anmeldung, Mandantenfähigkeit (F18) | 2.x |
 
-Jede Phase: Regression, Visual-TÜV, Security, Release-TÜV (AGENTS.md Regel 9).
+Jede Phase durchläuft Regression, Visual-TÜV, Security und Release-TÜV (AGENTS.md Regel 9).
 
 ---
 
-## 9. Offene Entscheidungen
+## 9. Autarker Betrieb: eigene kostenlose Konten
 
-1. **Eigenes Repo** (Vorschlag: `Sire65/BachKreis-Terminplan`) oder Unterordner? → Empfehlung: eigenes Repo.
-2. **Eigenes Supabase-Projekt** oder Tabellen im bestehenden KC-Projekt? Supabase Free erlaubt nur 2 aktive Projekte → prüfen, welche schon belegt sind.
-3. **Wer ist der Bach Kreis?** Nur Chor, Chor + Orchester, wie viele Personen (≈ 20 / 50 / 100+)? Bestimmt Register-Liste und Versandmengen.
+Ziel ist eine App, die **unabhängig von den KC-Konten** läuft und sich bei Bedarf
+**komplett an den Bachkreis bzw. Förderverein übergeben** lässt.
+
+### 9.1 Grundsatz Eigentum
+- Alle Konten laufen auf **eine neue, neutrale Funktionsadresse**
+  (z. B. eine eigene Mailadresse „Bachkreis-App“), **nicht auf eine Privatadresse**.
+- Rechtlich sinnvollster Inhaber ist der **Förderverein des Bachkreises
+  Bergkamen e.V.**: Er ist Verein, besitzt die Instrumente und kann Verträge
+  (Auftragsverarbeitung) schließen. Vor dem Anlegen mit dem Vorstand klären.
+- Mindestens **zwei Administratoren** je Dienst (Entwickler + Leitung oder
+  Vorstand), damit niemand zum Single Point of Failure wird.
+- **2-Faktor-Anmeldung** überall. Zugangsdaten liegen in einem Passwort-Tresor
+  (z. B. Bitwarden Free), nie im Repository (Regel 15).
+- Ein eigenes Konto für eine **eigene Organisation** ist durch die
+  Nutzungsbedingungen gedeckt. Nicht erlaubt sind mehrere Konten nur zum
+  Umgehen von Free-Limits.
+
+### 9.2 Konten und Free-Limits
+Die Limits sind ein Stand aus dem Gedächtnis und **beim Anlegen zu prüfen**
+(Zero-Cost-Gate).
+
+| Dienst | Zweck | Free-Rahmen (ca.) | Hinweis |
+|---|---|---|---|
+| **E-Mail-Postfach** (z. B. web.de/GMX/Gmail) | Inhaber-Adresse aller Konten, Absender | kostenlos | zuerst anlegen |
+| **GitHub** (eigene Organisation) | Code, CI (Actions), Issues | Free-Org, Actions-Minuten für öffentliche Repos frei | Repo **privat** oder öffentlich ohne Daten; Secrets nur in GitHub Secrets |
+| **Supabase** | Datenbank, Edge Functions, Cron, Storage | 2 Projekte, ca. 500 MB DB, 1 GB Storage | **pausiert nach ca. 7 Tagen ohne Zugriff** → Keep-alive per Cron/Action; Region Frankfurt |
+| **Neon** | Spiegel-/Backup-Datenbank | ca. 0,5 GB je Projekt | Muster „Spiegel nach Neon“ aus der Club-App |
+| **Cloudflare** | Hosting (Pages), Notbetrieb-Worker, **R2** für Noten-PDFs und Fotos | Pages frei, R2 ca. 10 GB | keine Egress-Kosten; Domain `*.pages.dev` kostenlos |
+| **Backblaze B2** | verschlüsselte Offsite-Backups | ca. 10 GB | Muster aus KICC (`OBJECT-STORAGE-BACKUP.md`) |
+| **Brevo** | E-Mail-Versand | ca. 300 Mails/Tag | reicht für ca. 100 Schüler + Eltern; Massenmails über den Tag verteilen; mit eigener Domain bessere Zustellbarkeit |
+| (Web Push) | Push-Nachrichten | kostenlos (VAPID) | kein Konto nötig |
+| (Domain, optional) | z. B. `bachkreis-app.de` | **kostet ca. 1 €/Monat** → nicht Zero-Cost | nur wenn der Förderverein sie bezahlt; sonst `pages.dev` |
+
+### 9.3 Datenschutz-Pflichten (vor Echtbetrieb)
+- **Auftragsverarbeitungsverträge (AVV)** mit Supabase, Cloudflare, Brevo,
+  Backblaze und Neon abschließen. Bei den Free-Tarifen geht das meist online.
+- **Datenschutzbeauftragten der Schule** und die Schulleitung einbeziehen.
+  Es geht um Daten Minderjähriger; zu klären ist auch, ob Schule oder
+  Förderverein Verantwortlicher ist.
+- Verzeichnis der Verarbeitungstätigkeiten, Datenschutzhinweise für Eltern,
+  Löschkonzept (Abgänger, Reisedaten, Gesundheitsangaben).
+- Möglichst **EU-Regionen** wählen (Supabase Frankfurt, Neon EU, B2 EU-Central).
+
+### 9.4 Reihenfolge Konten-Einrichtung (Checkliste, später)
+1. Funktions-Mailadresse anlegen, Passwort-Tresor einrichten, zweiten Admin festlegen.
+2. GitHub-Organisation anlegen und Repo `bachkreis-app` erstellen.
+3. Supabase-Organisation anlegen, Projekt in EU (Frankfurt) erstellen, Keep-alive einplanen.
+4. Cloudflare-Konto anlegen: Pages-Projekt aus GitHub, R2-Bucket.
+5. Brevo-Konto anlegen, Absender verifizieren.
+6. Neon und B2 für Spiegel und Backup anlegen.
+7. Jedes Konto mit Limits, Inhaber und 2FA-Status in eine **Konten-Registry**
+   (Dokument im Repo, ohne Passwörter) eintragen. KICC kann diese Registry
+   später optional überwachen.
+
+---
+
+## 10. Offene Entscheidungen
+
+1. ~~Eigenes Repo / eigenes Supabase-Projekt~~ → **entschieden (10.10.2026)**:
+   eigene, autarke Konten (Abschnitt 9). Offen bleibt: Inhaber Förderverein?
+   Wer ist zweiter Admin?
+2. **Datenschutz-Verantwortung**: Schule oder Förderverein? Zustimmung von
+   Schulleitung und Datenschutzbeauftragtem einholen.
+3. ~~Wer ist der Bach Kreis?~~ → Jugendsinfonieorchester, A- und B-Orchester mit je ca. 50 Schülern (Abschnitt 1a).
 4. **Instrumente-DB**: Inventar des Kreises, Instrumente der Mitglieder, oder beides?
 5. **Login**: Link-Token wie Club-App (einfach) oder zusätzlich PIN?
 6. **E-Mail-Absender**: eigene Adresse des Kreises? Welcher kostenfreie Dienst?
@@ -373,3 +643,11 @@ Jede Phase: Regression, Visual-TÜV, Security, Release-TÜV (AGENTS.md Regel 9).
 13. **Notenzuteilung**: reicht Instrument (+ Gruppe), oder werden Stimmen oft individuell an Personen vergeben?
 14. **Noten-Speicher**: geschätzte Menge (Anzahl Werke/PDFs)? Entscheidet über Storage-Adapter.
 15. **Notenwart**: Gibt es eine eigene Rolle für die Pflege des Archivs?
+16. **Freigabegrenzen**: Ab welchem Betrag muss der Förderverein Reparatur oder Einkauf freigeben?
+17. **Welche Genehmigungen** nutzt der Bachkreis heute auf Papier? Am besten die vorhandenen Formulare als Vorlagen übernehmen.
+18. **Externe Kommunikation**: Sollen Schule, Partner und Spender nur Mails
+    bekommen, oder auch einen Lese-Link auf Vorgänge?
+19. **Buchhaltung**: Bleibt sie komplett beim Förderverein (Empfehlung), oder
+    soll die App später Beiträge und Kosten führen?
+20. **Mit Bettina Jacka abstimmen**: Was kostet sie heute am meisten Zeit? Das
+    bestimmt die Reihenfolge der Module.
