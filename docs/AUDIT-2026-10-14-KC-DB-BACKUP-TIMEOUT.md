@@ -28,3 +28,14 @@
 - **Sicherung London → Frankfurt** (`kc-club-fra-sicherung`, Neon-Dateispeicher `dry-waterfall-32306741`, Bucket `kc-archiv`, aws-eu-central-1): taeglich vollstaendig seit 12.10.; 14.10.: 283/283 public-Tabellen, 328 Teile zurueckgelesen und geprueft, 329 Objekte (inkl. Manifest), 0 leer. Neue Tabellen sind automatisch enthalten. Aufbewahrung 14 Tage.
 - **Sicherheitsbefund Frankfurt (nicht geaendert):** Die Dateien sind nur gzip-komprimiert, **nicht verschluesselt**, und enthalten alle Spalten aller public-Tabellen, auch als `secret` eingestufte Tabellen und Spalten, die der Neon-Spiegel schwaerzt (`kc_db_mirror_redaction`). Der Bucket ist privat. Verstoss gegen Regel 15 und die Privacy-Regeln des Spiegels → Korrektur mit eigener Feature-ID nach Freigabe.
 - `grenze` (5 GiB) erscheint nur in den Metriken und wird nicht durchgesetzt.
+
+## Korrektur Frankfurt-Sicherung vorbereitet (Server 2.367.0, KC-CLUB-FRA-VERSCHLUESSELT)
+Quelle: `Sire65/KC-Clubapp`, Edge Function `kc-club` (Deploy per Workflow „Server hochladen“ bei Push auf `main`). Patch: `docs/patches/kc-clubapp-fra-verschluesselt.patch`.
+- Datenbank-Teile (`datenbank/…/*.json.gz.enc`) und Archiv-Kopien (`archiv/…/*.enc`) mit AES-256-GCM, Format KCE1. Schluessel `kc_db_backup_key_v1` (gleiche Ableitung wie Neon-Backup), Notfall-Kopie im Cloudflare-Tresor/GitHub-Secret `KC_BACKUP_KEY` vorhanden. Ohne Schluessel kein Upload.
+- `secret`-Tabellen ausgeschlossen, Spalten aus `kc_db_mirror_redaction` wie im Spiegel geschwaerzt; Personendaten bleiben verschluesselt enthalten (Komplett-Sicherung).
+- Klartext-Altbestand: Datenbank-Dateien werden nach dem ersten fehlerfreien verschluesselten Lauf geloescht; Archiv-Kopien werden in den Nachtlaeufen verschluesselt ersetzt. `dokumente/` (oeffentliche PDFs) unveraendert.
+- Notfall-Werkzeug `tools/notfall/fra-entschluesseln.mjs`.
+- Tests: `app-vertrag.test.mjs` (353 Aktionen + neue Vertragspruefungen), `fra-verschluesselung.test.mjs` (6 Faelle), `notfall-tresor.test.mjs` gruen; `deno check`: keine neuen Typfehler gegenueber v486 (14 vorbestehende).
+- Recovery-Punkt: laufende Version 486 = `main` 368d10d; Ruecknahme per Revert-Commit.
+- Ausrollen nicht zwischen 01:00 und 04:00 UTC (Nachtlauf der Sicherung).
+- Status: **nicht ausgerollt** – Push auf `KC-Clubapp` braucht Freigabe des Betreibers.
