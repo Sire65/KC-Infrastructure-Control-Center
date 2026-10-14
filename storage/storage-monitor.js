@@ -33,4 +33,4 @@ function render(){
 
 async function refresh(){await Promise.all(stores.map(probe));render();}
 window.KICC_OBJECT_STORAGE={stores,refresh,summary:()=>stores.map(summarizeObjectStorage)};
-refresh();setInterval(refresh,60000);setInterval(render,15000);
+refresh();setInterval(()=>{if(!document.hidden)refresh()},60000);/* dev.98: nicht im Hintergrund (Datenbank schonen) */setInterval(render,15000);

@@ -66,4 +66,4 @@ async function refresh(){
 window.KICC_MIRROR={flow,refresh,health:()=>evaluateMirrorHealth(flow),msl:currentMsl,render,authoritative,ingestTest(observation){return ingest(observation,{manual:true});}};
 if(globalThis.KICC_SYNC_TELEMETRY?.[FLOW_ID])ingest(globalThis.KICC_SYNC_TELEMETRY[FLOW_ID],{manual:true});
 else render();
-refresh();setInterval(refresh,60000);setInterval(render,15000);
+refresh();setInterval(()=>{if(!document.hidden)refresh()},60000);/* dev.98: nicht im Hintergrund (Datenbank schonen) */setInterval(render,15000);

@@ -37,4 +37,4 @@ export function configureRemoteHeartbeatBridge({endpoint:nextEndpoint=null}={}){
 export function remoteHeartbeatBridgeStatus(){return {...snapshot(),endpoint:endpoint(),lastSuccessAt:state.lastSuccessAt,lastError:state.lastError};}
 
 globalThis.KICC_REMOTE_HEARTBEAT_BRIDGE={refresh:refreshRemoteHeartbeatBridge,status:remoteHeartbeatBridgeStatus,configure:configureRemoteHeartbeatBridge};
-refreshRemoteHeartbeatBridge();setInterval(refreshRemoteHeartbeatBridge,30_000);
+refreshRemoteHeartbeatBridge();setInterval(()=>{if(!document.hidden)refreshRemoteHeartbeatBridge()},30_000);/* dev.98: nicht im Hintergrund (Datenbank schonen) */
