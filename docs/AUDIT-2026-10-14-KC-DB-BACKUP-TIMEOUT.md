@@ -21,3 +21,10 @@
 - ~~Der Restore-Test (`kc-db-backup-verify-v2`, Cron 00:15) meldet „passed“ auch fuer unvollstaendige Saetze.~~ Behoben mit KICC-F-100 (`docs/KICC-F-100-BACKUP-RESTORE-COMPLETENESS.md`).
 - Optional: Worker-Anfragen zeitversetzt statt parallel dispatchen.
 - PC Backup Vault: letztes Backup 2026-09-18, nur manuelle Laeufe; Warnung FS-003 (`Permission denied` auf `.pc-backup-vault\.preflight-*.tmp`) am PC pruefen.
+
+## Gesamtpruefung 2026-10-14 (nach der Korrektur)
+- **Spiegel Supabase → Neon London:** 1002 Snapshot-Laeufe in 24 h, 253/253 Tabellen, 0 Abweichungen (Quelle = Ziel). Watchdog, Abdeckung und Quellpruefung ok.
+- **Auto-Aufnahme neuer Tabellen** (`kc_internal.kc_db_mirror_abdeckung_check`, alle 30 min): aktiv. Zuletzt automatisch aufgenommen: `kc_club_express`, `kc_club_express_antwort` (13.10. 20:02), `kc_club_geplant` (13.10. 19:32). Tabellen mit auffaelligen Spalten werden angehalten; derzeit wartet keine auf Freigabe.
+- **Sicherung London → Frankfurt** (`kc-club-fra-sicherung`, Neon-Dateispeicher `dry-waterfall-32306741`, Bucket `kc-archiv`, aws-eu-central-1): taeglich vollstaendig seit 12.10.; 14.10.: 283/283 public-Tabellen, 328 Teile zurueckgelesen und geprueft, 329 Objekte (inkl. Manifest), 0 leer. Neue Tabellen sind automatisch enthalten. Aufbewahrung 14 Tage.
+- **Sicherheitsbefund Frankfurt (nicht geaendert):** Die Dateien sind nur gzip-komprimiert, **nicht verschluesselt**, und enthalten alle Spalten aller public-Tabellen, auch als `secret` eingestufte Tabellen und Spalten, die der Neon-Spiegel schwaerzt (`kc_db_mirror_redaction`). Der Bucket ist privat. Verstoss gegen Regel 15 und die Privacy-Regeln des Spiegels → Korrektur mit eigener Feature-ID nach Freigabe.
+- `grenze` (5 GiB) erscheint nur in den Metriken und wird nicht durchgesetzt.
