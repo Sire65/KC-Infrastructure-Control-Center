@@ -74,3 +74,16 @@ test.describe('KICC Tiefenprüfung · 50 Tests', () => {
   test('49 Axe findet keine kritischen Accessibility-Verstöße', async ({ page }) => { const result=await new AxeBuilder({page}).analyze(); const critical=result.violations.filter(v=>v.impact==='critical'); expect(critical.map(v=>v.id)).toEqual([]); });
   test('50 Mobile-Viewport erzeugt keinen starken horizontalen Überlauf', async ({ page }) => { await page.setViewportSize({width:390,height:844}); await page.reload({waitUntil:'domcontentloaded'}); await page.waitForTimeout(800); const dims=await page.evaluate(() => ({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth})); expect(dims.scroll-dims.client).toBeLessThanOrEqual(8); });
 });
+
+test.describe('KICC-F-100 · Kopfbereich-Lichtschein', () => {
+  test('Lichtschein laeuft beim Start einmal ueber den Kopfbereich', async ({ page }) => {
+    await page.goto('/?e2e=1#dashboard', { waitUntil: 'domcontentloaded' });
+    const shine = await page.evaluate(() => { const s=globalThis.getComputedStyle(globalThis.document.querySelector(".topbar"),'::after'); return { name:s.animationName, count:s.animationIterationCount, events:s.pointerEvents }; });
+    expect(shine).toEqual({ name:'kicc-topbar-shine', count:'1', events:'none' });
+  });
+  test('Lichtschein entfaellt bei reduzierter Bewegung', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/?e2e=1#dashboard', { waitUntil: 'domcontentloaded' });
+    expect(await page.evaluate(() => globalThis.getComputedStyle(globalThis.document.querySelector(".topbar"),'::after').animationName)).toBe('none');
+  });
+});
