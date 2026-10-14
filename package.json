@@ -6,7 +6,8 @@
     "test:e2e": "playwright test --project=chromium",
     "test:cross-browser": "playwright test",
     "test:report": "playwright show-report",
-    "lint": "eslint tests/e2e playwright.config.js"
+    "lint": "eslint tests/e2e tests/unit database/edge-functions playwright.config.js",
+    "test:unit": "node --test tests/unit/*.test.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",

@@ -18,6 +18,6 @@
 - Alle 11 Worker-Anfragen HTTP 200, keine Statement-Timeouts in den Postgres-Logs.
 
 ## Offen
-- Der Restore-Test (`kc-db-backup-verify-v2`, Cron 00:15) meldet „passed“ auch fuer unvollstaendige Saetze (z. B. 250 von 253). Er muss gegen die erwartete Tabellenzahl pruefen (Regel 11). Eigene Feature-ID mit Tests.
+- ~~Der Restore-Test (`kc-db-backup-verify-v2`, Cron 00:15) meldet „passed“ auch fuer unvollstaendige Saetze.~~ Behoben mit KICC-F-100 (`docs/KICC-F-100-BACKUP-RESTORE-COMPLETENESS.md`).
 - Optional: Worker-Anfragen zeitversetzt statt parallel dispatchen.
 - PC Backup Vault: letztes Backup 2026-09-18, nur manuelle Laeufe; Warnung FS-003 (`Permission denied` auf `.pc-backup-vault\.preflight-*.tmp`) am PC pruefen.

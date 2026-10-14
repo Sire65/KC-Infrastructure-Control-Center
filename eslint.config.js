@@ -1,6 +1,6 @@
 export default [
   {
-    files:['playwright.config.js','tests/e2e/**/*.js'],
+    files:['playwright.config.js','tests/e2e/**/*.js','tests/unit/**/*.js','database/edge-functions/**/*.js'],
     languageOptions:{ecmaVersion:2023,sourceType:'module',globals:{process:'readonly',globalThis:'readonly',document:'readonly',window:'readonly'}},
     rules:{
       'no-undef':'error',
