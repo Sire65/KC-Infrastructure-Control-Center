@@ -13,9 +13,12 @@ L = {
  "09": "Und das ist noch lange nicht alles: Viele weitere Funktionen findest du in der App.",
  "10": "Installier die App – und probier alles aus!",
  "11": "Und wenn du Ideen hast: immer her damit! Die App wird ständig weiterentwickelt.",
+ "12": "In der App gibst du ganz einfach deinen Wunschdienstplan für den Weihnachtsmarkt ein – wenn du magst, mit unserem Assistenten Twinkey.",
+ "13": "Also: keine Zettelwirtschaft mehr!",
+ "14": "Und wenn du die App schon installiert hast: umso besser! Dann bist du immer up to date.",
 }
 # Englische Wörter englisch sprechen (wie BW_AUSSPRACHE in der Club-App): Schreibweise nur für die Stimme, Bildtext bleibt
-AUSSPRACHE = [(r"\bApp\b", "Äpp"), (r"\bChatte\b", "Tschätte"), (r"\bchatten\b", "tschätten"), (r"\bChat\b", "Tschätt")]
+AUSSPRACHE = [(r"\bApp\b", "Äpp"), (r"\bChatte\b", "Tschätte"), (r"\bchatten\b", "tschätten"), (r"\bChat\b", "Tschätt"), (r"\bTwinkey\b", "Twinki"), (r"\bup to date\b", "App tu dejt")]
 def aussprache(t):
     for re_, neu in AUSSPRACHE: t = re.sub(re_, neu, t)
     return t

@@ -66,6 +66,25 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
 .flieg { font-size: 110px; }
 .tanzer { width: 240px; height: 340px; top: 1190px; }
 #klatsch { left: 0; right: 0; top: 530px; text-align: center; font-size: 150px; }
+/* Wunschdienst mit Twinkey */
+.tw { position: absolute; left: 22px; right: 22px; display: flex; gap: 14px; align-items: flex-start; }
+.tw .av { width: 76px; height: 76px; border-radius: 50%; background: var(--rot); display: flex; align-items: center; justify-content: center; font-size: 46px; flex: none; box-shadow: 0 4px 10px rgba(0,0,0,.15); }
+.tw .bl { background: #fff; border-radius: 28px; border-top-left-radius: 8px; padding: 18px 22px; font-size: 29px; line-height: 1.25; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.tw .bl b { display: block; font-size: 21px; color: var(--rot); margin-bottom: 4px; }
+.chips { position: absolute; left: 22px; right: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+.chip { padding: 12px 18px; border-radius: 40px; border: 3px solid var(--rot); color: var(--rot); background: #fff; font-size: 24px; font-weight: 700; }
+.chip.an { background: var(--rot); color: #fff; }
+#wKnopf { left: 60px; right: 60px; top: 1040px; height: 100px; border-radius: 50px; background: #2b8a3e; color: #fff; font-size: 36px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px rgba(43,138,62,.35); }
+#wDanke { left: 30px; right: 30px; top: 470px; padding: 40px 30px; border-radius: 40px; background: #fff; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.3); z-index: 5; }
+#wDanke .g { font-size: 120px; } #wDanke .t { font-size: 40px; font-weight: 700; color: #2b8a3e; margin-top: 10px; } #wDanke .d { font-size: 28px; color: #555; margin-top: 10px; }
+.zettel { width: 230px; height: 270px; background: #fffbe6; box-shadow: 0 12px 30px rgba(0,0,0,.25); padding: 26px 22px; z-index: 8; }
+.zettel i { display: block; height: 10px; border-radius: 5px; background: #8a7a6a; margin: 16px 0; opacity: .55; }
+#stopp { left: 190px; top: 690px; width: 700px; height: 700px; border-radius: 50%; border: 44px solid #e03131; z-index: 9; }
+#stopp::after { content: ""; position: absolute; left: 50%; top: -20px; bottom: -20px; width: 44px; margin-left: -22px; background: #e03131; transform: rotate(45deg); }
+/* Schon installiert */
+#upd { background: linear-gradient(#fbf4ea, #f3e9dc); }
+#uIcon { left: 0; right: 0; top: 380px; text-align: center; font-size: 300px; }
+#uKreis { left: 340px; top: 360px; width: 400px; height: 400px; border-radius: 50%; border: 18px solid transparent; border-top-color: var(--rot); border-right-color: var(--rot); }
 /* … und noch viel mehr */
 #mehr { background: linear-gradient(#fbf4ea, #f3e9dc); }
 .kachel { width: 300px; height: 230px; border-radius: 36px; background: #fff; box-shadow: 0 10px 30px rgba(116,21,33,.15); border-bottom: 10px solid var(--rot); text-align: center; padding-top: 30px; }
@@ -100,6 +119,8 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
   <div class="abs cap" id="c4"><div class="h">📰 Bestens informiert</div><div class="u">Neuigkeiten aus dem Club</div></div>
   <div class="abs cap" id="c5"><div class="h">💬 Chatte mit Freunden</div><div class="u">🔒 Alles bleibt unter uns</div></div>
   <div class="abs cap" id="c6"><div class="h">📅 Termine im Blick</div><div class="u">⏰ Erinnerung, wenn du willst</div></div>
+  <div class="abs cap" id="c8"><div class="h">🎄 Wunschdienst</div><div class="u">für den Weihnachtsmarkt – mit Twinkey 🧑‍🍳</div></div>
+  <div class="abs cap" id="c9"><div class="h" style="color:#e03131">🚫 Keine Zettel&shy;wirtschaft mehr!</div></div>
   <div class="abs cap" id="c7"><div class="h">📸 Die schönsten Momente</div><div class="u">Im Fotoalbum – immer wieder</div></div>
 
   <div class="abs" id="phone"><div id="screen"><div id="notch"></div>
@@ -131,6 +152,16 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
       <div class="termin"><div class="dt"><b>12</b><span>Dez</span></div><div><div class="t">Weihnachtsfeier</div><div class="d">Sa · 18:30 Uhr</div></div></div>
       <div class="abs" id="banner"><div class="ic">⏰</div><div><div class="t">Köcheclub · Erinnerung</div><div class="d">Morgen: Clubabend, 19:00 Uhr</div></div></div>
     </div>
+    <div class="scr" id="scrWunsch" style="background:#fff8ee; z-index:2"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Dienstwünsche 🎄</div>
+      <div class="tw" id="w1" style="top:220px"><div class="av">🧑‍🍳</div><div class="bl"><b>Twinkey</b>Hallo! An welchen Tagen möchtest du auf dem Weihnachtsmarkt helfen?</div></div>
+      <div class="chips" id="wc1" style="top:390px"><span class="chip">Fr 27.11.</span><span class="chip">Sa 28.11.</span><span class="chip">So 29.11.</span><span class="chip">Fr 4.12.</span></div>
+      <div class="tw" id="w2" style="top:530px"><div class="av">🧑‍🍳</div><div class="bl"><b>Twinkey</b>Wann möchtest du helfen? (Wunschzeit)</div></div>
+      <div class="chips" id="wc2" style="top:660px"><span class="chip">Vormittag</span><span class="chip">Nachmittag</span><span class="chip">Abend</span></div>
+      <div class="tw" id="w3" style="top:780px"><div class="av">🧑‍🍳</div><div class="bl"><b>Twinkey</b>Vorne, hinten oder beides?</div></div>
+      <div class="chips" id="wc3" style="top:910px"><span class="chip">Vorne</span><span class="chip">Hinten</span><span class="chip">Beides (V/H)</span></div>
+      <div class="abs" id="wKnopf">✅ Wunsch abschicken</div>
+      <div class="abs" id="wDanke"><div class="g">🎄</div><div class="t">Danke!</div><div class="d">Dein Wunsch ist angekommen.<br>Twinkey gibt ihn an die Planung weiter.</div></div>
+    </div>
     <div class="scr" id="scrFoto"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Fotoalbum</div>
       <div class="raster" id="raster"></div>
       <div class="abs" id="dia">
@@ -140,6 +171,8 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
     </div>
   </div></div>
 
+  <div id="zettelL"></div>
+  <div class="abs" id="stopp"></div>
   <div class="layer" id="jeansL" style="pointer-events:none"><div class="abs" id="jeans"><div class="naht"></div><div class="tasche"></div></div></div>
 
   <!-- Bühne / Karaoke -->
@@ -165,6 +198,12 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
     <div class="abs" id="birne">💡</div>
     <div class="abs cap" id="dT" style="top:700px"><div class="h serif" style="font-size:80px">Deine Idee?</div><div class="h" style="font-size:96px; color:#2a1c14; margin-top:20px">Immer her damit!</div><div class="u" style="font-size:50px; margin-top:50px">Die App wird ständig<br>weiterentwickelt 🚀</div></div>
     <div class="abs" id="version">Version<b id="vNr">2.380</b></div>
+  </div>
+  <!-- Schon installiert? -->
+  <div class="layer" id="upd">
+    <div class="abs" id="uKreis"></div>
+    <div class="abs" id="uIcon">📱</div>
+    <div class="abs cap" id="uT" style="top:880px"><div class="h serif" style="font-size:76px">Schon installiert?</div><div class="h" style="font-size:110px; color:#2b8a3e; margin-top:24px">Umso besser! ✅</div><div class="u" style="font-size:54px; margin-top:50px">Dann bist du immer<br><b style="color:var(--rot)">up to date</b> 🔄</div></div>
   </div>
   <!-- Ende -->
   <div class="layer" id="ende">
@@ -217,11 +256,11 @@ const BEIN = (s) => `<g class="bein${s < 0 ? "L" : "R"}"><path d="M${s * 3} 37 L
 const TANZ = [["besen", 150], ["loeffel", 420], ["messer", 690]];
 $("tanz").innerHTML = TANZ.map(([k, x], i) => `<div class="abs tanzer" id="tz${i}" style="left:${x}px"><svg viewBox="-30 -30 60 85" width="240" height="340" style="overflow:visible">
   <g class="kp">${BEIN(-1)}${BEIN(1)}${ARM(-1)}${ARM(1)}${KOERPER[k]}</g></svg></div>`).join("");
-function tanz(t) {
-  const sch = (t - T0) / SCHLAG, ph = ((sch % 1) + 1) % 1, n = Math.floor(sch), takt = Math.floor(sch / 4), ref = t >= 46.45 && t < 61.9, A = ref ? 1 : .55;
+function tanz(t, tk) {
+  const sch = (t - T0) / SCHLAG, ph = ((sch % 1) + 1) % 1, n = Math.floor(sch), takt = Math.floor(sch / 4), ref = tk >= 46.45 && tk < 61.9, A = ref ? 1 : .55;
   const hop = Math.abs(Math.sin(Math.PI * ph)), dreh = (bar) => (ref && takt % 4 === bar ? eio(p(sch % 4, 2, 4)) * 360 : 0);
   TANZ.forEach(([k], i) => {
-    const el = $("tz" + i), svg = el.querySelector(".kp"), auf = p(t, 39.6 + i * .25, 40.1 + i * .25);
+    const el = $("tz" + i), svg = el.querySelector(".kp"), auf = p(tk, 39.6 + i * .25, 40.1 + i * .25);
     let x = 0, y = -hop * 50 * A, r = 0;
     if (k === "besen") { r = Math.sin(Math.PI * sch / 2) * 18 * A + dreh(3); }
     if (k === "loeffel") { y = -hop * 90 * A; r = (n % 2 ? 1 : -1) * 12 * A * hop + dreh(1); }
@@ -253,6 +292,29 @@ function mehr(t) {
   S("version", win(t, 70.6, 73.6, .3)); $("vNr").textContent = "2." + Math.round(lerp(380, 408, eio(p(t, 70.8, 72.6))));
 }
 
+const ZETTEL = [[60, 700, -14], [780, 640, 12], [120, 1240, 8], [740, 1260, -10], [430, 560, 4], [420, 1420, -6]];
+$("zettelL").innerHTML = ZETTEL.map(([x, y, r], i) => `<div class="abs zettel" id="zt${i}" style="left:${x}px; top:${y}px"><i style="width:80%"></i><i></i><i style="width:60%"></i><i style="width:90%"></i><i style="width:45%"></i></div>`).join("");
+function wunsch(t) {
+  S("scrWunsch", p(t, 38.3, 38.7), `translateX(${(1 - eo(p(t, 38.3, 38.7))) * 80}px)`);
+  S("c8", win(t, 38.4, 46.0, .3), `translateY(${(1 - eo(p(t, 38.4, 38.8))) * -40}px)`);
+  [["w1", 39.0], ["w2", 41.4], ["w3", 43.0]].forEach(([id, a]) => S(id, p(t, a, a + .15), `scale(${eb(p(t, a, a + .4))})`)); ["w1", "w2", "w3"].forEach((id) => $(id).style.transformOrigin = "left top");
+  const wahl = [["wc1", 39.8, [[0, 40.5], [1, 40.9]]], ["wc2", 42.0, [[1, 42.6]]], ["wc3", 43.6, [[2, 44.1]]]];
+  wahl.forEach(([id, a, an]) => { S(id, p(t, a, a + .3), `translateY(${(1 - eo(p(t, a, a + .4))) * 30}px)`); const c = $(id).children;
+    an.forEach(([k, ta]) => { c[k].classList.toggle("an", t >= ta); c[k].style.transform = `scale(${1 + .15 * Math.exp(-Math.max(0, t - ta) * 8) * (t >= ta)})`; }); });
+  const druck = p(t, 44.9, 45.0) * (1 - p(t, 45.0, 45.15)); S("wKnopf", p(t, 44.4, 44.6), `scale(${eb(p(t, 44.4, 44.8)) * (1 - .08 * druck)})`);
+  S("wDanke", p(t, 45.1, 45.3), `scale(${eb(p(t, 45.1, 45.5))})`);
+  // Keine Zettelwirtschaft mehr
+  S("c9", win(t, 46.0, 50.2, .3), `scale(${eb(p(t, 46.0, 46.4))})`);
+  ZETTEL.forEach(([x, y, r], i) => { const a = 45.9 + i * .08, weg = eio(p(t, 47.9 + i * .05, 48.6 + i * .05)), dx = (x < 400 ? -1 : 1) * weg * 900;
+    S("zt" + i, p(t, a, a + .1) * (1 - p(t, 48.4, 48.8)), `translate(${dx + (1 - eo(p(t, a, a + .35))) * (x < 400 ? -500 : 500)}px, ${-weg * 300}px) rotate(${r + weg * 200}deg)`); });
+  const st = p(t, 46.7, 46.95); S("stopp", st * (1 - p(t, 48.2, 48.6)), `scale(${lerp(2.2, 1, eo(st))}) rotate(${lerp(-25, 0, eo(st))}deg)`);
+}
+function upd(t) { // Schon installiert? Umso besser – immer up to date (2 Takte vor dem Abspann)
+  S("upd", p(t, 85.1, 85.5));
+  S("uIcon", p(t, 85.3, 85.5), `scale(${eb(p(t, 85.3, 85.8))})`); S("uKreis", p(t, 85.5, 85.8), `rotate(${(t - 85.5) * 300}deg)`);
+  S("uT", p(t, 85.5, 85.8), `translateY(${(1 - eo(p(t, 85.5, 86.0))) * 50}px)`);
+}
+
 function karaoke(t) {
   const sz = K.takte.map((z) => ({ ...z, t0: K.start + z.b * K.takt }));
   let z = null; for (const x of sz) if (x.t0 - .35 <= t && t < x.t0 + 32 * SECH + .2) z = x;
@@ -271,7 +333,8 @@ function karaoke(t) {
 function zeige(t) {
   // Hintergründe
   S("bgRot", Math.max(1 - p(t, 3.9, 4.3), 0));
-  S("bgBeige", win(t, 3.9, 39.4, .4));
+  const D1 = 6 * TAKT, tk = t - D1; // ab dem Wunschdienst ist alles um 6 Takte verschoben
+  S("bgBeige", win(t, 3.9, 39.4 + D1, .4));
   // Szene 1
   S("s1", 1 - p(t, 3.9, 4.3));
   const l1 = eb(p(t, .15, .85)); S("s1logo", p(t, .15, .3), `scale(${l1}) rotate(${(1 - l1) * -40}deg)`);
@@ -284,8 +347,8 @@ function zeige(t) {
   const jy = eio(p(t, 7.9, 8.8)) * 650; S("jeansL", win(t, 4.1, 8.8, .4), `translateY(${jy}px)`);
   let dy, sc, rot, op = 1;
   if (t < 7.9) { const r = eo(p(t, 5.5, 6.9)); dy = lerp(900, 150, r); sc = .6; rot = lerp(4, -8, r) + Math.sin(t * 9) * 1.2 * (p(t, 5.5, 6.9) < 1 ? 1 : .2); }
-  else if (t < 38.2) { const r = eio(p(t, 7.9, 8.8)); dy = lerp(150, 0, r); sc = lerp(.6, 1, r); rot = lerp(-8, 0, r); }
-  else { const r = eio(p(t, 38.2, 39.1)); dy = lerp(0, -1100, r); sc = lerp(1, .5, r); rot = lerp(0, 18, r); op = 1 - p(t, 38.7, 39.1); }
+  else if (t < 38.2 + D1) { const r = eio(p(t, 7.9, 8.8)); dy = lerp(150, 0, r); sc = lerp(.6, 1, r); rot = lerp(-8, 0, r); }
+  else { const r = eio(p(tk, 38.2, 39.1)); dy = lerp(0, -1100, r); sc = lerp(1, .5, r); rot = lerp(0, 18, r); op = 1 - p(tk, 38.7, 39.1); }
   if (t > 28.6 && t < 29.4) rot += Math.sin((t - 28.6) * 45) * 2.5 * (1 - p(t, 28.6, 29.4)); // Handy wackelt bei der Erinnerung
   S("phone", t < 4.1 ? 0 : op, `translateY(${dy}px) scale(${sc}) rotate(${rot}deg)`);
   // Bildschirme
@@ -309,27 +372,28 @@ function zeige(t) {
   [...$("scrTermine").querySelectorAll(".termin")].forEach((k, i) => { const a = 25.8 + i * .35; S(k, p(t, a, a + .25), `translateY(${(1 - eo(p(t, a, a + .5))) * 80}px)`); });
   const bn = eb(p(t, 28.5, 29.0)); S("banner", p(t, 28.5, 28.6), `translateY(${lerp(-220, 0, bn)}px)`);
   // Szene 7 Fotos
+  wunsch(t);
   S("c7", win(t, 31.9, 38.4, .3), `translateY(${(1 - eo(p(t, 31.9, 32.3))) * -40}px)`);
   [...$("raster").children].forEach((k, i) => { const a = 32.2 + i * .08; S(k, p(t, a, a + .15), `scale(${eb(p(t, a, a + .4))})`); });
   S("dia", p(t, 35.0, 35.4), `scale(${lerp(.4, 1, eo(p(t, 35.0, 35.5)))})`);
   S("dia0", 1 - p(t, 36.8, 37.2), `scale(${1 + .12 * p(t, 35.0, 37.2)})`);
   S("dia1", p(t, 36.8, 37.2), `scale(${1 + .12 * p(t, 36.8, 38.8)})`);
   // Bühne
-  const bo = win(t, 38.8, 62.2, .5); S("buehne", bo);
+  const bo = win(tk, 38.8, 62.2, .5); S("buehne", bo);
   if (bo > 0) {
     $("spot").style.transform = `rotate(${Math.sin(t * .9) * 8}deg)`; $("spot").style.transformOrigin = "50% 0";
-    S("kTitel", p(t, 39.0, 39.5), `scale(${eb(p(t, 39.0, 39.6)) * (1 + .03 * puls(t))})`);
-    S("kBox", p(t, 39.3, 39.7)); karaoke(t); tanz(t);
-    for (let i = 0; i < 5; i++) { const ph = ((t - T0) / SCHLAG + (i % 2) * .5) % 1; S("hut" + i, p(t, 39.4 + i * .1, 39.7 + i * .1), `translateY(${-Math.abs(Math.sin(ph * Math.PI)) * 60}px) rotate(${Math.sin(ph * Math.PI * 2) * 10}deg)`); }
-    const kv = p(t, 46.4, 46.7); KONF.forEach((k, i) => { const y = ((t - 46.4) * k.v + k.o) % 2300 - 200; S("kf" + i, kv * (t > 46.4 ? 1 : 0), `translate(${k.x + Math.sin(t * 2 + k.s) * 40}px, ${y}px) rotate(${k.r + t * k.w}deg)`); });
+    S("kTitel", p(tk, 39.0, 39.5), `scale(${eb(p(tk, 39.0, 39.6)) * (1 + .03 * puls(t))})`);
+    S("kBox", p(tk, 39.3, 39.7)); karaoke(t); tanz(t, tk);
+    for (let i = 0; i < 5; i++) { const ph = ((t - T0) / SCHLAG + (i % 2) * .5) % 1; S("hut" + i, p(tk, 39.4 + i * .1, 39.7 + i * .1), `translateY(${-Math.abs(Math.sin(ph * Math.PI)) * 60}px) rotate(${Math.sin(ph * Math.PI * 2) * 10}deg)`); }
+    const kv = p(tk, 46.4, 46.7); KONF.forEach((k, i) => { const y = ((tk - 46.4) * k.v + k.o) % 2300 - 200; S("kf" + i, kv * (tk > 46.4 ? 1 : 0), `translate(${k.x + Math.sin(t * 2 + k.s) * 40}px, ${y}px) rotate(${k.r + t * k.w}deg)`); });
     FLIEG.forEach((e, i) => { const a = i / FLIEG.length * Math.PI * 2 + t * .25; S("fl" + i, .22, `translate(${490 + Math.cos(a) * 470}px, ${930 + Math.sin(a) * 780}px) rotate(${Math.sin(t + i) * 15}deg)`); });
   }
   // … und noch viel mehr (6 Takte), danach der Abspann
-  mehr(t);
-  const te = t - 6 * TAKT; // Ende um 6 Takte verschoben
+  mehr(tk); upd(t);
+  const te = t - 14 * TAKT; // Ende verschoben: Wunschdienst 6 + „mehr“ 6 + „schon installiert“ 2 Takte
   S("ende", p(te, 61.8, 62.3));
   const el = eb(p(te, 62.0, 62.7)); S("eLogo", p(te, 62.0, 62.2), `scale(${el * (1 + .03 * puls(t))}) rotate(${(1 - el) * 30}deg)`);
   [["eT1", 62.4], ["eT2", 63.2], ["eT3", 64.0], ["eT4", 64.9], ["eT5", 65.6]].forEach(([id, a]) => S(id, p(te, a, a + .3), `translateY(${(1 - eo(p(te, a, a + .5))) * 50}px)`));
-  S("schwarz", p(t, 80.2, 81) + (1 - p(t, 0, .25)));
+  S("schwarz", p(t, 95.2, 96) + (1 - p(t, 0, .25)));
 }
 </script></body></html>
