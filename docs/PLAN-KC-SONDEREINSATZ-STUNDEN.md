@@ -1,7 +1,7 @@
 # Konzept: Sonderstunden melden (Grünkohl Dortmund/Hamm, Getränke zuhause)
 
 Feature-ID: **KICC-F-100** · Status: **KONZEPT** (Betreiber-Entscheidungen vom 2026-10-15 eingearbeitet, siehe §9) · Stand: 2026-10-15
-Betroffene Programme: **KC DP2** (`dp3`, 0.20.0-build247), **KC Club App** (`KC-Clubapp`, 2.415.0), Stempeluhr im **PC-Manager/Kasse** (`Kasse`, nur Prüfung auf Doppelzeiten)
+Betroffene Programme: **KC DP2** (`dp3`, 0.20.0-build247), **KC Club App** (`KC-Clubapp`, 2.415.0), **Supabase** (neue Tabellen, Fristen-Erinnerung), **Sprachbefehle der Club App** (neuer Befehl), Stempeluhr im **PC-Manager/Kasse** (`Kasse`, nur Prüfung auf Doppelzeiten)
 
 ## 1. Anlass
 1. Mehrere Kollegen kochen Grünkohl in einem Krankenhaus in Dortmund. **Termin und Stundenumfang stehen noch nicht fest.**
@@ -82,10 +82,12 @@ Fahrt und weitere Auslagen werden **ein** Erstattungsantrag in `kc_club_erstattu
 
 | Art | Felder | Besonderheit |
 |---|---|---|
-| `kaution` | Betrag, wofür (z. B. „Thermoboxen“, „Tiefkühler Hamm“), an wen | Eine Kaution kommt in der Regel zurück. Im Eingangskorb hat sie einen eigenen Zustand: **„Kaution offen“** → **„Kaution zurückerhalten“** (an Club oder Mitglied). So geht keine Kaution verloren. |
+| `kaution` | Betrag, wofür (z. B. „Thermoboxen“, „Tiefkühler Hamm“), an wen | Eine Kaution kommt in der Regel zurück. Im Eingangskorb hat sie einen eigenen Zustand: **„Kaution offen“** → **„Kaution zurückerhalten“**. **Wohin sie zurückgeht** (Betreiber, 2026-10-15): Hat das Mitglied die Kaution aus eigenem Geld bezahlt, geht sie **an das Mitglied** zurück. Sie wird dann nicht erstattet, sondern nur festgehalten. Erst wenn sie nicht zurückkommt, wird daraus ein Erstattungsfall. Wurde sie aus einem **Vorschuss des Clubs** bezahlt, geht sie **an den Club** zurück. Der Kassenwart klickt dann „Kaution beim Club eingegangen“ an. |
 | `parken` | Betrag, Ort | — |
-| `kraftstoff` | Betrag, Liter (freiwillig), Fahrzeug | **Doppelerstattung vermeiden:** Wird für dieselbe Fahrt schon die km-Pauschale beantragt, warnt die App: „Die km-Pauschale deckt den Kraftstoff ab.“ Kraftstoff ist nur für ein Fahrzeug ohne km-Pauschale gedacht, z. B. ein Miet- oder Clubtransporter. Im Eingangskorb wird der Fall markiert. |
+| `kraftstoff` | Betrag, Liter (freiwillig), Fahrzeug | **Mit dem eigenen Auto gibt es nur die km-Pauschale** (Betreiber, 2026-10-15). Kraftstoff ist dann für diese Fahrt nicht wählbar. Kraftstoff gibt es nur für ein Fahrzeug ohne km-Pauschale, also ein Miet- oder Clubfahrzeug; das Fahrzeug wird dafür aus einer Auswahl gewählt. |
 | `sonstiges` (vorhanden) | Betrag, wofür (Pflicht) | — |
+
+**Vorschuss.** Die Erstattung fragt: „Hast du für diesen Einsatz einen Vorschuss vom Club erhalten?“ Bei Ja gibt man den Betrag ein. Der Eingangskorb rechnet dann: Summe der Auslagen − Vorschuss = Auszahlung an das Mitglied oder Rückzahlung an den Club. Eine Kaution, die aus dem Vorschuss bezahlt wurde, wird automatisch dem Club zugeordnet (siehe oben).
 
 **Bon/Quittung vorhanden** zum Anklicken, je Position. Neues Feld `beleg_status`:
 - 📷 **„Ja, fotografiert“**: Foto oder PDF wie heute (bis zu 5).
@@ -103,7 +105,7 @@ Neue Aufgabe in `tasks()`: **„Sonderstunden melden“**, mit dem Untertitel �
 |---|---|---|
 | 1 | Für welchen Einsatz? | Auswahl aus 4.1 mit Termin-Status. Ist der Termin noch `OFFEN`, geht es mit „Ich würde helfen“ weiter. |
 | 2 | An welchem Tag? | Vorschlag aus dem Anlass, sonst Kalender. Tage in der Zukunft sind nicht wählbar. |
-| 3 | Von wann bis wann warst du dabei? | Zeitwahl wie im Schritt „can“, dazu die Pause |
+| 3 | Wann bist du zuhause losgefahren, und wann warst du wieder zuhause? | Zeitwahl wie im Schritt „can“, dazu die Pause. **Die Fahrzeit von zuhause bis zuhause zählt voll mit** (Betreiber, 2026-10-15). Twinkey sagt das ausdrücklich dazu. |
 | 4 | Wer war noch dabei? | „Nur ich“ oder Mehrfachauswahl aus der Personenliste (Suche wie bei „Von Kollegen übernehmen“). |
 | 4a | Stunden je Kollege | Pro ausgewähltem Kollegen eine Zeile mit deinen Zeiten als Vorschlag, einzeln änderbar (von–bis, Pause). Die Summe pro Person steht direkt daneben. |
 | 5 | Was hast du gemacht? | Auswahl: Kochen, Vorbereitung, Transport/Fahrt, Einkauf, Getränke mischen, Aufräumen |
@@ -114,6 +116,23 @@ Neue Aufgabe in `tasks()`: **„Sonderstunden melden“**, mit dem Untertitel �
 | 9 | Fertig | Die Stunden erscheinen unter „Meine erfassten Zeiten“ mit ihrem Status. Fahrt und Auslagen gehen als **ein** Erstattungsantrag mit Bezug zum Einsatz in den Büro-Eingangskorb und stehen unter „Meine Anträge“. |
 
 Für die Sprachausgabe kommen neue Text-Schlüssel in `assets/twinkey/audio/texts.json`. Fehlt eine WAV-Datei, nutzt Twinkey die Gerätestimme; dieser Rückfall ist schon vorhanden.
+
+### 4.6 Fahrgemeinschaften (vorrangig)
+Der Betreiber hat am 2026-10-15 festgelegt, dass vorrangig Fahrgemeinschaften gebildet werden.
+- **Bei der Zusage** (Twinkey „Ich würde helfen“ bzw. Wunsch für den Sondertag) kommt eine Frage dazu: **„Wie kommst du hin?“** Antworten: *Ich fahre und kann __ Personen mitnehmen* · *Ich brauche eine Mitfahrgelegenheit* · *Ich komme anders hin*. Dazu kommt der **Startort**, aber nur der Ort, z. B. Hamm oder Werne, ausgewählt statt frei eingetippt. Es werden keine Adressen gespeichert.
+- **Planer in DP2:** Sobald der Termin `FEST` ist, schlägt DP2 Fahrgemeinschaften vor. Fahrer und Mitfahrer mit gleichem Startort kommen zusammen, bis die Plätze voll sind. Der Planer bestätigt oder verschiebt die Zuordnung. Die Beteiligten sehen ihre Fahrgemeinschaft in Twinkey und in der Club App, also wer fährt und wer mitfährt.
+- **Bei der Meldung:** In der Sammelmeldung wird jede Person als **Fahrer** oder **Mitfahrer** markiert. Das ist aus der geplanten Fahrgemeinschaft vorausgefüllt. Die km-Pauschale ist **nur für Fahrer** wählbar. Melden mehrere Personen derselben Fahrgemeinschaft km für dieselbe Fahrt, fragt die App nach dem Grund, und im Eingangskorb wird der Fall markiert („Fahrgemeinschaft geprüft?“).
+- Die Fahrzeit zählt für **Fahrer und Mitfahrer** gleich (zuhause bis zuhause).
+
+### 4.7 Meldefrist 3 Tage und Erinnerung
+Der Betreiber hat am 2026-10-15 eine Frist von spätestens 3 Tagen festgelegt.
+- Die Frist beginnt am Einsatztag. **Spätestens 3 Tage danach** soll gemeldet sein. Twinkey zeigt beim Melden die Restzeit an („noch 2 Tage“).
+- **Erinnerung:** Liegt für einen eingeplanten Teilnehmer am Ende des 3. Tages keine Meldung vor, weder eigene noch Sammelmeldung, bekommt er eine **Erinnerung**. Sie geht über die vorhandenen Kanäle (Club-App-Push bzw. DP2-Benachrichtigung, `K.notifications`) und enthält einen Knopf, der direkt in „Sonderstunden melden“ führt, der Einsatz ist schon vorausgewählt.
+- Ausgelöst wird sie täglich durch einen Supabase-Zeitplan (`pg_cron`, wie bei den vorhandenen Backups). Es gibt keinen neuen Dienst und keine Kosten. Pro Person und Einsatz wird höchstens einmal erinnert; danach sieht der Planer die Person in der Liste „Meldung fehlt“.
+- **Spätere Meldungen bleiben möglich.** Sie werden als „verspätet“ markiert, aber nicht gesperrt. Die Entscheidung trifft der Planer.
+
+### 4.8 Sprachbefehl in der Club App (SB)
+Die Club App hat eine Sprachsteuerung. Im Code heißt sie `SB` (`SB_ZIELE`, `SB_BEFEHLE` in `app.js`). Ein neues Ziel **„Sonderstunden melden“** kommt in diese Liste, Beispielsätze: „Stunden melden“, „Grünkohl Stunden eintragen“, „Auslagen für Grünkohl“. Der Befehl öffnet den Twinkey-Ablauf, der Einsatz ist vorausgewählt, wenn er genannt wurde. Er erscheint auch in der Liste aller Sprachbefehle und im Sprach-Training.
 
 ## 6. Kollegin mit den Getränken (zuhause mischen, anliefern)
 In DP2 ist das bereits vorgesehen:
@@ -133,10 +152,15 @@ In DP2 ist das bereits vorgesehen:
 | 5 | Club App | `dp2-club/daten.js`: Anlässe und Meldungen laden und speichern (neue Aktion `stunden_melden` in `kc-club`), Startseite mit Status, Benachrichtigung der mitgemeldeten Kollegen, vorausgefüllte km-Position in der vorhandenen Erstattung (landet im Eingangskorb) | CLUB-F-SE-05 |
 | 5b | Club App | Weitere Auslagen: Positionsarten Kaution/Parken/Kraftstoff als Liste, `beleg_status` je Position, Kautionszustand und „Beleg ausstehend“ im Eingangskorb, Kraftstoff-Warnung, Einsatzbezug | CLUB-F-SE-06 |
 | 6 | Kasse | nur lesen: Stempeluhr-Zeiten für die Doppelzeit-Warnung bereitstellen (kein Umbau) | — |
+| 7 | DP2 + Club App | Fahrgemeinschaften: Abfrage bei der Zusage, Vorschlag im Planer, Fahrer/Mitfahrer in der Meldung, km nur für Fahrer | DP2-F-SE-07 |
+| 8 | Supabase + Club App | Meldefrist 3 Tage, tägliche Erinnerung per `pg_cron`, Liste „Meldung fehlt“, Kennzeichen „verspätet“ | DP2-F-SE-08 |
+| 9 | Club App | Vorschuss-Verrechnung und Kaution-Zuordnung (Mitglied oder Club) im Eingangskorb | CLUB-F-SE-09 |
+| 10 | Club App | Sprachbefehl „Sonderstunden melden“ (`SB_ZIELE`) | CLUB-F-SE-10 |
 
 Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2.416.0 ff.) und durchläuft DEV → RC.
 
 ## 8. Tests und Definition of Done
+- **Fahrgemeinschaft/Frist/Vorschuss:** km nur für Fahrer, Rückfrage bei mehreren Fahrern derselben Fahrgemeinschaft, Erinnerung genau einmal nach Tag 3 und nicht, wenn eine Sammelmeldung die Person schon enthält, Kennzeichen „verspätet“, Vorschuss-Verrechnung, Kaution aus Vorschuss geht an den Club, Kraftstoff ist beim eigenen Auto gesperrt, Sprachbefehl öffnet den Ablauf.
 - **Unit (DP2 `tools/test-*.mjs`):** Folgedatum +2 Tage, Statuswechsel, keine Gutschrift ohne Bestätigung, Verknüpfung mit dem Z-Dienst, Nachtrag nach `closePlan`, Doppelzeit-Warnung, Sammelmeldung erzeugt eine Zeile pro Person mit dem jeweils eigenen Stundenumfang, Doppelschutz bei überlappender Meldung.
 - **Twinkey (`test-twinkey*.mjs`):** kompletter Ablauf, Termin `OFFEN` führt nur zu „Ich würde helfen“, Zukunftsdatum ist gesperrt.
 - **RLS:** Fremde Meldungen sind nicht lesbar, Löschen ist unmöglich, nur der Planer bestätigt.
@@ -150,9 +174,16 @@ Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2
 - Die km-Erstattung landet im Büro-Eingangskorb der Club App.
 - Beim Sondereinsatz wird zusätzlich nach weiteren Auslagen gefragt (Kaution, Parkgebühren, Kraftstoff, Sonstiges), jeweils mit Betrag und „Bon/Quittung vorhanden“ zum Anklicken.
 
-**Noch offen:**
-1. **Was ist „SB“?** Angenommen ist hier die **Stempeluhr** an der Kasse bzw. im PC-Manager. Wenn ein anderes Programm gemeint ist, wird Phase 6 angepasst.
-2. **Anrechnung 1:1?** Sollen Fahrtzeit und Zeit zuhause voll zählen oder mit einem Faktor bzw. einer Pauschale (z. B. Transport Dortmund → Hamm pauschal X Stunden)?
-3. **Frist:** Bis wann nach dem Einsatz muss gemeldet werden?
-4. **Kaution:** Wenn die Kaution zurückkommt, geht sie dann an den Club oder direkt an das Mitglied, das sie ausgelegt hat?
-5. **Kraftstoff:** Darf jemand für dieselbe Fahrt km-Pauschale **und** Kraftstoff beantragen? Vorschlag: nein, nur eins von beiden.
+- Die Fahrzeit von zuhause bis zuhause zählt voll mit.
+- Vorrangig werden Fahrgemeinschaften gebildet (§4.6).
+- Meldefrist spätestens 3 Tage, sonst Erinnerung (§4.7).
+- Eine Kaution geht an das Mitglied zurück, außer sie wurde aus einem Club-Vorschuss bezahlt; dann geht sie an den Club (§4.5).
+- Mit dem eigenen Auto gibt es nur die km-Pauschale, keinen Kraftstoff (§4.5).
+
+**„SB“, aus dem Code ermittelt (2026-10-15):**
+- In der **Club App** steht `SB` durchgehend für die **Sprachbefehle bzw. Sprachsteuerung** (`const SB`, `SB_ZIELE`, `SB_BEFEHLE`, `sbListe`, `sbHoeren`).
+- In **kc-start/Verwaltung** steht „SB“ als Kurzform für **Supabase** (DB-Anzeige `<b>SB</b>`, `'Supabase ' → 'SB '` in `verwaltung/js/67_supabase_sync.js`).
+- KC-Verwaltung und KC-Communication sind private Repos; sie konnten ohne Zugriff nicht durchsucht werden.
+- **Annahme:** Mit „Club App, SB, DP2 umbauen“ ist vermutlich **Supabase** gemeint, denn dort entstehen die neuen Tabellen. Beides ist im Konzept berücksichtigt: Supabase in Phasen 1–3 und 8, der Sprachbefehl in §4.8 und Phase 10. Die Stempeluhr wird nur gelesen (Phase 6).
+
+**Noch offen:** keine.
