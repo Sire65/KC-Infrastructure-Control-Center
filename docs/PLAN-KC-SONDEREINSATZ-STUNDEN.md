@@ -4,7 +4,7 @@ Feature-ID: **KICC-F-100** · Status: **IN UMSETZUNG**. Phase 1 ist als DP2 Buil
 Betroffene Programme: **KC DP2** (`dp3`, Build 253 → 254), **KC Club App** (`KC-Clubapp`, 2.415.0), **Supabase** („SB“: neue Tabellen, Fristen-Erinnerung), Stempeluhr im **PC-Manager/Kasse** (`Kasse`, nur Prüfung auf Doppelzeiten)
 
 ## 1. Anlass
-1. Mehrere Kollegen kochen Grünkohl in einem Krankenhaus in Dortmund. **Termin (vorläufig geplant, Betreiber 2026-10-15, korrigiert): Samstag, 28.11.2026**, vorgesehen Willfried Wittwer, Steven Linley, Manfred Schoppmann. **Abholung: Dienstag, 29.12.2026** (eigener Termin, kein Folge-Einsatz), vorgesehen Frank Brösel, Willfried Wittwer. Der Stundenumfang ist noch offen.
+1. Mehrere Kollegen kochen Grünkohl in einem Krankenhaus in Dortmund. **Termin (vorläufig geplant, Betreiber 2026-10-15, korrigiert): Samstag, 28.11.2026**, vorgesehen Willfried Wittwer, Steven Linley, Manfred Schoppmann. **Abholung: Sonntag, 29.11.2026** (eigener Termin, kein Folge-Einsatz; am 2026-10-15 von 29.12. korrigiert), vorgesehen Frank Brösel, Willfried Wittwer. Der Stundenumfang ist noch offen.
 2. Zwei Tage später wird der Grünkohl in Dortmund abgeholt und nach Hamm in einen Tiefkühler gebracht. Auch dabei fallen Stunden an (und Fahrtkilometer).
 3. Eine Kollegin mischt die Getränke zuhause und fährt sie zum Stand. Sie macht kaum Standdienst.
 4. Alle diese Stunden sollen dem **Stundenkonto Weihnachtsmarkt** gutgeschrieben werden. Die Kollegen melden sie selbst, per Auswahl statt Freitext.
@@ -271,5 +271,11 @@ Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2
 - **Abgleich:** DP2 liest den veröffentlichten Stand aus Supabase. Das geschieht beim Öffnen von „★ Sondereinsätze“ und vor jedem Veröffentlichen. So gehen Einsätze, die direkt in Supabase eingetragen wurden, nicht verloren.
 - **Eingetragen am 2026-10-15** (`kc_dp_special_events`, Status GEPLANT):
   - `SE-GK-2026-KOCHEN`: Grünkohl kochen am 28.11.2026, Krankenhaus Dortmund.
-  - `SE-GK-2026-ABHOLUNG`: Grünkohl abholen und einlagern am 29.12.2026, Dortmund → Tiefkühler Hamm.
+  - `SE-GK-2026-ABHOLUNG`: Grünkohl abholen und einlagern am 29.11.2026 (Version 2), Dortmund → Tiefkühler Hamm.
 - **Wenn der Termin feststeht:** In DP2 auf „Termin fest“ stellen und veröffentlichen. Erst dann gilt die Meldefrist mit Erinnerung, und das Datum ist bei der Stundenmeldung fest vorgegeben.
+
+**Build 291 / Club App 2.421.0: Stunden für Mitglieder sichtbar**
+- **Twinkey „Meine erfassten Zeiten“:** Eigene Meldungen stehen dort mit Stand: gemeldet, ✓ bestätigt (gutgeschrieben) oder ✖ abgelehnt mit Grund. Oben steht die Summe. Bestätigte Meldungen, die in DP2 schon als Ist-Zeit gebucht sind, erscheinen nicht doppelt.
+- **Fehler behoben:** In der Club App war dieser Knopf bisher immer gesperrt, weil dort keine Stempelzeiten geladen werden.
+- **Club App „Mein Dienst“:** neue Karte „★ Sonderstunden“ für die ganze Veranstaltung. Gutgeschrieben zählt nur, was bestätigt ist. Offene Meldungen werden getrennt gezeigt, abgelehnte mit Grund.
+- **Kontoauszug:** Der gedruckte persönliche Kontoauszug bleibt in DP2. In der Club App wird das Kontoauszug-Modul nicht geladen.
