@@ -4,7 +4,7 @@ Feature-ID: **KICC-F-100** · Status: **IN UMSETZUNG**. Phase 1 ist als DP2 Buil
 Betroffene Programme: **KC DP2** (`dp3`, Build 253 → 254), **KC Club App** (`KC-Clubapp`, 2.415.0), **Supabase** („SB“: neue Tabellen, Fristen-Erinnerung), Stempeluhr im **PC-Manager/Kasse** (`Kasse`, nur Prüfung auf Doppelzeiten)
 
 ## 1. Anlass
-1. Mehrere Kollegen kochen Grünkohl in einem Krankenhaus in Dortmund. **Termin: Montag, 28.12.2026** (Betreiber, 2026-10-15); der Stundenumfang ist noch offen. Die Abholung (Folge-Einsatz, +2 Tage) fällt damit auf Mittwoch, 30.12.2026.
+1. Mehrere Kollegen kochen Grünkohl in einem Krankenhaus in Dortmund. **Termin (vorläufig geplant, Betreiber 2026-10-15, korrigiert): Samstag, 28.11.2026**, vorgesehen Willfried Wittwer, Steven Linley, Manfred Schoppmann. **Abholung: Dienstag, 29.12.2026** (eigener Termin, kein Folge-Einsatz), vorgesehen Frank Brösel, Willfried Wittwer. Der Stundenumfang ist noch offen.
 2. Zwei Tage später wird der Grünkohl in Dortmund abgeholt und nach Hamm in einen Tiefkühler gebracht. Auch dabei fallen Stunden an (und Fahrtkilometer).
 3. Eine Kollegin mischt die Getränke zuhause und fährt sie zum Stand. Sie macht kaum Standdienst.
 4. Alle diese Stunden sollen dem **Stundenkonto Weihnachtsmarkt** gutgeschrieben werden. Die Kollegen melden sie selbst, per Auswahl statt Freitext.
@@ -265,3 +265,11 @@ Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2
 - **Hinweise:**
   - Die Edge Function ist nur per Syntaxprüfung kontrolliert, Deno läuft nicht lokal. Nach dem Deploy die Aktion `version` prüfen.
   - Mit der Club-App-Übernahme kommen auch die fremden RC-Builds 269–282 aus `codex/club-app-interface` mit.
+
+**Build 290 / Club App 2.420.0: vorläufige Einteilung (DP2-F-SE-08)**
+- Sondereinsätze haben jetzt das Feld **vorgesehen**. Eingetragen werden dürfen nur aktive Mitglieder. Die Vorgesehenen sehen in Twinkey „Du bist vorgesehen (vorläufig)“. Beim Melden sind sie schon als Kollegen ausgewählt. Nach Ablauf der Meldefrist werden sie wie Zugesagte erinnert, aber nur bei festem Termin.
+- **Abgleich:** DP2 liest den veröffentlichten Stand aus Supabase. Das geschieht beim Öffnen von „★ Sondereinsätze“ und vor jedem Veröffentlichen. So gehen Einsätze, die direkt in Supabase eingetragen wurden, nicht verloren.
+- **Eingetragen am 2026-10-15** (`kc_dp_special_events`, Status GEPLANT):
+  - `SE-GK-2026-KOCHEN`: Grünkohl kochen am 28.11.2026, Krankenhaus Dortmund.
+  - `SE-GK-2026-ABHOLUNG`: Grünkohl abholen und einlagern am 29.12.2026, Dortmund → Tiefkühler Hamm.
+- **Wenn der Termin feststeht:** In DP2 auf „Termin fest“ stellen und veröffentlichen. Erst dann gilt die Meldefrist mit Erinnerung, und das Datum ist bei der Stundenmeldung fest vorgegeben.
