@@ -19,7 +19,7 @@
 | 74–78 s | ✨ „… und noch viel mehr!“ – Kacheln: Pinnwand, Dienstpläne, Helfen & Leihen, Archiv, Vorschläge, Spiele, Werne-Rätsel, Bühne, SOS, Vorlesen, Themen, Frag Twinkey | „Und das ist noch lange nicht alles: Viele weitere Funktionen findest du in der App.“ |
 | 78–93 s | 👍 Einfach zu bedienen: einfache Ansicht (Nächstes Treffen + 8 große Kacheln) → Tipp auf „🔧 Erweiterte Ansicht“ → Designs Küchengrün, Nordsee, Lagune, Nachtmodus, große Schrift | „Und das Gute: Die App ist einfach zu bedienen und stellt sich ganz auf dich ein. Beginne mit der einfachen Ansicht. Und wenn du dich ein bisschen zurechtgefunden hast, kannst du die App genau an deine Vorlieben und Bedürfnisse anpassen.“ |
 | 93–97 s | 📲 Knopf „Installieren“ wird angetippt | „Installier die App – und probier alles aus!“ |
-| 97–100 s | 💡 „Deine Idee? Immer her damit!“, Versionszähler läuft bis 2.408 | „Und wenn du Ideen hast: immer her damit! Die App wird ständig weiterentwickelt.“ |
+| 97–100 s | 💡 „Deine Idee? Immer her damit!“ + Kachel „💭 Feedback – Deine Meinung zur App“ | „Und wenn du Ideen hast: immer her damit! Die App wird ständig weiterentwickelt.“ |
 | 100–105 s | ✅ „Schon installiert? Umso besser! Dann bist du immer up to date 🔄“ | „Und wenn du die App schon installiert hast: umso besser! Dann bist du immer up to date.“ |
 | 105–111 s | Abspann: Logo, „Jetzt in der Club-App“, „Gemeinsam kochen, gemeinsam helfen“ | „Köcheclub Werne. Jetzt in der Club-App. Gemeinsam kochen, gemeinsam helfen.“ |
 
@@ -33,6 +33,7 @@
   lokal erzeugt. Die Stimme „dii“ ist bewusst **nicht** verwendet (nur nicht-gewerblich).
 - **Emojis:** Noto Color Emoji (SIL OFL). Schriften: Liberation/DejaVu (frei).
 - Inhalte im Handy (Namen, Termine, Nachrichten, Fotos) sind **Beispiele** – keine echten Mitgliederdaten.
+- **Nur Mitgliederbereich:** Es werden nur Kacheln/Seiten gezeigt, die jedes Mitglied sieht – nichts aus Admin-, Leitungs-/Büro- oder Technikbereich (geprüft gegen `KACHELN` mit `nur:`-Bedingungen in der Club-App).
 
 ## Neu erzeugen (`quellen/`)
 
