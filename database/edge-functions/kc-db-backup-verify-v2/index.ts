@@ -4,13 +4,14 @@
 // Version 8 (KICC-F-102): Pruefung in Teilpaketen. Der Hauptaufruf ruft sich je Paket selbst auf (eigenes CPU-Budget
 // je Aufruf), fuehrt die Ergebnisse zusammen und schreibt wie bisher. Antwortformat unveraendert (Backup-Worker prueft
 // checked_tables/failed_tables). Ein abgebrochenes Paket zaehlt als Fehler, nie als bestanden.
+// Version 9 (KICC-F-103): nach bestandenem Test laeuft die Aufbewahrungsregel im Neon-Archiv (kc_backup_retention_anwenden).
 async function sicherGleich(a:string,b:string){const h=async(s:string)=>new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)));const [x,y]=await Promise.all([h(a),h(b)]);let diff=0;for(let i=0;i<x.length;i++)diff|=x[i]^y[i];return diff===0}
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import postgres from "npm:postgres@3.4.5";
 import { assessBackupCompleteness } from "./completeness.js";
 import { splitIntoParts, mergePartChecks } from "./parts.js";
-const J={"Content-Type":"application/json","X-KC-Function-Version":"8"}; const b64d=(s:string)=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const J={"Content-Type":"application/json","X-KC-Function-Version":"9"}; const b64d=(s:string)=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 const PART_SIZE=40, PARALLEL=3;
 const safeUuid=(v:string)=>/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v);
 async function aesKey(s:string){const h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return crypto.subtle.importKey("raw",h,{name:"AES-GCM"},false,["decrypt"])}
@@ -87,6 +88,14 @@ Deno.serve(async req=>{
     const message=failed?`Backup ${set}: restore-read test failed`:!comp.complete?`Backup ${set}: restore-read test failed (incomplete ${comp.present}/${comp.expected??"?"} tables)`:`Backup ${set}: restore-read test passed`;
     await neon.unsafe("insert into public.kc_backup_verifications(backup_set,status,checked_tables,failed_tables,detail) values ($1::uuid,$2,$3,$4,jsonb_build_object('checks',$5::jsonb,'schema_drift_compatible',true,'stable_hash_compatible',true,'completeness',$6::jsonb,'parts',$7::int))",[set,bad?"error":"ok",checks.length,failed,JSON.stringify(checks),JSON.stringify(completeness),parts.length]);
     await sb.from("kc_db_mirror_runs").insert({run_type:"restore_test",status:bad?"error":"ok",started_at:new Date().toISOString(),finished_at:new Date().toISOString(),source_rows:checks.length,target_rows:checks.length-failed,mismatch_count:failed+(comp.complete?0:Math.max(0,(comp.expected??0)-comp.present)),message,metrics:{backup_set:set,checked_tables:checks.length,failed_tables:failed,...completeness,parts:parts.length,encryption_aware:true,schema_drift_compatible:true,stable_hash_compatible:true,failed_checks:checks.filter(x=>x.status!=="ok")}});
-    return new Response(JSON.stringify({ok:!bad,checked_tables:checks.length,failed_tables:failed,...completeness}),{status:bad?500:200,headers:J});
+    // KICC-F-103: Aufbewahrungsregel nur nach bestandenem Restore-Test; Fehler hier aendern das Pruefergebnis nicht.
+    let retention:any=null;
+    if(!bad){
+      try{
+        retention=(await neon.unsafe("select public.kc_backup_retention_anwenden(true) as r"))[0]?.r??null;
+        if(retention?.ausgefuehrt)await sb.from("kc_db_mirror_audit").insert({severity:"info",action:"backup_retention",detail:`Aufbewahrungsregel: ${retention.loeschen} alte Backup-Saetze entfernt, ${retention.behalten} behalten`,metadata:{backup_set:set,...retention}});
+      }catch(e){retention={error:String(e).slice(0,200)}}
+    }
+    return new Response(JSON.stringify({ok:!bad,checked_tables:checks.length,failed_tables:failed,...completeness,retention}),{status:bad?500:200,headers:J});
   }finally{await neon.end({timeout:5})}
 });

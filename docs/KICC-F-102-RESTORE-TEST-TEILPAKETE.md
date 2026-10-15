@@ -19,3 +19,6 @@ Am 2026-10-15 brach der Restore-Test-Cron um 06:30 UTC mit HTTP 546 `WORKER_RESO
 
 ## Ruecknahme
 `recovery/index.v7.ts` als `index.ts` deployen (verify_jwt=false); `kc_db_backup_verify_latest()` aus `database/sql/kc-db-backup-verify-latest.sql` ohne den Block „bereits bestanden“ einspielen.
+
+## Version 9 (KICC-F-103, 15.10.2026)
+Nach einem bestandenen Restore-Test ruft die Funktion `kc_backup_retention_anwenden(true)` im Neon-Archiv auf (Aufbewahrung 7 Tage / 4 Wochen / 3 Monate, Freigabe Betreiber). Bei einem nicht bestandenen Test wird nichts geloescht. Fehler der Aufbewahrungsregel aendern das Pruefergebnis nicht und stehen in der Antwort unter `retention`; Loeschungen werden in `kc_db_mirror_audit` (`backup_retention`) protokolliert. Ruecknahme: `recovery/index.v8.ts` deployen.
