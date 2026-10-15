@@ -19,7 +19,7 @@ Betroffene Programme: **KC DP2** (`dp3`, 0.20.0-build247), **KC Club App** (`KC-
 | Stempeluhr → DP2 | `Kasse/pc-manager/time-clock-*.js` → Tabelle `kc_dp_timeclock_actuals` (Feld `source`) | Die Kasse liefert gestempelte Zeiten an DP2. |
 | Persönlicher Kontoauszug | DP2 `src/ui/person-account-print.js`, Twinkey → „Meine Unterlagen“ | Wunsch, Soll, Ist und Stempelzeiten je Person. Das ist das **Stundenkonto Weihnachtsmarkt**. |
 | Twinkey | DP2 `src/ui/twinkey.js`, in der Club App unverändert über `dp2-club/` eingebunden | Geführter Assistent mit den Aufgaben: Wunschplan, Dienstplan, Dienst ändern, erfasste Zeiten, Unterlagen. |
-| Erstattung/Auslagen | Club App, `kc_club_erstattung`, `kc_club_km_satz` | Fahrtkosten und Auslagen in Euro, km-Satz mit „gilt ab“, Versand an den Kassenwart. |
+| Erstattung/Auslagen | Club App, `kc_club_erstattung` (`positionen` als jsonb), `kc_club_km_satz` | Positionsarten Fahrt, Einkauf und Sonstiges. Mehrere Positionen pro Antrag, Belegfoto oder PDF (bis zu 5 je Position, freiwillig), km-Satz mit „gilt ab“, Versand an den Kassenwart. |
 | Büro-Eingangskorb | Club App, `kc_club_eingang_stand` (Art `erstattung`) | Jede Erstattung landet automatisch im Eingangskorb der Clubleitung (Clubsprecher, Kassenwart, Admin) und wird dort bearbeitet. |
 
 **Die Lücke:** Für Arbeit **außerhalb des Stands** gibt es keine Ist-Zeit. Die Stempeluhr steht an der Kasse, also stempelt niemand im Krankenhaus, auf der Fahrt nach Hamm oder in der eigenen Küche. Außerdem kennt DP2 nur die festen Markttage (`model.js`: Vorbereitung 02./03.12., Markttage, Nachbereitung). Ein Einsatz mit offenem Termin, vielleicht sogar im Januar, kommt dort nicht vor.
@@ -75,6 +75,27 @@ Sobald ein Anlass `FEST` ist, legt DP2 einen **Sondertag** an (neuer Tagestyp `s
 - **Gemeldete, noch offene Stunden** stehen getrennt und deutlich markiert („gemeldet, noch nicht bestätigt“) und **zählen nicht zur Summe**.
 - In der Club App erscheint unter „was du gearbeitet hast“ (`kc-club/index.ts`, liest heute nur `kc_dp_timeclock_actuals`) zusätzlich die Meldung mit ihrem Status.
 
+### 4.5 Weitere Auslagen beim Sondereinsatz (Club App, vorhandene Erstattung)
+Fahrt und weitere Auslagen werden **ein** Erstattungsantrag in `kc_club_erstattung`. Er landet wie jeder andere im **Büro-Eingangskorb**. Es gibt keine neue Tabelle und keinen eigenen Weg; die vorhandenen Positionsarten bleiben unverändert (Regel 1).
+
+**Neue Positionsarten.** Sie liegen in einer Liste, die der Admin pflegt, und sind nicht im Code fest verdrahtet (Regel 4):
+
+| Art | Felder | Besonderheit |
+|---|---|---|
+| `kaution` | Betrag, wofür (z. B. „Thermoboxen“, „Tiefkühler Hamm“), an wen | Eine Kaution kommt in der Regel zurück. Im Eingangskorb hat sie einen eigenen Zustand: **„Kaution offen“** → **„Kaution zurückerhalten“** (an Club oder Mitglied). So geht keine Kaution verloren. |
+| `parken` | Betrag, Ort | — |
+| `kraftstoff` | Betrag, Liter (freiwillig), Fahrzeug | **Doppelerstattung vermeiden:** Wird für dieselbe Fahrt schon die km-Pauschale beantragt, warnt die App: „Die km-Pauschale deckt den Kraftstoff ab.“ Kraftstoff ist nur für ein Fahrzeug ohne km-Pauschale gedacht, z. B. ein Miet- oder Clubtransporter. Im Eingangskorb wird der Fall markiert. |
+| `sonstiges` (vorhanden) | Betrag, wofür (Pflicht) | — |
+
+**Bon/Quittung vorhanden** zum Anklicken, je Position. Neues Feld `beleg_status`:
+- 📷 **„Ja, fotografiert“**: Foto oder PDF wie heute (bis zu 5).
+- 🧾 **„Ja, liegt mir auf Papier vor“**: wird im Büro abgegeben. Im Eingangskorb steht dann **„Beleg ausstehend“**, bis die Clubleitung „Beleg erhalten“ anklickt.
+- ❌ **„Nein, kein Beleg“**: Das Feld Begründung wird Pflicht (z. B. „Parkautomat ohne Quittung“). Der Antrag wird im Eingangskorb als **Eigenbeleg** markiert.
+
+**Bezug zum Einsatz.** Jede Position bekommt `special_event_id` und `hour_report_sammel_id`. Damit sieht der Kassenwart im Eingangskorb, zu welchem Einsatz die Auslage gehört (z. B. „Grünkohl abholen Dortmund → Hamm, 17.01.“), und kann alle Kosten eines Einsatzes zusammen ansehen.
+
+**Nur eigene Auslagen.** Auslagen meldet jeder für sich selbst, weil Konto und Auszahlungsweg persönlich sind. Mitgemeldete Kollegen bekommen mit der Benachrichtigung den Hinweis „Hattest du Auslagen? Hier melden“, der Einsatz ist dabei schon vorausgewählt.
+
 ## 5. Twinkey-Ablauf „Sonderstunden melden“
 Neue Aufgabe in `tasks()`: **„Sonderstunden melden“**, mit dem Untertitel „Arbeit außerhalb des Stands: Kochen, Fahrten, zuhause“.
 
@@ -87,9 +108,10 @@ Neue Aufgabe in `tasks()`: **„Sonderstunden melden“**, mit dem Untertitel �
 | 4a | Stunden je Kollege | Pro ausgewähltem Kollegen eine Zeile mit deinen Zeiten als Vorschlag, einzeln änderbar (von–bis, Pause). Die Summe pro Person steht direkt daneben. |
 | 5 | Was hast du gemacht? | Auswahl: Kochen, Vorbereitung, Transport/Fahrt, Einkauf, Getränke mischen, Aufräumen |
 | 6 | Bemerkung | optional |
-| 7 | Bist du dafür gefahren? | Ja: km-Erstattung in der Club App vorbereiten; sie landet nach dem Absenden im Eingangskorb (siehe §3). Nein: weiter. Die Erstattung gilt nur für die eigene Fahrt, weil Auszahlungsweg und Konto persönlich sind. Mitgemeldete Fahrer bekommen mit der Benachrichtigung den Hinweis, ihre Fahrt selbst zu melden, mit vorausgefüllter Position. |
-| 8 | Passt das so? | Zusammenfassung aller Personen mit ihren Stunden, dann der Knopf **„Dem Weihnachtsmarkt-Stundenkonto gutschreiben lassen“**. Darunter der Hinweis: „Die Stunden werden gutgeschrieben, sobald der Planer sie bestätigt hat.“ |
-| 9 | Fertig | Die Meldung erscheint unter „Meine erfassten Zeiten“ mit ihrem Status. |
+| 7 | Bist du dafür gefahren? | Ja: Fahrt-Position (km) vorbereiten (siehe §3). Nein: weiter. Die Erstattung gilt nur für die eigene Fahrt, weil Auszahlungsweg und Konto persönlich sind. Mitgemeldete Fahrer bekommen mit der Benachrichtigung den Hinweis, ihre Fahrt selbst zu melden, mit vorausgefüllter Position. |
+| 7a | Gab es weitere Auslagen? | Mehrfachauswahl: **Kaution, Parkgebühren, Kraftstoff, Sonstiges**. Für jede gewählte Art: **Betrag** in Euro, kurz „Wofür?“ und **„Bon/Quittung vorhanden?“** zum Anklicken (siehe §4.5). Das Feld „Wofür?“ ist bei Sonstiges Pflicht. |
+| 8 | Passt das so? | Zusammenfassung aller Personen mit ihren Stunden **und aller Auslagen mit Summe**, dann der Knopf **„Dem Weihnachtsmarkt-Stundenkonto gutschreiben lassen“**. Darunter der Hinweis: „Die Stunden werden gutgeschrieben, sobald der Planer sie bestätigt hat.“ |
+| 9 | Fertig | Die Stunden erscheinen unter „Meine erfassten Zeiten“ mit ihrem Status. Fahrt und Auslagen gehen als **ein** Erstattungsantrag mit Bezug zum Einsatz in den Büro-Eingangskorb und stehen unter „Meine Anträge“. |
 
 Für die Sprachausgabe kommen neue Text-Schlüssel in `assets/twinkey/audio/texts.json`. Fehlt eine WAV-Datei, nutzt Twinkey die Gerätestimme; dieser Rückfall ist schon vorhanden.
 
@@ -109,6 +131,7 @@ In DP2 ist das bereits vorgesehen:
 | 3 | DP2 | Eingang mit Sammelmeldungen, Bestätigen/Ablehnen (alle oder einzeln), Gutschrift als `self_report`, Nachtrag nach Abschluss, Warnung bei Doppelzeiten, Kontoauszug | DP2-F-SE-03 |
 | 4 | DP2 | Personenregel „Z per Meldung“ (Getränke) | DP2-F-SE-04 |
 | 5 | Club App | `dp2-club/daten.js`: Anlässe und Meldungen laden und speichern (neue Aktion `stunden_melden` in `kc-club`), Startseite mit Status, Benachrichtigung der mitgemeldeten Kollegen, vorausgefüllte km-Position in der vorhandenen Erstattung (landet im Eingangskorb) | CLUB-F-SE-05 |
+| 5b | Club App | Weitere Auslagen: Positionsarten Kaution/Parken/Kraftstoff als Liste, `beleg_status` je Position, Kautionszustand und „Beleg ausstehend“ im Eingangskorb, Kraftstoff-Warnung, Einsatzbezug | CLUB-F-SE-06 |
 | 6 | Kasse | nur lesen: Stempeluhr-Zeiten für die Doppelzeit-Warnung bereitstellen (kein Umbau) | — |
 
 Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2.416.0 ff.) und durchläuft DEV → RC.
@@ -117,7 +140,7 @@ Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2
 - **Unit (DP2 `tools/test-*.mjs`):** Folgedatum +2 Tage, Statuswechsel, keine Gutschrift ohne Bestätigung, Verknüpfung mit dem Z-Dienst, Nachtrag nach `closePlan`, Doppelzeit-Warnung, Sammelmeldung erzeugt eine Zeile pro Person mit dem jeweils eigenen Stundenumfang, Doppelschutz bei überlappender Meldung.
 - **Twinkey (`test-twinkey*.mjs`):** kompletter Ablauf, Termin `OFFEN` führt nur zu „Ich würde helfen“, Zukunftsdatum ist gesperrt.
 - **RLS:** Fremde Meldungen sind nicht lesbar, Löschen ist unmöglich, nur der Planer bestätigt.
-- **Club App (`tests/app-vertrag.test.mjs`):** Aufgabe sichtbar, Speichern landet in `kc_dp_hour_reports`, km-Vorbelegung korrekt, die abgeschickte Erstattung erscheint im Eingangskorb.
+- **Club App (`tests/app-vertrag.test.mjs`):** Aufgabe sichtbar, Speichern landet in `kc_dp_hour_reports`, km-Vorbelegung korrekt, die abgeschickte Erstattung erscheint im Eingangskorb. Außerdem: Bei „kein Beleg“ ist die Begründung Pflicht; „Beleg auf Papier“ zeigt „Beleg ausstehend“; Kaution läuft von offen nach zurückerhalten; Kraftstoff plus km-Pauschale am selben Tag löst die Warnung aus; Summe aller Positionen stimmt; alte Anträge mit Fahrt, Einkauf und Sonstiges werden unverändert angezeigt.
 - **DoD:** Der Kontoauszug zeigt bestätigte und offene Stunden getrennt. Das Audit ist vollständig. Es entstehen keine Kosten (vorhandenes Supabase, kein neuer Dienst). Es gibt keine Secrets im Browser. Die Doku ist aktualisiert.
 
 ## 9. Entscheidungen und offene Fragen
@@ -125,8 +148,11 @@ Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2
 - Ein Kollege meldet und wählt weitere Kollegen mit aus, jeweils mit eigenem Stundenumfang. Das geht über Twinkey in DP2 und in der Club App.
 - Die Stunden bestätigt der Planer in DP2.
 - Die km-Erstattung landet im Büro-Eingangskorb der Club App.
+- Beim Sondereinsatz wird zusätzlich nach weiteren Auslagen gefragt (Kaution, Parkgebühren, Kraftstoff, Sonstiges), jeweils mit Betrag und „Bon/Quittung vorhanden“ zum Anklicken.
 
 **Noch offen:**
 1. **Was ist „SB“?** Angenommen ist hier die **Stempeluhr** an der Kasse bzw. im PC-Manager. Wenn ein anderes Programm gemeint ist, wird Phase 6 angepasst.
 2. **Anrechnung 1:1?** Sollen Fahrtzeit und Zeit zuhause voll zählen oder mit einem Faktor bzw. einer Pauschale (z. B. Transport Dortmund → Hamm pauschal X Stunden)?
 3. **Frist:** Bis wann nach dem Einsatz muss gemeldet werden?
+4. **Kaution:** Wenn die Kaution zurückkommt, geht sie dann an den Club oder direkt an das Mitglied, das sie ausgelegt hat?
+5. **Kraftstoff:** Darf jemand für dieselbe Fahrt km-Pauschale **und** Kraftstoff beantragen? Vorschlag: nein, nur eins von beiden.
