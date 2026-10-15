@@ -92,7 +92,7 @@ Fahrt und weitere Auslagen werden **ein** Erstattungsantrag in `kc_club_erstattu
 - 🧾 **„Ja, liegt mir auf Papier vor“**: wird im Büro abgegeben. Im Eingangskorb steht dann **„Beleg ausstehend“**, bis die Clubleitung „Beleg erhalten“ anklickt.
 - ❌ **„Nein, kein Beleg“**: Das Feld Begründung wird Pflicht (z. B. „Parkautomat ohne Quittung“). Der Antrag wird im Eingangskorb als **Eigenbeleg** markiert.
 
-**Bezug zum Einsatz.** Jede Position bekommt `special_event_id` und `hour_report_sammel_id`. Damit sieht der Kassenwart im Eingangskorb, zu welchem Einsatz die Auslage gehört (z. B. „Grünkohl abholen Dortmund → Hamm, 17.01.“), und kann alle Kosten eines Einsatzes zusammen ansehen.
+**Bezug zum Einsatz.** Jede Position bekommt `special_event_id` und `hour_report_sammel_id`. Damit sieht der Kassenwart im Eingangskorb, zu welchem Einsatz die Auslage gehört (z. B. „Grünkohl abholen Dortmund → Hamm“), und kann alle Kosten eines Einsatzes zusammen ansehen.
 
 **Nur eigene Auslagen.** Auslagen meldet jeder für sich selbst, weil Konto und Auszahlungsweg persönlich sind. Mitgemeldete Kollegen bekommen mit der Benachrichtigung den Hinweis „Hattest du Auslagen? Hier melden“, der Einsatz ist dabei schon vorausgewählt.
 
