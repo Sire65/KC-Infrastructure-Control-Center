@@ -4,7 +4,7 @@ Feature-ID: **KICC-F-100** · Status: **IN UMSETZUNG**. Phase 1 ist als DP2 Buil
 Betroffene Programme: **KC DP2** (`dp3`, Build 253 → 254), **KC Club App** (`KC-Clubapp`, 2.415.0), **Supabase** („SB“: neue Tabellen, Fristen-Erinnerung), Stempeluhr im **PC-Manager/Kasse** (`Kasse`, nur Prüfung auf Doppelzeiten)
 
 ## 1. Anlass
-1. Mehrere Kollegen kochen Grünkohl in einem Krankenhaus in Dortmund. **Termin und Stundenumfang stehen noch nicht fest.**
+1. Mehrere Kollegen kochen Grünkohl in einem Krankenhaus in Dortmund. **Termin: Montag, 28.12.2026** (Betreiber, 2026-10-15); der Stundenumfang ist noch offen. Die Abholung (Folge-Einsatz, +2 Tage) fällt damit auf Mittwoch, 30.12.2026.
 2. Zwei Tage später wird der Grünkohl in Dortmund abgeholt und nach Hamm in einen Tiefkühler gebracht. Auch dabei fallen Stunden an (und Fahrtkilometer).
 3. Eine Kollegin mischt die Getränke zuhause und fährt sie zum Stand. Sie macht kaum Standdienst.
 4. Alle diese Stunden sollen dem **Stundenkonto Weihnachtsmarkt** gutgeschrieben werden. Die Kollegen melden sie selbst, per Auswahl statt Freitext.
