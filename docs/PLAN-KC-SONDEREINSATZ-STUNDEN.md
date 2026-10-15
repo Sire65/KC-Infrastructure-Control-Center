@@ -225,4 +225,18 @@ Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2
   3. Club App 2.417.0 und DP2 ausrollen.
 - **Offen aus dem Konzept:** Benachrichtigung der mitgemeldeten Kollegen (Push) sowie Fahrer/Mitfahrer bei der Meldung. Beides kommt mit Phase 5/7.
 
-**Nächste Phase:** Phase 3, Planer-Eingang in DP2: abholen, bestätigen oder ablehnen; bestätigte Stunden werden als Ist gebucht und erscheinen im Kontoauszug (DP2-F-SE-03).
+**Phase 3: Planer-Eingang, fertig und getestet** (dp3 **Build 287**, Club App 2.417.0 mit DP2 Build 287)
+- Der Planer öffnet im Register Ist das Menü **„★ Sonderstunden-Eingang“**; der Weg geht auch über „★ Sondereinsätze“. Dort holt er die Club-App-Meldungen ab. Er sieht die Sammelmeldungen mit Summe, Bemerkung, „verspätet“ und Hinweisen, z. B. wenn sich die Zeit mit der Stempeluhr überschneidet.
+- **Bestätigen**, einzeln oder alle: Zuerst wird in Supabase entschieden (Schutz vor doppelter Entscheidung). Danach bucht der vorhandene Ist-Kern die Zeit (`K.actual.saveActual`, Quelle `self_report`, Zone „Z · Einsatz“). Damit steht sie im **Kontoauszug mit ★** und in „davon Sondereinsätze“. Am selben Tag geplante Z-Dienste (Getränke) werden automatisch verknüpft.
+- **Ablehnen** geht nur mit Grund. Es entsteht keine Ist-Zeit, und im Kontoauszug erscheint nichts.
+- **Istplan abgeschlossen:** Der Nachtrag läuft über den vorhandenen Ablauf „wieder öffnen“, mit Begründung.
+- **Recht:** `roster.actual.import` (Planer, Zeitprüfer, Admin). Bestätigte Meldungen gelten wie Stempeluhr-Zeiten als Import. Korrekturen brauchen weiter `roster.actual.correct`.
+- **Tests:** `test-hour-reports-decide` und `test-hour-reports-ui` sind neu. Alle Smoke-Tests und alle 18 Browsertests sind grün, die Club-App-Vertragstests ebenso. Der Ende-zu-Ende-Test der Club App besteht erneut.
+
+**Offen:**
+- Phase 4: Personenregel „Z per Meldung“ für die Getränke-Kollegin.
+- Phase 5: Push an mitgemeldete Kollegen sowie Fahrt- und Auslagen-Vorbelegung in der Erstattung.
+- Phase 7: Fahrgemeinschaften.
+- Phase 8: Erinnerung nach 3 Tagen.
+- Phase 9: Kaution und Vorschuss im Eingangskorb.
+- Ausrollen: Migrationen einspielen, `kc-club` deployen, PRs zusammenführen. Das geschieht erst nach Freigabe durch den Betreiber.
