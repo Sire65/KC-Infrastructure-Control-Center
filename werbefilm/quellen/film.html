@@ -66,6 +66,16 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
 .flieg { font-size: 110px; }
 .tanzer { width: 240px; height: 340px; top: 1190px; }
 #klatsch { left: 0; right: 0; top: 530px; text-align: center; font-size: 150px; }
+/* … und noch viel mehr */
+#mehr { background: linear-gradient(#fbf4ea, #f3e9dc); }
+.kachel { width: 300px; height: 230px; border-radius: 36px; background: #fff; box-shadow: 0 10px 30px rgba(116,21,33,.15); border-bottom: 10px solid var(--rot); text-align: center; padding-top: 30px; }
+.kachel .e { font-size: 96px; line-height: 1; } .kachel .n { font-size: 32px; font-weight: 700; color: #2a1c14; margin-top: 18px; }
+#knopf { left: 140px; right: 140px; top: 800px; height: 190px; border-radius: 95px; background: var(--rot); color: #fff; font-size: 64px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 50px rgba(116,21,33,.4); }
+#finger { left: 640px; top: 930px; font-size: 160px; }
+#welle { left: 540px; top: 895px; width: 0; height: 0; border-radius: 50%; border: 8px solid var(--rot); }
+#birne { left: 0; right: 0; top: 330px; text-align: center; font-size: 260px; }
+#version { left: 0; right: 0; top: 1420px; text-align: center; font-size: 46px; color: #3a2a20; }
+#version b { color: var(--rot); font-size: 80px; display: block; margin-top: 10px; font-family: "DejaVu Sans Mono", monospace; }
 /* Ende */
 #ende { background: radial-gradient(ellipse at 50% 35%, #8e1f2e 0%, #741521 45%, #3b0910 100%); color: #fff; }
 #schwarz { background: #000; z-index: 50; }
@@ -144,6 +154,18 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
     <div id="huete"></div>
   </div>
 
+  <!-- … und noch viel mehr -->
+  <div class="layer" id="mehr">
+    <div class="abs cap" id="mT"><div class="h serif" style="font-size:84px">… und noch<br>viel mehr! ✨</div></div>
+    <div id="kacheln"></div>
+    <div class="abs cap" id="iT" style="top:330px"><div class="h serif" style="font-size:80px">Installier die App</div><div class="u" style="font-size:56px; color:var(--rot); font-weight:700">… und probier alles aus!</div></div>
+    <div class="abs" id="knopf">📲 Installieren</div>
+    <div class="abs" id="welle"></div>
+    <div class="abs" id="finger">👆</div>
+    <div class="abs" id="birne">💡</div>
+    <div class="abs cap" id="dT" style="top:700px"><div class="h serif" style="font-size:80px">Deine Idee?</div><div class="h" style="font-size:96px; color:#2a1c14; margin-top:20px">Immer her damit!</div><div class="u" style="font-size:50px; margin-top:50px">Die App wird ständig<br>weiterentwickelt 🚀</div></div>
+    <div class="abs" id="version">Version<b id="vNr">2.380</b></div>
+  </div>
   <!-- Ende -->
   <div class="layer" id="ende">
     <div class="abs logo" id="eLogo" style="left:390px; top:300px"><img src="kc-kochmuetze-weiss.webp" alt=""></div>
@@ -212,6 +234,23 @@ function tanz(t) {
     svg.querySelector(".beinR").setAttribute("transform", `rotate(${n % 2 ? 0 : -22 * hop * A} 3 37)`);
     svg.querySelectorAll(".pu").forEach((pu) => pu.setAttribute("transform", `translate(${Math.sin(t * 2 + i) * 1},0)`));
   });
+}
+
+// Weitere Funktionen der Club-App (Titel/Symbole aus den Hilfe-Bereichen der App)
+const MEHR = [["📌", "Pinnwand"], ["🗓️", "Dienstpläne"], ["🤝", "Helfen & Leihen"], ["🗄️", "Archiv"], ["🗳️", "Vorschläge"], ["🎲", "Spiele"],
+  ["🧩", "Werne-Rätsel"], ["🎭", "Bühne"], ["🆘", "SOS – Notfall"], ["🔊", "Vorlesen"], ["🎨", "Themen"], ["🧑‍🍳", "Frag Twinkey"]];
+$("kacheln").innerHTML = MEHR.map(([e, n], i) => `<div class="abs kachel" id="mk${i}" style="left:${45 + (i % 3) * 340}px; top:${560 + Math.floor(i / 3) * 290}px"><div class="e">${e}</div><div class="n">${n}</div></div>`).join("");
+function mehr(t) {
+  S("mehr", p(t, 61.85, 62.3));
+  S("mT", win(t, 62.1, 66.8, .3), `scale(${eb(p(t, 62.1, 62.6))})`);
+  MEHR.forEach((_, i) => { const a = 62.7 + i * .15; S("mk" + i, Math.min(p(t, a, a + .12), 1 - p(t, 66.5, 66.8)), `scale(${eb(p(t, a, a + .4)) * (1 - .3 * p(t, 66.5, 66.8)) * (1 + .04 * puls(t))}) rotate(${Math.sin(t * 2 + i) * 3}deg)`); });
+  S("iT", win(t, 66.8, 69.6, .3), `translateY(${(1 - eo(p(t, 66.8, 67.3))) * 50}px)`);
+  const tip = p(t, 68.0, 68.15) * (1 - p(t, 68.15, 68.35)); S("knopf", win(t, 67.0, 69.6, .3), `scale(${eb(p(t, 67.0, 67.5)) * (1 - .08 * tip)})`);
+  S("finger", win(t, 67.4, 69.4, .25), `translate(${(1 - eo(p(t, 67.4, 68.0))) * 300}px, ${(1 - eo(p(t, 67.4, 68.0))) * 400 + tip * 30}px)`);
+  const w = p(t, 68.15, 68.9); S("welle", (1 - w) * (t > 68.15 ? 1 : 0), `translate(${-w * 300}px, ${-w * 300}px)`); $("welle").style.width = $("welle").style.height = `${w * 600}px`;
+  S("birne", win(t, 69.6, 73.6, .3), `scale(${eb(p(t, 69.6, 70.1)) * (1 + .06 * puls(t))})`); $("birne").style.filter = `drop-shadow(0 0 ${30 + 30 * puls(t)}px rgba(245,197,66,.9))`;
+  S("dT", win(t, 69.8, 73.6, .3), `translateY(${(1 - eo(p(t, 69.8, 70.3))) * 50}px)`);
+  S("version", win(t, 70.6, 73.6, .3)); $("vNr").textContent = "2." + Math.round(lerp(380, 408, eio(p(t, 70.8, 72.6))));
 }
 
 function karaoke(t) {
@@ -285,10 +324,12 @@ function zeige(t) {
     const kv = p(t, 46.4, 46.7); KONF.forEach((k, i) => { const y = ((t - 46.4) * k.v + k.o) % 2300 - 200; S("kf" + i, kv * (t > 46.4 ? 1 : 0), `translate(${k.x + Math.sin(t * 2 + k.s) * 40}px, ${y}px) rotate(${k.r + t * k.w}deg)`); });
     FLIEG.forEach((e, i) => { const a = i / FLIEG.length * Math.PI * 2 + t * .25; S("fl" + i, .22, `translate(${490 + Math.cos(a) * 470}px, ${930 + Math.sin(a) * 780}px) rotate(${Math.sin(t + i) * 15}deg)`); });
   }
-  // Ende
-  S("ende", p(t, 61.8, 62.3));
-  const el = eb(p(t, 62.0, 62.7)); S("eLogo", p(t, 62.0, 62.2), `scale(${el * (1 + .03 * puls(t))}) rotate(${(1 - el) * 30}deg)`);
-  [["eT1", 62.4], ["eT2", 63.2], ["eT3", 64.0], ["eT4", 64.9], ["eT5", 65.6]].forEach(([id, a]) => S(id, p(t, a, a + .3), `translateY(${(1 - eo(p(t, a, a + .5))) * 50}px)`));
-  S("schwarz", p(t, 68.2, 69) + (1 - p(t, 0, .25)));
+  // … und noch viel mehr (6 Takte), danach der Abspann
+  mehr(t);
+  const te = t - 6 * TAKT; // Ende um 6 Takte verschoben
+  S("ende", p(te, 61.8, 62.3));
+  const el = eb(p(te, 62.0, 62.7)); S("eLogo", p(te, 62.0, 62.2), `scale(${el * (1 + .03 * puls(t))}) rotate(${(1 - el) * 30}deg)`);
+  [["eT1", 62.4], ["eT2", 63.2], ["eT3", 64.0], ["eT4", 64.9], ["eT5", 65.6]].forEach(([id, a]) => S(id, p(te, a, a + .3), `translateY(${(1 - eo(p(te, a, a + .5))) * 50}px)`));
+  S("schwarz", p(t, 80.2, 81) + (1 - p(t, 0, .25)));
 }
 </script></body></html>

@@ -53,10 +53,11 @@ const KS_TEXT = {
 // Zeile → Silben (mit Leerzeichen am Wortende, für die Anzeige); „–“ und „…“ hängen am vorigen Wort
 const ksSilben = (zeile) => zeile.replace(/ ([–…])/g, "\u00a0$1").split(" ").flatMap((w) => { const t = w.split("-"); t[t.length - 1] += " "; return t; });
 KS_TEXT.refk = [KS_TEXT.ref[0], KS_TEXT.ref[1], KS_TEXT.ref[4], KS_TEXT.ref[5]];
-// Werbefilm-Fassung: Intro, Strophen-Begleitung ohne Gesang (Sprecher), Pre-Chorus und Refrain gesungen, Schlussakkord
+// Werbefilm-Fassung: Intro, Strophen-Begleitung ohne Gesang (Sprecher), Pre-Chorus und Refrain gesungen, Begleitung für „…noch viel mehr“, Schlussakkord
 const KS_ABLAUF = [["intro", ["C", "G", "Am", "F"], null, 0],
   ["s1", ["Am", "F", "C", "G", "Am", "F", "C", "G"], null, 0], ["s1", ["Am", "F", "C", "G", "Am", "F", "C", "G"], null, 0],
-  ["pre", ["F", "G", "F", "G"], "pre", 0], ["ref", ["C", "G", "Am", "F", "C", "G", "F", "C"], "refk", 0], ["outro", ["C", "C"], null, 0]];
+  ["pre", ["F", "G", "F", "G"], "pre", 0], ["ref", ["C", "G", "Am", "F", "C", "G", "F", "C"], "refk", 0],
+  ["s1", ["C", "G", "Am", "F", "C", "G"], null, 0], ["outro", ["C", "C"], null, 0]];
 const KS_TAKTE = KS_ABLAUF.flatMap(([teil, akk, text, hoch], a) => akk.map((name, k) => {
   const z = text && k % 2 === 0 ? KS_TEXT[text][k / 2] : null;
   return { teil, name, hoch, neu: k === 0, abschnitt: a, letzter: k === akk.length - 1, zeile: z ? { silben: ksSilben(z[0]), noten: z[1], klatsch: !!z[2] } : null };
