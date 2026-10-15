@@ -50,3 +50,8 @@ Quelle: `Sire65/KC-Clubapp`, Edge Function `kc-club` (Deploy per Workflow „Ser
 - Ruecknahme: `select cron.unschedule('kc-neon-backup-nachholen'); drop function public.kc_db_backup_nachholen();`
 - Restore-Test-Cron `kc-neon-backup-verify` (Job 51) laeuft jetzt um 06:30 statt 00:15 UTC (Freigabe Betreiber 15.10.2026). Um 00:15 war ein Satz, der noch nachgeholt wurde, als Fehler gemeldet worden (Fehlalarm im System-Check). Der Worker startet den Restore-Test selbst, sobald ein Satz vollstaendig ist. Ruecknahme: `select cron.alter_job(51, schedule := '15 0 * * *');`
 - Zusatzlauf 02:20 UTC: direkter SQL-Aufruf `select public.kc_db_backup_daily() as retry` als `postgres` ueber den Verwaltungszugang (kein Cron, keine REST-Anfrage), zeitgleich mit einer Security-Advisor-Abfrage. Vermutlich ein externer KI-Schutzcheck. Empfehlung: Dieser Check soll nur lesen.
+
+## Gesamtpruefung 2026-10-15 abends
+- Neon-Backup (Job 45) von 00:12 auf 00:40 UTC verschoben (Abstand zur Spiegelung 00:10 und zu Frankfurt 01:00; Freigabe Betreiber). Ruecknahme: `select cron.alter_job(45, schedule := '12 0 * * *');`
+- `kc_club_video_bewertung`: `backup_enabled=true`, aber `mirror_enabled=false`, daher nicht im Neon-Backup (nur Frankfurt). Die Korrektur wurde beim Ausfuehren abgebrochen und ist offen.
+- Neon KC Core Mirror: 322 MB von 1 GiB Branch-Limit, Archiv ohne Aufbewahrung. Entwurf KICC-F-103 `database/sql/neon-kc-backup-retention.sql`, auf dem Test-Branch `br-plain-unit-za0gpaid` geprueft: Plan 46 loeschen / 27 behalten, Schutz-Trigger blockiert direktes DELETE, DELETE neuer Saetze und TRUNCATE. **Auf dem Haupt-Branch noch nicht eingespielt.**
