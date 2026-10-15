@@ -76,14 +76,27 @@ test.describe('KICC Tiefenprüfung · 50 Tests', () => {
 });
 
 test.describe('KICC-F-100 · Kopfbereich-Lichtschein', () => {
-  test('Lichtschein laeuft beim Start einmal ueber den Kopfbereich', async ({ page }) => {
+  // Beim ersten Aufruf uebernimmt der Service Worker die Seite (clients.claim) und pwa-update-manager laedt dann neu (controllerchange).
+  // Faellt dieser Reload in die Messung, bricht page.evaluate mit „Execution context was destroyed“ ab. Darum warten, bis eine
+  // Seite fertig ist, die schon beim Laden vom Service Worker kontrolliert war (workerStart > 0) – sie laedt nicht mehr neu.
+  // waitForFunction ueberlebt den Reload und misst danach in der neuen Seite weiter.
+  const stabilLaden = async (page) => {
     await page.goto('/?e2e=1#dashboard', { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => {
+      const nav = globalThis.navigator, d = globalThis.document;
+      if (!('serviceWorker' in nav)) return d.readyState === 'complete';
+      const n = globalThis.performance.getEntriesByType('navigation')[0];
+      return d.readyState === 'complete' && Boolean(nav.serviceWorker.controller) && Boolean(n && n.workerStart > 0);
+    });
+  };
+  test('Lichtschein laeuft beim Start einmal ueber den Kopfbereich', async ({ page }) => {
+    await stabilLaden(page);
     const shine = await page.evaluate(() => { const s=globalThis.getComputedStyle(globalThis.document.querySelector(".topbar"),'::after'); return { name:s.animationName, count:s.animationIterationCount, events:s.pointerEvents }; });
     expect(shine).toEqual({ name:'kicc-topbar-shine', count:'1', events:'none' });
   });
   test('Lichtschein entfaellt bei reduzierter Bewegung', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/?e2e=1#dashboard', { waitUntil: 'domcontentloaded' });
+    await stabilLaden(page);
     expect(await page.evaluate(() => globalThis.getComputedStyle(globalThis.document.querySelector(".topbar"),'::after').animationName)).toBe('none');
   });
 });
