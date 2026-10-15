@@ -205,4 +205,24 @@ Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2
 - **Offener Punkt:** Die Tabelle **Personenstunden** in der Stundenmatrix (`person-hours-block.js`) rechnet nur über die Markttage. Sonderstunden an Tagen außerhalb, z. B. im Januar, stehen deshalb im Kontoauszug, aber nicht in dieser Tabelle. Das wird in Phase 3 entschieden.
 - Die Datenquelle `K.hourReports` und das Bestätigen, das daraus Ist-Zeiten erzeugt, kommen in Phase 2 und 3. Der Kontoauszug ist dafür schon vorbereitet.
 
-**Nächste Phase:** Phase 2, Stundenmeldung mit Sammelmeldung in Twinkey (DP2-F-SE-02).
+**Wichtiger Befund zur Codebasis (2026-10-15):** Die aktuelle DP2-Linie ist **nicht** `main` (Build 253), sondern `codex/club-app-interface` (Build 282 RC, PR #5). Von dort übernimmt die Club App ihre DP2-Dateien. Die Arbeit wurde deshalb auf diese Linie gesetzt: Die Builds 254/255 der Patches oben heißen dort **283/284**. Die Patch-Dateien in `docs/patches/` sind damit überholt; maßgeblich sind die Branches.
+
+**Phase 2: Stundenmeldung mit Sammelmeldung, fertig und getestet**
+- **dp3**, Branch `claude/stundenerfassung-gruenkohl-ywgljy` auf `codex/club-app-interface`:
+  - **Build 283:** Sondereinsätze.
+  - **Build 284:** Personenkonto.
+  - **Build 285:** Twinkey „Sonderstunden melden“ mit `core/hour-reports.js` und den Supabase-Objekten `kc_dp_hour_reports`, `kc_dp_hour_reports_pending` und `kc_dp_hour_report_decide`.
+  - **Build 286:** In der Kollegenauswahl stehen nur Mitglieder.
+  - Tests: Alle Smoke-Tests und alle 17 Browsertests sind grün (darunter neu `test-twinkey-hours`). Die Migrationen wurden lokal in PostgreSQL 16 mit nachgebildeten Supabase-Rollen geprüft: Rechte, „nur Planer“, Ablehnung nur mit Grund, Schutz vor doppelter Entscheidung (stale), 16-Stunden-Grenze.
+- **KC-Clubapp**, Branch `claude/stundenerfassung-gruenkohl-ywgljy`, **2.417.0**:
+  - DP2 Build 286 unverändert übernommen.
+  - `kc-club`: `dienstwunsch_laden` liefert zusätzlich Einsätze, Meldungen und Mitglieder; neue Aktion `stunden_melden` mit Serverprüfung und Doppelschutz.
+  - `dp2-club/daten.js` gibt die Daten an Twinkey weiter und schickt Meldungen über `kc-club`.
+  - Der Vertragstest ist erweitert. Ein Ende-zu-Ende-Test der echten Dienstwunsch-Seite (mit nachgebildetem Server) besteht.
+- **Reihenfolge beim Ausrollen:**
+  1. Die beiden Migrationen aus dp3 einspielen.
+  2. `kc-club` deployen.
+  3. Club App 2.417.0 und DP2 ausrollen.
+- **Offen aus dem Konzept:** Benachrichtigung der mitgemeldeten Kollegen (Push) sowie Fahrer/Mitfahrer bei der Meldung. Beides kommt mit Phase 5/7.
+
+**Nächste Phase:** Phase 3, Planer-Eingang in DP2: abholen, bestätigen oder ablehnen; bestätigte Stunden werden als Ist gebucht und erscheinen im Kontoauszug (DP2-F-SE-03).
