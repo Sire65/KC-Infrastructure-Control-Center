@@ -40,3 +40,11 @@ Quelle: `Sire65/KC-Clubapp`, Edge Function `kc-club` (Deploy per Workflow „Ser
 - Ausrollen nicht zwischen 01:00 und 04:00 UTC (Nachtlauf der Sicherung).
 - Versionsnummer 2.367.0 war inzwischen parallel vergeben (2.367.0/2.368.0 Club-App) → Server **2.369.0**.
 - Freigabe des Betreibers 14.10.2026; direkter Push auf `main` von der Rechtepruefung blockiert → PR [Sire65/KC-Clubapp#20](https://github.com/Sire65/KC-Clubapp/pull/20), Tests gruen, 06:25 UTC zusammengefuehrt (`d42e96e`), Deploy ueber Workflow „Server hochladen“ (Lauf 470) erfolgreich, `kc-club` Deployment-Version 488 (06:25:50 UTC). Erster verschluesselter Nachtlauf: 15.10. 01:30 UTC (Archiv-Kopie ab 00:00 UTC).
+
+## Nachtrag 2026-10-15: erneut unvollstaendig → automatisches Nachholen (KICC-F-101)
+- Satz `b2721e06…` (00:12 UTC): 231/256. Ein Worker-Aufruf (Paket 9, `kc_manager_*` u. a.) endete mit HTTP 503 `BOOT_ERROR` (Funktion startete nicht, 11 gleichzeitige Kaltstarts). Es gab keinen erneuten Versuch.
+- Satz `03f574e8…` (02:20 UTC, zusaetzlicher Lauf ueber die API, parallel zur Frankfurt-Sicherung): 254/256. `kc_club_protokoll` und `kc_communication_requests` liefen in das PostgREST-Limit von 58 s (Snapshots brauchten unter Last bis zu 44 s).
+- Ursache an der Quelle: Ein Paket, das fehlschlaegt, wurde nie erneut versucht. Der Satz blieb dauerhaft `running`.
+- Korrektur: `public.kc_db_backup_nachholen()` (`database/sql/kc-db-backup-nachholen.sql`), Cron `kc-neon-backup-nachholen` alle 10 min von 00 bis 07 UTC. Fehlende Tabellen laufender Saetze (letzte 20 h) gehen in Paketen zu je 5 Tabellen an denselben Satz (max. 15 Tabellen je Lauf, max. 8 Versuche, danach Audit `backup_nachholen_aufgegeben`, critical). Der Worker ist idempotent und schliesst den Satz selbst ab, danach folgt der Restore-Test.
+- Verifikation: Satz `03f574e8…` → 256/256, Status `ok`, Restore-Test 256 geprueft, 0 Fehler (04:40 UTC). Satz `b2721e06…` wird durch den Cron vervollstaendigt.
+- Ruecknahme: `select cron.unschedule('kc-neon-backup-nachholen'); drop function public.kc_db_backup_nachholen();`
