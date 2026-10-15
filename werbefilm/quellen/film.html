@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><title>Köcheclub Werbefilm</title>
+<style>
+@font-face { font-family: "Emo"; src: url("NotoColorEmoji.ttf"); }
+:root { --rot: #741521; --rot2: #4a0c15; --beige: #f3e9dc; --gold: #f5c542; --jeans: #2f4f7a; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: "Liberation Sans", "DejaVu Sans", "Emo", sans-serif; }
+#stage { position: absolute; inset: 0; overflow: hidden; }
+.abs { position: absolute; }
+.layer { position: absolute; inset: 0; }
+.serif { font-family: "DejaVu Serif", Georgia, "Emo", serif; }
+.center { left: 0; right: 0; text-align: center; }
+.logo { width: 300px; height: 300px; border-radius: 50%; background: var(--rot); border: 10px solid #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.logo img { width: 72%; }
+.cap { top: 150px; left: 60px; right: 60px; text-align: center; color: var(--rot); }
+.cap .h { font-size: 74px; font-weight: 700; line-height: 1.15; }
+.cap .u { font-size: 46px; margin-top: 18px; color: #3a2a20; }
+/* Jeans */
+#jeans { left: 0; right: 0; top: 1400px; height: 700px; background: repeating-linear-gradient(45deg, #2f4f7a 0 6px, #2a4870 6px 12px); z-index: 5; box-shadow: 0 -10px 40px rgba(0,0,0,.3); }
+#jeans .tasche { position: absolute; left: 170px; width: 740px; top: -10px; height: 150px; border-bottom: 8px dashed #e0a84a; border-radius: 0 0 50% 50% / 0 0 100% 100%; }
+#jeans .naht { position: absolute; left: 0; right: 0; top: 20px; border-top: 6px dashed #e0a84a; }
+/* Handy */
+#phone { left: 220px; top: 560px; width: 640px; height: 1280px; border-radius: 86px; background: #111; padding: 22px; box-shadow: 0 40px 90px rgba(0,0,0,.45), inset 0 0 0 4px #333; z-index: 4; }
+#screen { position: relative; width: 100%; height: 100%; border-radius: 66px; overflow: hidden; background: #fff; }
+#notch { position: absolute; top: 18px; left: 50%; width: 170px; height: 44px; margin-left: -85px; border-radius: 30px; background: #111; z-index: 20; }
+.scr { position: absolute; inset: 0; background: #fbf7f1; }
+.bar { height: 190px; background: var(--rot); color: #fff; display: flex; align-items: flex-end; padding: 0 40px 28px; font-size: 44px; font-weight: 700; gap: 18px; }
+.bar img { width: 64px; height: 64px; border-radius: 50%; background: var(--rot2); padding: 8px; }
+.karte { margin: 22px 26px 0; background: #fff; border-radius: 28px; padding: 24px; display: flex; gap: 22px; align-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.08); border-left: 10px solid var(--rot); }
+.karte .bild { width: 110px; height: 110px; border-radius: 22px; background: var(--beige); font-size: 64px; display: flex; align-items: center; justify-content: center; flex: none; }
+.karte .t { font-size: 31px; font-weight: 700; color: #2a1c14; line-height: 1.2; }
+.karte .d { font-size: 24px; color: #7a6a5a; margin-top: 8px; }
+.blase { position: absolute; max-width: 430px; padding: 22px 28px; border-radius: 34px; font-size: 32px; line-height: 1.25; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.blase .w { font-size: 22px; font-weight: 700; color: var(--rot); margin-bottom: 6px; }
+.blase.l { left: 26px; background: #fff; border-bottom-left-radius: 8px; transform-origin: left bottom; }
+.blase.r { right: 26px; background: #f6dfe2; border-bottom-right-radius: 8px; transform-origin: right bottom; }
+.termin { margin: 20px 26px 0; background: #fff; border-radius: 26px; padding: 20px; display: flex; gap: 24px; align-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+.termin .dt { width: 112px; height: 120px; border-radius: 20px; background: var(--rot); color: #fff; text-align: center; padding-top: 12px; flex: none; }
+.termin .dt b { display: block; font-size: 52px; }
+.termin .dt span { font-size: 24px; text-transform: uppercase; }
+.termin .t { font-size: 32px; font-weight: 700; color: #2a1c14; }
+.termin .d { font-size: 25px; color: #7a6a5a; margin-top: 6px; }
+#banner { left: 18px; right: 18px; top: 30px; background: rgba(255,255,255,.97); border-radius: 30px; padding: 24px; display: flex; gap: 20px; align-items: center; box-shadow: 0 16px 40px rgba(0,0,0,.25); z-index: 10; }
+#banner .ic { width: 84px; height: 84px; border-radius: 20px; background: var(--rot); display: flex; align-items: center; justify-content: center; font-size: 48px; flex: none; }
+#banner .t { font-size: 27px; font-weight: 700; } #banner .d { font-size: 26px; color: #333; margin-top: 4px; }
+.raster { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 14px; }
+.foto { aspect-ratio: 1; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 84px; }
+#dia { inset: 0; display: flex; align-items: center; justify-content: center; background: #000; overflow: hidden; }
+.diab { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 300px; }
+.diat { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; color: #fff; font-size: 40px; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+/* Bühne */
+#buehne { background: radial-gradient(ellipse at 50% 30%, #a3283a 0%, #741521 40%, #2a050b 100%); }
+#spot { left: 140px; top: -200px; width: 800px; height: 1500px; background: radial-gradient(ellipse at 50% 0%, rgba(255,240,200,.35), rgba(255,240,200,0) 70%); }
+#kTitel { top: 150px; color: #fff; }
+#kTitel .a { font-size: 50px; opacity: .9; } #kTitel .b { font-size: 72px; font-weight: 700; margin-top: 14px; color: var(--gold); }
+#kBox { left: 50px; right: 50px; top: 720px; min-height: 420px; padding: 50px 40px; border-radius: 50px; background: rgba(30,0,6,.62); border: 3px solid rgba(255,255,255,.18); text-align: center; }
+#kZeile { font-size: 76px; font-weight: 700; line-height: 1.25; color: rgba(255,255,255,.55); }
+#kZeile span { display: inline-block; white-space: pre; }
+#kZeile .wort { white-space: nowrap; }
+#kZeile span.war { color: var(--gold); }
+#kZeile span.jetzt { color: var(--gold); text-shadow: 0 0 30px rgba(245,197,66,.8); }
+#kNext { font-size: 42px; color: rgba(255,255,255,.45); margin-top: 34px; }
+.hut { width: 140px; height: 140px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; top: 1560px; }
+.hut img { width: 72%; filter: brightness(0) saturate(100%) invert(13%) sepia(60%) saturate(4000%) hue-rotate(340deg); }
+.konf { width: 22px; height: 34px; border-radius: 4px; }
+.flieg { font-size: 110px; }
+#klatsch { left: 0; right: 0; top: 1220px; text-align: center; font-size: 150px; }
+/* Ende */
+#ende { background: radial-gradient(ellipse at 50% 35%, #8e1f2e 0%, #741521 45%, #3b0910 100%); color: #fff; }
+#schwarz { background: #000; z-index: 50; }
+</style></head>
+<body><div id="stage">
+  <div class="layer" id="bgRot" style="background: radial-gradient(ellipse at 50% 40%, #9a2436, #741521 55%, #3b0910)"></div>
+  <div class="layer" id="bgBeige" style="background: linear-gradient(#fbf4ea, #f3e9dc)"></div>
+
+  <!-- Szene 1 -->
+  <div class="layer" id="s1">
+    <div class="abs logo" id="s1logo" style="left:390px; top:330px"><img src="kc-kochmuetze-weiss.webp" alt=""></div>
+    <div class="abs center serif" id="s1t1" style="top:780px; color:#fff; font-size:70px; line-height:1.25">Du bist Mitglied im<br><b style="font-size:96px">Köcheclub Werne?</b></div>
+    <div class="abs center" id="s1t2" style="top:1180px; font-size:150px; font-weight:700; color:var(--gold); text-shadow:0 10px 30px rgba(0,0,0,.4)">Sehr gut! 👍</div>
+  </div>
+
+  <!-- Szene 2 -->
+  <div class="abs cap" id="c2a"><div class="h">Und weißt du schon …? 🤔</div></div>
+  <div class="abs cap" id="c2b" style="top:420px"><div class="h serif" style="font-size:58px">Den Köcheclub gibt’s jetzt<br>für die <span style="color:#2f4f7a">Hosentasche!</span></div></div>
+
+  <!-- Szene-Überschriften am Handy -->
+  <div class="abs cap" id="c3"><div class="h" id="c3a">Immer aktuell.</div><div class="h" id="c3b">Immer dabei.</div><div class="h" id="c3c" style="color:#2a1c14">In deinem Handy. 📱</div></div>
+  <div class="abs cap" id="c4"><div class="h">📰 Bestens informiert</div><div class="u">Neuigkeiten aus dem Club</div></div>
+  <div class="abs cap" id="c5"><div class="h">💬 Chatte mit Freunden</div><div class="u">🔒 Alles bleibt unter uns</div></div>
+  <div class="abs cap" id="c6"><div class="h">📅 Termine im Blick</div><div class="u">⏰ Erinnerung, wenn du willst</div></div>
+  <div class="abs cap" id="c7"><div class="h">📸 Die schönsten Momente</div><div class="u">Im Fotoalbum – immer wieder</div></div>
+
+  <div class="abs" id="phone"><div id="screen"><div id="notch"></div>
+    <div class="scr" id="scrSplash" style="background: var(--rot); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff">
+      <div class="logo" style="width:250px; height:250px; border-width:8px" id="splLogo"><img src="kc-kochmuetze-weiss.webp" alt=""></div>
+      <div class="serif" style="font-size:58px; font-weight:700; margin-top:44px">Köcheclub Werne</div>
+      <div style="font-size:34px; margin-top:14px; opacity:.85">Die Club-App</div>
+      <div class="serif" style="font-size:28px; margin-top:120px; font-style:italic; opacity:.8">Gemeinsam kochen, gemeinsam helfen</div>
+    </div>
+    <div class="scr" id="scrNews"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Neuigkeiten</div>
+      <div id="newsListe">
+        <div class="karte"><div class="bild">🎄</div><div><div class="t">Weihnachtsmarkt: Standdienste sind online</div><div class="d">Vorstand · heute</div></div></div>
+        <div class="karte"><div class="bild">🥘</div><div><div class="t">Neues Rezept: Grünkohl nach Clubart</div><div class="d">Rezepte · gestern</div></div></div>
+        <div class="karte"><div class="bild">💝</div><div><div class="t">Spende übergeben – danke an alle!</div><div class="d">Soziales · vor 3 Tagen</div></div></div>
+        <div class="karte"><div class="bild">🧑‍🍳</div><div><div class="t">Willkommen, neues Mitglied!</div><div class="d">Club · letzte Woche</div></div></div>
+        <div class="karte"><div class="bild">🍷</div><div><div class="t">Rückblick Sommerfest</div><div class="d">Club · vor 2 Wochen</div></div></div>
+      </div></div>
+    <div class="scr" id="scrChat" style="background:#f4ece2"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Clubchat 🔒</div>
+      <div class="blase l" id="b0" style="top:240px"><div class="w">Peter</div>Wer bringt Donnerstag den Nachtisch mit?</div>
+      <div class="blase r" id="b1" style="top:420px">Ich! Mousse au Chocolat 😋</div>
+      <div class="blase l" id="b2" style="top:550px"><div class="w">Moni</div>Dann bring ich die Sahne 🍦</div>
+      <div class="blase r" id="b3" style="top:730px">Top! Bis Donnerstag 👍</div>
+      <div class="blase l" id="b4" style="top:860px"><div class="w">Jürgen</div>Ich freu mich schon! 🎉</div>
+    </div>
+    <div class="scr" id="scrTermine"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Termine</div>
+      <div class="termin"><div class="dt"><b>16</b><span>Okt</span></div><div><div class="t">Clubabend</div><div class="d">Do · 19:00 Uhr · Clubküche</div></div></div>
+      <div class="termin"><div class="dt"><b>08</b><span>Nov</span></div><div><div class="t">Grünkohlessen</div><div class="d">So · 12:00 Uhr</div></div></div>
+      <div class="termin"><div class="dt"><b>27</b><span>Nov</span></div><div><div class="t">Weihnachtsmarkt</div><div class="d">Aufbau · 9:00 Uhr</div></div></div>
+      <div class="termin"><div class="dt"><b>12</b><span>Dez</span></div><div><div class="t">Weihnachtsfeier</div><div class="d">Sa · 18:30 Uhr</div></div></div>
+      <div class="abs" id="banner"><div class="ic">⏰</div><div><div class="t">Köcheclub · Erinnerung</div><div class="d">Morgen: Clubabend, 19:00 Uhr</div></div></div>
+    </div>
+    <div class="scr" id="scrFoto"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Fotoalbum</div>
+      <div class="raster" id="raster"></div>
+      <div class="abs" id="dia">
+        <div class="diab" id="dia0" style="background: linear-gradient(135deg,#1d3b2a,#4f8a5b)">🎄<div class="diat">Weihnachtsmarkt</div></div>
+        <div class="diab" id="dia1" style="background: linear-gradient(135deg,#7a3b12,#e0a84a)">🥘<div class="diat">Grünkohlessen</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="layer" id="jeansL" style="pointer-events:none"><div class="abs" id="jeans"><div class="naht"></div><div class="tasche"></div></div></div>
+
+  <!-- Bühne / Karaoke -->
+  <div class="layer" id="buehne">
+    <div class="abs" id="spot"></div>
+    <div id="flieger"></div>
+    <div id="konfetti"></div>
+    <div class="abs center" id="kTitel"><div class="a">🎤 Unser Club-Song</div><div class="b serif">„Seit einundneunzig“</div></div>
+    <div class="abs" id="kBox"><div id="kZeile"></div><div id="kNext"></div></div>
+    <div class="abs" id="klatsch">👏</div>
+    <div id="huete"></div>
+  </div>
+
+  <!-- Ende -->
+  <div class="layer" id="ende">
+    <div class="abs logo" id="eLogo" style="left:390px; top:300px"><img src="kc-kochmuetze-weiss.webp" alt=""></div>
+    <div class="abs center serif" id="eT1" style="top:690px; font-size:100px; font-weight:700">Köcheclub Werne</div>
+    <div class="abs center" id="eT2" style="top:860px; font-size:64px; color:var(--gold); font-weight:700">Jetzt in der Club-App 📱</div>
+    <div class="abs center" id="eT3" style="top:990px; font-size:44px; opacity:.9">Immer aktuell · Immer dabei</div>
+    <div class="abs center serif" id="eT4" style="top:1180px; font-size:50px; font-style:italic">„Gemeinsam kochen,<br>gemeinsam helfen“</div>
+    <div class="abs center" id="eT5" style="top:1560px; font-size:34px; opacity:.75">Nur für Mitglieder · sire65.github.io/KC-Clubapp</div>
+  </div>
+  <div class="layer" id="schwarz"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const p = (t, a, b) => cl((t - a) / (b - a));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eb = (x) => { const c1 = 1.9, c3 = c1 + 1; return x <= 0 ? 0 : 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const win = (t, a, b, f = .35) => Math.min(p(t, a, a + f), 1 - p(t, b - f, b));
+const lerp = (a, b, x) => a + (b - a) * x;
+const S = (el, o, tr) => { if (typeof el === "string") el = $(el); el.style.opacity = o; if (tr !== undefined) el.style.transform = tr; el.style.visibility = o <= 0.001 ? "hidden" : "visible"; };
+const TAKT = 4 * 60 / 124, SCHLAG = TAKT / 4, SECH = SCHLAG / 4, T0 = 0.05;
+const puls = (t) => Math.exp(-(((t - T0) % SCHLAG) + SCHLAG) % SCHLAG * 9);
+let K = null; // Karaoke-Zeilen
+const FOTOS = [["🎄", "#1d3b2a,#4f8a5b"], ["🥘", "#7a3b12,#e0a84a"], ["🥂", "#5a2a5e,#c58ad0"], ["🧑‍🍳", "#741521,#d0566a"], ["🍰", "#a35a2b,#f3c79a"], ["🎉", "#1e4d7a,#7fb4e6"],
+  ["🍲", "#6b2a12,#d9733e"], ["🔥", "#5c1a0a,#f08a24"], ["🍷", "#3d0a18,#9e2a48"], ["🎅", "#7a0f1a,#e04a4a"], ["🥗", "#2f5a1d,#9ccc65"], ["📸", "#333,#888"]];
+$("raster").innerHTML = FOTOS.map(([e, g]) => `<div class="foto" style="background:linear-gradient(135deg,${g})">${e}</div>`).join("");
+$("huete").innerHTML = [0, 1, 2, 3, 4].map((i) => `<div class="abs hut" id="hut${i}" style="left:${90 + i * 190}px"><img src="kc-kochmuetze-weiss.webp" alt=""></div>`).join("");
+const KF = ["#f5c542", "#ffffff", "#f3e9dc", "#ff8fa0", "#7fd4ff", "#9ccc65"];
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const KONF = Array.from({ length: 90 }, () => ({ x: rnd() * 1080, v: 260 + rnd() * 340, o: rnd() * 2400, r: rnd() * 360, w: 120 + rnd() * 400, f: KF[Math.floor(rnd() * KF.length)], s: rnd() * 6.28 }));
+$("konfetti").innerHTML = KONF.map((k, i) => `<div class="abs konf" id="kf${i}" style="background:${k.f}"></div>`).join("");
+const FLIEG = ["📰", "💬", "📅", "📸", "🍲", "🎄"];
+$("flieger").innerHTML = FLIEG.map((e, i) => `<div class="abs flieg" id="fl${i}">${e}</div>`).join("");
+
+function karaoke(t) {
+  const sz = K.takte.map((z) => ({ ...z, t0: K.start + z.b * K.takt }));
+  let z = null; for (const x of sz) if (x.t0 - .35 <= t && t < x.t0 + 32 * SECH + .2) z = x;
+  let html, next = "";
+  if (z) {
+    html = '<span class="wort">'; z.silben.forEach((s, i) => { const ts = z.t0 + i * 2 * SECH, tn = z.t0 + (i + 1) * 2 * SECH; const kl = t >= ts ? ((i === z.silben.length - 1 || t < tn) ? "jetzt" : "war") : "";
+      const sc = kl === "jetzt" ? 1 + .12 * Math.exp(-(t - ts) * 6) : 1; html += `<span class="${kl}" style="transform:scale(${sc.toFixed(3)})">${s.trimEnd()}</span>`; if (s.endsWith(" ")) html += '</span> <span class="wort">'; }); html += "</span>";
+    const n = sz[sz.indexOf(z) + 1]; next = n ? n.silben.join("").trim() : "";
+  } else { html = `<span>🎤 Gleich geht’s los – sing mit!</span>`; next = sz[0].silben.join("").trim(); }
+  $("kZeile").innerHTML = html; $("kNext").textContent = next;
+  // Klatschen nach „Köcheclub Werne!“
+  let kl = 0; for (const x of sz) if (x.silben[0].startsWith("Seit")) for (const st of [24, 26]) { const tk = x.t0 + st * SECH; if (t >= tk && t < tk + .4) kl = Math.max(kl, 1 - (t - tk) / .4); }
+  S("klatsch", kl, `scale(${1 + kl * .4})`);
+}
+
+function zeige(t) {
+  // Hintergründe
+  S("bgRot", Math.max(1 - p(t, 3.9, 4.3), 0));
+  S("bgBeige", win(t, 3.9, 39.4, .4));
+  // Szene 1
+  S("s1", 1 - p(t, 3.9, 4.3));
+  const l1 = eb(p(t, .15, .85)); S("s1logo", p(t, .15, .3), `scale(${l1}) rotate(${(1 - l1) * -40}deg)`);
+  S("s1t1", p(t, .6, 1.0), `translateY(${(1 - eo(p(t, .6, 1.1))) * 60}px)`);
+  const st = p(t, 2.45, 2.75); S("s1t2", st, `scale(${lerp(2.6, 1, eo(st)) * (1 + .05 * puls(t) * (t > 2.8))}) rotate(${lerp(-18, -4, eo(st))}deg)`);
+  // Szene 2
+  S("c2a", win(t, 4.2, 6.0, .3), `scale(${eb(p(t, 4.2, 4.6))})`);
+  S("c2b", win(t, 6.0, 8.0, .3), `translateY(${(1 - eo(p(t, 6.0, 6.5))) * 50}px)`);
+  // Jeans + Handy
+  const jy = eio(p(t, 7.9, 8.8)) * 650; S("jeansL", win(t, 4.1, 8.8, .4), `translateY(${jy}px)`);
+  let dy, sc, rot, op = 1;
+  if (t < 7.9) { const r = eo(p(t, 5.5, 6.9)); dy = lerp(900, 150, r); sc = .6; rot = lerp(4, -8, r) + Math.sin(t * 9) * 1.2 * (p(t, 5.5, 6.9) < 1 ? 1 : .2); }
+  else if (t < 38.2) { const r = eio(p(t, 7.9, 8.8)); dy = lerp(150, 0, r); sc = lerp(.6, 1, r); rot = lerp(-8, 0, r); }
+  else { const r = eio(p(t, 38.2, 39.1)); dy = lerp(0, -1100, r); sc = lerp(1, .5, r); rot = lerp(0, 18, r); op = 1 - p(t, 38.7, 39.1); }
+  if (t > 28.6 && t < 29.4) rot += Math.sin((t - 28.6) * 45) * 2.5 * (1 - p(t, 28.6, 29.4)); // Handy wackelt bei der Erinnerung
+  S("phone", t < 4.1 ? 0 : op, `translateY(${dy}px) scale(${sc}) rotate(${rot}deg)`);
+  // Bildschirme
+  S("scrSplash", 1); S("splLogo", 1, `scale(${eb(p(t, 7.0, 7.7)) * (1 + .04 * puls(t))})`);
+  S("scrNews", p(t, 12.4, 12.8), `translateX(${(1 - eo(p(t, 12.4, 12.8))) * 80}px)`);
+  S("scrChat", p(t, 18.9, 19.3), `translateX(${(1 - eo(p(t, 18.9, 19.3))) * 80}px)`);
+  S("scrTermine", p(t, 25.3, 25.7), `translateX(${(1 - eo(p(t, 25.3, 25.7))) * 80}px)`);
+  S("scrFoto", p(t, 31.8, 32.2), `translateX(${(1 - eo(p(t, 31.8, 32.2))) * 80}px)`);
+  // Szene 3 Überschriften
+  S("c3", win(t, 8.2, 12.5, .3));
+  [["c3a", 8.3], ["c3b", 9.25], ["c3c", 10.1]].forEach(([id, a]) => S(id, p(t, a, a + .2), `scale(${eb(p(t, a, a + .45))})`));
+  // Szene 4 News
+  S("c4", win(t, 12.5, 19.0, .3), `translateY(${(1 - eo(p(t, 12.5, 12.9))) * -40}px)`);
+  [...$("newsListe").children].forEach((k, i) => { const a = 12.9 + i * .4, r = eo(p(t, a, a + .5)); S(k, p(t, a, a + .25), `translateX(${(1 - r) * 500}px)`); });
+  $("newsListe").style.transform = `translateY(${-eio(p(t, 15.5, 18.5)) * 140}px)`;
+  // Szene 5 Chat
+  S("c5", win(t, 19.0, 25.4, .3), `translateY(${(1 - eo(p(t, 19.0, 19.4))) * -40}px)`);
+  [19.5, 20.5, 21.4, 22.4, 23.4].forEach((a, i) => S("b" + i, p(t, a, a + .12), `scale(${eb(p(t, a, a + .4))})`));
+  // Szene 6 Termine
+  S("c6", win(t, 25.4, 31.9, .3), `translateY(${(1 - eo(p(t, 25.4, 25.8))) * -40}px)`);
+  [...$("scrTermine").querySelectorAll(".termin")].forEach((k, i) => { const a = 25.8 + i * .35; S(k, p(t, a, a + .25), `translateY(${(1 - eo(p(t, a, a + .5))) * 80}px)`); });
+  const bn = eb(p(t, 28.5, 29.0)); S("banner", p(t, 28.5, 28.6), `translateY(${lerp(-220, 0, bn)}px)`);
+  // Szene 7 Fotos
+  S("c7", win(t, 31.9, 38.4, .3), `translateY(${(1 - eo(p(t, 31.9, 32.3))) * -40}px)`);
+  [...$("raster").children].forEach((k, i) => { const a = 32.2 + i * .08; S(k, p(t, a, a + .15), `scale(${eb(p(t, a, a + .4))})`); });
+  S("dia", p(t, 35.0, 35.4), `scale(${lerp(.4, 1, eo(p(t, 35.0, 35.5)))})`);
+  S("dia0", 1 - p(t, 36.8, 37.2), `scale(${1 + .12 * p(t, 35.0, 37.2)})`);
+  S("dia1", p(t, 36.8, 37.2), `scale(${1 + .12 * p(t, 36.8, 38.8)})`);
+  // Bühne
+  const bo = win(t, 38.8, 62.2, .5); S("buehne", bo);
+  if (bo > 0) {
+    $("spot").style.transform = `rotate(${Math.sin(t * .9) * 8}deg)`; $("spot").style.transformOrigin = "50% 0";
+    S("kTitel", p(t, 39.0, 39.5), `scale(${eb(p(t, 39.0, 39.6)) * (1 + .03 * puls(t))})`);
+    S("kBox", p(t, 39.3, 39.7)); karaoke(t);
+    for (let i = 0; i < 5; i++) { const ph = ((t - T0) / SCHLAG + (i % 2) * .5) % 1; S("hut" + i, p(t, 39.4 + i * .1, 39.7 + i * .1), `translateY(${-Math.abs(Math.sin(ph * Math.PI)) * 60}px) rotate(${Math.sin(ph * Math.PI * 2) * 10}deg)`); }
+    const kv = p(t, 46.4, 46.7); KONF.forEach((k, i) => { const y = ((t - 46.4) * k.v + k.o) % 2300 - 200; S("kf" + i, kv * (t > 46.4 ? 1 : 0), `translate(${k.x + Math.sin(t * 2 + k.s) * 40}px, ${y}px) rotate(${k.r + t * k.w}deg)`); });
+    FLIEG.forEach((e, i) => { const a = i / FLIEG.length * Math.PI * 2 + t * .25; S("fl" + i, .22, `translate(${490 + Math.cos(a) * 470}px, ${930 + Math.sin(a) * 780}px) rotate(${Math.sin(t + i) * 15}deg)`); });
+  }
+  // Ende
+  S("ende", p(t, 61.8, 62.3));
+  const el = eb(p(t, 62.0, 62.7)); S("eLogo", p(t, 62.0, 62.2), `scale(${el * (1 + .03 * puls(t))}) rotate(${(1 - el) * 30}deg)`);
+  [["eT1", 62.4], ["eT2", 63.2], ["eT3", 64.0], ["eT4", 64.9], ["eT5", 65.6]].forEach(([id, a]) => S(id, p(t, a, a + .3), `translateY(${(1 - eo(p(t, a, a + .5))) * 50}px)`));
+  S("schwarz", p(t, 68.2, 69) + (1 - p(t, 0, .25)));
+}
+</script></body></html>
