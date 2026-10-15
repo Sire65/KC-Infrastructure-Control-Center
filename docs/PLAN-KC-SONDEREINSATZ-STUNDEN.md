@@ -71,6 +71,7 @@ Beispiele zum Start: „Grünkohl kochen · Krankenhaus Dortmund“ (OFFEN), „
 - **Doppelzeiten:** Hat dieselbe Person zur selben Zeit an der Stempeluhr gestempelt, zeigt DP2 dem Planer eine Warnung. Es wird nichts automatisch verrechnet.
 
 ### 4.4 Anzeige im Stundenkonto (Regel 11: Unbestätigtes nie als OK)
+**Pflicht (Betreiber, 2026-10-15): Die Stunden müssen hinterher auf dem Kontoauszug der Person erscheinen.** Umgesetzt in Build 255 (siehe §10).
 - Kontoauszug und Personenstunden zählen **nur bestätigte** Meldungen. Sie stehen in der Z-Dienst-Spalte und in einer eigenen Zeile „Sondereinsätze“ mit der Quelle „Meldung“.
 - **Gemeldete, noch offene Stunden** stehen getrennt und deutlich markiert („gemeldet, noch nicht bestätigt“) und **zählen nicht zur Summe**.
 - In der Club App erscheint unter „was du gearbeitet hast“ (`kc-club/index.ts`, liest heute nur `kc_dp_timeclock_actuals`) zusätzlich die Meldung mit ihrem Status.
@@ -193,5 +194,15 @@ Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2
 - Tests: `tools/test-special-events.mjs` (in `npm test`), erweiterter Supabase-Sicherheitsvertrag, Release-Prüfung (296 Dateien), TÜV-Syntax (219 Dateien). Alle vorhandenen Smoke-Tests sind grün. Der Dialog wurde im Browser geprüft (Handybreite, anlegen, Folge-Einsatz, Termin festlegen, veröffentlichen).
 - **Auslieferung:** `docs/patches/dp3-build254-sondereinsaetze.patch`. Er wurde gegen dp3 `main` (Build 253) mit `git am` geprüft. Diese Sitzung hatte keinen Schreibzugriff auf dp3, deshalb liegt Build 254 nur als Patch vor.
 - **Noch nicht ausgeführt:** Die Migration ist nicht in die produktive Supabase eingespielt. Das geschieht erst bei der Freigabe von Build 254.
+
+**DP2 Build 255, Sonderstunden im Personenkonto (Pflicht laut §4.4), fertig und getestet:**
+- **Bestätigte** Sonderstunden (Ist-Zeit mit Quelle `self_report` bzw. `specialEventId`) erscheinen im persönlichen Kontoauszug als eigene Zeile mit **„★ Einsatzname“**. In der Buchungsspalte steht die Quelle „Meldung“. Sie zählen zu „Ist geprüft“ und zu den Gesamtstunden; zusätzlich gibt es die Summe **„davon Sondereinsätze“**.
+- **Gemeldete, noch offene** Stunden (`K.hourReports`, Status `gemeldet`) stehen in derselben Zeile kursiv und orange als „gemeldet, noch nicht bestätigt“. Am Datum steht „Meldung offen“, in der Zusammenfassung ein eigenes Feld **„nicht in der Summe“**.
+- Der **Zeitraum** reicht standardmäßig von der Vorbereitung bis zum letzten Sondereinsatz bzw. zur letzten Meldung. Ein Kochtag im Januar ist also automatisch im Kontoauszug enthalten.
+- Twinkey **„Meine erfassten Zeiten“** (DP2 und Club App) zeigt offene Meldungen markiert und den Einsatznamen.
+- Tests: `tools/test-person-account-special.mjs` (in `npm test`). Smoke, Release (Build 255) und TÜV-Syntax sind grün, ebenso die Browsertests `test-twinkey`, `test-mobile-wish-matrix`, `test-wish-assistant` und `test-assistant-staffing` (mit Chromium statt Chrome). `test-twinkey-admin` und `test-twinkey-local-entry` scheitern hier auch ohne die Änderung, weil sie einen lokalen Testserver brauchen. Druckbild des Kontoauszugs im Browser geprüft.
+- **Auslieferung:** `docs/patches/dp3-build255-personenkonto-sonderstunden.patch`. Er setzt auf Build 254 auf; beide wurden zusammen gegen dp3 `main` geprüft.
+- **Offener Punkt:** Die Tabelle **Personenstunden** in der Stundenmatrix (`person-hours-block.js`) rechnet nur über die Markttage. Sonderstunden an Tagen außerhalb, z. B. im Januar, stehen deshalb im Kontoauszug, aber nicht in dieser Tabelle. Das wird in Phase 3 entschieden.
+- Die Datenquelle `K.hourReports` und das Bestätigen, das daraus Ist-Zeiten erzeugt, kommen in Phase 2 und 3. Der Kontoauszug ist dafür schon vorbereitet.
 
 **Nächste Phase:** Phase 2, Stundenmeldung mit Sammelmeldung in Twinkey (DP2-F-SE-02).
