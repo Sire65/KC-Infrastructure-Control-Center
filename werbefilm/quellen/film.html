@@ -64,7 +64,8 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
 .hut img { width: 72%; filter: brightness(0) saturate(100%) invert(13%) sepia(60%) saturate(4000%) hue-rotate(340deg); }
 .konf { width: 22px; height: 34px; border-radius: 4px; }
 .flieg { font-size: 110px; }
-#klatsch { left: 0; right: 0; top: 1220px; text-align: center; font-size: 150px; }
+.tanzer { width: 240px; height: 340px; top: 1190px; }
+#klatsch { left: 0; right: 0; top: 530px; text-align: center; font-size: 150px; }
 /* Ende */
 #ende { background: radial-gradient(ellipse at 50% 35%, #8e1f2e 0%, #741521 45%, #3b0910 100%); color: #fff; }
 #schwarz { background: #000; z-index: 50; }
@@ -139,6 +140,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
     <div class="abs center" id="kTitel"><div class="a">🎤 Unser Club-Song</div><div class="b serif">„Seit einundneunzig“</div></div>
     <div class="abs" id="kBox"><div id="kZeile"></div><div id="kNext"></div></div>
     <div class="abs" id="klatsch">👏</div>
+    <div id="tanz"></div>
     <div id="huete"></div>
   </div>
 
@@ -176,6 +178,41 @@ const KONF = Array.from({ length: 90 }, () => ({ x: rnd() * 1080, v: 260 + rnd()
 $("konfetti").innerHTML = KONF.map((k, i) => `<div class="abs konf" id="kf${i}" style="background:${k.f}"></div>`).join("");
 const FLIEG = ["📰", "💬", "📅", "📸", "🍲", "🎄"];
 $("flieger").innerHTML = FLIEG.map((e, i) => `<div class="abs flieg" id="fl${i}">${e}</div>`).join("");
+
+// Tanzende Küchenhelfer – Schneebesen und Kochlöffel nach BW_HELFER der Club-App (Farben/Formen), Messer im selben Stil, rote Turnschuhe wie Twinkey
+const GESICHT = (y) => `<g><circle cx="-4" cy="${y}" r="3" fill="#fff" stroke="#222" stroke-width=".6"/><circle cx="4" cy="${y}" r="3" fill="#fff" stroke="#222" stroke-width=".6"/>
+  <circle class="pu" cx="-3.6" cy="${y + .4}" r="1.5" fill="#222"/><circle class="pu" cx="4.4" cy="${y + .4}" r="1.5" fill="#222"/>
+  <path d="M-4 ${y + 5} Q0 ${y + 9} 4 ${y + 5}" fill="#c0392b" stroke="#222" stroke-width=".7"/><circle cx="-7" cy="${y + 4}" r="1.6" fill="#ff8fa0" opacity=".7"/><circle cx="7" cy="${y + 4}" r="1.6" fill="#ff8fa0" opacity=".7"/></g>`;
+const KOERPER = {
+  besen: `<rect x="-1.8" y="14" width="3.6" height="24" rx="1.4" fill="#6c757d"/><rect x="-2.6" y="12" width="5.2" height="4" rx="1" fill="#495057"/>
+    <ellipse cx="0" cy="-2" rx="12" ry="16" fill="rgba(255,255,255,.12)" stroke="#ced4da" stroke-width="1.8"/><ellipse cx="0" cy="-2" rx="6.5" ry="16" fill="none" stroke="#adb5bd" stroke-width="1.4"/><path d="M0 -18 V14" stroke="#adb5bd" stroke-width="1.2"/>${GESICHT(-4)}`,
+  loeffel: `<rect x="-2.2" y="9" width="4.4" height="29" rx="2" fill="#c8964a"/><ellipse cx="0" cy="-3" rx="10.5" ry="14" fill="#b07d3a"/><ellipse cx="-3" cy="-8" rx="3" ry="4.5" fill="#c99a55" opacity=".7"/>${GESICHT(-4)}`,
+  messer: `<path d="M-7 14 L-7 -8 Q-6 -20 7 -26 L7 14 Z" fill="#e9ecef" stroke="#868e96" stroke-width="1"/><path d="M-5 12 L-5 -6" stroke="#fff" stroke-width="1.2" opacity=".8"/>
+    <rect x="-7.5" y="14" width="15" height="24" rx="3.5" fill="#343a40"/><circle cx="0" cy="20" r="1.4" fill="#ced4da"/><circle cx="0" cy="26" r="1.4" fill="#ced4da"/><circle cx="0" cy="32" r="1.4" fill="#ced4da"/>${GESICHT(-2)}`,
+};
+const ARM = (s) => `<g class="arm${s < 0 ? "L" : "R"}"><path d="M${s * 3} 18 L${s * 15} 10" stroke="#495057" stroke-width="2.2" stroke-linecap="round"/><circle cx="${s * 15.5}" cy="9.5" r="3.2" fill="#fff" stroke="#adb5bd" stroke-width=".8"/></g>`;
+const BEIN = (s) => `<g class="bein${s < 0 ? "L" : "R"}"><path d="M${s * 3} 37 L${s * 5} 50" stroke="#495057" stroke-width="2.2" stroke-linecap="round"/><path d="M${s * 5 - 6} 52.5 Q${s * 5 - 6} 47.5 ${s * 5 - 1} 47.5 L${s * 5 + 2} 47.5 Q${s * 5 + 7} 48 ${s * 5 + 7} 52.5 Z" fill="#e03131"/><rect x="${s * 5 - 6.5}" y="51.5" width="14" height="2.4" rx="1.2" fill="#fff"/></g>`;
+const TANZ = [["besen", 150], ["loeffel", 420], ["messer", 690]];
+$("tanz").innerHTML = TANZ.map(([k, x], i) => `<div class="abs tanzer" id="tz${i}" style="left:${x}px"><svg viewBox="-30 -30 60 85" width="240" height="340" style="overflow:visible">
+  <g class="kp">${BEIN(-1)}${BEIN(1)}${ARM(-1)}${ARM(1)}${KOERPER[k]}</g></svg></div>`).join("");
+function tanz(t) {
+  const sch = (t - T0) / SCHLAG, ph = ((sch % 1) + 1) % 1, n = Math.floor(sch), takt = Math.floor(sch / 4), ref = t >= 46.45 && t < 61.9, A = ref ? 1 : .55;
+  const hop = Math.abs(Math.sin(Math.PI * ph)), dreh = (bar) => (ref && takt % 4 === bar ? eio(p(sch % 4, 2, 4)) * 360 : 0);
+  TANZ.forEach(([k], i) => {
+    const el = $("tz" + i), svg = el.querySelector(".kp"), auf = p(t, 39.6 + i * .25, 40.1 + i * .25);
+    let x = 0, y = -hop * 50 * A, r = 0;
+    if (k === "besen") { r = Math.sin(Math.PI * sch / 2) * 18 * A + dreh(3); }
+    if (k === "loeffel") { y = -hop * 90 * A; r = (n % 2 ? 1 : -1) * 12 * A * hop + dreh(1); }
+    if (k === "messer") { x = Math.sin(Math.PI * sch / 2) * 45 * A; r = -Math.sin(Math.PI * sch / 2) * 10 * A + dreh(2); }
+    S(el, auf, `translate(${x}px, ${y + (1 - eb(auf)) * 300}px) rotate(${r}deg)`);
+    const wink = (n % 2 ? 1 : -1), armL = ref ? -60 - 40 * hop : -20 * hop * wink, armR = ref ? 60 + 40 * hop : 20 * hop * wink;
+    svg.querySelector(".armL").setAttribute("transform", `rotate(${armL + (k === "loeffel" && ref ? -40 : 0)} -3 18)`);
+    svg.querySelector(".armR").setAttribute("transform", `rotate(${armR + (k === "loeffel" && ref ? 40 : 0)} 3 18)`);
+    svg.querySelector(".beinL").setAttribute("transform", `rotate(${n % 2 ? 22 * hop * A : 0} -3 37)`);
+    svg.querySelector(".beinR").setAttribute("transform", `rotate(${n % 2 ? 0 : -22 * hop * A} 3 37)`);
+    svg.querySelectorAll(".pu").forEach((pu) => pu.setAttribute("transform", `translate(${Math.sin(t * 2 + i) * 1},0)`));
+  });
+}
 
 function karaoke(t) {
   const sz = K.takte.map((z) => ({ ...z, t0: K.start + z.b * K.takt }));
@@ -243,7 +280,7 @@ function zeige(t) {
   if (bo > 0) {
     $("spot").style.transform = `rotate(${Math.sin(t * .9) * 8}deg)`; $("spot").style.transformOrigin = "50% 0";
     S("kTitel", p(t, 39.0, 39.5), `scale(${eb(p(t, 39.0, 39.6)) * (1 + .03 * puls(t))})`);
-    S("kBox", p(t, 39.3, 39.7)); karaoke(t);
+    S("kBox", p(t, 39.3, 39.7)); karaoke(t); tanz(t);
     for (let i = 0; i < 5; i++) { const ph = ((t - T0) / SCHLAG + (i % 2) * .5) % 1; S("hut" + i, p(t, 39.4 + i * .1, 39.7 + i * .1), `translateY(${-Math.abs(Math.sin(ph * Math.PI)) * 60}px) rotate(${Math.sin(ph * Math.PI * 2) * 10}deg)`); }
     const kv = p(t, 46.4, 46.7); KONF.forEach((k, i) => { const y = ((t - 46.4) * k.v + k.o) % 2300 - 200; S("kf" + i, kv * (t > 46.4 ? 1 : 0), `translate(${k.x + Math.sin(t * 2 + k.s) * 40}px, ${y}px) rotate(${k.r + t * k.w}deg)`); });
     FLIEG.forEach((e, i) => { const a = i / FLIEG.length * Math.PI * 2 + t * .25; S("fl" + i, .22, `translate(${490 + Math.cos(a) * 470}px, ${930 + Math.sin(a) * 780}px) rotate(${Math.sin(t + i) * 15}deg)`); });

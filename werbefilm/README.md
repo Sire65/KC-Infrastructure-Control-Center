@@ -13,7 +13,7 @@
 | 19–25 s | 💬 Clubchat 🔒 | „Chatte (gesprochen „Tschätte“) mit deinen Freunden. Und alles bleibt unter uns.“ |
 | 25–32 s | 📅 Termine + ⏰ Erinnerung | „Alle Clubtermine im Blick – und auf Wunsch erinnert dich die App.“ |
 | 32–39 s | 📸 Fotoalbum + Diashow | „Und die schönsten Momente? Im Fotoalbum, immer wieder.“ |
-| 39–62 s | 🎤 Bühne: Club-Song „Seit einundneunzig“ als Karaoke (Pre-Chorus + Refrain), Konfetti, tanzende Kochmützen | – (Gesang) |
+| 39–62 s | 🎤 Bühne: Club-Song „Seit einundneunzig“ als Karaoke (Pre-Chorus + Refrain), Schneebesen, Kochlöffel und Messer tanzen mit (im Refrain mit Pirouetten), Konfetti, hüpfende Kochmützen | – (Gesang) |
 | 62–69 s | Abspann: Logo, „Jetzt in der Club-App“, „Gemeinsam kochen, gemeinsam helfen“ | „Köcheclub Werne. Jetzt in der Club-App. Gemeinsam kochen, gemeinsam helfen.“ |
 
 ## Musik, Stimme, Lizenzen (Zero-Cost)
