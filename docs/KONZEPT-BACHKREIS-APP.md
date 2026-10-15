@@ -568,6 +568,12 @@ Jede Phase durchläuft Regression, Visual-TÜV, Security und Release-TÜV (AGENT
 Ziel ist eine App, die **unabhängig von den KC-Konten** läuft und sich bei Bedarf
 **komplett an den Bachkreis bzw. Förderverein übergeben** lässt.
 
+### 9.00 Entscheidung (15.10.2026)
+- Nach Rücksprache mit Bettina Jacka wird die App **gebaut**.
+- Der **Bachkreis legt eigene Projekte** bei Supabase und Neon an, bei Bedarf
+  auch bei GitHub und Cloudflare. Plan B (Testdaten im KC-Projekt) entfällt.
+- Bis dahin gibt es eine **Vorführversion** (siehe 9.6).
+
 ### 9.0 Eigenes Supabase-Projekt – lohnt sich der Aufwand?
 Ist-Stand am 10.10.2026 (Abfrage über Supabase-MCP):
 - Org „ha-joko@web.de's Org“ mit **2 aktiven Projekten** (KC-Projekt, Future Academy).
@@ -679,6 +685,28 @@ CI automatisch an, nichts wird von Hand in Dashboards zusammengeklickt.
 
 Nicht nötig: eigene Domain, DNS-Einträge, Cloudflare-Dashboard-Konfiguration,
 WhatsApp-API.
+
+### 9.6 Vorführversion bis zu den eigenen Projekten
+- **Ohne Server**: Die PWA läuft komplett im Browser mit fiktiven Demodaten.
+  - Die Daten liegen in IndexedDB; ein Knopf „Demo zurücksetzen“ stellt den Anfangsstand wieder her.
+  - Es gibt keine Konten, keine Schlüssel und keine echten Personendaten.
+- **Gleicher Code wie später**: Die App spricht nur mit einer Datenschnittstelle
+  (Adapter). Für die Vorführung gibt es den Adapter `lokal-demo`, für den
+  Echtbetrieb den Adapter `supabase`. Es wird nichts weggeworfen.
+- **Rollenwechsel** über einen Umschalter „Ansicht als Leitung / Eltern /
+  Schüler / Förderverein“. So lässt sich alles an einem Gerät vorführen.
+- **Benachrichtigungen**:
+  - Push und Mail werden simuliert: Sie erscheinen im Versandprotokoll und als Vorschau.
+  - Die WhatsApp-Übergabe funktioniert echt (`wa.me`).
+- **Hosting**: GitHub Pages aus einem eigenen Repo `bachkreis-app`.
+  - Das Repo kann später per GitHub-Transfer samt Historie an die
+    Bachkreis-Organisation gehen.
+  - Es liegen nur Demodaten darin, das Repo darf also öffentlich sein.
+- **Grenzen**: Jedes Gerät hat eigene Demodaten; es gibt keinen Abgleich
+  zwischen Geräten und keine echten Pushs. Das ist für eine Vorführung ausreichend.
+- **Umstieg**: Sobald die Bachkreis-Konten stehen, wird der Supabase-Adapter
+  aktiviert und die Tabellen werden per CI angelegt. Die Vorführversion bleibt
+  als Schulungs- und Testmodus erhalten.
 
 ---
 
