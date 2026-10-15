@@ -52,7 +52,8 @@ const KS_TEXT = {
 };
 // Zeile → Silben (mit Leerzeichen am Wortende, für die Anzeige); „–“ und „…“ hängen am vorigen Wort
 const ksSilben = (zeile) => zeile.replace(/ ([–…])/g, "\u00a0$1").split(" ").flatMap((w) => { const t = w.split("-"); t[t.length - 1] += " "; return t; });
-KS_TEXT.refk = [KS_TEXT.ref[0], KS_TEXT.ref[1], KS_TEXT.ref[4], KS_TEXT.ref[5]];
+// Werbefilm-Text (Wunsch Hansi): „da glüht unser Herd“ und „weil Freundschaft immer dazu gehört“ – gleiche Melodiebögen, Zeile 4 mit 9 Silben
+KS_TEXT.refk = [KS_TEXT.ref[0], KS_TEXT.ref[1], ["Seit ein-und-neun-zig – da glüht un-ser Herd,", KS_HOOK, true], ["weil Freund-schaft im-mer da-zu ge-hört!", [65, 65, 67, 69, 72, 71, 67, 64, 60]]];
 // Werbefilm-Fassung: Intro, Strophen-Begleitung ohne Gesang (Sprecher), Pre-Chorus und Refrain gesungen, Begleitung für Wunschdienst, „…noch viel mehr“, „einfach zu bedienen“, „nicht allein“ und „schon installiert“, Schlussakkord
 const KS_ABLAUF = [["intro", ["C", "G", "Am", "F"], null, 0],
   ["s1", ["Am", "F", "C", "G", "Am", "F", "C", "G"], null, 0], ["s1", ["Am", "F", "C", "G", "Am", "F", "C", "G"], null, 0],
