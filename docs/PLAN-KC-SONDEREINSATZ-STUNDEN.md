@@ -233,10 +233,35 @@ Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2
 - **Recht:** `roster.actual.import` (Planer, Zeitprüfer, Admin). Bestätigte Meldungen gelten wie Stempeluhr-Zeiten als Import. Korrekturen brauchen weiter `roster.actual.correct`.
 - **Tests:** `test-hour-reports-decide` und `test-hour-reports-ui` sind neu. Alle Smoke-Tests und alle 18 Browsertests sind grün, die Club-App-Vertragstests ebenso. Der Ende-zu-Ende-Test der Club App besteht erneut.
 
-**Offen:**
-- Phase 4: Personenregel „Z per Meldung“ für die Getränke-Kollegin.
-- Phase 5: Push an mitgemeldete Kollegen sowie Fahrt- und Auslagen-Vorbelegung in der Erstattung.
-- Phase 7: Fahrgemeinschaften.
-- Phase 8: Erinnerung nach 3 Tagen.
-- Phase 9: Kaution und Vorschuss im Eingangskorb.
-- Ausrollen: Migrationen einspielen, `kc-club` deployen, PRs zusammenführen. Das geschieht erst nach Freigabe durch den Betreiber.
+**Phase 4, 5, 7, 8 und 9: fertig und getestet** (dp3 **Build 288/289**, Club App **2.419.0**)
+- **Build 288:**
+  - Z-Dienst „Meldung ausstehend“: Für die Getränke-Kollegin ist ein Z-Dienst geplant. Solange keine Meldung bestätigt ist, wird er sichtbar als offen markiert und nie als OK.
+  - Die Personenstunden enthalten jetzt auch die Tage der Sondereinsätze. Damit ist der offene Punkt aus Build 255 erledigt.
+- **Build 289:**
+  - Zusagen mit Anreise: „ich fahre“ mit freien Plätzen, „brauche Mitfahrt“ oder „komme selbst“. Als Startort wird nur ein Ort gewählt, keine Adresse.
+  - DP2 schlägt Fahrgemeinschaften vor (gleicher Startort zuerst, keine Überbuchung). Der Planer übernimmt und veröffentlicht sie.
+  - Die Fahrtrolle wird in der Meldung vorbelegt.
+  - Über „🚗 Fahrtkosten / Auslagen erfassen“ öffnet sich die Erstattung der Club App vorausgefüllt.
+- **Club App 2.419.0:** Die Versionsnummer 2.418.0 war parallel für die Startseiten-Vorschläge vergeben.
+  - Push an mitgemeldete Kollegen.
+  - Nachricht, wenn der Planer bestätigt oder ablehnt.
+  - Erinnerung 3 Tage nach dem Einsatz: einmal, zwischen 9 und 20 Uhr, an alle, die zugesagt, aber nicht gemeldet haben.
+  - Neue Erstattungsarten: Parken, Kraftstoff (nur für Miet- oder Clubfahrzeuge) und Kaution. Die Kaution zählt nicht zur Summe und geht ans Mitglied zurück; aus dem Vorschuss bezahlt geht sie an den Club.
+  - „Bon/Quittung vorhanden“ je Position.
+  - Vorschuss.
+  - Hinweis an den Kassenwart, wenn ein Mitfahrer km abrechnet.
+  - Büro-Eingangskorb „Nachverfolgen“ für Kautionen und Papierbelege.
+
+**Ausrollen (2026-10-15):**
+- **Supabase:** eingespielt und geprüft.
+  - 5 Tabellen, alle mit RLS: `kc_dp_special_events`, `kc_dp_hour_reports`, `kc_dp_special_event_signups`, `kc_dp_carpools`, `kc_dp_hour_report_reminders`.
+  - 5 Funktionen.
+  - Datenvertrag `stunden_eingang` und `sondereinsatz_zusagen`.
+  - Spiegel- und Resume-Regeln.
+  - Spalte `kc_club_erstattung.vorschuss`.
+- **PRs:**
+  - Sire65/KC-Clubapp#38 (nach `main`): CI ist grün. Mit dem Merge wird `kc-club` 2.419.0 deployt.
+  - Sire65/dp3#6 (nach `codex/club-app-interface`).
+- **Hinweise:**
+  - Die Edge Function ist nur per Syntaxprüfung kontrolliert, Deno läuft nicht lokal. Nach dem Deploy die Aktion `version` prüfen.
+  - Mit der Club-App-Übernahme kommen auch die fremden RC-Builds 269–282 aus `codex/club-app-interface` mit.
