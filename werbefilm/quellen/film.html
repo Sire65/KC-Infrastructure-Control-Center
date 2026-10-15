@@ -81,6 +81,24 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
 .zettel i { display: block; height: 10px; border-radius: 5px; background: #8a7a6a; margin: 16px 0; opacity: .55; }
 #stopp { left: 190px; top: 690px; width: 700px; height: 700px; border-radius: 50%; border: 44px solid #e03131; z-index: 9; }
 #stopp::after { content: ""; position: absolute; left: 50%; top: -20px; bottom: -20px; width: 44px; margin-left: -22px; background: #e03131; transform: rotate(45deg); }
+/* Einfach zu bedienen – stellt sich auf dich ein */
+#einf { background: linear-gradient(#fbf4ea, #f3e9dc); }
+#phone2 { left: 220px; top: 560px; width: 640px; height: 1280px; border-radius: 86px; background: #111; padding: 22px; box-shadow: 0 40px 90px rgba(0,0,0,.45), inset 0 0 0 4px #333; }
+#scr2 { --a: #741521; --bg: #f5eee3; --k: #ffffff; --tx: #2b1a1c; --fs: 1; position: relative; width: 100%; height: 100%; border-radius: 66px; overflow: hidden; background: var(--bg); color: var(--tx); }
+#scr2 .notch { position: absolute; top: 18px; left: 50%; width: 170px; height: 44px; margin-left: -85px; border-radius: 30px; background: #111; z-index: 20; }
+#scr2 .bar { background: var(--a); }
+.treff { margin: 20px 22px 0; background: var(--k); border-radius: 26px; padding: 20px 24px; border-left: 10px solid var(--a); box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+.treff b { display: block; font-size: 22px; color: var(--a); text-transform: uppercase; letter-spacing: .04em; }
+.treff span { font-size: 32px; font-weight: 700; }
+.gitter { position: absolute; left: 22px; right: 22px; top: 350px; display: grid; gap: 16px; }
+.gitter .kl { background: var(--k); border-radius: 26px; text-align: center; box-shadow: 0 6px 18px rgba(0,0,0,.08); border-bottom: 8px solid var(--a); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#gEinf { grid-template-columns: 1fr 1fr; } #gEinf .kl { height: 158px; } #gEinf .e { font-size: 66px; } #gEinf .n { font-size: calc(28px * var(--fs)); font-weight: 700; margin-top: 8px; }
+#gErw { grid-template-columns: 1fr 1fr 1fr; gap: 12px; } #gErw .kl { height: 128px; } #gErw .e { font-size: 50px; } #gErw .n { font-size: calc(21px * var(--fs)); font-weight: 700; margin-top: 6px; }
+#ansKnopf { position: absolute; left: 70px; right: 70px; bottom: 50px; height: 86px; border-radius: 43px; background: var(--k); border: 4px solid var(--a); color: var(--a); font-size: 30px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+#eToast { position: absolute; left: 60px; right: 60px; bottom: 60px; height: 96px; border-radius: 48px; background: rgba(20,20,20,.88); color: #fff; font-size: 36px; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 10; }
+#eFinger { left: 600px; top: 1720px; font-size: 140px; z-index: 6; }
+.eChips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 20px; }
+.eChips span { background: #fff; border: 3px solid var(--rot); color: var(--rot); border-radius: 40px; padding: 10px 20px; font-size: 32px; font-weight: 700; }
 /* Schon installiert */
 #upd { background: linear-gradient(#fbf4ea, #f3e9dc); }
 #uIcon { left: 0; right: 0; top: 380px; text-align: center; font-size: 300px; }
@@ -199,6 +217,21 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
     <div class="abs cap" id="dT" style="top:700px"><div class="h serif" style="font-size:80px">Deine Idee?</div><div class="h" style="font-size:96px; color:#2a1c14; margin-top:20px">Immer her damit!</div><div class="u" style="font-size:50px; margin-top:50px">Die App wird ständig<br>weiterentwickelt 🚀</div></div>
     <div class="abs" id="version">Version<b id="vNr">2.380</b></div>
   </div>
+  <!-- Einfach zu bedienen -->
+  <div class="layer" id="einf">
+    <div class="abs cap" id="eA"><div class="h">👍 Einfach zu bedienen</div><div class="u">… und stellt sich ganz auf dich ein</div></div>
+    <div class="abs cap" id="eB"><div class="h">🟢 Starte mit der<br>einfachen Ansicht</div></div>
+    <div class="abs cap" id="eC"><div class="h" style="font-size:64px">🔧 Pass die App an dich an</div><div class="eChips"><span>🎨 Farben</span><span>🌙 Tag & Nacht</span><span>🔠 Große Schrift</span><span>🧩 Kacheln</span></div></div>
+    <div class="abs" id="phone2"><div id="scr2"><div class="notch"></div>
+      <div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Köcheclub Werne</div>
+      <div class="treff"><b>Nächstes Treffen</b><span>Do 16.10. · 19:00 Clubabend</span></div>
+      <div class="gitter" id="gEinf"></div>
+      <div class="gitter" id="gErw"></div>
+      <div id="ansKnopf">🔧 Erweiterte Ansicht</div>
+      <div id="eToast"></div>
+    </div></div>
+    <div class="abs" id="eFinger">👆</div>
+  </div>
   <!-- Schon installiert? -->
   <div class="layer" id="upd">
     <div class="abs" id="uKreis"></div>
@@ -283,6 +316,8 @@ function mehr(t) {
   S("mehr", p(t, 61.85, 62.3));
   S("mT", win(t, 62.1, 66.8, .3), `scale(${eb(p(t, 62.1, 62.6))})`);
   MEHR.forEach((_, i) => { const a = 62.7 + i * .15; S("mk" + i, Math.min(p(t, a, a + .12), 1 - p(t, 66.5, 66.8)), `scale(${eb(p(t, a, a + .4)) * (1 - .3 * p(t, 66.5, 66.8)) * (1 + .04 * puls(t))}) rotate(${Math.sin(t * 2 + i) * 3}deg)`); });
+  einf(t);
+  t -= 8 * TAKT; // nach „einfach zu bedienen“ (8 Takte) geht es mit „Installier die App“ weiter
   S("iT", win(t, 66.8, 69.6, .3), `translateY(${(1 - eo(p(t, 66.8, 67.3))) * 50}px)`);
   const tip = p(t, 68.0, 68.15) * (1 - p(t, 68.15, 68.35)); S("knopf", win(t, 67.0, 69.6, .3), `scale(${eb(p(t, 67.0, 67.5)) * (1 - .08 * tip)})`);
   S("finger", win(t, 67.4, 69.4, .25), `translate(${(1 - eo(p(t, 67.4, 68.0))) * 300}px, ${(1 - eo(p(t, 67.4, 68.0))) * 400 + tip * 30}px)`);
@@ -308,6 +343,30 @@ function wunsch(t) {
   ZETTEL.forEach(([x, y, r], i) => { const a = 45.9 + i * .08, weg = eio(p(t, 47.9 + i * .05, 48.6 + i * .05)), dx = (x < 400 ? -1 : 1) * weg * 900;
     S("zt" + i, p(t, a, a + .1) * (1 - p(t, 48.4, 48.8)), `translate(${dx + (1 - eo(p(t, a, a + .35))) * (x < 400 ? -500 : 500)}px, ${-weg * 300}px) rotate(${r + weg * 200}deg)`); });
   const st = p(t, 46.7, 46.95); S("stopp", st * (1 - p(t, 48.2, 48.6)), `scale(${lerp(2.2, 1, eo(st))}) rotate(${lerp(-25, 0, eo(st))}deg)`);
+}
+// Einfache Ansicht (EINFACH_KACHELN der Club-App) → Erweiterte Ansicht → Designs (DESIGNS: Klassik, Küchengrün, Nordsee, Lagune), Nacht, große Schrift
+const EINF = [["📅", "Termine"], ["💬", "Nachrichten"], ["📌", "Pinnwand"], ["🗓️", "Mein Dienst"], ["👥", "Mitglieder"], ["📚", "Dokumente"], ["🎲", "Spiele"], ["🆘", "SOS"]];
+const ERW = [...EINF, ["📷", "Fotoalbum"], ["🗄️", "Archiv"], ["🤝", "Helfen"], ["🗳️", "Vorschläge"], ["🧑‍🍳", "Twinkey"], ["🎭", "Bühne"], ["🧩", "Rätsel"]];
+$("gEinf").innerHTML = EINF.map(([e, n], i) => `<div class="kl" id="ge${i}"><div class="e">${e}</div><div class="n">${n}</div></div>`).join("");
+$("gErw").innerHTML = ERW.map(([e, n], i) => `<div class="kl" id="gr${i}"><div class="e">${e}</div><div class="n">${n}</div></div>`).join("");
+const LOOKS = [[0, "#741521", "#f5eee3", "#ffffff", "#2b1a1c", 1, ""], [75.0, "#2f5d3a", "#eef2ea", "#ffffff", "#1d2a1f", 1, "🎨 Küchengrün"], [76.3, "#1d4e7a", "#edf2f7", "#ffffff", "#16222e", 1, "🎨 Nordsee"],
+  [77.6, "#0E7490", "#EEF7FB", "#ffffff", "#102330", 1, "🎨 Lagune"], [78.9, "#741521", "#1b1415", "#2a2021", "#f4e9e4", 1, "🌙 Nachtmodus"], [80.2, "#741521", "#f5eee3", "#ffffff", "#2b1a1c", 1.3, "🔠 Große Schrift"]];
+function einf(t) { // t = Zeit im „mehr“-Abschnitt (tk); Szene 66.6 … 82.3
+  const o = win(t, 66.55, 82.4, .35); S("einf", o); if (o <= 0) return;
+  S("phone2", 1, `translateY(${(1 - eo(p(t, 66.6, 67.2))) * 900}px)`);
+  S("eA", win(t, 67.0, 70.9, .3), `scale(${eb(p(t, 67.0, 67.4))})`);
+  S("eB", win(t, 70.9, 73.1, .3), `scale(${eb(p(t, 70.9, 71.3))})`);
+  S("eC", p(t, 73.1, 73.4), `translateY(${(1 - eo(p(t, 73.1, 73.5))) * -40}px)`);
+  const um = p(t, 73.0, 73.4); // Umschalten auf die erweiterte Ansicht
+  EINF.forEach((_, i) => { const a = 67.3 + i * .1; S("ge" + i, p(t, a, a + .12) * (1 - um), `scale(${eb(p(t, a, a + .4)) * (1 - .2 * um)})`); });
+  ERW.forEach((_, i) => { const a = 73.2 + i * .05; S("gr" + i, p(t, a, a + .1), `scale(${eb(p(t, a, a + .35))})`); });
+  const tip = p(t, 72.7, 72.85) * (1 - p(t, 72.85, 73.05));
+  S("ansKnopf", 1, `scale(${(1 + .06 * puls(t) * p(t, 71.6, 72.0) * (t < 72.7)) * (1 - .06 * tip)})`); $("ansKnopf").textContent = t < 72.95 ? "🔧 Erweiterte Ansicht" : "🟢 Einfache Ansicht";
+  S("eFinger", win(t, 71.9, 73.4, .25), `translate(${(1 - eo(p(t, 71.9, 72.6))) * 300}px, ${(1 - eo(p(t, 71.9, 72.6))) * 300 + tip * 25}px)`);
+  let L = LOOKS[0]; for (const x of LOOKS) if (t >= x[0]) L = x; const sc = $("scr2").style;
+  sc.setProperty("--a", L[1]); sc.setProperty("--bg", L[2]); sc.setProperty("--k", L[3]); sc.setProperty("--tx", L[4]); sc.setProperty("--fs", L[5]);
+  const ta = L[0], flash = t - ta < .5 && ta > 0 ? Math.exp(-(t - ta) * 8) : 0; $("phone2").style.transform += ` scale(${1 + .04 * flash})`;
+  S("eToast", L[6] ? Math.min(p(t, ta, ta + .15), 1 - p(t, ta + 1.0, ta + 1.25)) : 0, `translateY(${(1 - eo(p(t, ta, ta + .3))) * 60}px)`); $("eToast").textContent = L[6];
 }
 function upd(t) { // Schon installiert? Umso besser – immer up to date (2 Takte vor dem Abspann)
   S("upd", p(t, 85.1, 85.5));
@@ -389,11 +448,11 @@ function zeige(t) {
     FLIEG.forEach((e, i) => { const a = i / FLIEG.length * Math.PI * 2 + t * .25; S("fl" + i, .22, `translate(${490 + Math.cos(a) * 470}px, ${930 + Math.sin(a) * 780}px) rotate(${Math.sin(t + i) * 15}deg)`); });
   }
   // … und noch viel mehr (6 Takte), danach der Abspann
-  mehr(tk); upd(t);
-  const te = t - 14 * TAKT; // Ende verschoben: Wunschdienst 6 + „mehr“ 6 + „schon installiert“ 2 Takte
+  mehr(tk); upd(t - 8 * TAKT);
+  const te = t - 22 * TAKT; // Ende verschoben: Wunschdienst 6 + „mehr“ 6 + „einfach“ 8 + „schon installiert“ 2 Takte
   S("ende", p(te, 61.8, 62.3));
   const el = eb(p(te, 62.0, 62.7)); S("eLogo", p(te, 62.0, 62.2), `scale(${el * (1 + .03 * puls(t))}) rotate(${(1 - el) * 30}deg)`);
   [["eT1", 62.4], ["eT2", 63.2], ["eT3", 64.0], ["eT4", 64.9], ["eT5", 65.6]].forEach(([id, a]) => S(id, p(te, a, a + .3), `translateY(${(1 - eo(p(te, a, a + .5))) * 50}px)`));
-  S("schwarz", p(t, 95.2, 96) + (1 - p(t, 0, .25)));
+  S("schwarz", p(t, 110.7, 111.5) + (1 - p(t, 0, .25)));
 }
 </script></body></html>
