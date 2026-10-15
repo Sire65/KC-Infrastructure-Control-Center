@@ -1,6 +1,6 @@
 # Konzept: Sonderstunden melden (Grünkohl Dortmund/Hamm, Getränke zuhause)
 
-Feature-ID: **KICC-F-100** · Status: **KONZEPT** (zur Freigabe durch den Betreiber) · Stand: 2026-10-15
+Feature-ID: **KICC-F-100** · Status: **KONZEPT** (Betreiber-Entscheidungen vom 2026-10-15 eingearbeitet, siehe §9) · Stand: 2026-10-15
 Betroffene Programme: **KC DP2** (`dp3`, 0.20.0-build247), **KC Club App** (`KC-Clubapp`, 2.415.0), Stempeluhr im **PC-Manager/Kasse** (`Kasse`, nur Prüfung auf Doppelzeiten)
 
 ## 1. Anlass
@@ -20,6 +20,7 @@ Betroffene Programme: **KC DP2** (`dp3`, 0.20.0-build247), **KC Club App** (`KC-
 | Persönlicher Kontoauszug | DP2 `src/ui/person-account-print.js`, Twinkey → „Meine Unterlagen“ | Wunsch, Soll, Ist und Stempelzeiten je Person. Das ist das **Stundenkonto Weihnachtsmarkt**. |
 | Twinkey | DP2 `src/ui/twinkey.js`, in der Club App unverändert über `dp2-club/` eingebunden | Geführter Assistent mit den Aufgaben: Wunschplan, Dienstplan, Dienst ändern, erfasste Zeiten, Unterlagen. |
 | Erstattung/Auslagen | Club App, `kc_club_erstattung`, `kc_club_km_satz` | Fahrtkosten und Auslagen in Euro, km-Satz mit „gilt ab“, Versand an den Kassenwart. |
+| Büro-Eingangskorb | Club App, `kc_club_eingang_stand` (Art `erstattung`) | Jede Erstattung landet automatisch im Eingangskorb der Clubleitung (Clubsprecher, Kassenwart, Admin) und wird dort bearbeitet. |
 
 **Die Lücke:** Für Arbeit **außerhalb des Stands** gibt es keine Ist-Zeit. Die Stempeluhr steht an der Kasse, also stempelt niemand im Krankenhaus, auf der Fahrt nach Hamm oder in der eigenen Küche. Außerdem kennt DP2 nur die festen Markttage (`model.js`: Vorbereitung 02./03.12., Markttage, Nachbereitung). Ein Einsatz mit offenem Termin, vielleicht sogar im Januar, kommt dort nicht vor.
 
@@ -27,7 +28,9 @@ Betroffene Programme: **KC DP2** (`dp3`, 0.20.0-build247), **KC Club App** (`KC-
 **Stunden gehören in DP2 und werden über Twinkey gemeldet, nicht unter „Auslagen“.**
 - Auslagen sind Geld (Euro, Kassenwart, Überweisung oder bar). Stunden sind Zeit (Ist-Zeiten, Kontoauszug, Planer). Würde man beides mischen, wären der km-Satz und der Kontoauszug falsch, und der Kassenwart bekäme Stundenmeldungen.
 - Twinkey läuft schon unverändert in DP2 **und** in der Club App. Was man einmal in DP2 baut, ist automatisch in beiden Programmen da (Regel 3: kein paralleler Kern).
-- **Verbindung zwischen beiden:** Am Ende der Stundenmeldung fragt Twinkey „Bist du dafür gefahren?“. Bei „Ja“ öffnet sich die vorhandene Erstattung der Club App mit einer **vorausgefüllten Fahrt-Position** (Datum, Anlass, Strecke Dortmund → Hamm). Ob erstattet wird, entscheidet weiterhin allein die Erstattung.
+- **Wer entscheidet was (Betreiber, 2026-10-15):** Die **Stunden bestätigt der Planer in DP2**. Die **km-Erstattung landet im Büro-Eingangskorb** der Club App und wird dort wie jede andere Erstattung bearbeitet.
+- **Verbindung zwischen beiden:** Am Ende der Stundenmeldung fragt Twinkey „Bist du dafür gefahren?“. Bei „Ja“ öffnet sich die vorhandene Erstattung der Club App mit einer **vorausgefüllten Fahrt-Position** (Datum, Anlass, Strecke, z. B. Dortmund → Hamm). Nach dem Absenden liegt sie automatisch im Eingangskorb. Es wird kein eigener Erstattungsweg gebaut.
+- In DP2 ohne Club App zeigt dieser Schritt nur den Hinweis „Fahrtkosten bitte in der Club App unter Erstattung melden“.
 
 ## 4. Bausteine
 ### 4.1 Sondereinsätze als Liste (DP2, Planer pflegt sie)
@@ -42,7 +45,6 @@ Neue veröffentlichte Liste `kc_dp_special_events`. Sie wird veröffentlicht wie
 | `datum_von`, `datum_bis` | dürfen leer sein, solange der Termin `OFFEN` ist |
 | `folgt_auf`, `abstand_tage` | z. B. Abholung = Kochtermin + 2 Tage. Das Datum wird **automatisch** mitgezogen, wenn der Kochtermin feststeht. |
 | `wiederkehrend` | z. B. Getränke an jedem Markttag |
-| `bestaetiger` | Rolle, die Meldungen freigibt: Planer, optional ein Einsatzleiter je Anlass |
 | `aktiv`, `version` | |
 
 Beispiele zum Start: „Grünkohl kochen · Krankenhaus Dortmund“ (OFFEN), „Grünkohl abholen Dortmund → Tiefkühler Hamm“ (folgt auf Kochen, +2 Tage), „Getränke mischen zuhause + Anlieferung“ (wiederkehrend, Markttage).
@@ -50,14 +52,19 @@ Beispiele zum Start: „Grünkohl kochen · Krankenhaus Dortmund“ (OFFEN), „
 Sobald ein Anlass `FEST` ist, legt DP2 einen **Sondertag** an (neuer Tagestyp `special`). Er bekommt keinen Standbedarf und gilt nicht für die Stempeluhr. So lassen sich Dienste planen und Helfer über Twinkey abfragen, wie an den anderen Tagen. Solange der Termin `OFFEN` ist, kann man in Twinkey nur **„Ich würde helfen“** melden (eine Bereitschaft, keine Stunden).
 
 ### 4.2 Stundenmeldung (neue Tabelle `kc_dp_hour_reports`)
-`id, org_id, event_id, special_event_id, person_id, work_date, start_time, end_time, break_minutes, taetigkeit, bemerkung, status, gemeldet_von, gemeldet_am, bestaetigt_von, bestaetigt_am, ablehngrund, linked_actual_id, version, checksum`
+`id, org_id, event_id, special_event_id, sammel_id, person_id, work_date, start_time, end_time, break_minutes, taetigkeit, bemerkung, status, gemeldet_von, gemeldet_am, bestaetigt_von, bestaetigt_am, ablehngrund, linked_actual_id, version, checksum`
 
 - **Status:** `gemeldet` → `bestaetigt` | `abgelehnt` | `zurueckgezogen`.
-- **RLS:** Man darf eigene Meldungen anlegen und lesen. Ein Einsatzleiter darf für die Teilnehmer seines Anlasses melden. Der Planer darf alles lesen und den Status ändern. Löschen ist nicht möglich, nur zurückziehen.
-- **Gruppenmeldung:** Der Kochleiter kann für mehrere Kollegen gleichzeitig melden. Für jede Person entsteht eine eigene Zeile. Jeder sieht seine Zeile und kann widersprechen; dafür gibt es den Korrekturantrag aus `actual.js`.
+- **Sammelmeldung (Betreiber, 2026-10-15):** **Ein Kollege meldet** und wählt **weitere Kollegen** aus, die dabei waren, **jeweils mit eigenem Stundenumfang**. Das geht in Twinkey in DP2 und genauso in der Club App.
+  - Für jede Person entsteht eine **eigene Zeile**. Alle Zeilen einer Meldung tragen dieselbe `sammel_id`, `gemeldet_von` ist der meldende Kollege.
+  - Die Zeiten des Meldenden werden für alle vorgeschlagen und können **pro Person** geändert werden (z. B. kam einer später oder ging früher).
+  - Die mitgemeldeten Kollegen werden benachrichtigt und sehen die Meldung unter „Meine erfassten Zeiten“. Stimmt etwas nicht, können sie widersprechen; dafür gibt es den Korrekturantrag aus `actual.js`.
+  - **Doppelschutz:** Hat ein Kollege für denselben Anlass und Tag schon eine überlappende Meldung (selbst gemeldet oder von jemand anderem), legt Twinkey keine zweite Zeile an, sondern zeigt die vorhandene an.
+- **RLS:** Jeder Angemeldete darf Meldungen für sich und für mitgewählte Kollegen anlegen. Lesen darf man die eigenen Zeilen und die Zeilen der Sammelmeldungen, die man selbst angelegt hat. Nur der Planer darf alles lesen und den Status ändern. Löschen ist nicht möglich, nur zurückziehen.
 
 ### 4.3 Freigabe und Gutschrift (DP2)
-- Ein neuer Eingang **„Sonderstunden-Meldungen“** im Planer, so wie der Wunsch-Eingang.
+- Ein neuer Eingang **„Sonderstunden-Meldungen“** im Planer in DP2, so wie der Wunsch-Eingang. **Nur der Planer bestätigt.**
+- Eine Sammelmeldung wird zusammen angezeigt (alle Personen mit ihren Stunden). Der Planer kann **alle auf einmal** oder **einzeln** bestätigen bzw. ablehnen.
 - **Bestätigen** erzeugt über das vorhandene `saveActual` eine Ist-Zeit mit `source:'self_report'`, `zone:'special'` und `area:'Z · <Anlass>'`. Gibt es am selben Tag einen geplanten Z-Dienst, verknüpft `matchCandidate` die Meldung automatisch damit, und der Soll/Ist-Abgleich funktioniert wie gewohnt.
 - **Ablehnen** geht nur mit Grund. Jeder Schritt wird auditiert (`K.recordAudit`).
 - **Istplan schon abgeschlossen** (der Krankenhaustermin liegt vielleicht nach dem Markt): Die Gutschrift wird als **Nachtrag** gebucht. Das ergibt eine neue `actualPlanVersion` mit dem Grund „Sondereinsatz“. Der alte Abschluss bleibt unverändert (Regel 17).
@@ -74,13 +81,14 @@ Neue Aufgabe in `tasks()`: **„Sonderstunden melden“**, mit dem Untertitel �
 | Schritt | Frage | Eingabe |
 |---|---|---|
 | 1 | Für welchen Einsatz? | Auswahl aus 4.1 mit Termin-Status. Ist der Termin noch `OFFEN`, geht es mit „Ich würde helfen“ weiter. |
-| 2 | Für wen? | „Nur für mich“ oder, nur für Einsatzleiter, „auch für Kollegen“ (Mehrfachauswahl aus der Personenliste). |
-| 3 | An welchem Tag? | Vorschlag aus dem Anlass, sonst Kalender. Tage in der Zukunft sind nicht wählbar. |
-| 4 | Von wann bis wann? | Zeitwahl wie im Schritt „can“, dazu die Pause |
+| 2 | An welchem Tag? | Vorschlag aus dem Anlass, sonst Kalender. Tage in der Zukunft sind nicht wählbar. |
+| 3 | Von wann bis wann warst du dabei? | Zeitwahl wie im Schritt „can“, dazu die Pause |
+| 4 | Wer war noch dabei? | „Nur ich“ oder Mehrfachauswahl aus der Personenliste (Suche wie bei „Von Kollegen übernehmen“). |
+| 4a | Stunden je Kollege | Pro ausgewähltem Kollegen eine Zeile mit deinen Zeiten als Vorschlag, einzeln änderbar (von–bis, Pause). Die Summe pro Person steht direkt daneben. |
 | 5 | Was hast du gemacht? | Auswahl: Kochen, Vorbereitung, Transport/Fahrt, Einkauf, Getränke mischen, Aufräumen |
 | 6 | Bemerkung | optional |
-| 7 | Bist du dafür gefahren? | Ja: km-Erstattung in der Club App vorbereiten (siehe §3). Nein: weiter. |
-| 8 | Passt das so? | Zusammenfassung, dann der Knopf **„Meinem Weihnachtsmarkt-Stundenkonto gutschreiben lassen“**. Darunter der Hinweis: „Die Stunden werden gutgeschrieben, sobald der Planer sie bestätigt hat.“ |
+| 7 | Bist du dafür gefahren? | Ja: km-Erstattung in der Club App vorbereiten; sie landet nach dem Absenden im Eingangskorb (siehe §3). Nein: weiter. Die Erstattung gilt nur für die eigene Fahrt, weil Auszahlungsweg und Konto persönlich sind. Mitgemeldete Fahrer bekommen mit der Benachrichtigung den Hinweis, ihre Fahrt selbst zu melden, mit vorausgefüllter Position. |
+| 8 | Passt das so? | Zusammenfassung aller Personen mit ihren Stunden, dann der Knopf **„Dem Weihnachtsmarkt-Stundenkonto gutschreiben lassen“**. Darunter der Hinweis: „Die Stunden werden gutgeschrieben, sobald der Planer sie bestätigt hat.“ |
 | 9 | Fertig | Die Meldung erscheint unter „Meine erfassten Zeiten“ mit ihrem Status. |
 
 Für die Sprachausgabe kommen neue Text-Schlüssel in `assets/twinkey/audio/texts.json`. Fehlt eine WAV-Datei, nutzt Twinkey die Gerätestimme; dieser Rückfall ist schon vorhanden.
@@ -97,24 +105,28 @@ In DP2 ist das bereits vorgesehen:
 | Phase | Programm | Inhalt | Feature-ID |
 |---|---|---|---|
 | 1 | DP2 | Tabelle `kc_dp_special_events`, Planer-Pflege, Tagestyp `special`, automatisches Folgedatum | DP2-F-SE-01 |
-| 2 | DP2 | Tabelle `kc_dp_hour_reports` mit RLS, Twinkey-Aufgabe „Sonderstunden melden“ | DP2-F-SE-02 |
-| 3 | DP2 | Eingang, Bestätigen/Ablehnen, Gutschrift als `self_report`, Nachtrag nach Abschluss, Warnung bei Doppelzeiten, Kontoauszug | DP2-F-SE-03 |
+| 2 | DP2 | Tabelle `kc_dp_hour_reports` mit RLS, Twinkey-Aufgabe „Sonderstunden melden“ inkl. Sammelmeldung mit Stunden je Kollege | DP2-F-SE-02 |
+| 3 | DP2 | Eingang mit Sammelmeldungen, Bestätigen/Ablehnen (alle oder einzeln), Gutschrift als `self_report`, Nachtrag nach Abschluss, Warnung bei Doppelzeiten, Kontoauszug | DP2-F-SE-03 |
 | 4 | DP2 | Personenregel „Z per Meldung“ (Getränke) | DP2-F-SE-04 |
-| 5 | Club App | `dp2-club/daten.js`: Anlässe und Meldungen laden und speichern (neue Aktion `stunden_melden` in `kc-club`), Startseite mit Status, vorausgefüllte km-Position in der Erstattung | CLUB-F-SE-05 |
+| 5 | Club App | `dp2-club/daten.js`: Anlässe und Meldungen laden und speichern (neue Aktion `stunden_melden` in `kc-club`), Startseite mit Status, Benachrichtigung der mitgemeldeten Kollegen, vorausgefüllte km-Position in der vorhandenen Erstattung (landet im Eingangskorb) | CLUB-F-SE-05 |
 | 6 | Kasse | nur lesen: Stempeluhr-Zeiten für die Doppelzeit-Warnung bereitstellen (kein Umbau) | — |
 
 Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2.416.0 ff.) und durchläuft DEV → RC.
 
 ## 8. Tests und Definition of Done
-- **Unit (DP2 `tools/test-*.mjs`):** Folgedatum +2 Tage, Statuswechsel, keine Gutschrift ohne Bestätigung, Verknüpfung mit dem Z-Dienst, Nachtrag nach `closePlan`, Doppelzeit-Warnung, Gruppenmeldung erzeugt eine Zeile pro Person.
+- **Unit (DP2 `tools/test-*.mjs`):** Folgedatum +2 Tage, Statuswechsel, keine Gutschrift ohne Bestätigung, Verknüpfung mit dem Z-Dienst, Nachtrag nach `closePlan`, Doppelzeit-Warnung, Sammelmeldung erzeugt eine Zeile pro Person mit dem jeweils eigenen Stundenumfang, Doppelschutz bei überlappender Meldung.
 - **Twinkey (`test-twinkey*.mjs`):** kompletter Ablauf, Termin `OFFEN` führt nur zu „Ich würde helfen“, Zukunftsdatum ist gesperrt.
 - **RLS:** Fremde Meldungen sind nicht lesbar, Löschen ist unmöglich, nur der Planer bestätigt.
-- **Club App (`tests/app-vertrag.test.mjs`):** Aufgabe sichtbar, Speichern landet in `kc_dp_hour_reports`, km-Vorbelegung korrekt.
+- **Club App (`tests/app-vertrag.test.mjs`):** Aufgabe sichtbar, Speichern landet in `kc_dp_hour_reports`, km-Vorbelegung korrekt, die abgeschickte Erstattung erscheint im Eingangskorb.
 - **DoD:** Der Kontoauszug zeigt bestätigte und offene Stunden getrennt. Das Audit ist vollständig. Es entstehen keine Kosten (vorhandenes Supabase, kein neuer Dienst). Es gibt keine Secrets im Browser. Die Doku ist aktualisiert.
 
-## 9. Offene Fragen an den Betreiber
+## 9. Entscheidungen und offene Fragen
+**Entschieden (Betreiber, 2026-10-15):**
+- Ein Kollege meldet und wählt weitere Kollegen mit aus, jeweils mit eigenem Stundenumfang. Das geht über Twinkey in DP2 und in der Club App.
+- Die Stunden bestätigt der Planer in DP2.
+- Die km-Erstattung landet im Büro-Eingangskorb der Club App.
+
+**Noch offen:**
 1. **Was ist „SB“?** Angenommen ist hier die **Stempeluhr** an der Kasse bzw. im PC-Manager. Wenn ein anderes Programm gemeint ist, wird Phase 6 angepasst.
-2. **Wer bestätigt?** Nur der Planer oder zusätzlich ein Einsatzleiter je Anlass (z. B. der Kochleiter in Dortmund)?
-3. **Anrechnung 1:1?** Sollen Fahrtzeit und Zeit zuhause voll zählen oder mit einem Faktor bzw. einer Pauschale (z. B. Transport Dortmund → Hamm pauschal X Stunden)?
-4. **Gruppenmeldung erlaubt?** Darf der Kochleiter für alle melden, oder meldet jeder selbst?
-5. **Frist:** Bis wann nach dem Einsatz muss gemeldet werden?
+2. **Anrechnung 1:1?** Sollen Fahrtzeit und Zeit zuhause voll zählen oder mit einem Faktor bzw. einer Pauschale (z. B. Transport Dortmund → Hamm pauschal X Stunden)?
+3. **Frist:** Bis wann nach dem Einsatz muss gemeldet werden?
