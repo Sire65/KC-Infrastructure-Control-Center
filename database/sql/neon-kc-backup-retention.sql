@@ -1,22 +1,23 @@
 -- KICC-F-103: Aufbewahrungsregel fuer das Neon-Backup-Archiv (Projekt purple-hat-23047492, KC Core Mirror)
 -- Anlass: Branch-Limit 1 GiB, Archiv ohne Aufbewahrung (Stand 15.10.2026: 322 MB, +18–36 MB/Tag).
 -- Regel: behalten werden
---   * alle Saetze der letzten `tage` Tage (Standard 14, harte Untergrenze 14 Tage im Trigger),
+--   * alle Saetze der letzten `tage` Tage (Standard 7, harte Untergrenze 7 Tage im Trigger),
 --   * der neueste geprueft-ok Satz (immer),
---   * je Kalenderwoche der neueste ok-Satz der letzten `wochen` Wochen (Standard 8),
---   * je Monat der neueste ok-Satz der letzten `monate` Monate (Standard 12).
--- Alles andere (auch unvollstaendige running/error-Saetze aelter als 14 Tage) darf geloescht werden.
+--   * je Kalenderwoche der neueste ok-Satz der letzten `wochen` Wochen (Standard 4),
+--   * je Monat der neueste ok-Satz der letzten `monate` Monate (Standard 3).
+-- Variante B, Freigabe Betreiber 15.10.2026. Taegliche Saetze ueber 14 Tage haelt zusaetzlich die Frankfurt-Sicherung.
+-- Alles andere (auch unvollstaendige running/error-Saetze ausserhalb der Tagesfrist) darf geloescht werden.
 -- Loeschen nur, wenn kc_backup_retention_policy.aktiv = true; sonst nur Probelauf mit Protokoll.
 -- Der Schutz-Trigger bleibt aktiv: DELETE ist nur innerhalb von kc_backup_retention_anwenden() fuer genau die
--- freigegebenen Saetze moeglich und nie fuer Saetze juenger als 14 Tage oder den neuesten ok-Satz.
+-- freigegebenen Saetze moeglich und nie fuer Saetze juenger als 7 Tage oder den neuesten ok-Satz.
 -- Ruecknahme: urspruengliche kc_backup_block_mutation() einspielen (siehe Ende), Funktionen/Tabellen droppen.
 
 create table if not exists public.kc_backup_retention_policy (
   id text primary key default 'primary',
   aktiv boolean not null default false,
-  tage int not null default 14 check (tage >= 14),
-  wochen int not null default 8 check (wochen >= 0),
-  monate int not null default 12 check (monate >= 0),
+  tage int not null default 7 check (tage >= 7),
+  wochen int not null default 4 check (wochen >= 0),
+  monate int not null default 3 check (monate >= 0),
   updated_at timestamptz not null default now()
 );
 insert into public.kc_backup_retention_policy(id) values ('primary') on conflict (id) do nothing;
@@ -90,10 +91,10 @@ BEGIN
   IF TG_TABLE_NAME='kc_backup_sets' AND TG_OP='UPDATE' THEN
     IF OLD.status='running' AND NEW.backup_set=OLD.backup_set AND NEW.started_at=OLD.started_at AND NEW.table_count>=OLD.table_count AND NEW.ok_count>=OLD.ok_count AND NEW.total_rows>=OLD.total_rows AND NEW.total_bytes>=OLD.total_bytes AND NEW.status IN ('running','ok','error') THEN RETURN NEW; END IF;
   END IF;
-  -- KICC-F-103: nur ueber kc_backup_retention_anwenden(), nur freigegebene Saetze, nie juenger als 14 Tage, nie der neueste ok-Satz
+  -- KICC-F-103: nur ueber kc_backup_retention_anwenden(), nur freigegebene Saetze, nie juenger als 7 Tage, nie der neueste ok-Satz
   IF TG_OP='DELETE'
      AND OLD.backup_set::text = ANY(string_to_array(coalesce(current_setting('kc.backup_retention', true), ''), ','))
-     AND EXISTS (SELECT 1 FROM public.kc_backup_sets s WHERE s.backup_set = OLD.backup_set AND s.started_at < now() - interval '14 days')
+     AND EXISTS (SELECT 1 FROM public.kc_backup_sets s WHERE s.backup_set = OLD.backup_set AND s.started_at < now() - interval '7 days')
      AND OLD.backup_set IS DISTINCT FROM (SELECT s.backup_set FROM public.kc_backup_sets s WHERE s.status='ok' ORDER BY s.started_at DESC LIMIT 1)
   THEN RETURN OLD; END IF;
   RAISE EXCEPTION 'KC backup archive is immutable: % is not permitted on %', TG_OP, TG_TABLE_NAME USING ERRCODE='55000';
