@@ -1,0 +1,822 @@
+From 04d857ecf266471b798e08114d5abad1d39817e1 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 15 Oct 2026 13:35:04 +0000
+Subject: [PATCH] =?UTF-8?q?DP2=20Build=20254:=20Sondereins=C3=A4tze=20(DP2?=
+ =?UTF-8?q?-F-SE-01,=20KICC-F-100=20Phase=201)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- core/special-events.js 0.1.0: Einsätze außerhalb des Stands mit Termin OFFEN/GEPLANT/FEST,
+  Folge-Einsätze (Abholung = Kochtermin + 2 Tage, Datum wird berechnet), wiederkehrend an Markttagen,
+  Prüfregeln (Zyklus, ungültiges Datum, Abstand), Audit, Sync, Rechte roster.plan.edit/publish
+- ui/special-events-ui.js: Planer-Dialog unter Sollplan-Menü „★ Sondereinsätze“
+- Supabase: kc_dp_special_events + kc_dp_special_events_publish (RLS, nur Planerrollen schreiben)
+- Speicherung im verschlüsselten lokalen Stand (specialEvents), K.days bleibt unverändert
+- Tests: tools/test-special-events.mjs, Supabase-Sicherheitsvertrag erweitert; update-manifest Build 254
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_016rDSBVM3DqKLNsWnmDHrgy
+---
+ index.html                                    |   8 +-
+ package.json                                  |   2 +-
+ src/adapters/supabase-provider.js             |   8 +-
+ src/core/special-events.js                    | 162 ++++++++++++++++++
+ src/ui/app.js                                 |   5 +-
+ src/ui/register-actions.js                    |   4 +-
+ src/ui/special-events-ui.js                   |  99 +++++++++++
+ src/ui/special-events.css                     |  28 +++
+ .../20261015120000_kc_dp_special_events.sql   | 139 +++++++++++++++
+ tools/supabase-security-contract.mjs          |   4 +-
+ tools/test-special-events.mjs                 |  86 ++++++++++
+ update-manifest.json                          |  46 +++--
+ 12 files changed, 567 insertions(+), 24 deletions(-)
+ create mode 100644 src/core/special-events.js
+ create mode 100644 src/ui/special-events-ui.js
+ create mode 100644 src/ui/special-events.css
+ create mode 100644 supabase/migrations/20261015120000_kc_dp_special_events.sql
+ create mode 100644 tools/test-special-events.mjs
+
+diff --git a/index.html b/index.html
+index f7c5279..f85c6c3 100644
+--- a/index.html
++++ b/index.html
+@@ -110,9 +110,9 @@
+   <script defer src="src/core/model.js?v=0.20.0-b191"></script><script defer src="src/core/wish-contract.js?v=0.20.0-b234"></script><script defer src="src/core/import-review.js?v=0.20.0-b113"></script>
+   <script defer src="src/core/planning.js?v=0.17.10"></script><script defer src="src/core/auth.js?v=0.20.0-b239"></script><script defer src="src/core/session.js?v=0.17.10"></script><script defer src="src/core/member-access.js?v=0.20.0-b144"></script><script defer src="src/core/configuration.js?v=0.17.10"></script><script defer src="src/core/integrations.js?v=0.20.0-b143"></script><script defer src="src/core/database-diagnostics.js?v=0.17.10"></script><script defer src="src/core/auto-sync.js?v=0.17.5-b253"></script><script defer src="src/core/kc-direkte-leitung.js?v=0.20.0-b252"></script><script defer src="src/core/direkte-leitung-dp.js?v=0.20.0-b252"></script><script defer src="src/core/plan-manager-bridge.js?v=0.3.0"></script><script defer src="src/core/intelligence.js?v=0.17.10"></script><script defer src="src/core/history.js?v=0.17.10"></script><script defer src="src/core/locks.js?v=0.17.10"></script><script defer src="src/core/recovery.js?v=0.17.10"></script><script defer src="src/core/release.js?v=0.17.10"></script><script defer src="src/core/staffing.js?v=0.17.10"></script><script defer src="src/core/member-opportunities.js?v=0.20.0-b174"></script><script defer src="src/core/breaks.js?v=0.17.10"></script>
+   <script defer src="src/core/planner-engine.js?v=0.19.42"></script><script defer src="src/core/planner-recommendations.js?v=0.19.42"></script><script defer src="src/core/replacement-recommendations.js?v=0.19.42"></script><script defer src="src/core/day-availability.js?v=0.19.42"></script><script defer src="src/core/planner-audit.js?v=0.19.42"></script><script defer src="src/core/source-health.js?v=0.19.42"></script>
+-  <script defer src="src/core/workflow.js?v=0.20.0-b239"></script><script defer src="src/core/actual.js?v=0.20.0-b210"></script><script defer src="src/core/analytics.js?v=0.17.10"></script><script defer src="src/core/export.js?v=0.17.10"></script><script defer src="src/core/document-identity.js?v=0.20.0-b114"></script><script defer src="src/vendor/qrcode-generator.js?v=2.0.4"></script><script defer src="src/vendor/jszip.min.js?v=3.10.1"></script><script defer src="src/core/personalized-forms.js?v=0.20.0-b238"></script><script defer src="src/core/documents.js?v=0.20.0-b164"></script><script defer src="src/core/distribution.js?v=0.17.10"></script><script defer src="src/core/packages.js?v=0.17.10"></script><script defer src="src/core/security-core.js?v=0.17.10"></script>
+-  <script defer src="src/adapters/storage.js?v=0.19.37"></script><script defer src="src/adapters/backup.js?v=0.17.10"></script><script defer src="src/adapters/person-provider.js?v=0.20.0-b191"></script><script defer src="src/adapters/context-providers.js?v=0.17.10"></script><script defer src="src/adapters/pdf.js?v=0.20.0-b251"></script><script defer src="src/adapters/host.js?v=0.17.10"></script><script defer src="src/adapters/email.js?v=0.17.10"></script><script defer src="src/adapters/sync.js?v=0.20.0-b174"></script><script defer src="src/adapters/pc-manager.js?v=0.20.0-b143"></script><script defer src="src/adapters/supabase-provider.js?v=0.20.0-b234"></script><script defer src="src/adapters/diagnostics.js?v=0.19.51h"></script><script defer src="src/core/table-core-adapter.js?v=0.20.0-b173"></script><script defer src="src/adapters/installations.js?v=0.19.51-install-1"></script><script defer src="src/core/manager-auto-sync.js?v=0.20.0-b143"></script><script defer src="src/core/multidevice-test.js?v=0.19.37"></script><script defer src="src/vendor/tesseract/tesseract.min.js?v=7.0.0"></script><script defer src="src/vendor/jsQR.js?v=1.4.0"></script><script defer src="src/adapters/form-ocr.js?v=0.20.0-b241"></script><script defer src="src/adapters/photo-recognition.js?v=0.20.0-b122"></script><script defer src="src/adapters/timeclock-import.js?v=0.20.0-b191"></script><script defer src="src/adapters/timeclock-supabase.js?v=0.20.0-b236"></script><script defer src="src/adapters/xlsx-local.js?v=0.20.0-b206"></script><script defer src="src/core/wish-zone.js?v=0.19.53-vhb-1"></script><script defer src="src/adapters/wish-import.js?v=0.20.0-b206-xlsx-prefix"></script><script defer src="src/core/notification-channel-safety.js?v=0.19.56"></script><script defer src="src/core/notifications.js?v=0.19.56-safety"></script><script defer src="src/adapters/push.js?v=0.19.55"></script><script defer src="src/ui/push-permission-offer.js?v=1.0.0"></script>
+-<link rel="stylesheet" href="src/ui/member-opportunities.css?v=0.20.0-b174"><link rel="stylesheet" href="src/ui/ai-plan-results.css?v=0.20.0-b176"><script defer src="src/ui/device-ux.js?v=0.20.0-b217"></script><script defer src="src/ui/wish-sprint.js?v=0.20.0-b235"></script><script defer src="src/ui/role-ux.js?v=0.20.0-b239"></script><script defer src="src/core/mobile-wish-matrix.js?v=0.20.0-privacy-sharing"></script><script defer src="src/ui/mobile-wish-matrix.js?v=0.20.0-sharing-unified"></script><script defer src="src/ui/wish-assistant.js?v=0.20.0-b248"></script><script defer src="src/ui/chef-companion.js?v=0.20.0-sharing-unified"></script><script defer src="src/ui/twinkey.js?v=0.20.0-b242-documents"></script><script defer src="src/ui/ai-plan-results.js?v=0.20.0-b176"></script><script defer src="src/ui/member-opportunities.js?v=0.20.0-sharing-unified"></script><script defer src="src/core/update-manager.js?v=0.20.0-b200-textverify"></script><script defer src="src/core/update-build-guard.js?build=92"></script><script defer src="src/ui/update-ui.js?v=0.19.37"></script><script defer src="src/ui/app.js?v=0.20.0-b241"></script><script defer src="src/ui/day-availability-filter.js?v=0.19.42"></script><script defer src="src/ui/quick-plan-recommendations.js?v=0.19.42"></script><script defer src="src/ui/planner-audit-ui.js?v=0.19.42"></script><script defer src="src/ui/source-health-ui.js?v=0.20.0-b153"></script><script defer src="src/ui/session-mobile-hotfix.js?build=92"></script><script defer src="src/ui/post-unlock-auth-guard.js?build=92"></script><script defer src="src/core/planner-application-guard.js?v=0.19.42"></script><script defer src="src/ui/installation-center.js?v=0.19.51-install-1"></script><script defer src="src/ui/diagnostics-center.js?v=0.20.0-b201-trash"></script><script defer src="src/ui/kc-ux-polish.js?v=0.20.0-b110"></script><script defer src="src/ui/notification-safety-ui.js?v=0.19.56-preview-guard"></script><script defer src="src/ui/notification-channel-settings.js?v=0.19.56"></script><script defer src="src/ui/v020-shell.js?v=0.20.0-b186"></script><script defer src="src/ui/v020-layout.js?v=0.20.0-b133"></script><script defer src="src/ui/register-context-menu.js?v=0.20.0-b186"></script><script defer src="src/ui/fairness-view.js?v=0.20.0-b185"></script><script defer src="src/ui/demand-view.js?v=0.20.0-b217"></script><script defer src="src/ui/register-actions.js?v=0.20.0-b92"></script>
++  <script defer src="src/core/workflow.js?v=0.20.0-b239"></script><script defer src="src/core/actual.js?v=0.20.0-b210"></script><script defer src="src/core/special-events.js?v=0.20.0-b254"></script><script defer src="src/core/analytics.js?v=0.17.10"></script><script defer src="src/core/export.js?v=0.17.10"></script><script defer src="src/core/document-identity.js?v=0.20.0-b114"></script><script defer src="src/vendor/qrcode-generator.js?v=2.0.4"></script><script defer src="src/vendor/jszip.min.js?v=3.10.1"></script><script defer src="src/core/personalized-forms.js?v=0.20.0-b238"></script><script defer src="src/core/documents.js?v=0.20.0-b164"></script><script defer src="src/core/distribution.js?v=0.17.10"></script><script defer src="src/core/packages.js?v=0.17.10"></script><script defer src="src/core/security-core.js?v=0.17.10"></script>
++  <script defer src="src/adapters/storage.js?v=0.19.37"></script><script defer src="src/adapters/backup.js?v=0.17.10"></script><script defer src="src/adapters/person-provider.js?v=0.20.0-b191"></script><script defer src="src/adapters/context-providers.js?v=0.17.10"></script><script defer src="src/adapters/pdf.js?v=0.20.0-b251"></script><script defer src="src/adapters/host.js?v=0.17.10"></script><script defer src="src/adapters/email.js?v=0.17.10"></script><script defer src="src/adapters/sync.js?v=0.20.0-b174"></script><script defer src="src/adapters/pc-manager.js?v=0.20.0-b143"></script><script defer src="src/adapters/supabase-provider.js?v=0.20.0-b254"></script><script defer src="src/adapters/diagnostics.js?v=0.19.51h"></script><script defer src="src/core/table-core-adapter.js?v=0.20.0-b173"></script><script defer src="src/adapters/installations.js?v=0.19.51-install-1"></script><script defer src="src/core/manager-auto-sync.js?v=0.20.0-b143"></script><script defer src="src/core/multidevice-test.js?v=0.19.37"></script><script defer src="src/vendor/tesseract/tesseract.min.js?v=7.0.0"></script><script defer src="src/vendor/jsQR.js?v=1.4.0"></script><script defer src="src/adapters/form-ocr.js?v=0.20.0-b241"></script><script defer src="src/adapters/photo-recognition.js?v=0.20.0-b122"></script><script defer src="src/adapters/timeclock-import.js?v=0.20.0-b191"></script><script defer src="src/adapters/timeclock-supabase.js?v=0.20.0-b236"></script><script defer src="src/adapters/xlsx-local.js?v=0.20.0-b206"></script><script defer src="src/core/wish-zone.js?v=0.19.53-vhb-1"></script><script defer src="src/adapters/wish-import.js?v=0.20.0-b206-xlsx-prefix"></script><script defer src="src/core/notification-channel-safety.js?v=0.19.56"></script><script defer src="src/core/notifications.js?v=0.19.56-safety"></script><script defer src="src/adapters/push.js?v=0.19.55"></script><script defer src="src/ui/push-permission-offer.js?v=1.0.0"></script>
++<link rel="stylesheet" href="src/ui/member-opportunities.css?v=0.20.0-b174"><link rel="stylesheet" href="src/ui/ai-plan-results.css?v=0.20.0-b176"><script defer src="src/ui/device-ux.js?v=0.20.0-b217"></script><script defer src="src/ui/wish-sprint.js?v=0.20.0-b235"></script><script defer src="src/ui/role-ux.js?v=0.20.0-b239"></script><script defer src="src/core/mobile-wish-matrix.js?v=0.20.0-privacy-sharing"></script><script defer src="src/ui/mobile-wish-matrix.js?v=0.20.0-sharing-unified"></script><script defer src="src/ui/wish-assistant.js?v=0.20.0-b248"></script><script defer src="src/ui/chef-companion.js?v=0.20.0-sharing-unified"></script><script defer src="src/ui/twinkey.js?v=0.20.0-b242-documents"></script><script defer src="src/ui/ai-plan-results.js?v=0.20.0-b176"></script><script defer src="src/ui/member-opportunities.js?v=0.20.0-sharing-unified"></script><script defer src="src/core/update-manager.js?v=0.20.0-b200-textverify"></script><script defer src="src/core/update-build-guard.js?build=92"></script><script defer src="src/ui/update-ui.js?v=0.19.37"></script><script defer src="src/ui/app.js?v=0.20.0-b254"></script><script defer src="src/ui/day-availability-filter.js?v=0.19.42"></script><script defer src="src/ui/quick-plan-recommendations.js?v=0.19.42"></script><script defer src="src/ui/planner-audit-ui.js?v=0.19.42"></script><script defer src="src/ui/source-health-ui.js?v=0.20.0-b153"></script><script defer src="src/ui/session-mobile-hotfix.js?build=92"></script><script defer src="src/ui/post-unlock-auth-guard.js?build=92"></script><script defer src="src/core/planner-application-guard.js?v=0.19.42"></script><script defer src="src/ui/installation-center.js?v=0.19.51-install-1"></script><script defer src="src/ui/diagnostics-center.js?v=0.20.0-b201-trash"></script><script defer src="src/ui/kc-ux-polish.js?v=0.20.0-b110"></script><script defer src="src/ui/notification-safety-ui.js?v=0.19.56-preview-guard"></script><script defer src="src/ui/notification-channel-settings.js?v=0.19.56"></script><script defer src="src/ui/v020-shell.js?v=0.20.0-b186"></script><script defer src="src/ui/v020-layout.js?v=0.20.0-b133"></script><script defer src="src/ui/register-context-menu.js?v=0.20.0-b186"></script><script defer src="src/ui/fairness-view.js?v=0.20.0-b185"></script><script defer src="src/ui/demand-view.js?v=0.20.0-b217"></script><script defer src="src/ui/register-actions.js?v=0.20.0-b254"></script>
+ <script defer src="src/core/kicc-heartbeat.js?v=0.20.0-b253"></script><script defer src="src/ui/actual-reconciliation.js?v=0.20.0-b237"></script><script defer src="src/ui/friday-presentation-simulation.js?v=0.20.0-b203"></script>
+ <script>
+ (function(){const EXPECTED='0.20.0';const actual=window.KC_DP?.VERSION||window.KCDP?.VERSION||window.KC_DP_VERSION||'';if(actual&&actual!==EXPECTED){document.body.insertAdjacentHTML('afterbegin','<div id="releaseMismatch" style="position:fixed;z-index:99999;left:12px;right:12px;top:12px;padding:14px 18px;border:2px solid #c62828;border-radius:10px;background:#fff3f3;color:#8b0000;font:700 15px Arial,sans-serif;box-shadow:0 4px 18px #0003">⚠ Versionskonflikt: Oberfläche '+EXPECTED+' erwartet, geladen ist '+actual+'. Bitte diesen Ordner neu öffnen; alte Browserdateien werden nicht verwendet.</div>');}})();
+@@ -134,7 +134,7 @@
+ <script defer src="src/ui/photo-ocr-review.js?v=0.20.0-b122"></script>
+ <script defer src="src/ui/planning-focus.js?v=0.20.0-b172-r2"></script>
+ <script defer src="src/ui/wish-legend-inline.js?v=0.20.0-b125"></script>
+-<script defer src="src/ui/person-sort.js?v=0.20.0-b148"></script>
++<script defer src="src/ui/person-sort.js?v=0.20.0-b148"></script><link rel="stylesheet" href="src/ui/special-events.css?v=0.20.0-b254"><script defer src="src/ui/special-events-ui.js?v=0.20.0-b254"></script>
+ <script defer src="src/ui/microtext-zoom.js?v=0.20.0-b150"></script>
+ <link rel="stylesheet" href="src/ui/radar-check.css?v=0.20.0-b171"><link rel="stylesheet" href="src/ui/radar-results.css?v=0.20.0-b172-r1"><script defer src="src/ui/radar-check.js?v=0.20.0-b173"></script><script defer src="src/ui/radar-results.js?v=0.20.0-b173"></script><script defer src="src/ui/occupancy-radar.js?v=0.20.0-b171"></script><script defer src="src/ui/occupancy-radar-summary.js?v=0.20.0-b172-r1"></script><script defer src="src/ui/person-hours-block.js?v=0.20.0-b173"></script><script defer src="src/ui/occupancy-block-controls.js?v=0.20.0-b172-r4"></script><script defer src="src/ui/row-stripe-setting.js?v=0.20.0-b172"></script>
+ <script defer src="src/ui/occupancy-view.js?v=0.20.0-b172-r2"></script><script defer src="src/ui/occupancy-area-chart.js?v=0.20.0-b172-r2"></script>
+diff --git a/package.json b/package.json
+index adc1e6f..cdcfeb0 100644
+--- a/package.json
++++ b/package.json
+@@ -5,7 +5,7 @@
+   "description": "KC DP2 Dienstplan und reproduzierbare Testumgebung",
+   "scripts": {
+     "test": "npm run test:smoke",
+-    "test:smoke": "node tools/smoke-core.mjs && node tools/smoke-ui-contracts.mjs && node tools/smoke-plan-transfer.mjs && node tools/smoke-actual-reconciliation.mjs && node tools/smoke-timeclock-supabase.mjs && node tools/smoke-direkte-leitung.mjs && node tools/verify-release.mjs",
++    "test:smoke": "node tools/smoke-core.mjs && node tools/smoke-ui-contracts.mjs && node tools/smoke-plan-transfer.mjs && node tools/smoke-actual-reconciliation.mjs && node tools/smoke-timeclock-supabase.mjs && node tools/smoke-direkte-leitung.mjs && node tools/test-special-events.mjs && node tools/verify-release.mjs",
+     "test:browser": "node tools/test-twinkey.mjs && node tools/test-mobile-wish-matrix.mjs && node tools/test-wish-assistant.mjs && node tools/test-assistant-staffing.mjs",
+     "test:install-browser": "playwright install chromium",
+     "test:all": "npm run test:smoke && npm run test:browser",
+diff --git a/src/adapters/supabase-provider.js b/src/adapters/supabase-provider.js
+index 7573315..1cf3c83 100644
+--- a/src/adapters/supabase-provider.js
++++ b/src/adapters/supabase-provider.js
+@@ -133,6 +133,12 @@
+   const {data}=await api('/rest/v1/rpc/kc_dp_plan_publish',{method:'POST',body:JSON.stringify({p_org_id:c.orgId,p_event_id:String(eventId||c.projectId||'KC_DP'),p_rows:rows})});
+   return data;
+  }
++ // DP2-F-SE-01: Sondereinsätze veröffentlichen (kc_dp_special_events_publish). Rein additiv.
++ async function publishSpecialEvents({eventId,rows}){
++  const c=validateConfig();
++  const {data}=await api('/rest/v1/rpc/kc_dp_special_events_publish',{method:'POST',body:JSON.stringify({p_org_id:c.orgId,p_event_id:String(eventId||c.projectId||'KC_DP'),p_rows:rows})});
++  return data;
++ }
+  async function provider(req){const c=validateConfig();try{
+    const syncProjectId=String(req.syncNamespace||req.wireOperation?.syncNamespace||c.projectId);
+    if(req.action==='health'){state.status='checking';const {data}=await api(`/rest/v1/kc_dp_sync_operations?select=seq,operation_id&org_id=eq.${encodeURIComponent(c.orgId)}&project_id=eq.${encodeURIComponent(syncProjectId)}&limit=1`,{method:'GET'});state.status='ready';state.lastHealthAt=new Date().toISOString();state.lastError=null;return {ok:true,rows:Array.isArray(data)?data.length:0,userId:state.userId};}
+@@ -158,6 +164,6 @@
+  async function updateSyncTest(id,patch){return rest('kc_dp_sync_test_runs',{method:'PATCH',query:`?id=eq.${encodeURIComponent(id)}`,body:{...patch,updated_at:new Date().toISOString()}});}
+  async function listServerConflicts(){const c=validateConfig();return rest('kc_dp_sync_conflicts',{query:`?select=id,entity,entity_id,operation_id,device_id,base_version,remote_version,status,detected_at,resolved_at&org_id=eq.${encodeURIComponent(c.orgId)}&project_id=eq.${encodeURIComponent(c.projectId)}&order=detected_at.desc&limit=50`});}
+  async function resolveServerConflict(id,status,resolution={}){return rest('kc_dp_sync_conflicts',{method:'PATCH',query:`?id=eq.${encodeURIComponent(id)}`,body:{status,resolution,resolved_at:new Date().toISOString()}});}
+- K.supabaseConnection={version:'0.20.0-sync-g2',contract:'KC_DP_SUPABASE_SYNC_V1',state,configure,configureIfPossible,setAccessToken,restoreSession,persistSession:saveSession,sessionSnapshot:()=>session?JSON.parse(JSON.stringify(session)):null,clearSession,hasAccessToken:()=>!!session?.access_token,signInAnonymously,signInWithPassword,sendOtp,verifyOtp,requestPasswordReset,updatePassword,readPlanSharing,savePlanSharing,publishPlan,currentMembership,memberProvisioningTargets,listMemberAccess,provisionMemberAccess,deactivateMemberAccess,provisionTestMember,removeTestMember,sendClientReport,getSyncKey,signOut,refreshSession,ensureSession,test,testProject,probeDatabase,probeRls,probeRoundtrip,registerDevice,listDevices,createSyncTest,listSyncTests,updateSyncTest,listServerConflicts,resolveServerConflict,transportDiagnosis,provider,validateConfig};
++ K.supabaseConnection={version:'0.20.0-sync-g2',contract:'KC_DP_SUPABASE_SYNC_V1',state,configure,configureIfPossible,setAccessToken,restoreSession,persistSession:saveSession,sessionSnapshot:()=>session?JSON.parse(JSON.stringify(session)):null,clearSession,hasAccessToken:()=>!!session?.access_token,signInAnonymously,signInWithPassword,sendOtp,verifyOtp,requestPasswordReset,updatePassword,readPlanSharing,savePlanSharing,publishPlan,publishSpecialEvents,currentMembership,memberProvisioningTargets,listMemberAccess,provisionMemberAccess,deactivateMemberAccess,provisionTestMember,removeTestMember,sendClientReport,getSyncKey,signOut,refreshSession,ensureSession,test,testProject,probeDatabase,probeRls,probeRoundtrip,registerDevice,listDevices,createSyncTest,listSyncTests,updateSyncTest,listServerConflicts,resolveServerConflict,transportDiagnosis,provider,validateConfig};
+  configureIfPossible();
+ })();
+diff --git a/src/core/special-events.js b/src/core/special-events.js
+new file mode 100644
+index 0000000..540eaba
+--- /dev/null
++++ b/src/core/special-events.js
+@@ -0,0 +1,162 @@
++// DP2-F-SE-01 Sondereinsätze (KICC-F-100, Phase 1): Einsätze außerhalb des Stands, deren Stunden dem
++// Stundenkonto der Veranstaltung (z. B. Weihnachtsmarkt) gutgeschrieben werden – z. B. Grünkohl kochen im
++// Krankenhaus, Abholung und Transport zum Tiefkühler, Getränke mischen zuhause.
++// Termin darf offen sein (OFFEN → GEPLANT → FEST). Ein Einsatz kann einem anderen mit Abstand in Tagen folgen
++// („Abholung = Kochtermin + 2 Tage“); sein Datum wird immer aus dem Vorgänger berechnet, nie doppelt gespeichert.
++// Rein additiv: K.days, Bedarf und Standbesetzung bleiben unverändert.
++(function(){
++  'use strict';
++  const K=window.KCDP=window.KCDP||{};
++  const VERSION='0.1.0';
++  const TERMIN=['OFFEN','GEPLANT','FEST'];
++  const RECURRING=['markttage'];
++  const MAX_FOLLOW_DEPTH=10,MAX_GAP_DAYS=60,MAX_TITLE=120,MAX_PLACE=120,MAX_NOTE=500;
++  K.specialEvents=Array.isArray(K.specialEvents)?K.specialEvents:[];
++  // Auswahl statt Freitext (AGENTS 13); austauschbare Liste statt fest verdrahteter Logik (AGENTS 4).
++  K.specialEventKinds=Array.isArray(K.specialEventKinds)?K.specialEventKinds:[
++    {id:'kochen',label:'Kochen'},
++    {id:'transport',label:'Abholung / Transport'},
++    {id:'vorbereitung_zuhause',label:'Vorbereitung zuhause'},
++    {id:'einkauf',label:'Einkauf / Besorgung'},
++    {id:'aufbau_abbau',label:'Aufbau / Abbau'},
++    {id:'sonstiges',label:'Sonstiges'}
++  ];
++
++  const clone=v=>JSON.parse(JSON.stringify(v));
++  const text=(v,max)=>String(v??'').trim().slice(0,max);
++  const isoDate=v=>{const s=String(v||'').trim();if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return null;const d=new Date(s+'T12:00:00Z');return Number.isNaN(d.getTime())||d.toISOString().slice(0,10)!==s?null:s;};
++  const addDays=(iso,n)=>{const d=new Date(iso+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);};
++  const daysBetween=(a,b)=>Math.round((new Date(b+'T12:00:00Z')-new Date(a+'T12:00:00Z'))/86400000);
++  const byId=id=>K.specialEvents.find(e=>e.id===id)||null;
++  const kindLabel=id=>K.specialEventKinds.find(k=>k.id===id)?.label||id;
++  const nowIso=()=>new Date().toISOString();
++  const actor=()=>K.currentUser?.personId||null;
++  const requireEdit=()=>K.auth?.require?.('roster.plan.edit','Sie dürfen Sondereinsätze nicht bearbeiten.');
++
++  function normalize(input={}){
++    const gap=Number(input.abstandTage);
++    return {
++      titel:text(input.titel,MAX_TITLE),
++      ort:text(input.ort,MAX_PLACE),
++      art:text(input.art,40)||'sonstiges',
++      terminStatus:TERMIN.includes(String(input.terminStatus||'').toUpperCase())?String(input.terminStatus).toUpperCase():'OFFEN',
++      datumVon:isoDate(input.datumVon),
++      datumBis:isoDate(input.datumBis),
++      folgtAuf:text(input.folgtAuf,80)||null,
++      abstandTage:input.folgtAuf?(Number.isInteger(gap)?gap:0):null,
++      wiederkehrend:RECURRING.includes(input.wiederkehrend)?input.wiederkehrend:null,
++      bemerkung:text(input.bemerkung,MAX_NOTE)
++    };
++  }
++
++  // Eingegebenes, aber ungültiges Datum nie stillschweigend verwerfen.
++  function badDates(input={}){return ['datumVon','datumBis'].filter(k=>input[k]!=null&&String(input[k]).trim()!==''&&!isoDate(input[k])).length?['Bitte ein gültiges Datum angeben.']:[];}
++
++  // Liefert Vorgänger-Kette; wirft bei Zyklus oder fehlendem Vorgänger.
++  function chain(ev,list=K.specialEvents){
++    const seen=new Set([ev.id]),out=[];let cur=ev;
++    while(cur.folgtAuf){
++      if(seen.has(cur.folgtAuf))throw new Error('Sondereinsätze dürfen sich nicht im Kreis aufeinander beziehen.');
++      const parent=list.find(e=>e.id===cur.folgtAuf);
++      if(!parent)throw new Error('Der Vorgänger-Einsatz wurde nicht gefunden.');
++      out.push(parent);seen.add(parent.id);cur=parent;
++      if(out.length>MAX_FOLLOW_DEPTH)throw new Error('Zu viele verkettete Sondereinsätze.');
++    }
++    return out;
++  }
++
++  function validate(ev,list=K.specialEvents){
++    const errors=[];
++    if(!ev.titel)errors.push('Bitte einen Titel angeben.');
++    if(!K.specialEventKinds.some(k=>k.id===ev.art))errors.push('Bitte eine Art aus der Liste wählen.');
++    if(ev.folgtAuf&&ev.wiederkehrend)errors.push('Ein Einsatz kann nicht gleichzeitig wiederkehrend sein und einem anderen folgen.');
++    if(ev.folgtAuf){
++      if(!Number.isInteger(ev.abstandTage)||ev.abstandTage<0||ev.abstandTage>MAX_GAP_DAYS)errors.push(`Der Abstand muss zwischen 0 und ${MAX_GAP_DAYS} Tagen liegen.`);
++      try{chain(ev,list.some(e=>e.id===ev.id)?list.map(e=>e.id===ev.id?ev:e):[...list,ev]);}catch(e){errors.push(e.message);}
++    }else if(!ev.wiederkehrend){
++      if(ev.terminStatus==='FEST'&&!ev.datumVon)errors.push('Ein fester Termin braucht ein Datum.');
++      if(ev.datumBis&&!ev.datumVon)errors.push('Bitte zuerst das Anfangsdatum angeben.');
++      if(ev.datumVon&&ev.datumBis&&ev.datumBis<ev.datumVon)errors.push('Das Enddatum liegt vor dem Anfangsdatum.');
++    }
++    return errors;
++  }
++
++  // Wirksamer Termin: bei Folge-Einsätzen aus dem Vorgänger berechnet, bei wiederkehrenden aus den Markttagen.
++  function effective(ev,list=K.specialEvents){
++    if(ev.wiederkehrend==='markttage'){
++      const dates=(K.days||[]).filter(d=>d.type==='market').map(d=>d.date).sort();
++      return {terminStatus:dates.length?'FEST':'OFFEN',datumVon:dates[0]||null,datumBis:dates.at(-1)||null,dates,derivedFrom:null};
++    }
++    if(!ev.folgtAuf){
++      const von=ev.datumVon||null,bis=ev.datumBis||von;
++      return {terminStatus:ev.terminStatus,datumVon:von,datumBis:bis,dates:von?range(von,bis):[],derivedFrom:null};
++    }
++    let parents;try{parents=chain(ev,list);}catch(_){return {terminStatus:'OFFEN',datumVon:null,datumBis:null,dates:[],derivedFrom:null,error:true};}
++    const root=parents.at(-1),gap=[ev,...parents.slice(0,-1)].reduce((n,x)=>n+Number(x.abstandTage||0),0),base=effective(root,list);
++    if(!base.datumVon)return {terminStatus:base.terminStatus,datumVon:null,datumBis:null,dates:[],derivedFrom:ev.folgtAuf};
++    const von=addDays(base.datumVon,gap);
++    return {terminStatus:base.terminStatus,datumVon:von,datumBis:von,dates:[von],derivedFrom:ev.folgtAuf};
++  }
++  function range(a,b){if(!a)return[];const out=[];const n=Math.min(Math.max(0,daysBetween(a,b||a)),366);for(let i=0;i<=n;i++)out.push(addDays(a,i));return out;}
++
++  function view(ev){return {...clone(ev),artLabel:kindLabel(ev.art),effective:effective(ev)};}
++
++  function record(action,ev,before,reason){
++    K.recordAudit?.(`special_event.${action}`,{entity:'special_event',entityId:ev.id,before:before||null,after:clone(ev),reason:reason||''});
++    K.sync?.enqueue?.({entity:'special_event',operation:action==='create'?'create':'update',payload:clone(ev),baseVersion:before?Number(before.version||0):null});
++    notify();
++  }
++  const listeners=new Set();
++  function notify(){listeners.forEach(fn=>{try{fn()}catch(_){}});}
++
++  function create(input,{reason=''}={}){
++    requireEdit();
++    const ev={id:`SE-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,6)}`,eventId:K.eventConfig?.eventId||'KC-WM-2026',...normalize(input),aktiv:true,version:1,createdAt:nowIso(),createdBy:actor(),updatedAt:nowIso(),updatedBy:actor()};
++    const errors=[...badDates(input),...validate(ev)];if(errors.length)throw new Error(errors.join(' '));
++    K.specialEvents.push(ev);record('create',ev,null,reason);return view(ev);
++  }
++
++  function update(id,patch,{reason=''}={}){
++    requireEdit();
++    const ev=byId(id);if(!ev)throw new Error('Sondereinsatz nicht gefunden.');
++    const before=clone(ev),merged={...ev,...normalize({...ev,...patch})};
++    if(patch.folgtAuf===null||patch.folgtAuf===''){merged.folgtAuf=null;merged.abstandTage=null;}
++    const errors=[...badDates(patch),...validate(merged)];if(errors.length)throw new Error(errors.join(' '));
++    Object.assign(ev,merged,{version:Number(ev.version||1)+1,updatedAt:nowIso(),updatedBy:actor()});
++    record('update',ev,before,reason);return view(ev);
++  }
++
++  function setTermin(id,{terminStatus,datumVon,datumBis}={},opts={}){return update(id,{terminStatus,datumVon,datumBis},opts);}
++
++  function deactivate(id,{reason=''}={}){
++    requireEdit();
++    if(!String(reason).trim())throw new Error('Zum Beenden eines Sondereinsatzes ist ein Grund erforderlich.');
++    const ev=byId(id);if(!ev)throw new Error('Sondereinsatz nicht gefunden.');
++    const children=K.specialEvents.filter(e=>e.aktiv&&e.folgtAuf===id);
++    if(children.length)throw new Error(`Zuerst die Folge-Einsätze anpassen: ${children.map(c=>c.titel).join(', ')}.`);
++    const before=clone(ev);Object.assign(ev,{aktiv:false,version:Number(ev.version||1)+1,updatedAt:nowIso(),updatedBy:actor(),endReason:String(reason).trim()});
++    record('deactivate',ev,before,reason);return view(ev);
++  }
++
++  function list({includeInactive=false}={}){
++    return K.specialEvents.filter(e=>includeInactive||e.aktiv).map(view).sort((a,b)=>String(a.effective.datumVon||'9999').localeCompare(String(b.effective.datumVon||'9999'))||a.titel.localeCompare(b.titel,'de'));
++  }
++
++  // Zeilen für kc_dp_special_events_publish – nur aktive Einsätze, wirksamer Termin wird mitgeliefert.
++  function publishRows(){
++    return K.specialEvents.filter(e=>e.aktiv).map(e=>{const x=effective(e);return {sourceId:e.id,titel:e.titel,ort:e.ort,art:e.art,terminStatus:x.terminStatus,datumVon:x.datumVon,datumBis:x.datumBis,folgtAuf:e.folgtAuf,abstandTage:e.abstandTage,wiederkehrend:e.wiederkehrend,bemerkung:e.bemerkung,version:e.version};});
++  }
++  async function publish(){
++    K.auth?.require?.('roster.plan.publish','Sie dürfen Sondereinsätze nicht veröffentlichen.');
++    if(!K.supabaseConnection?.publishSpecialEvents)throw new Error('Supabase-Verbindung nicht bereit.');
++    const rows=publishRows(),eventId=K.eventConfig?.eventId||'KC-WM-2026';
++    const result=await K.supabaseConnection.publishSpecialEvents({eventId,rows});
++    K.recordAudit?.('special_event.publish',{entity:'special_event',entityId:eventId,after:{count:rows.length}});
++    return result;
++  }
++
++  function restore(saved){if(Array.isArray(saved))K.specialEvents=saved.filter(e=>e&&e.id&&e.titel);notify();return K.specialEvents.length;}
++  function snapshot(){return clone(K.specialEvents);}
++
++  K.specialEventsCore={VERSION,TERMIN,RECURRING,normalize,validate,effective,create,update,setTermin,deactivate,list,get:id=>{const e=byId(id);return e?view(e):null;},dependents:id=>K.specialEvents.filter(e=>e.aktiv&&e.folgtAuf===id).map(view),kindLabel,publishRows,publish,restore,snapshot,onChange:fn=>{listeners.add(fn);return()=>listeners.delete(fn);}};
++})();
+diff --git a/src/ui/app.js b/src/ui/app.js
+index 086447e..3c72fff 100644
+--- a/src/ui/app.js
++++ b/src/ui/app.js
+@@ -57,7 +57,7 @@ function applyPermissions(){const a=K.auth;if(!a)return;const set=(id,perm)=>{co
+ let persistRunning=null,persistPending=false;
+ async function persistOnce(){try{traffic('idb');K.refreshWorkflowState?.();const syncSnap=K.sync?.snapshot?.()||{outbox:[],conflicts:[],meta:{status:'offline'}};const entries=[
+ ['shifts',K.shifts],['standby',K.standby],['wishes',K.wishes],['workflow',K.workflow],['planVersions',K.planVersions],['acknowledgements',K.acknowledgements],['swapRequests',K.swapRequests],['peopleSnapshot',K.people],['auditLog',K.auditLog||[]],['syncOutbox',syncSnap.outbox],['syncConflicts',syncSnap.conflicts],['syncMeta',syncSnap.meta],
+-['personRules',K.personRules||{}],['absences',K.absences||[]],['replacementRequests',K.replacementRequests||[]],['memberShiftOffers',K.memberShiftOffers||[]],['memberUxData',K.memberUxData||{}],['actualShifts',K.actualShifts||[]],['breakConfig',K.breakConfig||{}],['actualImportBatches',K.actualImportBatches||[]],['actualCorrectionRequests',K.actualCorrectionRequests||[]],['actualWorkflow',K.actualWorkflow||{}],['actualPlanVersions',K.actualPlanVersions||[]],['actualConfig',K.actualConfig||{}],['documentLog',K.documentLog||[]],['deliveryLog',K.deliveryLog||[]],['notificationInbox',K.notificationInbox||[]],['notificationPreferences',K.notificationPreferences||{}],['pushSubscriptions',K.pushSubscriptions||{}],['eventConfig',K.eventConfig||{}],['daySettings',K.daySettings||{}],['demandMatrix',K.demandMatrix||{}],['daysRuntime',K.days.map(d=>({date:d.date,weather:d.weather,program:d.program,notes:d.notes||''}))],['planLocks',K.planLocks||{}],['integrationConfig',K.integrations?.snapshot?.()||K.integrationConfig||{}]
++['personRules',K.personRules||{}],['absences',K.absences||[]],['replacementRequests',K.replacementRequests||[]],['memberShiftOffers',K.memberShiftOffers||[]],['memberUxData',K.memberUxData||{}],['actualShifts',K.actualShifts||[]],['breakConfig',K.breakConfig||{}],['actualImportBatches',K.actualImportBatches||[]],['actualCorrectionRequests',K.actualCorrectionRequests||[]],['actualWorkflow',K.actualWorkflow||{}],['actualPlanVersions',K.actualPlanVersions||[]],['actualConfig',K.actualConfig||{}],['documentLog',K.documentLog||[]],['deliveryLog',K.deliveryLog||[]],['notificationInbox',K.notificationInbox||[]],['notificationPreferences',K.notificationPreferences||{}],['pushSubscriptions',K.pushSubscriptions||{}],['eventConfig',K.eventConfig||{}],['daySettings',K.daySettings||{}],['demandMatrix',K.demandMatrix||{}],['daysRuntime',K.days.map(d=>({date:d.date,weather:d.weather,program:d.program,notes:d.notes||''}))],['planLocks',K.planLocks||{}],['integrationConfig',K.integrations?.snapshot?.()||K.integrationConfig||{}],['specialEvents',K.specialEventsCore?.snapshot?.()||K.specialEvents||[]]
+ ];await K.sync?.whenDurable?.();const result=K.storage.putMany?await K.storage.putMany(entries):await Promise.all(entries.map(([k,v])=>K.storage.put(k,v)));setIdbStatus(true,'Änderung verschlüsselt in IndexedDB gespeichert');K.historyManager?.record?.('Gespeicherte Änderung');await K.recovery?.checkpoint?.('persist');updateUndoRedoUI();if(result?.written!==0)msg('✓ Änderung lokal verschlüsselt gespeichert.','success',undoAction);return result}catch(e){setIdbStatus(false,e.message);msg('✕ Lokales Speichern fehlgeschlagen: '+e.message,'error');throw e}}
+ async function persist(){persistPending=true;if(persistRunning){await persistRunning;if(persistPending)return persist();return true}persistRunning=(async()=>{let result;while(persistPending){persistPending=false;result=await persistOnce()}return result})().finally(()=>{persistRunning=null});return persistRunning}
+ K.persistAll=persist;
+@@ -667,7 +667,7 @@ async function unlockSecureStore(){return new Promise(resolve=>{openModal(`<h2>
+   let startupStage='indexeddb-open',loadTask=null;
+   try{
+     await K.storage.init();setIdbStatus(true,'IndexedDB geöffnet');K.databaseDiagnostics?.markStartup?.('indexeddb','Datenbank geöffnet');startupStage='configuration';await K.memberAccess?.restorePublicConfig?.();K.databaseDiagnostics?.markStartup?.('konfiguration','Lokale Startkonfiguration geladen');startupStage='authentication';const rememberAuth=await K.memberAccess?.rememberedHint?.();if(rememberAuth){await unlockSecureStore();startupStage='secure-read';const earlySession=await K.storage.get('supabaseSession');startupStage='authentication';if(earlySession)K.supabaseConnection?.restoreSession?.(earlySession);let restored=null;try{restored=await K.memberAccess?.restore?.();}catch(_){restored=null}if(!restored)await K.roleUx?.ensureLogin?.();}else{await K.roleUx?.ensureLogin?.();await unlockSecureStore();}K.databaseDiagnostics?.markStartup?.('anmeldung',K.currentUser?.role||'Benutzer bestätigt');await K.memberAccess?.persistSessionIfNeeded?.();
+-    const keys=['shifts','standby','wishes','workflow','planVersions','acknowledgements','swapRequests','peopleSnapshot','auditLog','syncOutbox','syncConflicts','syncMeta','actualShifts','breakConfig','actualImportBatches','actualCorrectionRequests','actualWorkflow','actualPlanVersions','actualConfig','documentLog','deliveryLog','notificationInbox','notificationPreferences','pushSubscriptions','personRules','absences','replacementRequests','memberShiftOffers','memberUxData','eventConfig','daySettings','demandMatrix','daysRuntime','planLocks','integrationConfig','supabaseSession'];
++    const keys=['shifts','standby','wishes','workflow','planVersions','acknowledgements','swapRequests','peopleSnapshot','auditLog','syncOutbox','syncConflicts','syncMeta','actualShifts','breakConfig','actualImportBatches','actualCorrectionRequests','actualWorkflow','actualPlanVersions','actualConfig','documentLog','deliveryLog','notificationInbox','notificationPreferences','pushSubscriptions','personRules','absences','replacementRequests','memberShiftOffers','memberUxData','eventConfig','daySettings','demandMatrix','daysRuntime','planLocks','integrationConfig','supabaseSession','specialEvents'];
+     loadTask=K.longTask?.start?.({title:'KC DP2 wird geladen',total:keys.length,label:'Lokale Daten werden entschlüsselt …',showAfter:220});
+     startupStage='secure-read';const vals=K.storage.getMany?await K.storage.getMany(keys,{onProgress:(done,total,info)=>{loadTask?.update(Math.min(done,keys.length),info?.legacy?'Bestehende verschlüsselte Daten werden einmalig optimiert …':'Lokale Daten werden geladen …')}}):await Promise.all(keys.map(k=>K.storage.get(k)));setIdbStatus(true,'Verschlüsselte lokale Daten erfolgreich gelesen');startupStage='application-restore';
+     loadTask?.finish(K.storage.stats?.().migrated?'Lokale Daten optimiert und geladen':'Lokale Daten geladen');K.databaseDiagnostics?.markStartup?.('daten','Lokale Bereiche entschlüsselt');
+@@ -675,6 +675,7 @@ async function unlockSecureStore(){return new Promise(resolve=>{openModal(`<h2>
+     if(Array.isArray(savedPeople)&&savedPeople.length)K.personAdapter.applySnapshot(savedPeople,{source:'local_snapshot'});
+     if(Array.isArray(saved))K.shifts=saved;if(Array.isArray(savedStandby))K.standby=savedStandby;if(Array.isArray(savedWishes))K.wishes=savedWishes;
+     if(savedWorkflow&&typeof savedWorkflow==='object')K.workflow=savedWorkflow;if(savedBreakConfig&&typeof savedBreakConfig==='object')K.breakConfig={...K.breakConfig,...savedBreakConfig,thresholds:Array.isArray(savedBreakConfig.thresholds)?savedBreakConfig.thresholds:K.breakConfig.thresholds};if(Array.isArray(savedVersions))K.planVersions=savedVersions;if(Array.isArray(savedAcks))K.acknowledgements=savedAcks;if(Array.isArray(savedSwaps))K.swapRequests=savedSwaps;if(Array.isArray(savedAudit))K.auditLog=savedAudit;if(Array.isArray(savedActual))K.actualShifts=savedActual;if(Array.isArray(savedActualBatches))K.actualImportBatches=savedActualBatches;if(Array.isArray(savedActualCorrections))K.actualCorrectionRequests=savedActualCorrections;if(savedActualWorkflow&&typeof savedActualWorkflow==='object')K.actualWorkflow=savedActualWorkflow;if(Array.isArray(savedActualVersions))K.actualPlanVersions=savedActualVersions;if(savedActualConfig?.toleranceMinutes)K.actualConfig=savedActualConfig;if(Array.isArray(savedDocumentLog))K.documentLog=savedDocumentLog;if(Array.isArray(savedDeliveryLog))K.deliveryLog=savedDeliveryLog;if(Array.isArray(savedNotificationInbox))K.notificationInbox=savedNotificationInbox;if(savedNotificationPreferences&&typeof savedNotificationPreferences==='object')K.notificationPreferences=savedNotificationPreferences;if(savedPushSubscriptions&&typeof savedPushSubscriptions==='object')K.pushSubscriptions=savedPushSubscriptions;if(savedPersonRules&&typeof savedPersonRules==='object')K.personRules=savedPersonRules;if(Array.isArray(savedAbsences))K.absences=savedAbsences;if(Array.isArray(savedReplacementRequests))K.replacementRequests=savedReplacementRequests;if(Array.isArray(savedMemberShiftOffers))K.memberShiftOffers=savedMemberShiftOffers;if(savedMemberUxData&&typeof savedMemberUxData==='object')K.memberUxData={...K.memberUxData,...savedMemberUxData};if(savedEventConfig||savedDaySettings||savedDemandMatrix)K.configuration?.restore?.({eventConfig:savedEventConfig,daySettings:savedDaySettings,demandMatrix:savedDemandMatrix});if(Array.isArray(savedDaysRuntime)){for(const x of savedDaysRuntime){const d=K.days.find(q=>q.date===x.date);if(d){if(x.weather)d.weather=x.weather;if(Array.isArray(x.program))d.program=x.program;if('notes' in x)d.notes=x.notes;}}}if(savedPlanLocks&&typeof savedPlanLocks==='object')K.planLocks=savedPlanLocks;if(savedIntegrationConfig&&typeof savedIntegrationConfig==='object'){K.integrations?.restore?.(savedIntegrationConfig);}if(savedSupabaseSession&&K.memberAccess?.state?.status!=='authenticated')K.supabaseConnection?.restoreSession?.(savedSupabaseSession);const personMigration=K.personAdapter?.migrateReferences?.();if(personMigration?.changed)K.recordAudit?.('people.references_migrated',{entity:'people',after:{count:personMigration.count}});K.pcManagerConnection?.bindProviders?.();K.supabaseConnection?.configureIfPossible?.();resetAutoSyncTimer();
++    K.specialEventsCore?.restore?.(vals[keys.indexOf('specialEvents')]);
+     K.sync?.restore?.({outbox:savedOutbox||[],conflicts:savedConflicts||[],meta:savedSyncMeta||{status:K.sync.hasProvider()?'ready':'offline'}});if(personMigration?.changed)await persist();
+     K.refreshWorkflowState();syncLed();
+     if((Array.isArray(saved)&&saved.length)||(Array.isArray(savedStandby)&&savedStandby.length)||(Array.isArray(savedWishes)&&savedWishes.length)||K.planVersions.length)msg('✓ Verschlüsselter lokaler Stand inkl. Rechte-/Sync-Metadaten geladen.','success');
+diff --git a/src/ui/register-actions.js b/src/ui/register-actions.js
+index 99ff9a9..d045691 100644
+--- a/src/ui/register-actions.js
++++ b/src/ui/register-actions.js
+@@ -5,7 +5,7 @@
+     dashboard:[['refresh','↻ Aktualisieren'],['copy','⧉ Zusammenfassung kopieren'],['print','⎙ Drucken / PDF']],
+     demand:[['demand-sync','↻ Wetter und Bühne aus PC Manager'],['demand-edit','✎ Grundbedarf bearbeiten'],['demand-copy','⧉ Bedarf auf anderen Tag kopieren'],['print','⎙ Drucken / PDF']],
+     wish:[['wish-add','＋ Wunsch eintragen'],['wish-photo','📷 Planfoto einlesen'],['forms-center','▤ Formulare & Vorlagen'],['wish-template','⇩ Excel-Vorlage herunterladen'],['print','⎙ Drucken / PDF']],
+-    planned:[['plan-add','＋ Dienst anlegen'],['plan-check','✓ Plan prüfen'],['plan-quick','＋ Schnell einplanen'],['plan-publish','⇧ Sollplan veröffentlichen'],['print','⎙ Drucken / PDF']],
++    planned:[['plan-add','＋ Dienst anlegen'],['plan-check','✓ Plan prüfen'],['plan-quick','＋ Schnell einplanen'],['plan-publish','⇧ Sollplan veröffentlichen'],['special-events','★ Sondereinsätze'],['print','⎙ Drucken / PDF']],
+     actual:[['actual-import','⇩ Istzeiten importieren'],['print','⎙ Drucken / PDF']],
+     matrix:[['plan-check','✓ Besetzungslücken prüfen'],['copy','⧉ Ansicht kopieren'],['print','⎙ Drucken / PDF']],
+     deviations:[['copy','⧉ Übersicht kopieren'],['print','⎙ Drucken / PDF']],
+@@ -16,7 +16,7 @@
+   function close(){popup?.remove();popup=null;document.querySelectorAll('.v020-tab-menu').forEach(x=>x.setAttribute('aria-expanded','false'))}
+   function clickLater(id){setTimeout(()=>document.getElementById(id)?.click(),50)}
+   async function copyView(){const text=document.getElementById('mainView')?.innerText?.trim()||'';if(!text)return;try{await navigator.clipboard.writeText(text);document.getElementById('messageText').textContent='Ansicht in die Zwischenablage kopiert.'}catch(_){alert('Kopieren ist in diesem Browser nicht freigegeben.')}}
+-  function run(action){close();if(action==='refresh'){K.render?.();return}if(action==='copy'){copyView();return}if(action==='print'){window.print();return}if(action==='demand-sync')return K.demandView?.sync?.();if(action==='demand-edit')return K.demandView?.edit?.();if(action==='demand-copy')return K.demandView?.copy?.();if(action==='wish-add')return clickLater('addWishInline');if(action==='wish-photo')return clickLater('photoBtn');if(action==='forms-center')return K.formsCenter?.open?.();if(action==='plan-add')return clickLater('addShiftBtn');if(action==='plan-check')return clickLater('checkBtn');if(action==='plan-quick')return clickLater('quickPlanBtn');if(action==='plan-publish')return clickLater('publishBtn');if(action==='actual-import')return clickLater('actualImportBtn');if(action==='fair-csv')return clickLater('fairCsv');if(action==='wish-template'){const a=document.createElement('a');a.href='templates/KC_DP2_Wunschzeiten_Vorlage_Weihnachtsmarkt_2026.xlsx';a.download='';a.click()}}
++  function run(action){close();if(action==='special-events')return K.specialEventsUi?.open?.();if(action==='refresh'){K.render?.();return}if(action==='copy'){copyView();return}if(action==='print'){window.print();return}if(action==='demand-sync')return K.demandView?.sync?.();if(action==='demand-edit')return K.demandView?.edit?.();if(action==='demand-copy')return K.demandView?.copy?.();if(action==='wish-add')return clickLater('addWishInline');if(action==='wish-photo')return clickLater('photoBtn');if(action==='forms-center')return K.formsCenter?.open?.();if(action==='plan-add')return clickLater('addShiftBtn');if(action==='plan-check')return clickLater('checkBtn');if(action==='plan-quick')return clickLater('quickPlanBtn');if(action==='plan-publish')return clickLater('publishBtn');if(action==='actual-import')return clickLater('actualImportBtn');if(action==='fair-csv')return clickLater('fairCsv');if(action==='wish-template'){const a=document.createElement('a');a.href='templates/KC_DP2_Wunschzeiten_Vorlage_Weihnachtsmarkt_2026.xlsx';a.download='';a.click()}}
+   function open(button,trigger){close();const id=activeId(button);K.v020Shell?.select?.(id,{quiet:true});popup=document.createElement('div');popup.className='v020-register-menu-popup';popup.setAttribute('role','menu');popup.innerHTML=(MENUS[id]||[['print','⎙ Drucken / PDF']]).map(([action,label])=>`<button type="button" role="menuitem" data-register-action="${action}">${label}</button>`).join('');document.body.appendChild(popup);const r=trigger.getBoundingClientRect(),left=Math.min(innerWidth-popup.offsetWidth-8,Math.max(8,r.left));popup.style.left=left+'px';popup.style.top=Math.min(innerHeight-popup.offsetHeight-8,r.bottom+5)+'px';trigger.setAttribute('aria-expanded','true');popup.querySelectorAll('[data-register-action]').forEach(x=>x.addEventListener('click',()=>run(x.dataset.registerAction)))}
+   function install(){document.querySelectorAll('#v020RegisterBar [data-v020-register]').forEach(button=>{if(button.querySelector('.v020-tab-menu'))return;const menu=document.createElement('span');menu.className='v020-tab-menu';menu.setAttribute('role','button');menu.setAttribute('aria-label',`Aktionen für ${button.innerText.replace('⋮','').trim()}`);menu.setAttribute('aria-expanded','false');menu.textContent='☰';button.prepend(menu)});document.getElementById('v020RegisterBar')?.addEventListener('click',e=>{const menu=e.target.closest('.v020-tab-menu');if(!menu)return;e.preventDefault();e.stopImmediatePropagation();open(menu.closest('[data-v020-register]'),menu)},true);document.addEventListener('click',e=>{if(popup&&!e.target.closest('.v020-register-menu-popup')&&!e.target.closest('.v020-tab-menu'))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()})}
+   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+diff --git a/src/ui/special-events-ui.js b/src/ui/special-events-ui.js
+new file mode 100644
+index 0000000..ce1c11b
+--- /dev/null
++++ b/src/ui/special-events-ui.js
+@@ -0,0 +1,99 @@
++// DP2-F-SE-01 Sondereinsätze – Planer-Dialog (Register Sollplan → Menü „★ Sondereinsätze“).
++// Nur Oberfläche; Regeln, Termine und Folgedatum liegen in src/core/special-events.js.
++(function(){
++  'use strict';
++  const K=window.KCDP=window.KCDP||{};
++  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
++  const fmt=iso=>{if(!iso)return'';try{return new Intl.DateTimeFormat('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(iso+'T12:00:00'))}catch(_){return iso}};
++  const STATUS={OFFEN:'Termin offen',GEPLANT:'Termin geplant',FEST:'Termin fest'};
++  const core=()=>K.specialEventsCore;
++  const canEdit=()=>K.auth?.has?K.auth.has('roster.plan.edit'):true;
++  const canPublish=()=>(K.auth?.has?K.auth.has('roster.plan.publish'):true)&&!!K.supabaseConnection?.publishSpecialEvents;
++  let editing=null;
++
++  function close(){document.getElementById('seBackdrop')?.remove();editing=null;}
++  function status(textValue,bad=false){const el=document.getElementById('seStatus');if(el){el.textContent=textValue;el.classList.toggle('bad',!!bad);}}
++  async function persist(){try{await K.persistAll?.();}catch(e){status('Gespeichert, aber lokal nicht gesichert: '+(e.message||e),true);}}
++
++  function terminText(e){
++    const x=e.effective;
++    if(e.wiederkehrend==='markttage')return x.datumVon?`an allen Markttagen (${fmt(x.datumVon)} – ${fmt(x.datumBis)})`:'an allen Markttagen';
++    if(e.folgtAuf){const p=core().get(e.folgtAuf);const rel=`${e.abstandTage} ${e.abstandTage===1?'Tag':'Tage'} nach „${esc(p?.titel||'?')}“`;return x.datumVon?`${fmt(x.datumVon)} · ${rel}`:rel;}
++    if(!x.datumVon)return'noch kein Datum';
++    return x.datumBis&&x.datumBis!==x.datumVon?`${fmt(x.datumVon)} – ${fmt(x.datumBis)}`:fmt(x.datumVon);
++  }
++
++  function listHtml(){
++    const items=core().list();
++    if(!items.length)return'<p class="se-empty">Noch keine Sondereinsätze angelegt. Beispiele: Grünkohl kochen, Abholung und Transport, Getränke mischen zuhause.</p>';
++    return `<ul class="se-list">${items.map(e=>`<li class="se-item" data-se="${esc(e.id)}"><div><b>${esc(e.titel)}</b>${e.ort?`<span class="se-ort">${esc(e.ort)}</span>`:''}<small>${esc(e.artLabel)} · ${terminText(e)}</small></div><span class="se-badge se-${e.effective.terminStatus.toLowerCase()}">${STATUS[e.effective.terminStatus]}</span>${canEdit()?`<div class="se-row-actions"><button type="button" class="ux-btn secondary" data-se-edit="${esc(e.id)}">✎ Bearbeiten</button><button type="button" class="ux-btn secondary" data-se-end="${esc(e.id)}">Beenden</button></div>`:''}</li>`).join('')}</ul>`;
++  }
++
++  function formHtml(e){
++    const v=e||{titel:'',ort:'',art:'kochen',terminStatus:'OFFEN',datumVon:'',datumBis:'',folgtAuf:'',abstandTage:2,wiederkehrend:null,bemerkung:''};
++    const mode=v.wiederkehrend==='markttage'?'markttage':v.folgtAuf?'folgt':'eigen';
++    const parents=core().list().filter(x=>!e||x.id!==e.id);
++    return `<form id="seForm" class="se-form" novalidate>
++      <h3>${e?'Sondereinsatz bearbeiten':'Neuer Sondereinsatz'}</h3>
++      <label>Titel<input id="seTitel" maxlength="120" required value="${esc(v.titel)}" placeholder="z. B. Grünkohl kochen"></label>
++      <label>Ort<input id="seOrt" maxlength="120" value="${esc(v.ort)}" placeholder="z. B. Krankenhaus Dortmund"></label>
++      <label>Art<select id="seArt">${K.specialEventKinds.map(k=>`<option value="${esc(k.id)}" ${k.id===v.art?'selected':''}>${esc(k.label)}</option>`).join('')}</select></label>
++      <fieldset class="se-mode"><legend>Termin</legend>
++        <label><input type="radio" name="seMode" value="eigen" ${mode==='eigen'?'checked':''}> Eigener Termin</label>
++        <label><input type="radio" name="seMode" value="folgt" ${mode==='folgt'?'checked':''} ${parents.length?'':'disabled'}> Folgt auf einen anderen Einsatz</label>
++        <label><input type="radio" name="seMode" value="markttage" ${mode==='markttage'?'checked':''}> An allen Markttagen</label>
++      </fieldset>
++      <div class="se-part" data-part="eigen">
++        <label>Stand<select id="seStatusSel">${Object.entries(STATUS).map(([k,l])=>`<option value="${k}" ${k===v.terminStatus?'selected':''}>${l}</option>`).join('')}</select></label>
++        <label>Von<input type="date" id="seVon" value="${esc(v.datumVon||'')}"></label>
++        <label>Bis (freiwillig)<input type="date" id="seBis" value="${esc(v.datumBis||'')}"></label>
++      </div>
++      <div class="se-part" data-part="folgt">
++        <label>Vorgänger<select id="seFolgt">${parents.map(p=>`<option value="${esc(p.id)}" ${p.id===v.folgtAuf?'selected':''}>${esc(p.titel)}</option>`).join('')}</select></label>
++        <label>Tage danach<input type="number" id="seAbstand" min="0" max="60" step="1" value="${esc(v.abstandTage??2)}"></label>
++        <p class="se-hint">Das Datum rückt automatisch mit, sobald der Vorgänger einen Termin hat.</p>
++      </div>
++      <div class="se-part" data-part="markttage"><p class="se-hint">Gilt für jeden Markttag, z. B. Getränke mischen zuhause und anliefern.</p></div>
++      <label>Bemerkung (freiwillig)<textarea id="seBemerkung" maxlength="500" rows="2">${esc(v.bemerkung||'')}</textarea></label>
++      <div class="se-actions"><button type="submit" class="ux-btn">${e?'Änderung speichern':'Sondereinsatz anlegen'}</button>${e?'<button type="button" class="ux-btn secondary" id="seCancel">Abbrechen</button>':''}</div>
++    </form>`;
++  }
++
++  function syncParts(){const mode=document.querySelector('input[name="seMode"]:checked')?.value||'eigen';document.querySelectorAll('.se-part').forEach(p=>p.hidden=p.dataset.part!==mode);}
++
++  function readForm(){
++    const mode=document.querySelector('input[name="seMode"]:checked')?.value||'eigen',val=id=>document.getElementById(id)?.value??'';
++    const base={titel:val('seTitel'),ort:val('seOrt'),art:val('seArt'),bemerkung:val('seBemerkung')};
++    if(mode==='folgt')return {...base,folgtAuf:val('seFolgt'),abstandTage:Number(val('seAbstand')),wiederkehrend:null,terminStatus:'OFFEN',datumVon:null,datumBis:null};
++    if(mode==='markttage')return {...base,folgtAuf:null,wiederkehrend:'markttage',terminStatus:'FEST',datumVon:null,datumBis:null};
++    return {...base,folgtAuf:null,wiederkehrend:null,terminStatus:val('seStatusSel'),datumVon:val('seVon')||null,datumBis:val('seBis')||null};
++  }
++
++  function render(){
++    const body=document.getElementById('seBody');if(!body)return;
++    body.innerHTML=`${listHtml()}${canEdit()?formHtml(editing?core().get(editing):null):'<p class="se-hint">Sondereinsätze legt der Planer an.</p>'}`;
++    body.querySelectorAll('[data-se-edit]').forEach(b=>b.onclick=()=>{editing=b.dataset.seEdit;render();document.getElementById('seTitel')?.focus();});
++    body.querySelectorAll('[data-se-end]').forEach(b=>b.onclick=async()=>{const e=core().get(b.dataset.seEnd);const reason=window.prompt(`Warum wird „${e?.titel}“ beendet?`,'');if(reason==null)return;try{core().deactivate(b.dataset.seEnd,{reason});await persist();status('Sondereinsatz beendet.');render();}catch(err){status(err.message||String(err),true);}});
++    body.querySelectorAll('input[name="seMode"]').forEach(r=>r.onchange=syncParts);syncParts();
++    const cancel=document.getElementById('seCancel');if(cancel)cancel.onclick=()=>{editing=null;render();};
++    const form=document.getElementById('seForm');
++    if(form)form.onsubmit=async ev=>{ev.preventDefault();try{const data=readForm();const saved=editing?core().update(editing,data,{reason:'Planer-Dialog'}):core().create(data,{reason:'Planer-Dialog'});editing=null;await persist();render();status(`Gespeichert: ${saved.titel}.`);}catch(err){status(err.message||String(err),true);}};
++  }
++
++  function open(){
++    if(!core())return;
++    close();
++    const back=document.createElement('div');back.id='seBackdrop';back.className='se-backdrop';
++    back.innerHTML=`<section class="se-panel" role="dialog" aria-modal="true" aria-labelledby="seTitle"><header class="se-head"><h2 id="seTitle">★ Sondereinsätze</h2><button type="button" class="se-close" id="seClose" aria-label="Schließen">×</button></header><p class="se-intro">Einsätze außerhalb des Stands, deren Stunden dem Stundenkonto „${esc(K.eventConfig?.name||'Weihnachtsmarkt')}“ gutgeschrieben werden. Der Termin darf noch offen sein.</p><div id="seBody" class="se-body"></div><footer class="se-foot"><span id="seStatus" class="se-status" role="status" aria-live="polite"></span>${canPublish()?'<button type="button" class="ux-btn secondary" id="sePublish">⇧ Für Mitglieder veröffentlichen</button>':''}</footer></section>`;
++    document.body.appendChild(back);
++    back.addEventListener('click',e=>{if(e.target===back)close();});
++    back.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
++    document.getElementById('seClose').onclick=close;
++    const pub=document.getElementById('sePublish');
++    if(pub)pub.onclick=async()=>{pub.disabled=true;status('Wird veröffentlicht …');try{const r=await core().publish();status(`Veröffentlicht: ${r?.upserted??0} Sondereinsätze.`);}catch(err){status('Nicht veröffentlicht: '+(err.message||err),true);}finally{pub.disabled=false;}};
++    render();
++    document.getElementById('seClose').focus();
++  }
++
++  K.specialEventsUi={version:'0.1.0',open,close};
++})();
+diff --git a/src/ui/special-events.css b/src/ui/special-events.css
+new file mode 100644
+index 0000000..974b9a5
+--- /dev/null
++++ b/src/ui/special-events.css
+@@ -0,0 +1,28 @@
++/* DP2-F-SE-01 Sondereinsätze – Planer-Dialog */
++.se-backdrop{position:fixed;inset:0;z-index:10020;display:flex;align-items:flex-start;justify-content:center;padding:56px 16px 20px;background:#0005}
++.se-panel{display:flex;flex-direction:column;width:min(680px,96vw);max-height:calc(100vh - 76px);overflow:hidden;border:1px solid #d8cfc7;border-radius:15px;background:#fff;box-shadow:0 18px 55px #0004;color:#2b2420}
++.se-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #e4ddd6}
++.se-head h2{margin:0;font-size:17px;color:#5f2330}
++.se-close{width:40px;height:40px;border:1px solid #d6cdc5;border-radius:10px;background:#fff;font-size:22px;cursor:pointer}
++.se-intro{margin:10px 14px 0;font-size:13px;color:#6d625a}
++.se-body{display:grid;gap:14px;padding:12px 14px;overflow:auto}
++.se-empty,.se-hint{margin:0;font-size:13px;color:#6d625a}
++.se-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
++.se-item{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:start;padding:10px 12px;border:1px solid #e1d8d0;border-radius:11px;background:#fbf8f5}
++.se-item b{display:block;font-size:14px}.se-item small{display:block;margin-top:2px;font-size:12px;color:#6d625a}
++.se-ort{display:block;font-size:12px;color:#5f2330}
++.se-badge{padding:3px 8px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
++.se-offen{background:#f1e4c8;color:#6b4a00}.se-geplant{background:#dde7f3;color:#1f4167}.se-fest{background:#dcefdf;color:#1d5a2a}
++.se-row-actions{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
++.se-form{display:grid;gap:9px;padding:12px;border:1px solid #e1d8d0;border-radius:11px}
++.se-form h3{margin:0;font-size:14px}
++.se-form label{display:grid;gap:3px;font-size:12px;font-weight:700;color:#4b413a}
++.se-form input,.se-form select,.se-form textarea{min-height:38px;padding:6px 8px;border:1px solid #cfc6bd;border-radius:8px;font:inherit;font-weight:400}
++.se-mode{display:grid;gap:4px;margin:0;padding:8px 10px;border:1px solid #e1d8d0;border-radius:9px}
++.se-mode legend{padding:0 4px;font-size:12px;font-weight:800}
++.se-mode label{display:flex;gap:6px;align-items:center;font-weight:400}.se-mode input{min-height:auto}
++.se-part{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}.se-part[hidden]{display:none}
++.se-actions{display:flex;gap:8px;flex-wrap:wrap}
++.se-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-top:1px solid #e4ddd6}
++.se-status{font-size:12px;color:#1d5a2a}.se-status.bad{color:#8b1d1d}
++@media (max-width:560px){.se-backdrop{padding:12px 8px}.se-panel{max-height:calc(100vh - 24px)}.se-item{grid-template-columns:1fr}}
+diff --git a/supabase/migrations/20261015120000_kc_dp_special_events.sql b/supabase/migrations/20261015120000_kc_dp_special_events.sql
+new file mode 100644
+index 0000000..d161718
+--- /dev/null
++++ b/supabase/migrations/20261015120000_kc_dp_special_events.sql
+@@ -0,0 +1,139 @@
++-- DP2-F-SE-01 Sondereinsätze (KICC-F-100, Phase 1): DP2 veröffentlicht seine Sondereinsätze hierher
++-- (Grünkohl kochen, Abholung/Transport, Getränke zuhause …). Gelesen von DP2-Mitgliedern des Vereins und
++-- später serverseitig von der Club App (kc-club, Service-Rolle) für Twinkey „Sonderstunden melden“.
++-- Rein additiv – fasst keine bestehende Tabelle/Funktion an.
++-- Rückweg: drop function public.kc_dp_special_events_publish(text, text, jsonb); drop table public.kc_dp_special_events;
++
++create table if not exists public.kc_dp_special_events (
++  id uuid primary key default gen_random_uuid(),
++  org_id text not null,
++  project_id text not null default 'KC_DP',
++  event_id text not null,
++  source_id text not null,
++  titel text not null check (char_length(titel) between 1 and 120),
++  ort text check (ort is null or char_length(ort) <= 120),
++  art text not null check (char_length(art) between 1 and 40),
++  termin_status text not null default 'OFFEN' check (termin_status in ('OFFEN', 'GEPLANT', 'FEST')),
++  datum_von date,
++  datum_bis date,
++  folgt_auf text,
++  abstand_tage integer check (abstand_tage is null or abstand_tage between 0 and 60),
++  wiederkehrend text check (wiederkehrend is null or wiederkehrend in ('markttage')),
++  bemerkung text check (bemerkung is null or char_length(bemerkung) <= 500),
++  status text not null default 'published' check (status in ('published', 'removed')),
++  source_version text,
++  payload jsonb not null,
++  checksum text not null,
++  published_at timestamptz not null default now(),
++  updated_at timestamptz not null default now(),
++  unique (org_id, event_id, source_id),
++  check (datum_bis is null or datum_von is null or datum_bis >= datum_von)
++);
++
++create index if not exists kc_dp_special_events_lookup
++  on public.kc_dp_special_events (org_id, event_id, status);
++
++alter table public.kc_dp_special_events enable row level security;
++revoke all privileges on table public.kc_dp_special_events from anon;
++revoke insert, update, delete, truncate on table public.kc_dp_special_events from authenticated;
++
++-- Lesen: jedes aktive DP2-Mitglied des Vereins (Mitglieder sollen die Einsätze in Twinkey sehen).
++create policy kc_dp_special_events_member_read
++  on public.kc_dp_special_events
++  for select
++  to authenticated
++  using (
++    exists (
++      select 1 from public.kc_dp_memberships m
++      where m.user_id = (select auth.uid())
++        and m.org_id = kc_dp_special_events.org_id
++        and m.active is true
++    )
++  );
++
++-- Schreiben nur über diese Funktion (SECURITY DEFINER, prüft die Planungsrolle selbst – Muster kc_dp_plan_publish).
++-- Was im Stapel fehlt, wird weich auf status='removed' gesetzt.
++create or replace function public.kc_dp_special_events_publish(p_org_id text, p_event_id text, p_rows jsonb)
++returns jsonb
++language plpgsql
++security definer
++set search_path to 'pg_catalog', 'public', 'pg_temp'
++as $function$
++declare
++  v_row jsonb;
++  v_upserted integer := 0;
++  v_source_id text;
++  v_ids text[] := '{}';
++begin
++  if (select auth.uid()) is null then
++    raise exception 'Anmeldung erforderlich';
++  end if;
++  if not exists (
++    select 1 from public.kc_dp_memberships m
++    where m.user_id = (select auth.uid())
++      and m.org_id = p_org_id
++      and m.active is true
++      and m.role in ('admin','planner','duty_manager')
++  ) then
++    raise exception 'Keine aktive dp2-Planungsberechtigung';
++  end if;
++  if coalesce(length(trim(p_event_id)), 0) = 0 or length(p_event_id) > 64 then
++    raise exception 'Veranstaltungs-ID fehlt oder ist zu lang';
++  end if;
++  if jsonb_typeof(p_rows) <> 'array' or jsonb_array_length(p_rows) > 500 then
++    raise exception 'Die Sondereinsätze müssen als Liste mit höchstens 500 Zeilen übergeben werden';
++  end if;
++
++  for v_row in select value from jsonb_array_elements(p_rows) loop
++    v_source_id := nullif(trim(v_row->>'sourceId'), '');
++    if v_source_id is null or length(v_source_id) > 80 then
++      raise exception 'Ein Sondereinsatz besitzt keine gültige Quellen-ID';
++    end if;
++    v_ids := v_ids || v_source_id;
++
++    insert into public.kc_dp_special_events (
++      org_id, project_id, event_id, source_id, titel, ort, art, termin_status, datum_von, datum_bis,
++      folgt_auf, abstand_tage, wiederkehrend, bemerkung, status, source_version, payload, checksum,
++      published_at, updated_at
++    ) values (
++      p_org_id, 'KC_DP', trim(p_event_id), v_source_id,
++      trim(v_row->>'titel'), nullif(trim(v_row->>'ort'), ''), trim(v_row->>'art'),
++      coalesce(nullif(v_row->>'terminStatus', ''), 'OFFEN'),
++      nullif(v_row->>'datumVon', '')::date, nullif(v_row->>'datumBis', '')::date,
++      nullif(trim(v_row->>'folgtAuf'), ''), nullif(v_row->>'abstandTage', '')::integer,
++      nullif(v_row->>'wiederkehrend', ''), nullif(trim(v_row->>'bemerkung'), ''),
++      'published', 'KC_DP_SPECIAL_EVENTS_V1/0.1.0', v_row,
++      md5(concat_ws('|', p_org_id, p_event_id, v_source_id, v_row->>'version', v_row->>'terminStatus', v_row->>'datumVon', v_row->>'datumBis')),
++      now(), now()
++    )
++    on conflict (org_id, event_id, source_id) do update set
++      titel = excluded.titel,
++      ort = excluded.ort,
++      art = excluded.art,
++      termin_status = excluded.termin_status,
++      datum_von = excluded.datum_von,
++      datum_bis = excluded.datum_bis,
++      folgt_auf = excluded.folgt_auf,
++      abstand_tage = excluded.abstand_tage,
++      wiederkehrend = excluded.wiederkehrend,
++      bemerkung = excluded.bemerkung,
++      status = 'published',
++      payload = excluded.payload,
++      checksum = excluded.checksum,
++      updated_at = now();
++    v_upserted := v_upserted + 1;
++  end loop;
++
++  update public.kc_dp_special_events
++  set status = 'removed', updated_at = now()
++  where org_id = p_org_id
++    and event_id = trim(p_event_id)
++    and status = 'published'
++    and not (source_id = any(v_ids));
++
++  return jsonb_build_object('ok', true, 'received', jsonb_array_length(p_rows), 'upserted', v_upserted, 'eventId', p_event_id);
++end;
++$function$;
++
++revoke all on function public.kc_dp_special_events_publish(text,text,jsonb) from public, anon;
++grant execute on function public.kc_dp_special_events_publish(text, text, jsonb) to authenticated;
+diff --git a/tools/supabase-security-contract.mjs b/tools/supabase-security-contract.mjs
+index 9539ab2..1d54104 100644
+--- a/tools/supabase-security-contract.mjs
++++ b/tools/supabase-security-contract.mjs
+@@ -1,4 +1,4 @@
+ import assert from 'node:assert/strict';import {readFile,readdir} from 'node:fs/promises';import path from 'node:path';
+ const dir=path.resolve(import.meta.dirname,'../supabase/migrations'),names=(await readdir(dir)).filter(x=>x.endsWith('.sql')).sort(),sql=(await Promise.all(names.map(n=>readFile(path.join(dir,n),'utf8')))).join('\n').toLowerCase();
+-for(const table of ['kc_dp_timeclock_actuals','kc_dp_timeclock_receipts']){assert.match(sql,new RegExp(`alter table public\\.${table} enable row level security`),`${table}: RLS fehlt`);assert.match(sql,new RegExp(`revoke all privileges on table public\\.${table} from anon`),`${table}: anon-Entzug fehlt`);assert.match(sql,new RegExp(`create policy [\\s\\S]*? on public\\.${table}`),`${table}: Policy fehlt`);}
+-assert.match(sql,/security definer[\s\S]*?if \(select auth\.uid\(\)\) is null/,'SECURITY-DEFINER-Funktion braucht Benutzerprüfung');assert.match(sql,/revoke all on function public\.kc_dp_timeclock_publish\(text,text,jsonb\) from public, anon/,'PUBLIC/anon EXECUTE muss entzogen sein');assert.match(sql,/role in \('admin','superadmin'\)/,'Manager-Schreibweg braucht Adminrolle');assert.match(sql,/role in \('admin','planner','duty_manager'\)/,'DP2-Leseweg braucht Planerrolle');assert.doesNotMatch(sql,/auth\.role\(\)/,'Veraltetes auth.role() darf nicht verwendet werden');console.log(`Supabase-Sicherheitsvertrag OK: ${names.length} Migrationen, RLS, Rollen und RPC-Rechte geprüft.`);
+\ No newline at end of file
++for(const table of ['kc_dp_timeclock_actuals','kc_dp_timeclock_receipts','kc_dp_special_events']){assert.match(sql,new RegExp(`alter table public\\.${table} enable row level security`),`${table}: RLS fehlt`);assert.match(sql,new RegExp(`revoke all privileges on table public\\.${table} from anon`),`${table}: anon-Entzug fehlt`);assert.match(sql,new RegExp(`create policy [\\s\\S]*? on public\\.${table}`),`${table}: Policy fehlt`);}
++assert.match(sql,/security definer[\s\S]*?if \(select auth\.uid\(\)\) is null/,'SECURITY-DEFINER-Funktion braucht Benutzerprüfung');assert.match(sql,/revoke all on function public\.kc_dp_timeclock_publish\(text,text,jsonb\) from public, anon/,'PUBLIC/anon EXECUTE muss entzogen sein');assert.match(sql,/role in \('admin','superadmin'\)/,'Manager-Schreibweg braucht Adminrolle');assert.match(sql,/role in \('admin','planner','duty_manager'\)/,'DP2-Leseweg braucht Planerrolle');assert.match(sql,/revoke all on function public\.kc_dp_special_events_publish\(text,text,jsonb\) from public, anon/,'Sondereinsätze: PUBLIC/anon EXECUTE muss entzogen sein');assert.doesNotMatch(sql,/auth\.role\(\)/,'Veraltetes auth.role() darf nicht verwendet werden');console.log(`Supabase-Sicherheitsvertrag OK: ${names.length} Migrationen, RLS, Rollen und RPC-Rechte geprüft.`);
+\ No newline at end of file
+diff --git a/tools/test-special-events.mjs b/tools/test-special-events.mjs
+new file mode 100644
+index 0000000..eee269d
+--- /dev/null
++++ b/tools/test-special-events.mjs
+@@ -0,0 +1,86 @@
++// DP2-F-SE-01 Sondereinsätze: Termin offen, Folgedatum, Markttage, Prüfregeln, Veröffentlichungszeilen.
++import assert from 'node:assert/strict';
++import { readFile } from 'node:fs/promises';
++import path from 'node:path';
++import vm from 'node:vm';
++
++const root=path.resolve(import.meta.dirname,'..');
++const context=vm.createContext({window:{},document:{readyState:'complete',write:()=>{}},console,setTimeout,clearTimeout,structuredClone});
++for(const file of ['src/core/model.js','src/core/auth.js','src/core/configuration.js','src/core/special-events.js']){
++  vm.runInContext(await readFile(path.join(root,file),'utf8'),context,{filename:file});
++}
++const K=context.window.KCDP,S=K.specialEventsCore;
++const audit=[];K.recordAudit=(action,meta)=>audit.push({action,...meta});
++const queued=[];K.sync={enqueue:op=>queued.push(op)};
++assert.equal(S.VERSION,'0.1.0');
++const daysBefore=JSON.stringify(K.days);
++
++// Termin noch offen: kein Datum nötig, kein Datum wirksam.
++const kochen=S.create({titel:'Grünkohl kochen',ort:'Krankenhaus Dortmund',art:'kochen'});
++assert.equal(kochen.terminStatus,'OFFEN');
++assert.equal(kochen.effective.datumVon,null);
++assert.deepEqual([...kochen.effective.dates],[]);
++assert.equal(kochen.eventId,'KC-WM-2026','Stundenkonto ist die Veranstaltung aus eventConfig');
++
++// Abholung folgt dem Kochen nach 2 Tagen – solange offen, ebenfalls ohne Datum.
++const abholung=S.create({titel:'Grünkohl abholen Dortmund → Tiefkühler Hamm',art:'transport',folgtAuf:kochen.id,abstandTage:2});
++assert.equal(abholung.effective.terminStatus,'OFFEN');
++assert.equal(abholung.effective.datumVon,null);
++
++// Kochtermin wird fest → Abholung rückt automatisch mit.
++S.setTermin(kochen.id,{terminStatus:'FEST',datumVon:'2027-01-12'});
++assert.equal(S.get(abholung.id).effective.datumVon,'2027-01-14');
++assert.equal(S.get(abholung.id).effective.terminStatus,'FEST');
++S.setTermin(kochen.id,{terminStatus:'FEST',datumVon:'2027-01-19'});
++assert.equal(S.get(abholung.id).effective.datumVon,'2027-01-21','Verschobener Kochtermin verschiebt die Abholung');
++assert.equal(S.get(abholung.id).datumVon,null,'Folgedatum wird berechnet, nicht gespeichert');
++
++// Monatswechsel und Kette über zwei Stufen.
++S.setTermin(kochen.id,{terminStatus:'GEPLANT',datumVon:'2027-01-30'});
++const einlagern=S.create({titel:'Kontrolle Tiefkühler',art:'sonstiges',folgtAuf:abholung.id,abstandTage:1});
++assert.equal(S.get(abholung.id).effective.datumVon,'2027-02-01');
++assert.equal(S.get(einlagern.id).effective.datumVon,'2027-02-02');
++assert.equal(S.get(einlagern.id).effective.terminStatus,'GEPLANT');
++
++// Getränke: wiederkehrend an allen Markttagen.
++const getraenke=S.create({titel:'Getränke mischen zuhause + Anlieferung',art:'vorbereitung_zuhause',wiederkehrend:'markttage'});
++const markttage=[...K.days.filter(d=>d.type==="market").map(d=>d.date)];
++assert.deepEqual([...getraenke.effective.dates],markttage);
++assert.equal(getraenke.effective.terminStatus,'FEST');
++
++// Prüfregeln.
++assert.throws(()=>S.create({titel:'',art:'kochen'}),/Titel/);
++assert.throws(()=>S.create({titel:'X',art:'erfunden'}),/Art aus der Liste/);
++assert.throws(()=>S.create({titel:'X',art:'kochen',terminStatus:'FEST'}),/Datum/);
++assert.throws(()=>S.create({titel:'X',art:'kochen',datumVon:'2027-01-10',datumBis:'2027-01-09'}),/Enddatum/);
++assert.throws(()=>S.create({titel:'X',art:'kochen',datumVon:'2027-02-30'}),/Datum/,'Ungültiges Datum wird verworfen');
++assert.throws(()=>S.create({titel:'X',art:'transport',folgtAuf:'SE-gibt-es-nicht',abstandTage:2}),/Vorgänger/);
++assert.throws(()=>S.create({titel:'X',art:'transport',folgtAuf:kochen.id,abstandTage:99}),/Abstand/);
++assert.throws(()=>S.update(kochen.id,{folgtAuf:einlagern.id,abstandTage:1}),/Kreis/,'Zyklus wird verhindert');
++assert.throws(()=>S.deactivate(kochen.id,{reason:'abgesagt'}),/Folge-Einsätze/,'Vorgänger mit aktiven Folgen kann nicht beendet werden');
++assert.throws(()=>S.deactivate(einlagern.id),/Grund/);
++S.deactivate(einlagern.id,{reason:'nicht nötig'});
++assert.equal(S.list().some(e=>e.id===einlagern.id),false);
++assert.equal(S.list({includeInactive:true}).some(e=>e.id===einlagern.id),true,'Beendete Einsätze bleiben nachvollziehbar');
++
++// Audit, Sync, Version.
++assert.ok(audit.some(a=>a.action==='special_event.create'));
++assert.ok(audit.some(a=>a.action==='special_event.update'&&a.before&&a.after));
++assert.ok(queued.every(q=>q.entity==='special_event'));
++assert.ok(S.get(kochen.id).version>=4);
++
++// Veröffentlichung: nur aktive, mit wirksamem Datum.
++const rows=S.publishRows();
++assert.equal(rows.length,3);
++assert.equal(rows.find(r=>r.sourceId===abholung.id).datumVon,'2027-02-01');
++assert.equal(rows.some(r=>r.sourceId===einlagern.id),false);
++
++// Rechte: ohne Planungsrecht kein Anlegen.
++const has=K.auth.has;K.auth.require=(perm,msg)=>{if(perm==='roster.plan.edit')throw new Error(msg);};
++assert.throws(()=>S.create({titel:'X',art:'kochen'}),/nicht bearbeiten/);
++K.auth.has=has;delete K.auth.require;
++
++// Wiederherstellen und Markttage unberührt.
++const snap=S.snapshot();S.restore([]);assert.equal(S.list().length,0);S.restore(snap);assert.equal(S.list().length,3);
++assert.equal(JSON.stringify(K.days),daysBefore,'K.days bleibt unverändert');
++console.log('✓ Sondereinsätze: Termin offen, Folgedatum, Markttage, Prüfregeln, Audit, Veröffentlichung');
+diff --git a/update-manifest.json b/update-manifest.json
+index 19a115d..5639e3c 100644
+--- a/update-manifest.json
++++ b/update-manifest.json
+@@ -2,9 +2,10 @@
+   "schema": "KC_DP_UPDATE_MANIFEST_V1",
+   "app": "KC DP2",
+   "version": "0.20.0",
+-  "build": 253,
+-  "cacheName": "kc-dp-release-0.20.0-b253",
++  "build": 254,
++  "cacheName": "kc-dp-release-0.20.0-b254",
+   "releaseNotes": [
++    "Build 254: Sondereinsätze – der Planer legt Einsätze außerhalb des Stands an (z. B. Grünkohl kochen, Abholung/Transport, Getränke zuhause), auch mit noch offenem Termin; Folge-Einsätze rücken automatisch mit (z. B. Abholung = Kochtermin + 2 Tage)",
+     "Build 253: weniger Datenbank-Last – Sollplan wird nur bei Änderung an die Kasse veröffentlicht (vorher jede Minute auf jedem Gerät), Abgleich im Hintergrund nur alle 5 Min., Verkehrsmeldungen an die Überwachung gesammelt statt für jede Abfrage einzeln",
+     "Build 252: direkte Leitung (Supabase Realtime, nur Signal) – Änderungen eines Geräts kommen bei allen anderen sofort an statt erst im Minutentakt",
+     "Build 251: „Meine Unterlagen“ in der Twinkey-Seite (auch Club-App) erzeugt Papiermatrix und Handschriftprobe; PDF-Baustein mit neuer Versionskennung geladen",
+@@ -137,8 +138,8 @@
+     "Reproduzierbare Release- und Integritätsprüfung ergänzt",
+     "Pastellfarbene Start-/Zielzeilen beim Markieren und Verschieben von Dienstbalken"
+   ],
+-  "generatedAt": "2026-10-14T12:38:06.000Z",
+-  "totalRuntimeBytes": 37098395,
++  "generatedAt": "2026-10-15T13:33:56.000Z",
++  "totalRuntimeBytes": 37121801,
+   "files": [
+     {
+       "path": "assets/kc-app-icon.svg",
+@@ -318,8 +319,8 @@
+     {
+       "path": "index.html",
+       "installPath": "index.html",
+-      "bytes": 33561,
+-      "sha256": "7819776288a25846135b6677f1885102214d2a6dd1dfb7d4189ff36bffcb20f2",
++      "bytes": 33773,
++      "sha256": "8d97e991487c7ff1cb290a2f46e784091007a9fcf4e0826109717f00a9da7632",
+       "runtime": true,
+       "forceRefresh": true
+     },
+@@ -527,8 +528,8 @@
+     {
+       "path": "src/adapters/supabase-provider.js",
+       "installPath": "src/adapters/supabase-provider.js",
+-      "bytes": 24939,
+-      "sha256": "0f34b642187891657a294b303368610e670910e7c16135674a2fd5af2ecd2865",
++      "bytes": 25344,
++      "sha256": "205b17c5f81bcb4f9dc5d6a81f7bfa441e24a3f8059a697cccdadca8806382e1",
+       "runtime": true
+     },
+     {
+@@ -916,6 +917,13 @@
+       "sha256": "533a7cd43ab972eb9cf471c8e16554601b2b1ef6daae15d3a14630b7b0dc3cc3",
+       "runtime": true
+     },
++    {
++      "path": "src/core/special-events.js",
++      "installPath": "src/core/special-events.js",
++      "bytes": 10489,
++      "sha256": "7ef466f6d2ae8c66d2e98a34f275e0431bd40f297a80e05d39b2dd9152378ab7",
++      "runtime": true
++    },
+     {
+       "path": "src/core/staffing.js",
+       "installPath": "src/core/staffing.js",
+@@ -1045,8 +1053,8 @@
+     {
+       "path": "src/ui/app.js",
+       "installPath": "src/ui/app.js",
+-      "bytes": 261586,
+-      "sha256": "0bef47e421c502cd860d6dac2a36f80ed456715d471ba572fa440fe3e2d731b7",
++      "bytes": 261748,
++      "sha256": "c4a7a00025c1ebd4b466fbb2809b26e413793f8bd2b9ee0909161359be0169c9",
+       "runtime": true
+     },
+     {
+@@ -1752,8 +1760,8 @@
+     {
+       "path": "src/ui/register-actions.js",
+       "installPath": "src/ui/register-actions.js",
+-      "bytes": 4814,
+-      "sha256": "fe0ece9e598a0d91b32d09aa2c69e7e8a399d50a671fda1000cb2198d62c4b44",
++      "bytes": 4919,
++      "sha256": "119773be1f2dc88f57c4ce2864fb10bc331fcfb570bc0cb977bd494c449cb20b",
+       "runtime": true
+     },
+     {
+@@ -1847,6 +1855,20 @@
+       "sha256": "dbde84e8aa2e35808f0d5fcb3573dcc993a9788c4b726bdaf2a9ee718775764f",
+       "runtime": true
+     },
++    {
++      "path": "src/ui/special-events-ui.js",
++      "installPath": "src/ui/special-events-ui.js",
++      "bytes": 9317,
++      "sha256": "19c4bf1b061d7623e6f49f2795f3f749e5bcc033a6c0bdebe054be11f4d98395",
++      "runtime": true
++    },
++    {
++      "path": "src/ui/special-events.css",
++      "installPath": "src/ui/special-events.css",
++      "bytes": 2716,
++      "sha256": "bfec27ba1b7a08d815832ce9911879f3cc0e2d4b547d3d1e661f94198c965aad",
++      "runtime": true
++    },
+     {
+       "path": "src/ui/start-choice.css",
+       "installPath": "src/ui/start-choice.css",
+-- 
+2.43.0
+

@@ -1,7 +1,7 @@
 # Konzept: Sonderstunden melden (Grünkohl Dortmund/Hamm, Getränke zuhause)
 
-Feature-ID: **KICC-F-100** · Status: **KONZEPT** (Betreiber-Entscheidungen vom 2026-10-15 eingearbeitet, siehe §9) · Stand: 2026-10-15
-Betroffene Programme: **KC DP2** (`dp3`, 0.20.0-build247), **KC Club App** (`KC-Clubapp`, 2.415.0), **Supabase** (neue Tabellen, Fristen-Erinnerung), **Sprachbefehle der Club App** (neuer Befehl), Stempeluhr im **PC-Manager/Kasse** (`Kasse`, nur Prüfung auf Doppelzeiten)
+Feature-ID: **KICC-F-100** · Status: **IN UMSETZUNG**. Phase 1 ist als DP2 Build 254 fertig (Patch, siehe §10); die Betreiber-Entscheidungen stehen in §9. · Stand: 2026-10-15
+Betroffene Programme: **KC DP2** (`dp3`, Build 253 → 254), **KC Club App** (`KC-Clubapp`, 2.415.0), **Supabase** („SB“: neue Tabellen, Fristen-Erinnerung), Stempeluhr im **PC-Manager/Kasse** (`Kasse`, nur Prüfung auf Doppelzeiten)
 
 ## 1. Anlass
 1. Mehrere Kollegen kochen Grünkohl in einem Krankenhaus in Dortmund. **Termin und Stundenumfang stehen noch nicht fest.**
@@ -49,7 +49,7 @@ Neue veröffentlichte Liste `kc_dp_special_events`. Sie wird veröffentlicht wie
 
 Beispiele zum Start: „Grünkohl kochen · Krankenhaus Dortmund“ (OFFEN), „Grünkohl abholen Dortmund → Tiefkühler Hamm“ (folgt auf Kochen, +2 Tage), „Getränke mischen zuhause + Anlieferung“ (wiederkehrend, Markttage).
 
-Sobald ein Anlass `FEST` ist, legt DP2 einen **Sondertag** an (neuer Tagestyp `special`). Er bekommt keinen Standbedarf und gilt nicht für die Stempeluhr. So lassen sich Dienste planen und Helfer über Twinkey abfragen, wie an den anderen Tagen. Solange der Termin `OFFEN` ist, kann man in Twinkey nur **„Ich würde helfen“** melden (eine Bereitschaft, keine Stunden).
+**Sondertag im Dienstplan (geändert bei der Umsetzung von Phase 1):** Die festen Tage `K.days` (Vorbereitung, Markttage, Nachbereitung) werden an **85 Stellen in 22 Dateien** ausgewertet, z. B. Bedarf, Matrix, Radar, Druck und Wunschplan. Ein neuer Tagestyp würde dort Standbedarf und Anzeigen verändern (Regel 1). Deshalb bleiben Sondereinsätze in Phase 1 **getrennt von `K.days`**. Ihre Termine werden aus der eigenen Liste berechnet. Ob ein Sondertag für die Dienstplanung (Dienste und Bereitschaft am Kochtag) überhaupt gebraucht wird, entscheidet sich in Phase 2. Für das Melden der Stunden ist er nicht nötig. Solange der Termin `OFFEN` ist, kann man in Twinkey nur **„Ich würde helfen“** melden (eine Bereitschaft, keine Stunden).
 
 ### 4.2 Stundenmeldung (neue Tabelle `kc_dp_hour_reports`)
 `id, org_id, event_id, special_event_id, sammel_id, person_id, work_date, start_time, end_time, break_minutes, taetigkeit, bemerkung, status, gemeldet_von, gemeldet_am, bestaetigt_von, bestaetigt_am, ablehngrund, linked_actual_id, version, checksum`
@@ -131,7 +131,7 @@ Der Betreiber hat am 2026-10-15 eine Frist von spätestens 3 Tagen festgelegt.
 - Ausgelöst wird sie täglich durch einen Supabase-Zeitplan (`pg_cron`, wie bei den vorhandenen Backups). Es gibt keinen neuen Dienst und keine Kosten. Pro Person und Einsatz wird höchstens einmal erinnert; danach sieht der Planer die Person in der Liste „Meldung fehlt“.
 - **Spätere Meldungen bleiben möglich.** Sie werden als „verspätet“ markiert, aber nicht gesperrt. Die Entscheidung trifft der Planer.
 
-### 4.8 Sprachbefehl in der Club App (SB)
+### 4.8 Sprachbefehl in der Club App (optional, nicht beauftragt)
 Die Club App hat eine Sprachsteuerung. Im Code heißt sie `SB` (`SB_ZIELE`, `SB_BEFEHLE` in `app.js`). Ein neues Ziel **„Sonderstunden melden“** kommt in diese Liste, Beispielsätze: „Stunden melden“, „Grünkohl Stunden eintragen“, „Auslagen für Grünkohl“. Der Befehl öffnet den Twinkey-Ablauf, der Einsatz ist vorausgewählt, wenn er genannt wurde. Er erscheint auch in der Liste aller Sprachbefehle und im Sprach-Training.
 
 ## 6. Kollegin mit den Getränken (zuhause mischen, anliefern)
@@ -145,7 +145,7 @@ In DP2 ist das bereits vorgesehen:
 ## 7. Umsetzung in Phasen
 | Phase | Programm | Inhalt | Feature-ID |
 |---|---|---|---|
-| 1 | DP2 | Tabelle `kc_dp_special_events`, Planer-Pflege, Tagestyp `special`, automatisches Folgedatum | DP2-F-SE-01 |
+| 1 | DP2 | Tabelle `kc_dp_special_events`, Planer-Pflege, automatisches Folgedatum, wiederkehrend an Markttagen. **Fertig als Build 254**, ohne Tagestyp `special` (siehe 4.1). | DP2-F-SE-01 |
 | 2 | DP2 | Tabelle `kc_dp_hour_reports` mit RLS, Twinkey-Aufgabe „Sonderstunden melden“ inkl. Sammelmeldung mit Stunden je Kollege | DP2-F-SE-02 |
 | 3 | DP2 | Eingang mit Sammelmeldungen, Bestätigen/Ablehnen (alle oder einzeln), Gutschrift als `self_report`, Nachtrag nach Abschluss, Warnung bei Doppelzeiten, Kontoauszug | DP2-F-SE-03 |
 | 4 | DP2 | Personenregel „Z per Meldung“ (Getränke) | DP2-F-SE-04 |
@@ -155,7 +155,7 @@ In DP2 ist das bereits vorgesehen:
 | 7 | DP2 + Club App | Fahrgemeinschaften: Abfrage bei der Zusage, Vorschlag im Planer, Fahrer/Mitfahrer in der Meldung, km nur für Fahrer | DP2-F-SE-07 |
 | 8 | Supabase + Club App | Meldefrist 3 Tage, tägliche Erinnerung per `pg_cron`, Liste „Meldung fehlt“, Kennzeichen „verspätet“ | DP2-F-SE-08 |
 | 9 | Club App | Vorschuss-Verrechnung und Kaution-Zuordnung (Mitglied oder Club) im Eingangskorb | CLUB-F-SE-09 |
-| 10 | Club App | Sprachbefehl „Sonderstunden melden“ (`SB_ZIELE`) | CLUB-F-SE-10 |
+| 10 | Club App | Sprachbefehl „Sonderstunden melden“ (`SB_ZIELE`), optional | CLUB-F-SE-10 |
 
 Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2.416.0 ff.) und durchläuft DEV → RC.
 
@@ -180,10 +180,18 @@ Jede Phase bekommt eine neue Build-/Versionsnummer (DP2 build248 ff., Club App 2
 - Eine Kaution geht an das Mitglied zurück, außer sie wurde aus einem Club-Vorschuss bezahlt; dann geht sie an den Club (§4.5).
 - Mit dem eigenen Auto gibt es nur die km-Pauschale, keinen Kraftstoff (§4.5).
 
-**„SB“, aus dem Code ermittelt (2026-10-15):**
-- In der **Club App** steht `SB` durchgehend für die **Sprachbefehle bzw. Sprachsteuerung** (`const SB`, `SB_ZIELE`, `SB_BEFEHLE`, `sbListe`, `sbHoeren`).
-- In **kc-start/Verwaltung** steht „SB“ als Kurzform für **Supabase** (DB-Anzeige `<b>SB</b>`, `'Supabase ' → 'SB '` in `verwaltung/js/67_supabase_sync.js`).
-- KC-Verwaltung und KC-Communication sind private Repos; sie konnten ohne Zugriff nicht durchsucht werden.
-- **Annahme:** Mit „Club App, SB, DP2 umbauen“ ist vermutlich **Supabase** gemeint, denn dort entstehen die neuen Tabellen. Beides ist im Konzept berücksichtigt: Supabase in Phasen 1–3 und 8, der Sprachbefehl in §4.8 und Phase 10. Die Stempeluhr wird nur gelesen (Phase 6).
+**„SB“ = Supabase** (vom Betreiber am 2026-10-15 bestätigt). Im Code steht es so in kc-start/Verwaltung (`<b>SB</b>`, `'Supabase ' → 'SB '`). Achtung: In der Club App heißen die Sprachbefehle intern ebenfalls `SB`; damit ist hier nichts gemeint.
 
 **Noch offen:** keine.
+
+## 10. Umsetzungsstand
+**Phase 1, DP2 Build 254 (DP2-F-SE-01), fertig und getestet:**
+- `src/core/special-events.js`: Sondereinsätze mit Termin `OFFEN`/`GEPLANT`/`FEST` und Folge-Einsätzen (das Datum wird aus dem Vorgänger berechnet, auch über Monatswechsel und mehrere Stufen). Wiederkehrend an Markttagen. Prüfregeln: Zyklus, ungültiges Datum, Abstand 0–60 Tage; Beenden nur mit Grund und erst, wenn keine Folge-Einsätze mehr daran hängen. Dazu Audit, Sync-Eintrag und Rechte (`roster.plan.edit` zum Bearbeiten, `roster.plan.publish` zum Veröffentlichen).
+- `src/ui/special-events-ui.js`: Planer-Dialog, im Register Sollplan unter Menü **„★ Sondereinsätze“**.
+- Supabase: Tabelle `kc_dp_special_events` und Funktion `kc_dp_special_events_publish`. RLS ist an; lesen dürfen DP2-Mitglieder, schreiben nur Planerrollen; anon ist gesperrt.
+- Gespeichert wird im verschlüsselten lokalen Stand (`specialEvents`). `K.days` bleibt unverändert.
+- Tests: `tools/test-special-events.mjs` (in `npm test`), erweiterter Supabase-Sicherheitsvertrag, Release-Prüfung (296 Dateien), TÜV-Syntax (219 Dateien). Alle vorhandenen Smoke-Tests sind grün. Der Dialog wurde im Browser geprüft (Handybreite, anlegen, Folge-Einsatz, Termin festlegen, veröffentlichen).
+- **Auslieferung:** `docs/patches/dp3-build254-sondereinsaetze.patch`. Er wurde gegen dp3 `main` (Build 253) mit `git am` geprüft. Diese Sitzung hatte keinen Schreibzugriff auf dp3, deshalb liegt Build 254 nur als Patch vor.
+- **Noch nicht ausgeführt:** Die Migration ist nicht in die produktive Supabase eingespielt. Das geschieht erst bei der Freigabe von Build 254.
+
+**Nächste Phase:** Phase 2, Stundenmeldung mit Sammelmeldung in Twinkey (DP2-F-SE-02).
