@@ -1,4 +1,4 @@
-import wave, sys
+import re, wave, sys
 from piper import PiperVoice, SynthesisConfig
 v = PiperVoice.load("/home/user/sire65/kc-clubapp/stimmen/de_DE-thorsten-medium.onnx")
 L = {
@@ -11,7 +11,12 @@ L = {
  "07": "Und die schönsten Momente? Im Fotoalbum, immer wieder.",
  "08": "Köcheclub Werne. Jetzt in der Club-App. Gemeinsam kochen, gemeinsam helfen.",
 }
+# Englische Wörter englisch sprechen (wie BW_AUSSPRACHE in der Club-App): Schreibweise nur für die Stimme, Bildtext bleibt
+AUSSPRACHE = [(r"\bApp\b", "Äpp"), (r"\bChatte\b", "Tschätte"), (r"\bchatten\b", "tschätten"), (r"\bChat\b", "Tschätt")]
+def aussprache(t):
+    for re_, neu in AUSSPRACHE: t = re.sub(re_, neu, t)
+    return t
 cfg = SynthesisConfig(length_scale=0.92)
 for k, t in L.items():
     with wave.open(f"vo/{k}.wav", "wb") as w:
-        v.synthesize_wav(t, w, syn_config=cfg)
+        v.synthesize_wav(aussprache(t), w, syn_config=cfg)
