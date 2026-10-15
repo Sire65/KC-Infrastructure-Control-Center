@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><title>Köcheclub Werbefilm</title>
+<style>
+@font-face { font-family: "Emo"; src: url("NotoColorEmoji.ttf"); }
+:root { --rot: #741521; --rot2: #4a0c15; --beige: #f3e9dc; --gold: #f5c542; --jeans: #2f4f7a; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: "Liberation Sans", "DejaVu Sans", "Emo", sans-serif; }
+#stage { position: absolute; inset: 0; overflow: hidden; }
+.abs { position: absolute; }
+.layer { position: absolute; inset: 0; }
+.serif { font-family: "DejaVu Serif", Georgia, "Emo", serif; }
+.center { left: 0; right: 0; text-align: center; }
+.logo { width: 300px; height: 300px; border-radius: 50%; background: var(--rot); border: 10px solid #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.logo img { width: 72%; }
+.cap { top: 150px; left: 60px; right: 60px; text-align: center; color: var(--rot); }
+.cap .h { font-size: 74px; font-weight: 700; line-height: 1.15; }
+.cap .u { font-size: 46px; margin-top: 18px; color: #3a2a20; }
+/* Jeans */
+#jeans { left: 0; right: 0; top: 1400px; height: 700px; background: repeating-linear-gradient(45deg, #2f4f7a 0 6px, #2a4870 6px 12px); z-index: 5; box-shadow: 0 -10px 40px rgba(0,0,0,.3); }
+#jeans .tasche { position: absolute; left: 170px; width: 740px; top: -10px; height: 150px; border-bottom: 8px dashed #e0a84a; border-radius: 0 0 50% 50% / 0 0 100% 100%; }
+#jeans .naht { position: absolute; left: 0; right: 0; top: 20px; border-top: 6px dashed #e0a84a; }
+/* Handy */
+#phone { left: 220px; top: 560px; width: 640px; height: 1280px; border-radius: 86px; background: #111; padding: 22px; box-shadow: 0 40px 90px rgba(0,0,0,.45), inset 0 0 0 4px #333; z-index: 4; }
+#screen { position: relative; width: 100%; height: 100%; border-radius: 66px; overflow: hidden; background: #fff; }
+#notch { position: absolute; top: 18px; left: 50%; width: 170px; height: 44px; margin-left: -85px; border-radius: 30px; background: #111; z-index: 20; }
+.scr { position: absolute; inset: 0; background: #fbf7f1; }
+.bar { height: 190px; background: var(--rot); color: #fff; display: flex; align-items: flex-end; padding: 0 40px 28px; font-size: 44px; font-weight: 700; gap: 18px; }
+.bar img { width: 64px; height: 64px; border-radius: 50%; background: var(--rot2); padding: 8px; }
+.karte { margin: 22px 26px 0; background: #fff; border-radius: 28px; padding: 24px; display: flex; gap: 22px; align-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.08); border-left: 10px solid var(--rot); }
+.karte .bild { width: 110px; height: 110px; border-radius: 22px; background: var(--beige); font-size: 64px; display: flex; align-items: center; justify-content: center; flex: none; }
+.karte .t { font-size: 31px; font-weight: 700; color: #2a1c14; line-height: 1.2; }
+.karte .d { font-size: 24px; color: #7a6a5a; margin-top: 8px; }
+.blase { position: absolute; max-width: 430px; padding: 22px 28px; border-radius: 34px; font-size: 32px; line-height: 1.25; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.blase .w { font-size: 22px; font-weight: 700; color: var(--rot); margin-bottom: 6px; }
+.blase.l { left: 26px; background: #fff; border-bottom-left-radius: 8px; transform-origin: left bottom; }
+.blase.r { right: 26px; background: #f6dfe2; border-bottom-right-radius: 8px; transform-origin: right bottom; }
+.termin { margin: 20px 26px 0; background: #fff; border-radius: 26px; padding: 20px; display: flex; gap: 24px; align-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+.termin .dt { width: 112px; height: 120px; border-radius: 20px; background: var(--rot); color: #fff; text-align: center; padding-top: 12px; flex: none; }
+.termin .dt b { display: block; font-size: 52px; }
+.termin .dt span { font-size: 24px; text-transform: uppercase; }
+.termin .t { font-size: 32px; font-weight: 700; color: #2a1c14; }
+.termin .d { font-size: 25px; color: #7a6a5a; margin-top: 6px; }
+#banner { left: 18px; right: 18px; top: 30px; background: rgba(255,255,255,.97); border-radius: 30px; padding: 24px; display: flex; gap: 20px; align-items: center; box-shadow: 0 16px 40px rgba(0,0,0,.25); z-index: 10; }
+#banner .ic { width: 84px; height: 84px; border-radius: 20px; background: var(--rot); display: flex; align-items: center; justify-content: center; font-size: 48px; flex: none; }
+#banner .t { font-size: 27px; font-weight: 700; } #banner .d { font-size: 26px; color: #333; margin-top: 4px; }
+.raster { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 14px; }
+.foto { aspect-ratio: 1; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 84px; }
+#dia { inset: 0; display: flex; align-items: center; justify-content: center; background: #000; overflow: hidden; }
+.diab { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 300px; }
+.diat { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; color: #fff; font-size: 40px; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+/* Bühne */
+#buehne { background: radial-gradient(ellipse at 50% 30%, #a3283a 0%, #741521 40%, #2a050b 100%); }
+#spot { left: 140px; top: -200px; width: 800px; height: 1500px; background: radial-gradient(ellipse at 50% 0%, rgba(255,240,200,.35), rgba(255,240,200,0) 70%); }
+#kTitel { top: 150px; color: #fff; }
+#kTitel .a { font-size: 50px; opacity: .9; } #kTitel .b { font-size: 72px; font-weight: 700; margin-top: 14px; color: var(--gold); }
+#kBox { left: 50px; right: 50px; top: 720px; min-height: 420px; padding: 50px 40px; border-radius: 50px; background: rgba(30,0,6,.62); border: 3px solid rgba(255,255,255,.18); text-align: center; }
+#kZeile { font-size: 76px; font-weight: 700; line-height: 1.25; color: rgba(255,255,255,.55); }
+#kZeile span { display: inline-block; white-space: pre; }
+#kZeile .wort { white-space: nowrap; }
+#kZeile span.war { color: var(--gold); }
+#kZeile span.jetzt { color: var(--gold); text-shadow: 0 0 30px rgba(245,197,66,.8); }
+#kNext { font-size: 42px; color: rgba(255,255,255,.45); margin-top: 34px; }
+.hut { width: 140px; height: 140px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; top: 1560px; }
+.hut img { width: 72%; filter: brightness(0) saturate(100%) invert(13%) sepia(60%) saturate(4000%) hue-rotate(340deg); }
+.konf { width: 22px; height: 34px; border-radius: 4px; }
+.flieg { font-size: 110px; }
+.tanzer { width: 240px; height: 340px; top: 1190px; }
+#klatsch { left: 0; right: 0; top: 530px; text-align: center; font-size: 150px; }
+/* Wunschdienst mit Twinkey */
+.tw { position: absolute; left: 22px; right: 22px; display: flex; gap: 14px; align-items: flex-start; }
+.tw .av { width: 76px; height: 76px; border-radius: 50%; background: var(--rot); display: flex; align-items: center; justify-content: center; font-size: 46px; flex: none; box-shadow: 0 4px 10px rgba(0,0,0,.15); }
+.tw .bl { background: #fff; border-radius: 28px; border-top-left-radius: 8px; padding: 18px 22px; font-size: 29px; line-height: 1.25; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.tw .bl b { display: block; font-size: 21px; color: var(--rot); margin-bottom: 4px; }
+.chips { position: absolute; left: 22px; right: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+.chip { padding: 12px 18px; border-radius: 40px; border: 3px solid var(--rot); color: var(--rot); background: #fff; font-size: 24px; font-weight: 700; }
+.chip.an { background: var(--rot); color: #fff; }
+#wKnopf { left: 60px; right: 60px; top: 1040px; height: 100px; border-radius: 50px; background: #2b8a3e; color: #fff; font-size: 36px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px rgba(43,138,62,.35); }
+#wDanke { left: 30px; right: 30px; top: 470px; padding: 40px 30px; border-radius: 40px; background: #fff; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.3); z-index: 5; }
+#wDanke .g { font-size: 120px; } #wDanke .t { font-size: 40px; font-weight: 700; color: #2b8a3e; margin-top: 10px; } #wDanke .d { font-size: 28px; color: #555; margin-top: 10px; }
+.zettel { width: 230px; height: 270px; background: #fffbe6; box-shadow: 0 12px 30px rgba(0,0,0,.25); padding: 26px 22px; z-index: 8; }
+.zettel i { display: block; height: 10px; border-radius: 5px; background: #8a7a6a; margin: 16px 0; opacity: .55; }
+#stopp { left: 190px; top: 690px; width: 700px; height: 700px; border-radius: 50%; border: 44px solid #e03131; z-index: 9; }
+#stopp::after { content: ""; position: absolute; left: 50%; top: -20px; bottom: -20px; width: 44px; margin-left: -22px; background: #e03131; transform: rotate(45deg); }
+/* Einfach zu bedienen – stellt sich auf dich ein */
+#einf { background: linear-gradient(#fbf4ea, #f3e9dc); }
+#phone2 { left: 220px; top: 560px; width: 640px; height: 1280px; border-radius: 86px; background: #111; padding: 22px; box-shadow: 0 40px 90px rgba(0,0,0,.45), inset 0 0 0 4px #333; }
+#scr2 { --a: #741521; --bg: #f5eee3; --k: #ffffff; --tx: #2b1a1c; --fs: 1; position: relative; width: 100%; height: 100%; border-radius: 66px; overflow: hidden; background: var(--bg); color: var(--tx); }
+#scr2 .notch { position: absolute; top: 18px; left: 50%; width: 170px; height: 44px; margin-left: -85px; border-radius: 30px; background: #111; z-index: 20; }
+#scr2 .bar { background: var(--a); }
+.treff { margin: 20px 22px 0; background: var(--k); border-radius: 26px; padding: 20px 24px; border-left: 10px solid var(--a); box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+.treff b { display: block; font-size: 22px; color: var(--a); text-transform: uppercase; letter-spacing: .04em; }
+.treff span { font-size: 32px; font-weight: 700; }
+.gitter { position: absolute; left: 22px; right: 22px; top: 350px; display: grid; gap: 16px; }
+.gitter .kl { background: var(--k); border-radius: 26px; text-align: center; box-shadow: 0 6px 18px rgba(0,0,0,.08); border-bottom: 8px solid var(--a); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#gEinf { grid-template-columns: 1fr 1fr; } #gEinf .kl { height: 158px; } #gEinf .e { font-size: 66px; } #gEinf .n { font-size: calc(28px * var(--fs)); font-weight: 700; margin-top: 8px; }
+#gErw { grid-template-columns: 1fr 1fr 1fr; gap: 12px; } #gErw .kl { height: 128px; } #gErw .e { font-size: 50px; } #gErw .n { font-size: calc(21px * var(--fs)); font-weight: 700; margin-top: 6px; }
+#ansKnopf { position: absolute; left: 70px; right: 70px; bottom: 50px; height: 86px; border-radius: 43px; background: var(--k); border: 4px solid var(--a); color: var(--a); font-size: 30px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+#eToast { position: absolute; left: 60px; right: 60px; bottom: 60px; height: 96px; border-radius: 48px; background: rgba(20,20,20,.88); color: #fff; font-size: 36px; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 10; }
+#eFinger { left: 600px; top: 1720px; font-size: 140px; z-index: 6; }
+.eChips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 20px; }
+.eChips span { background: #fff; border: 3px solid var(--rot); color: var(--rot); border-radius: 40px; padding: 10px 20px; font-size: 32px; font-weight: 700; }
+/* Du bist nicht allein: Hilfe, Suche, Erklär-Videos */
+#hilfe { background: linear-gradient(#fbf4ea, #f3e9dc); }
+#hTw { left: 0; right: 0; top: 290px; text-align: center; font-size: 190px; }
+.hk { left: 60px; right: 60px; background: #fff; border-radius: 40px; padding: 30px 36px; box-shadow: 0 14px 40px rgba(116,21,33,.14); border-left: 14px solid var(--rot); }
+.hk .t { font-size: 50px; font-weight: 700; color: var(--rot); } .hk .d { font-size: 32px; color: #3a2a20; margin-top: 10px; }
+#hSuch { margin-top: 18px; height: 80px; border-radius: 40px; border: 4px solid #d8c8b4; display: flex; align-items: center; padding: 0 26px; font-size: 34px; color: #2a1c14; background: #fbf7f1; }
+#hSuch .cur { display: inline-block; width: 3px; height: 40px; background: var(--rot); margin-left: 4px; }
+.vid { display: flex; align-items: center; gap: 18px; margin-top: 16px; font-size: 31px; color: #2a1c14; }
+.vid .pl { width: 64px; height: 64px; border-radius: 50%; background: var(--rot); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; flex: none; }
+.vid .bal { height: 8px; border-radius: 4px; background: #eadfce; margin-top: 8px; overflow: hidden; } .vid .bal i { display: block; height: 100%; width: 0; background: var(--rot); }
+/* Noch keine App? Zugangslink bei Hansi */
+#zug { background: linear-gradient(#fbf4ea, #f3e9dc); }
+#zKey { left: 0; right: 0; top: 330px; text-align: center; font-size: 220px; }
+.zb { position: absolute; max-width: 760px; padding: 28px 34px; border-radius: 40px; font-size: 40px; line-height: 1.3; box-shadow: 0 10px 28px rgba(0,0,0,.12); }
+.zb b { display: block; font-size: 28px; color: var(--rot); margin-bottom: 6px; }
+#zb1 { right: 60px; top: 690px; background: #dcf8c6; border-bottom-right-radius: 10px; transform-origin: right bottom; }
+#zb2 { left: 60px; top: 900px; background: #fff; border-bottom-left-radius: 10px; transform-origin: left bottom; }
+#zb2 .lk { display: inline-block; margin-top: 12px; padding: 12px 24px; border-radius: 30px; background: var(--rot); color: #fff; font-weight: 700; font-size: 36px; }
+#zHin { left: 0; right: 0; top: 1240px; text-align: center; font-size: 36px; color: #5a4a3a; }
+#zT2 { top: 1420px; }
+/* Schon installiert */
+#upd { background: linear-gradient(#fbf4ea, #f3e9dc); }
+#uIcon { left: 0; right: 0; top: 380px; text-align: center; font-size: 300px; }
+#uKreis { left: 340px; top: 360px; width: 400px; height: 400px; border-radius: 50%; border: 18px solid transparent; border-top-color: var(--rot); border-right-color: var(--rot); }
+/* … und noch viel mehr */
+#mehr { background: linear-gradient(#fbf4ea, #f3e9dc); }
+.kachel { width: 300px; height: 230px; border-radius: 36px; background: #fff; box-shadow: 0 10px 30px rgba(116,21,33,.15); border-bottom: 10px solid var(--rot); text-align: center; padding-top: 30px; }
+.kachel .e { font-size: 96px; line-height: 1; } .kachel .n { font-size: 32px; font-weight: 700; color: #2a1c14; margin-top: 18px; }
+#knopf { left: 140px; right: 140px; top: 800px; height: 190px; border-radius: 95px; background: var(--rot); color: #fff; font-size: 64px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 50px rgba(116,21,33,.4); }
+#finger { left: 640px; top: 930px; font-size: 160px; }
+#welle { left: 540px; top: 895px; width: 0; height: 0; border-radius: 50%; border: 8px solid var(--rot); }
+#birne { left: 0; right: 0; top: 330px; text-align: center; font-size: 260px; }
+#version { left: 0; right: 0; top: 1420px; text-align: center; font-size: 46px; color: #3a2a20; }
+#version .fb { display: inline-block; background: var(--rot); color: #fff; font-size: 60px; font-weight: 700; padding: 26px 56px; border-radius: 70px; box-shadow: 0 16px 40px rgba(116,21,33,.35); }
+#version .fbu { font-size: 38px; margin-top: 18px; color: #3a2a20; }
+/* Ende */
+#ende { background: radial-gradient(ellipse at 50% 35%, #8e1f2e 0%, #741521 45%, #3b0910 100%); color: #fff; }
+#schwarz { background: #000; z-index: 50; }
+</style></head>
+<body><div id="stage">
+  <div class="layer" id="bgRot" style="background: radial-gradient(ellipse at 50% 40%, #9a2436, #741521 55%, #3b0910)"></div>
+  <div class="layer" id="bgBeige" style="background: linear-gradient(#fbf4ea, #f3e9dc)"></div>
+
+  <!-- Szene 1 -->
+  <div class="layer" id="s1">
+    <div class="abs logo" id="s1logo" style="left:390px; top:330px"><img src="kc-kochmuetze-weiss.webp" alt=""></div>
+    <div class="abs center serif" id="s1since" style="top:665px; color:var(--gold); font-size:46px; font-style:italic; letter-spacing:.06em">since 1991</div>
+    <div class="abs center serif" id="s1t1" style="top:780px; color:#fff; font-size:70px; line-height:1.25">Du bist Mitglied im<br><b style="font-size:96px">Köcheclub Werne?</b></div>
+    <div class="abs center" id="s1t2" style="top:1180px; font-size:150px; font-weight:700; color:var(--gold); text-shadow:0 10px 30px rgba(0,0,0,.4)">Sehr gut! 👍</div>
+  </div>
+
+  <!-- Szene 2 -->
+  <div class="abs cap" id="c2a"><div class="h">Und weißt du schon …? 🤔</div></div>
+  <div class="abs cap" id="c2b" style="top:420px"><div class="h serif" style="font-size:58px">Den Köcheclub gibt’s jetzt<br>für die <span style="color:#2f4f7a">Hosentasche!</span></div></div>
+
+  <!-- Szene-Überschriften am Handy -->
+  <div class="abs cap" id="c3"><div class="h" id="c3a">Immer aktuell.</div><div class="h" id="c3b">Immer dabei.</div><div class="h" id="c3c" style="color:#2a1c14">In deinem Handy. 📱</div></div>
+  <div class="abs cap" id="c4"><div class="h">📰 Bestens informiert</div><div class="u">Neuigkeiten aus dem Club</div></div>
+  <div class="abs cap" id="c5"><div class="h">💬 Chatte mit Freunden</div><div class="u">🔒 Alles bleibt unter uns</div></div>
+  <div class="abs cap" id="c6"><div class="h">📅 Termine im Blick</div><div class="u">⏰ Erinnerung, wenn du willst</div></div>
+  <div class="abs cap" id="c8"><div class="h">🎄 Wunschdienst</div><div class="u">für den Weihnachtsmarkt – mit Twinkey 🧑‍🍳</div></div>
+  <div class="abs cap" id="c9"><div class="h" style="color:#e03131">🚫 Keine Zettel&shy;wirtschaft mehr!</div></div>
+  <div class="abs cap" id="c7"><div class="h">📸 Die schönsten Momente</div><div class="u">Im Fotoalbum – immer wieder</div></div>
+
+  <div class="abs" id="phone"><div id="screen"><div id="notch"></div>
+    <div class="scr" id="scrSplash" style="background: var(--rot); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff">
+      <div class="logo" style="width:250px; height:250px; border-width:8px" id="splLogo"><img src="kc-kochmuetze-weiss.webp" alt=""></div>
+      <div class="serif" style="font-size:58px; font-weight:700; margin-top:44px">Köcheclub Werne</div>
+      <div style="font-size:34px; margin-top:14px; opacity:.85">Die Club-App</div>
+      <div class="serif" style="font-size:28px; margin-top:120px; font-style:italic; opacity:.8">Gemeinsam kochen, gemeinsam helfen</div>
+    </div>
+    <div class="scr" id="scrNews"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Neuigkeiten</div>
+      <div id="newsListe">
+        <div class="karte"><div class="bild">🎄</div><div><div class="t">Weihnachtsmarkt: Standdienste sind online</div><div class="d">Vorstand · heute</div></div></div>
+        <div class="karte"><div class="bild">🥘</div><div><div class="t">Neues Rezept: Grünkohl nach Clubart</div><div class="d">Rezepte · gestern</div></div></div>
+        <div class="karte"><div class="bild">💝</div><div><div class="t">Spende übergeben – danke an alle!</div><div class="d">Soziales · vor 3 Tagen</div></div></div>
+        <div class="karte"><div class="bild">🧑‍🍳</div><div><div class="t">Willkommen, neues Mitglied!</div><div class="d">Club · letzte Woche</div></div></div>
+        <div class="karte"><div class="bild">🍷</div><div><div class="t">Rückblick Sommerfest</div><div class="d">Club · vor 2 Wochen</div></div></div>
+      </div></div>
+    <div class="scr" id="scrChat" style="background:#f4ece2"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Clubchat 🔒</div>
+      <div class="blase l" id="b0" style="top:240px"><div class="w">Peter</div>Wer bringt Donnerstag den Nachtisch mit?</div>
+      <div class="blase r" id="b1" style="top:420px">Ich! Mousse au Chocolat 😋</div>
+      <div class="blase l" id="b2" style="top:550px"><div class="w">Moni</div>Dann bring ich die Sahne 🍦</div>
+      <div class="blase r" id="b3" style="top:730px">Top! Bis Donnerstag 👍</div>
+      <div class="blase l" id="b4" style="top:860px"><div class="w">Jürgen</div>Ich freu mich schon! 🎉</div>
+    </div>
+    <div class="scr" id="scrTermine"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Termine</div>
+      <div class="termin"><div class="dt"><b>16</b><span>Okt</span></div><div><div class="t">Clubabend</div><div class="d">Do · 19:00 Uhr · Clubküche</div></div></div>
+      <div class="termin"><div class="dt"><b>08</b><span>Nov</span></div><div><div class="t">Grünkohlessen</div><div class="d">So · 12:00 Uhr</div></div></div>
+      <div class="termin"><div class="dt"><b>27</b><span>Nov</span></div><div><div class="t">Weihnachtsmarkt</div><div class="d">Aufbau · 9:00 Uhr</div></div></div>
+      <div class="termin"><div class="dt"><b>12</b><span>Dez</span></div><div><div class="t">Weihnachtsfeier</div><div class="d">Sa · 18:30 Uhr</div></div></div>
+      <div class="abs" id="banner"><div class="ic">⏰</div><div><div class="t">Köcheclub · Erinnerung</div><div class="d">Morgen: Clubabend, 19:00 Uhr</div></div></div>
+    </div>
+    <div class="scr" id="scrWunsch" style="background:#fff8ee; z-index:2"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Dienstwünsche 🎄</div>
+      <div class="tw" id="w1" style="top:220px"><div class="av">🧑‍🍳</div><div class="bl"><b>Twinkey</b>Hallo! An welchen Tagen möchtest du auf dem Weihnachtsmarkt helfen?</div></div>
+      <div class="chips" id="wc1" style="top:390px"><span class="chip">Fr 27.11.</span><span class="chip">Sa 28.11.</span><span class="chip">So 29.11.</span><span class="chip">Fr 4.12.</span></div>
+      <div class="tw" id="w2" style="top:530px"><div class="av">🧑‍🍳</div><div class="bl"><b>Twinkey</b>Wann möchtest du helfen? (Wunschzeit)</div></div>
+      <div class="chips" id="wc2" style="top:660px"><span class="chip">Vormittag</span><span class="chip">Nachmittag</span><span class="chip">Abend</span></div>
+      <div class="tw" id="w3" style="top:780px"><div class="av">🧑‍🍳</div><div class="bl"><b>Twinkey</b>Vorne, hinten oder beides?</div></div>
+      <div class="chips" id="wc3" style="top:910px"><span class="chip">Vorne</span><span class="chip">Hinten</span><span class="chip">Beides (V/H)</span></div>
+      <div class="abs" id="wKnopf">✅ Wunsch abschicken</div>
+      <div class="abs" id="wDanke"><div class="g">🎄</div><div class="t">Danke!</div><div class="d">Dein Wunsch ist angekommen.<br>Twinkey gibt ihn an die Planung weiter.</div></div>
+    </div>
+    <div class="scr" id="scrFoto"><div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Fotoalbum</div>
+      <div class="raster" id="raster"></div>
+      <div class="abs" id="dia">
+        <div class="diab" id="dia0" style="background: linear-gradient(135deg,#1d3b2a,#4f8a5b)">🎄<div class="diat">Weihnachtsmarkt</div></div>
+        <div class="diab" id="dia1" style="background: linear-gradient(135deg,#7a3b12,#e0a84a)">🥘<div class="diat">Grünkohlessen</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div id="zettelL"></div>
+  <div class="abs" id="stopp"></div>
+  <div class="layer" id="jeansL" style="pointer-events:none"><div class="abs" id="jeans"><div class="naht"></div><div class="tasche"></div></div></div>
+
+  <!-- Bühne / Karaoke -->
+  <div class="layer" id="buehne">
+    <div class="abs" id="spot"></div>
+    <div id="flieger"></div>
+    <div id="konfetti"></div>
+    <div class="abs center" id="kTitel"><div class="a">🎤 Unser Club-Song</div><div class="b serif">„Seit einundneunzig“</div></div>
+    <div class="abs" id="kBox"><div id="kZeile"></div><div id="kNext"></div></div>
+    <div class="abs" id="klatsch">👏</div>
+    <div id="tanz"></div>
+    <div id="huete"></div>
+  </div>
+
+  <!-- … und noch viel mehr -->
+  <div class="layer" id="mehr">
+    <div class="abs cap" id="mT"><div class="h serif" style="font-size:84px">… und noch<br>viel mehr! ✨</div></div>
+    <div id="kacheln"></div>
+    <div class="abs cap" id="iT" style="top:330px"><div class="h serif" style="font-size:80px">Installier die App</div><div class="u" style="font-size:56px; color:var(--rot); font-weight:700">… und probier alles aus!</div></div>
+    <div class="abs" id="knopf">📲 Installieren</div>
+    <div class="abs" id="welle"></div>
+    <div class="abs" id="finger">👆</div>
+    <div class="abs" id="birne">💡</div>
+    <div class="abs cap" id="dT" style="top:700px"><div class="h serif" style="font-size:80px">Deine Idee?</div><div class="h" style="font-size:96px; color:#2a1c14; margin-top:20px">Immer her damit!</div><div class="u" style="font-size:50px; margin-top:50px">Die App wird ständig<br>weiterentwickelt 🚀</div></div>
+    <div class="abs" id="version"><span class="fb">💭 Feedback</span><div class="fbu">Deine Meinung zur App</div></div>
+  </div>
+  <!-- Einfach zu bedienen -->
+  <div class="layer" id="einf">
+    <div class="abs cap" id="eA"><div class="h">👍 Einfach zu bedienen</div><div class="u">… und stellt sich ganz auf dich ein</div></div>
+    <div class="abs cap" id="eB"><div class="h">🟢 Starte mit der<br>einfachen Ansicht</div></div>
+    <div class="abs cap" id="eC"><div class="h" style="font-size:64px">🔧 Pass die App an dich an</div><div class="eChips"><span>🎨 Farben</span><span>🌙 Tag & Nacht</span><span>🔠 Große Schrift</span><span>🧩 Kacheln</span></div></div>
+    <div class="abs" id="phone2"><div id="scr2"><div class="notch"></div>
+      <div class="bar"><img src="kc-kochmuetze-weiss.webp" alt="">Köcheclub Werne</div>
+      <div class="treff"><b>Nächstes Treffen</b><span>Do 16.10. · 19:00 Clubabend</span></div>
+      <div class="gitter" id="gEinf"></div>
+      <div class="gitter" id="gErw"></div>
+      <div id="ansKnopf">🔧 Erweiterte Ansicht</div>
+      <div id="eToast"></div>
+    </div></div>
+    <div class="abs" id="eFinger">👆</div>
+  </div>
+  <!-- Du bist nicht allein -->
+  <div class="layer" id="hilfe">
+    <div class="abs cap" id="hT"><div class="h serif" style="font-size:72px; white-space:nowrap">Du bist nicht allein! 🤝</div></div>
+    <div class="abs" id="hTw">🧑‍🍳</div>
+    <div class="abs hk" id="hk1" style="top:560px"><div class="t">❓ Hilfe &amp; Tipps</div><div class="d">Das Fragezeichen unten rechts hilft dir in jedem Bereich</div></div>
+    <div class="abs hk" id="hk2" style="top:820px"><div class="t">🔍 Suche</div><div id="hSuch"><span id="hSuchT"></span><span class="cur" id="hCur"></span></div></div>
+    <div class="abs hk" id="hk3" style="top:1110px"><div class="t">🎬 Erklär-Videos zu jedem Thema</div>
+      <div class="vid" id="hv0"><div class="pl">▶</div><div style="flex:1">📅 Termin eintragen <span style="color:#7a6a5a">· ca. 2 Min.</span><div class="bal"><i id="hb0"></i></div></div></div>
+      <div class="vid" id="hv1"><div class="pl">▶</div><div style="flex:1">📷 Fotoalbum <span style="color:#7a6a5a">· ca. 1 Min.</span><div class="bal"><i id="hb1"></i></div></div></div>
+      <div class="vid" id="hv2"><div class="pl">▶</div><div style="flex:1">❓ Hilfe, Suche &amp; Twinkey <span style="color:#7a6a5a">· ca. 1 Min.</span><div class="bal"><i id="hb2"></i></div></div></div>
+    </div>
+    <div class="abs cap" id="hE" style="top:1660px"><div class="h" style="font-size:52px; color:#2a1c14">… damit du dich schnell zurechtfindest 👍</div></div>
+  </div>
+  <!-- Noch keine App? -->
+  <div class="layer" id="zug">
+    <div class="abs cap" id="zT"><div class="h serif" style="font-size:84px">Noch keine App? 📲</div></div>
+    <div class="abs" id="zKey">🔑</div>
+    <div class="zb" id="zb1">Hallo Hansi, ich hätte gern meinen Zugang zur Club-App 🙂</div>
+    <div class="zb" id="zb2"><b>Hansi 🧑‍🍳</b>Klar, gern! Hier ist dein persönlicher Link:<br><span class="lk">🔗 Mein Zugang</span></div>
+    <div class="abs" id="zHin">🔒 nur für dich – bitte nicht weitergeben</div>
+    <div class="abs cap" id="zT2"><div class="h" style="font-size:60px; color:#2a1c14">Deinen persönlichen Zugangslink<br>bekommst du bei <span style="color:var(--rot)">Hansi</span>.</div></div>
+  </div>
+  <!-- Schon installiert? -->
+  <div class="layer" id="upd">
+    <div class="abs" id="uKreis"></div>
+    <div class="abs" id="uIcon">📱</div>
+    <div class="abs cap" id="uT" style="top:880px"><div class="h serif" style="font-size:76px">Schon installiert?</div><div class="h" style="font-size:110px; color:#2b8a3e; margin-top:24px">Umso besser! ✅</div><div class="u" style="font-size:54px; margin-top:50px">Dann bist du immer<br><b style="color:var(--rot)">up to date</b> 🔄</div></div>
+  </div>
+  <!-- Ende -->
+  <div class="layer" id="ende">
+    <div class="abs logo" id="eLogo" style="left:390px; top:300px"><img src="kc-kochmuetze-weiss.webp" alt=""></div>
+    <div class="abs center serif" id="eT1" style="top:690px; font-size:100px; font-weight:700">Köcheclub Werne</div>
+    <div class="abs center" id="eT2" style="top:860px; font-size:64px; color:var(--gold); font-weight:700">Jetzt in der Club-App 📱</div>
+    <div class="abs center" id="eT3" style="top:990px; font-size:44px; opacity:.9">Immer aktuell · Immer dabei</div>
+    <div class="abs center serif" id="eT4" style="top:1180px; font-size:50px; font-style:italic">„Gemeinsam kochen,<br>gemeinsam helfen“</div>
+    <div class="abs center" id="eT5" style="top:1500px; font-size:40px; line-height:1.35">📲 Noch keine App?<br><b style="color:var(--gold)">Zugangslink bei Hansi anfordern</b></div>
+  </div>
+  <div class="layer" id="schwarz"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const p = (t, a, b) => cl((t - a) / (b - a));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eio = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eb = (x) => { const c1 = 1.9, c3 = c1 + 1; return x <= 0 ? 0 : 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+const win = (t, a, b, f = .35) => Math.min(p(t, a, a + f), 1 - p(t, b - f, b));
+const lerp = (a, b, x) => a + (b - a) * x;
+const S = (el, o, tr) => { if (typeof el === "string") el = $(el); el.style.opacity = o; if (tr !== undefined) el.style.transform = tr; el.style.visibility = o <= 0.001 ? "hidden" : "visible"; };
+const TAKT = 4 * 60 / 124, SCHLAG = TAKT / 4, SECH = SCHLAG / 4, T0 = 0.05;
+const puls = (t) => Math.exp(-(((t - T0) % SCHLAG) + SCHLAG) % SCHLAG * 9);
+let K = null; // Karaoke-Zeilen
+const FOTOS = [["🎄", "#1d3b2a,#4f8a5b"], ["🥘", "#7a3b12,#e0a84a"], ["🥂", "#5a2a5e,#c58ad0"], ["🧑‍🍳", "#741521,#d0566a"], ["🍰", "#a35a2b,#f3c79a"], ["🎉", "#1e4d7a,#7fb4e6"],
+  ["🍲", "#6b2a12,#d9733e"], ["🔥", "#5c1a0a,#f08a24"], ["🍷", "#3d0a18,#9e2a48"], ["🎅", "#7a0f1a,#e04a4a"], ["🥗", "#2f5a1d,#9ccc65"], ["📸", "#333,#888"]];
+$("raster").innerHTML = FOTOS.map(([e, g]) => `<div class="foto" style="background:linear-gradient(135deg,${g})">${e}</div>`).join("");
+$("huete").innerHTML = [0, 1, 2, 3, 4].map((i) => `<div class="abs hut" id="hut${i}" style="left:${90 + i * 190}px"><img src="kc-kochmuetze-weiss.webp" alt=""></div>`).join("");
+const KF = ["#f5c542", "#ffffff", "#f3e9dc", "#ff8fa0", "#7fd4ff", "#9ccc65"];
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const KONF = Array.from({ length: 90 }, () => ({ x: rnd() * 1080, v: 260 + rnd() * 340, o: rnd() * 2400, r: rnd() * 360, w: 120 + rnd() * 400, f: KF[Math.floor(rnd() * KF.length)], s: rnd() * 6.28 }));
+$("konfetti").innerHTML = KONF.map((k, i) => `<div class="abs konf" id="kf${i}" style="background:${k.f}"></div>`).join("");
+const FLIEG = ["📰", "💬", "📅", "📸", "🍲", "🎄"];
+$("flieger").innerHTML = FLIEG.map((e, i) => `<div class="abs flieg" id="fl${i}">${e}</div>`).join("");
+
+// Tanzende Küchenhelfer – Schneebesen und Kochlöffel nach BW_HELFER der Club-App (Farben/Formen), Messer im selben Stil, rote Turnschuhe wie Twinkey
+const GESICHT = (y) => `<g><circle cx="-4" cy="${y}" r="3" fill="#fff" stroke="#222" stroke-width=".6"/><circle cx="4" cy="${y}" r="3" fill="#fff" stroke="#222" stroke-width=".6"/>
+  <circle class="pu" cx="-3.6" cy="${y + .4}" r="1.5" fill="#222"/><circle class="pu" cx="4.4" cy="${y + .4}" r="1.5" fill="#222"/>
+  <path d="M-4 ${y + 5} Q0 ${y + 9} 4 ${y + 5}" fill="#c0392b" stroke="#222" stroke-width=".7"/><circle cx="-7" cy="${y + 4}" r="1.6" fill="#ff8fa0" opacity=".7"/><circle cx="7" cy="${y + 4}" r="1.6" fill="#ff8fa0" opacity=".7"/></g>`;
+const KOERPER = {
+  besen: `<rect x="-1.8" y="14" width="3.6" height="24" rx="1.4" fill="#6c757d"/><rect x="-2.6" y="12" width="5.2" height="4" rx="1" fill="#495057"/>
+    <ellipse cx="0" cy="-2" rx="12" ry="16" fill="rgba(255,255,255,.12)" stroke="#ced4da" stroke-width="1.8"/><ellipse cx="0" cy="-2" rx="6.5" ry="16" fill="none" stroke="#adb5bd" stroke-width="1.4"/><path d="M0 -18 V14" stroke="#adb5bd" stroke-width="1.2"/>${GESICHT(-4)}`,
+  loeffel: `<rect x="-2.2" y="9" width="4.4" height="29" rx="2" fill="#c8964a"/><ellipse cx="0" cy="-3" rx="10.5" ry="14" fill="#b07d3a"/><ellipse cx="-3" cy="-8" rx="3" ry="4.5" fill="#c99a55" opacity=".7"/>${GESICHT(-4)}`,
+  messer: `<path d="M-7 14 L-7 -8 Q-6 -20 7 -26 L7 14 Z" fill="#e9ecef" stroke="#868e96" stroke-width="1"/><path d="M-5 12 L-5 -6" stroke="#fff" stroke-width="1.2" opacity=".8"/>
+    <rect x="-7.5" y="14" width="15" height="24" rx="3.5" fill="#343a40"/><circle cx="0" cy="20" r="1.4" fill="#ced4da"/><circle cx="0" cy="26" r="1.4" fill="#ced4da"/><circle cx="0" cy="32" r="1.4" fill="#ced4da"/>${GESICHT(-2)}`,
+};
+const ARM = (s) => `<g class="arm${s < 0 ? "L" : "R"}"><path d="M${s * 3} 18 L${s * 15} 10" stroke="#495057" stroke-width="2.2" stroke-linecap="round"/><circle cx="${s * 15.5}" cy="9.5" r="3.2" fill="#fff" stroke="#adb5bd" stroke-width=".8"/></g>`;
+const BEIN = (s) => `<g class="bein${s < 0 ? "L" : "R"}"><path d="M${s * 3} 37 L${s * 5} 50" stroke="#495057" stroke-width="2.2" stroke-linecap="round"/><path d="M${s * 5 - 6} 52.5 Q${s * 5 - 6} 47.5 ${s * 5 - 1} 47.5 L${s * 5 + 2} 47.5 Q${s * 5 + 7} 48 ${s * 5 + 7} 52.5 Z" fill="#e03131"/><rect x="${s * 5 - 6.5}" y="51.5" width="14" height="2.4" rx="1.2" fill="#fff"/></g>`;
+const TANZ = [["besen", 150], ["loeffel", 420], ["messer", 690]];
+$("tanz").innerHTML = TANZ.map(([k, x], i) => `<div class="abs tanzer" id="tz${i}" style="left:${x}px"><svg viewBox="-30 -30 60 85" width="240" height="340" style="overflow:visible">
+  <g class="kp">${BEIN(-1)}${BEIN(1)}${ARM(-1)}${ARM(1)}${KOERPER[k]}</g></svg></div>`).join("");
+function tanz(t, tk) {
+  const sch = (t - T0) / SCHLAG, ph = ((sch % 1) + 1) % 1, n = Math.floor(sch), takt = Math.floor(sch / 4), ref = tk >= 46.45 && tk < 61.9, A = ref ? 1 : .55;
+  const hop = Math.abs(Math.sin(Math.PI * ph)), dreh = (bar) => (ref && takt % 4 === bar ? eio(p(sch % 4, 2, 4)) * 360 : 0);
+  TANZ.forEach(([k], i) => {
+    const el = $("tz" + i), svg = el.querySelector(".kp"), auf = p(tk, 39.6 + i * .25, 40.1 + i * .25);
+    let x = 0, y = -hop * 50 * A, r = 0;
+    if (k === "besen") { r = Math.sin(Math.PI * sch / 2) * 18 * A + dreh(3); }
+    if (k === "loeffel") { y = -hop * 90 * A; r = (n % 2 ? 1 : -1) * 12 * A * hop + dreh(1); }
+    if (k === "messer") { x = Math.sin(Math.PI * sch / 2) * 45 * A; r = -Math.sin(Math.PI * sch / 2) * 10 * A + dreh(2); }
+    S(el, auf, `translate(${x}px, ${y + (1 - eb(auf)) * 300}px) rotate(${r}deg)`);
+    const wink = (n % 2 ? 1 : -1), armL = ref ? -60 - 40 * hop : -20 * hop * wink, armR = ref ? 60 + 40 * hop : 20 * hop * wink;
+    svg.querySelector(".armL").setAttribute("transform", `rotate(${armL + (k === "loeffel" && ref ? -40 : 0)} -3 18)`);
+    svg.querySelector(".armR").setAttribute("transform", `rotate(${armR + (k === "loeffel" && ref ? 40 : 0)} 3 18)`);
+    svg.querySelector(".beinL").setAttribute("transform", `rotate(${n % 2 ? 22 * hop * A : 0} -3 37)`);
+    svg.querySelector(".beinR").setAttribute("transform", `rotate(${n % 2 ? 0 : -22 * hop * A} 3 37)`);
+    svg.querySelectorAll(".pu").forEach((pu) => pu.setAttribute("transform", `translate(${Math.sin(t * 2 + i) * 1},0)`));
+  });
+}
+
+// Weitere Funktionen der Club-App (Titel/Symbole aus den Hilfe-Bereichen der App)
+const MEHR = [["📌", "Pinnwand"], ["🗓️", "Dienstpläne"], ["🤝", "Helfen & Leihen"], ["🗄️", "Archiv"], ["🗳️", "Vorschläge"], ["🎲", "Spiele"],
+  ["🧩", "Werne-Rätsel"], ["🎭", "Bühne"], ["🆘", "SOS – Notfall"], ["🔊", "Vorlesen"], ["🎨", "Themen"], ["🧑‍🍳", "Frag Twinkey"]];
+$("kacheln").innerHTML = MEHR.map(([e, n], i) => `<div class="abs kachel" id="mk${i}" style="left:${45 + (i % 3) * 340}px; top:${560 + Math.floor(i / 3) * 290}px"><div class="e">${e}</div><div class="n">${n}</div></div>`).join("");
+function mehr(t) {
+  S("mehr", p(t, 61.85, 62.3));
+  S("mT", win(t, 62.1, 66.8, .3), `scale(${eb(p(t, 62.1, 62.6))})`);
+  MEHR.forEach((_, i) => { const a = 62.7 + i * .15; S("mk" + i, Math.min(p(t, a, a + .12), 1 - p(t, 66.5, 66.8)), `scale(${eb(p(t, a, a + .4)) * (1 - .3 * p(t, 66.5, 66.8)) * (1 + .04 * puls(t))}) rotate(${Math.sin(t * 2 + i) * 3}deg)`); });
+  einf(t); hilfe(t);
+  t -= 14 * TAKT; // nach „einfach zu bedienen“ (8 Takte) und „nicht allein“ (6 Takte) geht es mit „Installier die App“ weiter
+  S("iT", win(t, 66.8, 69.6, .3), `translateY(${(1 - eo(p(t, 66.8, 67.3))) * 50}px)`);
+  const tip = p(t, 68.0, 68.15) * (1 - p(t, 68.15, 68.35)); S("knopf", win(t, 67.0, 69.6, .3), `scale(${eb(p(t, 67.0, 67.5)) * (1 - .08 * tip)})`);
+  S("finger", win(t, 67.4, 69.4, .25), `translate(${(1 - eo(p(t, 67.4, 68.0))) * 300}px, ${(1 - eo(p(t, 67.4, 68.0))) * 400 + tip * 30}px)`);
+  const w = p(t, 68.15, 68.9); S("welle", (1 - w) * (t > 68.15 ? 1 : 0), `translate(${-w * 300}px, ${-w * 300}px)`); $("welle").style.width = $("welle").style.height = `${w * 600}px`;
+  S("birne", win(t, 69.6, 73.6, .3), `scale(${eb(p(t, 69.6, 70.1)) * (1 + .06 * puls(t))})`); $("birne").style.filter = `drop-shadow(0 0 ${30 + 30 * puls(t)}px rgba(245,197,66,.9))`;
+  S("dT", win(t, 69.8, 73.6, .3), `translateY(${(1 - eo(p(t, 69.8, 70.3))) * 50}px)`);
+  S("version", win(t, 70.6, 73.6, .3), `scale(${eb(p(t, 70.6, 71.1)) * (1 + .04 * puls(t))})`); // Mitglieder-Kachel „Feedback“ (kein Admin-/Technikbereich)
+}
+
+const ZETTEL = [[60, 700, -14], [780, 640, 12], [120, 1240, 8], [740, 1260, -10], [430, 560, 4], [420, 1420, -6]];
+$("zettelL").innerHTML = ZETTEL.map(([x, y, r], i) => `<div class="abs zettel" id="zt${i}" style="left:${x}px; top:${y}px"><i style="width:80%"></i><i></i><i style="width:60%"></i><i style="width:90%"></i><i style="width:45%"></i></div>`).join("");
+function wunsch(t) {
+  S("scrWunsch", p(t, 38.3, 38.7), `translateX(${(1 - eo(p(t, 38.3, 38.7))) * 80}px)`);
+  S("c8", win(t, 38.4, 46.0, .3), `translateY(${(1 - eo(p(t, 38.4, 38.8))) * -40}px)`);
+  [["w1", 39.0], ["w2", 41.4], ["w3", 43.0]].forEach(([id, a]) => S(id, p(t, a, a + .15), `scale(${eb(p(t, a, a + .4))})`)); ["w1", "w2", "w3"].forEach((id) => $(id).style.transformOrigin = "left top");
+  const wahl = [["wc1", 39.8, [[0, 40.5], [1, 40.9]]], ["wc2", 42.0, [[1, 42.6]]], ["wc3", 43.6, [[2, 44.1]]]];
+  wahl.forEach(([id, a, an]) => { S(id, p(t, a, a + .3), `translateY(${(1 - eo(p(t, a, a + .4))) * 30}px)`); const c = $(id).children;
+    an.forEach(([k, ta]) => { c[k].classList.toggle("an", t >= ta); c[k].style.transform = `scale(${1 + .15 * Math.exp(-Math.max(0, t - ta) * 8) * (t >= ta)})`; }); });
+  const druck = p(t, 44.9, 45.0) * (1 - p(t, 45.0, 45.15)); S("wKnopf", p(t, 44.4, 44.6), `scale(${eb(p(t, 44.4, 44.8)) * (1 - .08 * druck)})`);
+  S("wDanke", p(t, 45.1, 45.3), `scale(${eb(p(t, 45.1, 45.5))})`);
+  // Keine Zettelwirtschaft mehr
+  S("c9", win(t, 46.0, 50.2, .3), `scale(${eb(p(t, 46.0, 46.4))})`);
+  ZETTEL.forEach(([x, y, r], i) => { const a = 45.9 + i * .08, weg = eio(p(t, 47.9 + i * .05, 48.6 + i * .05)), dx = (x < 400 ? -1 : 1) * weg * 900;
+    S("zt" + i, p(t, a, a + .1) * (1 - p(t, 48.4, 48.8)), `translate(${dx + (1 - eo(p(t, a, a + .35))) * (x < 400 ? -500 : 500)}px, ${-weg * 300}px) rotate(${r + weg * 200}deg)`); });
+  const st = p(t, 46.7, 46.95); S("stopp", st * (1 - p(t, 48.2, 48.6)), `scale(${lerp(2.2, 1, eo(st))}) rotate(${lerp(-25, 0, eo(st))}deg)`);
+}
+// Einfache Ansicht (EINFACH_KACHELN der Club-App) → Erweiterte Ansicht → Designs (DESIGNS: Klassik, Küchengrün, Nordsee, Lagune), Nacht, große Schrift
+const EINF = [["📅", "Termine"], ["💬", "Nachrichten"], ["📌", "Pinnwand"], ["🗓️", "Mein Dienst"], ["👥", "Mitglieder"], ["📚", "Dokumente"], ["🎲", "Spiele"], ["🆘", "SOS"]];
+const ERW = [...EINF, ["📷", "Fotoalbum"], ["🗄️", "Archiv"], ["🤝", "Helfen"], ["🗳️", "Vorschläge"], ["🧑‍🍳", "Twinkey"], ["🎭", "Bühne"], ["🧩", "Rätsel"]];
+$("gEinf").innerHTML = EINF.map(([e, n], i) => `<div class="kl" id="ge${i}"><div class="e">${e}</div><div class="n">${n}</div></div>`).join("");
+$("gErw").innerHTML = ERW.map(([e, n], i) => `<div class="kl" id="gr${i}"><div class="e">${e}</div><div class="n">${n}</div></div>`).join("");
+const LOOKS = [[0, "#741521", "#f5eee3", "#ffffff", "#2b1a1c", 1, ""], [75.0, "#2f5d3a", "#eef2ea", "#ffffff", "#1d2a1f", 1, "🎨 Küchengrün"], [76.3, "#1d4e7a", "#edf2f7", "#ffffff", "#16222e", 1, "🎨 Nordsee"],
+  [77.6, "#0E7490", "#EEF7FB", "#ffffff", "#102330", 1, "🎨 Lagune"], [78.9, "#741521", "#1b1415", "#2a2021", "#f4e9e4", 1, "🌙 Nachtmodus"], [80.2, "#741521", "#f5eee3", "#ffffff", "#2b1a1c", 1.3, "🔠 Große Schrift"]];
+function einf(t) { // t = Zeit im „mehr“-Abschnitt (tk); Szene 66.6 … 82.3
+  const o = win(t, 66.55, 82.4, .35); S("einf", o); if (o <= 0) return;
+  S("phone2", 1, `translateY(${(1 - eo(p(t, 66.6, 67.2))) * 900}px)`);
+  S("eA", win(t, 67.0, 70.9, .3), `scale(${eb(p(t, 67.0, 67.4))})`);
+  S("eB", win(t, 70.9, 73.1, .3), `scale(${eb(p(t, 70.9, 71.3))})`);
+  S("eC", p(t, 73.1, 73.4), `translateY(${(1 - eo(p(t, 73.1, 73.5))) * -40}px)`);
+  const um = p(t, 73.0, 73.4); // Umschalten auf die erweiterte Ansicht
+  EINF.forEach((_, i) => { const a = 67.3 + i * .1; S("ge" + i, p(t, a, a + .12) * (1 - um), `scale(${eb(p(t, a, a + .4)) * (1 - .2 * um)})`); });
+  ERW.forEach((_, i) => { const a = 73.2 + i * .05; S("gr" + i, p(t, a, a + .1), `scale(${eb(p(t, a, a + .35))})`); });
+  const tip = p(t, 72.7, 72.85) * (1 - p(t, 72.85, 73.05));
+  S("ansKnopf", 1, `scale(${(1 + .06 * puls(t) * p(t, 71.6, 72.0) * (t < 72.7)) * (1 - .06 * tip)})`); $("ansKnopf").textContent = t < 72.95 ? "🔧 Erweiterte Ansicht" : "🟢 Einfache Ansicht";
+  S("eFinger", win(t, 71.9, 73.4, .25), `translate(${(1 - eo(p(t, 71.9, 72.6))) * 300}px, ${(1 - eo(p(t, 71.9, 72.6))) * 300 + tip * 25}px)`);
+  let L = LOOKS[0]; for (const x of LOOKS) if (t >= x[0]) L = x; const sc = $("scr2").style;
+  sc.setProperty("--a", L[1]); sc.setProperty("--bg", L[2]); sc.setProperty("--k", L[3]); sc.setProperty("--tx", L[4]); sc.setProperty("--fs", L[5]);
+  const ta = L[0], flash = t - ta < .5 && ta > 0 ? Math.exp(-(t - ta) * 8) : 0; $("phone2").style.transform += ` scale(${1 + .04 * flash})`;
+  S("eToast", L[6] ? Math.min(p(t, ta, ta + .15), 1 - p(t, ta + 1.0, ta + 1.25)) : 0, `translateY(${(1 - eo(p(t, ta, ta + .3))) * 60}px)`); $("eToast").textContent = L[6];
+}
+// Hilfe & Tipps (❓), Suche (🔍) und Erklär-Videos – Titel aus der Video-Liste der Club-App (nur Mitgliederthemen)
+function hilfe(t) { // t = tk; Szene 82.1 … 94.0 (6 Takte nach „einfach zu bedienen“)
+  const r = t - 82.28, o = win(r, -.2, 11.6, .35); S("hilfe", o); if (o <= 0) return;
+  S("hT", p(r, .2, .5), `scale(${eb(p(r, .2, .7))})`);
+  S("hTw", p(r, .1, .3), `scale(${eb(p(r, .1, .6)) * (1 + .04 * puls(t))}) rotate(${Math.sin(r * 9) * 12 * (1 - .7 * p(r, 1.5, 2.5))}deg)`);
+  [["hk1", 2.0], ["hk2", 3.2], ["hk3", 4.6]].forEach(([id, a]) => S(id, p(r, a, a + .2), `translateX(${(1 - eo(p(r, a, a + .5))) * 700}px)`));
+  const such = "Termin eintragen", n = Math.floor(cl((r - 3.6) / 1.6) * such.length); $("hSuchT").textContent = such.slice(0, n);
+  S("hCur", (Math.floor(r * 2.5) % 2 || n < such.length) && r > 3.4 ? 1 : 0);
+  [0, 1, 2].forEach((i) => { const a = 5.0 + i * .35; S("hv" + i, p(r, a, a + .2), `translateY(${(1 - eo(p(r, a, a + .4))) * 30}px)`); $("hb" + i).style.width = `${cl((r - 6.0 - i * .5) / (3.5 - i * .6)) * 100}%`; });
+  S("hE", p(r, 7.6, 7.9), `translateY(${(1 - eo(p(r, 7.6, 8.1))) * 40}px)`);
+}
+function zug(t) { // Noch keine App? – persönlicher Zugangslink bei Hansi (4 Takte, ab 112,26 s)
+  const r = t - 112.26, o = win(r, -.3, 7.9, .35); S("zug", o); if (o <= 0) return;
+  S("zT", p(r, 0, .3), `scale(${eb(p(r, 0, .5))})`);
+  S("zKey", p(r, .2, .4), `scale(${eb(p(r, .2, .7)) * (1 + .05 * puls(t))}) rotate(${Math.sin(r * 6) * 10}deg)`);
+  S("zb1", p(r, 1.0, 1.15), `scale(${eb(p(r, 1.0, 1.4))})`);
+  S("zb2", p(r, 2.2, 2.35), `scale(${eb(p(r, 2.2, 2.6))})`);
+  S("zHin", p(r, 3.2, 3.5));
+  S("zT2", p(r, 3.8, 4.1), `translateY(${(1 - eo(p(r, 3.8, 4.3))) * 40}px)`);
+}
+function upd(t) { // Schon installiert? Umso besser – immer up to date (2 Takte vor dem Abspann)
+  S("upd", p(t, 85.1, 85.5));
+  S("uIcon", p(t, 85.3, 85.5), `scale(${eb(p(t, 85.3, 85.8))})`); S("uKreis", p(t, 85.5, 85.8), `rotate(${(t - 85.5) * 300}deg)`);
+  S("uT", p(t, 85.5, 85.8), `translateY(${(1 - eo(p(t, 85.5, 86.0))) * 50}px)`);
+}
+
+function karaoke(t) {
+  const sz = K.takte.map((z) => ({ ...z, t0: K.start + z.b * K.takt }));
+  let z = null; for (const x of sz) if (x.t0 - .35 <= t && t < x.t0 + 32 * SECH + .2) z = x;
+  let html, next = "";
+  if (z) {
+    html = '<span class="wort">'; z.silben.forEach((s, i) => { const ts = z.t0 + i * 2 * SECH, tn = z.t0 + (i + 1) * 2 * SECH; const kl = t >= ts ? ((i === z.silben.length - 1 || t < tn) ? "jetzt" : "war") : "";
+      const sc = kl === "jetzt" ? 1 + .12 * Math.exp(-(t - ts) * 6) : 1; html += `<span class="${kl}" style="transform:scale(${sc.toFixed(3)})">${s.trimEnd()}</span>`; if (s.endsWith(" ")) html += '</span> <span class="wort">'; }); html += "</span>";
+    const n = sz[sz.indexOf(z) + 1]; next = n ? n.silben.join("").trim() : "";
+  } else { html = `<span>🎤 Gleich geht’s los – sing mit!</span>`; next = sz[0].silben.join("").trim(); }
+  $("kZeile").innerHTML = html; $("kNext").textContent = next;
+  // Klatschen nach „Köcheclub Werne!“
+  let kl = 0; for (const x of sz) if (x.silben[0].startsWith("Seit")) for (const st of [24, 26]) { const tk = x.t0 + st * SECH; if (t >= tk && t < tk + .4) kl = Math.max(kl, 1 - (t - tk) / .4); }
+  S("klatsch", kl, `scale(${1 + kl * .4})`);
+}
+
+function zeige(t) {
+  // Hintergründe
+  S("bgRot", Math.max(1 - p(t, 3.9, 4.3), 0));
+  const D1 = 6 * TAKT, tk = t - D1; // ab dem Wunschdienst ist alles um 6 Takte verschoben
+  S("bgBeige", win(t, 3.9, 39.4 + D1, .4));
+  // Szene 1
+  S("s1", 1 - p(t, 3.9, 4.3));
+  const l1 = eb(p(t, .15, .85)); S("s1logo", p(t, .15, .3), `scale(${l1}) rotate(${(1 - l1) * -40}deg)`);
+  S("s1since", p(t, .5, .8), `translateY(${(1 - eo(p(t, .5, .9))) * -20}px)`);
+  S("s1t1", p(t, .6, 1.0), `translateY(${(1 - eo(p(t, .6, 1.1))) * 60}px)`);
+  const st = p(t, 2.45, 2.75); S("s1t2", st, `scale(${lerp(2.6, 1, eo(st)) * (1 + .05 * puls(t) * (t > 2.8))}) rotate(${lerp(-18, -4, eo(st))}deg)`);
+  // Szene 2
+  S("c2a", win(t, 4.2, 6.0, .3), `scale(${eb(p(t, 4.2, 4.6))})`);
+  S("c2b", win(t, 6.0, 8.0, .3), `translateY(${(1 - eo(p(t, 6.0, 6.5))) * 50}px)`);
+  // Jeans + Handy
+  const jy = eio(p(t, 7.9, 8.8)) * 650; S("jeansL", win(t, 4.1, 8.8, .4), `translateY(${jy}px)`);
+  let dy, sc, rot, op = 1;
+  if (t < 7.9) { const r = eo(p(t, 5.5, 6.9)); dy = lerp(900, 150, r); sc = .6; rot = lerp(4, -8, r) + Math.sin(t * 9) * 1.2 * (p(t, 5.5, 6.9) < 1 ? 1 : .2); }
+  else if (t < 38.2 + D1) { const r = eio(p(t, 7.9, 8.8)); dy = lerp(150, 0, r); sc = lerp(.6, 1, r); rot = lerp(-8, 0, r); }
+  else { const r = eio(p(tk, 38.2, 39.1)); dy = lerp(0, -1100, r); sc = lerp(1, .5, r); rot = lerp(0, 18, r); op = 1 - p(tk, 38.7, 39.1); }
+  if (t > 28.6 && t < 29.4) rot += Math.sin((t - 28.6) * 45) * 2.5 * (1 - p(t, 28.6, 29.4)); // Handy wackelt bei der Erinnerung
+  S("phone", t < 4.1 ? 0 : op, `translateY(${dy}px) scale(${sc}) rotate(${rot}deg)`);
+  // Bildschirme
+  S("scrSplash", 1); S("splLogo", 1, `scale(${eb(p(t, 7.0, 7.7)) * (1 + .04 * puls(t))})`);
+  S("scrNews", p(t, 12.4, 12.8), `translateX(${(1 - eo(p(t, 12.4, 12.8))) * 80}px)`);
+  S("scrChat", p(t, 18.9, 19.3), `translateX(${(1 - eo(p(t, 18.9, 19.3))) * 80}px)`);
+  S("scrTermine", p(t, 25.3, 25.7), `translateX(${(1 - eo(p(t, 25.3, 25.7))) * 80}px)`);
+  S("scrFoto", p(t, 31.8, 32.2), `translateX(${(1 - eo(p(t, 31.8, 32.2))) * 80}px)`);
+  // Szene 3 Überschriften
+  S("c3", win(t, 8.2, 12.5, .3));
+  [["c3a", 8.3], ["c3b", 9.25], ["c3c", 10.1]].forEach(([id, a]) => S(id, p(t, a, a + .2), `scale(${eb(p(t, a, a + .45))})`));
+  // Szene 4 News
+  S("c4", win(t, 12.5, 19.0, .3), `translateY(${(1 - eo(p(t, 12.5, 12.9))) * -40}px)`);
+  [...$("newsListe").children].forEach((k, i) => { const a = 12.9 + i * .4, r = eo(p(t, a, a + .5)); S(k, p(t, a, a + .25), `translateX(${(1 - r) * 500}px)`); });
+  $("newsListe").style.transform = `translateY(${-eio(p(t, 15.5, 18.5)) * 140}px)`;
+  // Szene 5 Chat
+  S("c5", win(t, 19.0, 25.4, .3), `translateY(${(1 - eo(p(t, 19.0, 19.4))) * -40}px)`);
+  [19.5, 20.5, 21.4, 22.4, 23.4].forEach((a, i) => S("b" + i, p(t, a, a + .12), `scale(${eb(p(t, a, a + .4))})`));
+  // Szene 6 Termine
+  S("c6", win(t, 25.4, 31.9, .3), `translateY(${(1 - eo(p(t, 25.4, 25.8))) * -40}px)`);
+  [...$("scrTermine").querySelectorAll(".termin")].forEach((k, i) => { const a = 25.8 + i * .35; S(k, p(t, a, a + .25), `translateY(${(1 - eo(p(t, a, a + .5))) * 80}px)`); });
+  const bn = eb(p(t, 28.5, 29.0)); S("banner", p(t, 28.5, 28.6), `translateY(${lerp(-220, 0, bn)}px)`);
+  // Szene 7 Fotos
+  wunsch(t);
+  S("c7", win(t, 31.9, 38.4, .3), `translateY(${(1 - eo(p(t, 31.9, 32.3))) * -40}px)`);
+  [...$("raster").children].forEach((k, i) => { const a = 32.2 + i * .08; S(k, p(t, a, a + .15), `scale(${eb(p(t, a, a + .4))})`); });
+  S("dia", p(t, 35.0, 35.4), `scale(${lerp(.4, 1, eo(p(t, 35.0, 35.5)))})`);
+  S("dia0", 1 - p(t, 36.8, 37.2), `scale(${1 + .12 * p(t, 35.0, 37.2)})`);
+  S("dia1", p(t, 36.8, 37.2), `scale(${1 + .12 * p(t, 36.8, 38.8)})`);
+  // Bühne
+  const bo = win(tk, 38.8, 62.2, .5); S("buehne", bo);
+  if (bo > 0) {
+    $("spot").style.transform = `rotate(${Math.sin(t * .9) * 8}deg)`; $("spot").style.transformOrigin = "50% 0";
+    S("kTitel", p(tk, 39.0, 39.5), `scale(${eb(p(tk, 39.0, 39.6)) * (1 + .03 * puls(t))})`);
+    S("kBox", p(tk, 39.3, 39.7)); karaoke(t); tanz(t, tk);
+    for (let i = 0; i < 5; i++) { const ph = ((t - T0) / SCHLAG + (i % 2) * .5) % 1; S("hut" + i, p(tk, 39.4 + i * .1, 39.7 + i * .1), `translateY(${-Math.abs(Math.sin(ph * Math.PI)) * 60}px) rotate(${Math.sin(ph * Math.PI * 2) * 10}deg)`); }
+    const kv = p(tk, 46.4, 46.7); KONF.forEach((k, i) => { const y = ((tk - 46.4) * k.v + k.o) % 2300 - 200; S("kf" + i, kv * (tk > 46.4 ? 1 : 0), `translate(${k.x + Math.sin(t * 2 + k.s) * 40}px, ${y}px) rotate(${k.r + t * k.w}deg)`); });
+    FLIEG.forEach((e, i) => { const a = i / FLIEG.length * Math.PI * 2 + t * .25; S("fl" + i, .22, `translate(${490 + Math.cos(a) * 470}px, ${930 + Math.sin(a) * 780}px) rotate(${Math.sin(t + i) * 15}deg)`); });
+  }
+  // … und noch viel mehr (6 Takte), danach der Abspann
+  mehr(tk); zug(t); upd(t - 18 * TAKT);
+  const te = t - 32 * TAKT; // Ende verschoben: Wunschdienst 6 + „mehr“ 6 + „einfach“ 8 + „nicht allein“ 6 + „noch keine App“ 4 + „schon installiert“ 2 Takte
+  S("ende", p(te, 61.8, 62.3));
+  const el = eb(p(te, 62.0, 62.7)); S("eLogo", p(te, 62.0, 62.2), `scale(${el * (1 + .03 * puls(t))}) rotate(${(1 - el) * 30}deg)`);
+  [["eT1", 62.4], ["eT2", 63.2], ["eT3", 64.0], ["eT4", 64.9], ["eT5", 65.6]].forEach(([id, a]) => S(id, p(te, a, a + .3), `translateY(${(1 - eo(p(te, a, a + .5))) * 50}px)`));
+  S("schwarz", p(t, 130.1, 130.9) + (1 - p(t, 0, .25)));
+}
+</script></body></html>
