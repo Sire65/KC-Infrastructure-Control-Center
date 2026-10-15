@@ -54,12 +54,12 @@ const KS_TEXT = {
 const ksSilben = (zeile) => zeile.replace(/ ([–…])/g, "\u00a0$1").split(" ").flatMap((w) => { const t = w.split("-"); t[t.length - 1] += " "; return t; });
 // Werbefilm-Text (Wunsch Hansi): „da glüht unser Herd“ und „weil Freundschaft immer dazu gehört“ – gleiche Melodiebögen, Zeile 4 mit 9 Silben
 KS_TEXT.refk = [KS_TEXT.ref[0], KS_TEXT.ref[1], ["Seit ein-und-neun-zig – da glüht un-ser Herd,", KS_HOOK, true], ["weil Freund-schaft im-mer da-zu ge-hört!", [65, 65, 67, 69, 72, 71, 67, 64, 60]]];
-// Werbefilm-Fassung: Intro, Strophen-Begleitung ohne Gesang (Sprecher), Pre-Chorus und Refrain gesungen, Begleitung für Wunschdienst, „…noch viel mehr“, „einfach zu bedienen“, „nicht allein“ und „schon installiert“, Schlussakkord
+// Werbefilm-Fassung: Intro, Strophen-Begleitung ohne Gesang (Sprecher), Pre-Chorus und Refrain gesungen, Begleitung für Wunschdienst, „…noch viel mehr“, „einfach zu bedienen“, „nicht allein“, „noch keine App“ und „schon installiert“, Schlussakkord
 const KS_ABLAUF = [["intro", ["C", "G", "Am", "F"], null, 0],
   ["s1", ["Am", "F", "C", "G", "Am", "F", "C", "G"], null, 0], ["s1", ["Am", "F", "C", "G", "Am", "F", "C", "G"], null, 0],
   ["s1", ["Am", "F", "C", "G", "F", "G"], null, 0],
   ["pre", ["F", "G", "F", "G"], "pre", 0], ["ref", ["C", "G", "Am", "F", "C", "G", "F", "C"], "refk", 0],
-  ["s1", ["C", "G", "Am", "F", "Am", "F", "C", "G", "Am", "F", "C", "G", "Am", "F", "C", "G", "F", "G", "C", "G"], null, 0], ["s1", ["F", "G"], null, 0], ["outro", ["C", "C"], null, 0]];
+  ["s1", ["C", "G", "Am", "F", "Am", "F", "C", "G", "Am", "F", "C", "G", "Am", "F", "C", "G", "F", "G", "C", "G"], null, 0], ["s1", ["Am", "F", "C", "G", "F", "G"], null, 0], ["outro", ["C", "C"], null, 0]];
 const KS_TAKTE = KS_ABLAUF.flatMap(([teil, akk, text, hoch], a) => akk.map((name, k) => {
   const z = text && k % 2 === 0 ? KS_TEXT[text][k / 2] : null;
   return { teil, name, hoch, neu: k === 0, abschnitt: a, letzter: k === akk.length - 1, zeile: z ? { silben: ksSilben(z[0]), noten: z[1], klatsch: !!z[2] } : null };

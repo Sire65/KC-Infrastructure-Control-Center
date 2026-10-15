@@ -109,6 +109,16 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
 .vid { display: flex; align-items: center; gap: 18px; margin-top: 16px; font-size: 31px; color: #2a1c14; }
 .vid .pl { width: 64px; height: 64px; border-radius: 50%; background: var(--rot); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 28px; flex: none; }
 .vid .bal { height: 8px; border-radius: 4px; background: #eadfce; margin-top: 8px; overflow: hidden; } .vid .bal i { display: block; height: 100%; width: 0; background: var(--rot); }
+/* Noch keine App? Zugangslink bei Hansi */
+#zug { background: linear-gradient(#fbf4ea, #f3e9dc); }
+#zKey { left: 0; right: 0; top: 330px; text-align: center; font-size: 220px; }
+.zb { position: absolute; max-width: 760px; padding: 28px 34px; border-radius: 40px; font-size: 40px; line-height: 1.3; box-shadow: 0 10px 28px rgba(0,0,0,.12); }
+.zb b { display: block; font-size: 28px; color: var(--rot); margin-bottom: 6px; }
+#zb1 { right: 60px; top: 690px; background: #dcf8c6; border-bottom-right-radius: 10px; transform-origin: right bottom; }
+#zb2 { left: 60px; top: 900px; background: #fff; border-bottom-left-radius: 10px; transform-origin: left bottom; }
+#zb2 .lk { display: inline-block; margin-top: 12px; padding: 12px 24px; border-radius: 30px; background: var(--rot); color: #fff; font-weight: 700; font-size: 36px; }
+#zHin { left: 0; right: 0; top: 1240px; text-align: center; font-size: 36px; color: #5a4a3a; }
+#zT2 { top: 1420px; }
 /* Schon installiert */
 #upd { background: linear-gradient(#fbf4ea, #f3e9dc); }
 #uIcon { left: 0; right: 0; top: 380px; text-align: center; font-size: 300px; }
@@ -135,6 +145,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
   <!-- Szene 1 -->
   <div class="layer" id="s1">
     <div class="abs logo" id="s1logo" style="left:390px; top:330px"><img src="kc-kochmuetze-weiss.webp" alt=""></div>
+    <div class="abs center serif" id="s1since" style="top:665px; color:var(--gold); font-size:46px; font-style:italic; letter-spacing:.06em">since 1991</div>
     <div class="abs center serif" id="s1t1" style="top:780px; color:#fff; font-size:70px; line-height:1.25">Du bist Mitglied im<br><b style="font-size:96px">Köcheclub Werne?</b></div>
     <div class="abs center" id="s1t2" style="top:1180px; font-size:150px; font-weight:700; color:var(--gold); text-shadow:0 10px 30px rgba(0,0,0,.4)">Sehr gut! 👍</div>
   </div>
@@ -256,6 +267,15 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
     </div>
     <div class="abs cap" id="hE" style="top:1660px"><div class="h" style="font-size:52px; color:#2a1c14">… damit du dich schnell zurechtfindest 👍</div></div>
   </div>
+  <!-- Noch keine App? -->
+  <div class="layer" id="zug">
+    <div class="abs cap" id="zT"><div class="h serif" style="font-size:84px">Noch keine App? 📲</div></div>
+    <div class="abs" id="zKey">🔑</div>
+    <div class="zb" id="zb1">Hallo Hansi, ich hätte gern meinen Zugang zur Club-App 🙂</div>
+    <div class="zb" id="zb2"><b>Hansi 🧑‍🍳</b>Klar, gern! Hier ist dein persönlicher Link:<br><span class="lk">🔗 Mein Zugang</span></div>
+    <div class="abs" id="zHin">🔒 nur für dich – bitte nicht weitergeben</div>
+    <div class="abs cap" id="zT2"><div class="h" style="font-size:60px; color:#2a1c14">Deinen persönlichen Zugangslink<br>bekommst du bei <span style="color:var(--rot)">Hansi</span>.</div></div>
+  </div>
   <!-- Schon installiert? -->
   <div class="layer" id="upd">
     <div class="abs" id="uKreis"></div>
@@ -269,7 +289,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
     <div class="abs center" id="eT2" style="top:860px; font-size:64px; color:var(--gold); font-weight:700">Jetzt in der Club-App 📱</div>
     <div class="abs center" id="eT3" style="top:990px; font-size:44px; opacity:.9">Immer aktuell · Immer dabei</div>
     <div class="abs center serif" id="eT4" style="top:1180px; font-size:50px; font-style:italic">„Gemeinsam kochen,<br>gemeinsam helfen“</div>
-    <div class="abs center" id="eT5" style="top:1560px; font-size:34px; opacity:.75">Nur für Mitglieder · sire65.github.io/KC-Clubapp</div>
+    <div class="abs center" id="eT5" style="top:1500px; font-size:40px; line-height:1.35">📲 Noch keine App?<br><b style="color:var(--gold)">Zugangslink bei Hansi anfordern</b></div>
   </div>
   <div class="layer" id="schwarz"></div>
 </div>
@@ -403,6 +423,15 @@ function hilfe(t) { // t = tk; Szene 82.1 … 94.0 (6 Takte nach „einfach zu b
   [0, 1, 2].forEach((i) => { const a = 5.0 + i * .35; S("hv" + i, p(r, a, a + .2), `translateY(${(1 - eo(p(r, a, a + .4))) * 30}px)`); $("hb" + i).style.width = `${cl((r - 6.0 - i * .5) / (3.5 - i * .6)) * 100}%`; });
   S("hE", p(r, 7.6, 7.9), `translateY(${(1 - eo(p(r, 7.6, 8.1))) * 40}px)`);
 }
+function zug(t) { // Noch keine App? – persönlicher Zugangslink bei Hansi (4 Takte, ab 112,26 s)
+  const r = t - 112.26, o = win(r, -.3, 7.9, .35); S("zug", o); if (o <= 0) return;
+  S("zT", p(r, 0, .3), `scale(${eb(p(r, 0, .5))})`);
+  S("zKey", p(r, .2, .4), `scale(${eb(p(r, .2, .7)) * (1 + .05 * puls(t))}) rotate(${Math.sin(r * 6) * 10}deg)`);
+  S("zb1", p(r, 1.0, 1.15), `scale(${eb(p(r, 1.0, 1.4))})`);
+  S("zb2", p(r, 2.2, 2.35), `scale(${eb(p(r, 2.2, 2.6))})`);
+  S("zHin", p(r, 3.2, 3.5));
+  S("zT2", p(r, 3.8, 4.1), `translateY(${(1 - eo(p(r, 3.8, 4.3))) * 40}px)`);
+}
 function upd(t) { // Schon installiert? Umso besser – immer up to date (2 Takte vor dem Abspann)
   S("upd", p(t, 85.1, 85.5));
   S("uIcon", p(t, 85.3, 85.5), `scale(${eb(p(t, 85.3, 85.8))})`); S("uKreis", p(t, 85.5, 85.8), `rotate(${(t - 85.5) * 300}deg)`);
@@ -432,6 +461,7 @@ function zeige(t) {
   // Szene 1
   S("s1", 1 - p(t, 3.9, 4.3));
   const l1 = eb(p(t, .15, .85)); S("s1logo", p(t, .15, .3), `scale(${l1}) rotate(${(1 - l1) * -40}deg)`);
+  S("s1since", p(t, .5, .8), `translateY(${(1 - eo(p(t, .5, .9))) * -20}px)`);
   S("s1t1", p(t, .6, 1.0), `translateY(${(1 - eo(p(t, .6, 1.1))) * 60}px)`);
   const st = p(t, 2.45, 2.75); S("s1t2", st, `scale(${lerp(2.6, 1, eo(st)) * (1 + .05 * puls(t) * (t > 2.8))}) rotate(${lerp(-18, -4, eo(st))}deg)`);
   // Szene 2
@@ -483,11 +513,11 @@ function zeige(t) {
     FLIEG.forEach((e, i) => { const a = i / FLIEG.length * Math.PI * 2 + t * .25; S("fl" + i, .22, `translate(${490 + Math.cos(a) * 470}px, ${930 + Math.sin(a) * 780}px) rotate(${Math.sin(t + i) * 15}deg)`); });
   }
   // … und noch viel mehr (6 Takte), danach der Abspann
-  mehr(tk); upd(t - 14 * TAKT);
-  const te = t - 28 * TAKT; // Ende verschoben: Wunschdienst 6 + „mehr“ 6 + „einfach“ 8 + „nicht allein“ 6 + „schon installiert“ 2 Takte
+  mehr(tk); zug(t); upd(t - 18 * TAKT);
+  const te = t - 32 * TAKT; // Ende verschoben: Wunschdienst 6 + „mehr“ 6 + „einfach“ 8 + „nicht allein“ 6 + „noch keine App“ 4 + „schon installiert“ 2 Takte
   S("ende", p(te, 61.8, 62.3));
   const el = eb(p(te, 62.0, 62.7)); S("eLogo", p(te, 62.0, 62.2), `scale(${el * (1 + .03 * puls(t))}) rotate(${(1 - el) * 30}deg)`);
   [["eT1", 62.4], ["eT2", 63.2], ["eT3", 64.0], ["eT4", 64.9], ["eT5", 65.6]].forEach(([id, a]) => S(id, p(te, a, a + .3), `translateY(${(1 - eo(p(te, a, a + .5))) * 50}px)`));
-  S("schwarz", p(t, 122.3, 123.1) + (1 - p(t, 0, .25)));
+  S("schwarz", p(t, 130.1, 130.9) + (1 - p(t, 0, .25)));
 }
 </script></body></html>

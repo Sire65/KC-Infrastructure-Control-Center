@@ -21,6 +21,7 @@ L = {
  "17": "Und wenn du dich ein bisschen zurechtgefunden hast, kannst du die App genau an deine Vorlieben und Bedürfnisse anpassen.",
  "18": "Und du bist nicht allein!",
  "19": "Hilfethemen, eine Suchfunktion – und zu jedem Thema ein Erklärvideo. Damit du dich in der App schnell zurechtfindest.",
+ "20": "Noch keine App? Deinen persönlichen Zugangslink bekommst du bei Hansi.",
 }
 # Englische Wörter englisch sprechen (wie BW_AUSSPRACHE in der Club-App): Schreibweise nur für die Stimme, Bildtext bleibt
 AUSSPRACHE = [(r"\bApp\b", "Äpp"), (r"\bChatte\b", "Tschätte"), (r"\bchatten\b", "tschätten"), (r"\bChat\b", "Tschätt"), (r"\bTwinkey\b", "Twinki"), (r"\bup to date\b", "App tu dejt")]
