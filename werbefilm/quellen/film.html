@@ -129,6 +129,10 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
 .kachel .e { font-size: 96px; line-height: 1; } .kachel .n { font-size: 32px; font-weight: 700; color: #2a1c14; margin-top: 18px; }
 #knopf { left: 140px; right: 140px; top: 800px; height: 190px; border-radius: 95px; background: var(--rot); color: #fff; font-size: 64px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 50px rgba(116,21,33,.4); }
 #finger { left: 640px; top: 930px; font-size: 160px; }
+#multiDeviceHinweis { left: 60px; right: 60px; top: 1300px; text-align: center; color: var(--rot); line-height: 1.43; }
+#multiDeviceHinweis .zeile1 { font-size: 62px; font-weight: 700; }
+#multiDeviceHinweis .zeile2 { font-size: 54px; font-weight: 600; }
+#multiDeviceHinweis .linie { width: 540px; height: 5px; margin: 0 auto 35px; background: #d2a43c; border-radius: 3px; }
 #welle { left: 540px; top: 895px; width: 0; height: 0; border-radius: 50%; border: 8px solid var(--rot); }
 #birne { left: 0; right: 0; top: 330px; text-align: center; font-size: 260px; }
 #version { left: 0; right: 0; top: 1420px; text-align: center; font-size: 46px; color: #3a2a20; }
@@ -235,6 +239,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; 
     <div class="abs" id="knopf">📲 Installieren</div>
     <div class="abs" id="welle"></div>
     <div class="abs" id="finger">👆</div>
+    <div class="abs" id="multiDeviceHinweis"><div class="linie"></div><div class="zeile1">Auch auf Tablet und PC</div><div class="zeile2">parallel zum Handy installieren</div></div>
     <div class="abs" id="birne">💡</div>
     <div class="abs cap" id="dT" style="top:700px"><div class="h serif" style="font-size:80px">Deine Idee?</div><div class="h" style="font-size:96px; color:#2a1c14; margin-top:20px">Immer her damit!</div><div class="u" style="font-size:50px; margin-top:50px">Die App wird ständig<br>weiterentwickelt 🚀</div></div>
     <div class="abs" id="version"><span class="fb">💭 Feedback</span><div class="fbu">Deine Meinung zur App</div></div>
@@ -365,6 +370,7 @@ function mehr(t) {
   S("iT", win(t, 66.8, 69.6, .3), `translateY(${(1 - eo(p(t, 66.8, 67.3))) * 50}px)`);
   const tip = p(t, 68.0, 68.15) * (1 - p(t, 68.15, 68.35)); S("knopf", win(t, 67.0, 69.6, .3), `scale(${eb(p(t, 67.0, 67.5)) * (1 - .08 * tip)})`);
   S("finger", win(t, 67.4, 69.4, .25), `translate(${(1 - eo(p(t, 67.4, 68.0))) * 300}px, ${(1 - eo(p(t, 67.4, 68.0))) * 400 + tip * 30}px)`);
+  S("multiDeviceHinweis", win(t, 67.0, 69.6, .28), `translateY(${(1 - eo(p(t, 67.0, 67.3))) * 28}px)`);
   const w = p(t, 68.15, 68.9); S("welle", (1 - w) * (t > 68.15 ? 1 : 0), `translate(${-w * 300}px, ${-w * 300}px)`); $("welle").style.width = $("welle").style.height = `${w * 600}px`;
   S("birne", win(t, 69.6, 73.6, .3), `scale(${eb(p(t, 69.6, 70.1)) * (1 + .06 * puls(t))})`); $("birne").style.filter = `drop-shadow(0 0 ${30 + 30 * puls(t)}px rgba(245,197,66,.9))`;
   S("dT", win(t, 69.8, 73.6, .3), `translateY(${(1 - eo(p(t, 69.8, 70.3))) * 50}px)`);
