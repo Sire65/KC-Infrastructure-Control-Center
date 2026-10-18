@@ -23,3 +23,7 @@ Wunsch Hansi 18.10.2026 („baue um, dass nur geänderte Daten gespiegelt oder g
 
 ## Rücknahme
 Backup-Worker: vorige Fassung (Snapshot über `kc_db_mirror_snapshot`, ohne Kopierweg) einspielen; Spiegel-Arbeiter: Club-App-Commit zurücknehmen; DB-Funktionen bleiben unschädlich.
+
+## Nachtrag KICC-F-108 (18.10.2026, Wunsch Hansi „Ja umsetzen“): Spiegellauf in Wellen
+- Befund: Verlauf (Admin-Zentrale) zeigte alle 6 h rote Säulen „Fehlgeschlagene Hintergrund-Aufrufe“ (12./13. von 24 Anfragen um 06:20 und 12:20 UTC, nach F-107 noch 1 von 24 um 18:10 UTC: 503 BOOT_ERROR). Ursache: `kc_neon_low_compute_cycle()` schickte alle Spiegel-Pakete gleichzeitig.
+- Änderung (`database/sql/kc-db-mirror-welle.sql`): 3 Pakete sofort, Rest in `kc_internal.kc_db_mirror_welle` vorgemerkt (je Minute 3); Job `kc-db-mirror-welle` (`11-22 0,6,12,18 * * *`) schickt sie ab. Gleiche Tabellen, gleiche Pakete – nur zeitlich verteilt. Nachholung um :25 bleibt.
