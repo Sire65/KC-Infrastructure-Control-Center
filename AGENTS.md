@@ -20,3 +20,4 @@ Diese Regeln gelten fuer Menschen, Codex, Claude und andere Coding-Agents.
 16. PWA-/Update-Mechanismus muss atomar sein; Mischstaende aus alter/neuer Version sind verboten.
 17. Release-Artefakte sind unveraenderlich. Fehler werden mit neuer Version korrigiert.
 18. Lokale, Cloud- und kuenftige Provider muessen ueber austauschbare Adapter integrierbar bleiben.
+19. Neuerungen gebuendelt einspielen (KC-DB-SPARSAM, 18.10.2026): Jede neue Version startet alle offenen Apps neu und kostet Datenbank-Abfragen (Club-App: ~71 je Geraet und Start). Neuerungen sammeln und zu festen Terminen einspielen (12 und 20 Uhr). Sofort einspielen nur auf ausdruecklichen Wunsch des Auftraggebers sowie bei Fehlern, die Nutzer behindern, Sicherheitskorrekturen und Korrekturen an Datensicherung, Spiegelung oder Notbetrieb.
