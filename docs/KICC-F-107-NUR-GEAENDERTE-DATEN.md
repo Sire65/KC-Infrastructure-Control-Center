@@ -27,3 +27,10 @@ Backup-Worker: vorige Fassung (Snapshot über `kc_db_mirror_snapshot`, ohne Kopi
 ## Nachtrag KICC-F-108 (18.10.2026, Wunsch Hansi „Ja umsetzen“): Spiegellauf in Wellen
 - Befund: Verlauf (Admin-Zentrale) zeigte alle 6 h rote Säulen „Fehlgeschlagene Hintergrund-Aufrufe“ (12./13. von 24 Anfragen um 06:20 und 12:20 UTC, nach F-107 noch 1 von 24 um 18:10 UTC: 503 BOOT_ERROR). Ursache: `kc_neon_low_compute_cycle()` schickte alle Spiegel-Pakete gleichzeitig.
 - Änderung (`database/sql/kc-db-mirror-welle.sql`): 3 Pakete sofort, Rest in `kc_internal.kc_db_mirror_welle` vorgemerkt (je Minute 3); Job `kc-db-mirror-welle` (`11-22 0,6,12,18 * * *`) schickt sie ab. Gleiche Tabellen, gleiche Pakete – nur zeitlich verteilt. Nachholung um :25 bleibt.
+
+## Nachtrag KICC-F-109 (19.10.2026, Wunsch Hansi „mach du die Umbauten, es muss kostenlos bleiben“): Spiegel in Blöcken
+- Supabase-Nutzung 26.09.–19.10.: Egress 7,19 GB (Grenze 5 GB), Logs Ingest 9,45 GB, Logs Query 605 GB. Laut Supabase-Doku ist die Abrechnung der Log-Posten „noch nicht aktiv“; Egress zählt sicher.
+- Egress-Anteile (eigene Messung): Frankfurt ~108 MB/Tag Rohdaten, Spiegel ~45 MB/Tag, Backup ~12 MB/Tag – zusammen der Großteil von ~200 MB/Tag.
+- Änderung (Club-App PR #69, Migration `20261019_kicc_f109_spiegel_bloecke.sql`): Tabellen mit Ganzzahl-Schlüssel in Blöcke zu 500 Nummern; Prüfsummen je Block in Supabase und Neon vergleichen, nur abweichende Blöcke übertragen, danach ganze Tabelle prüfen (sonst wie früher ganze Tabelle).
+- Test 19.10. 07:42 UTC: kc_club_protokoll 1/23 Blöcke (50 KB statt 3,4 MB), kicc_program_flow_events 1/16 (141 KB statt 3,1 MB), kc_communication_delivery_events 1/9, kc_member_push_messages 1/3 – alle „source and target identical“.
+- Logs Query: kein eingesetzter Code fragt Protokolle ab (alle Funktionen, Zeitpläne, SQL-Funktionen geprüft) → Ursache Fehlersuchen per KI/Dashboard. Regel KC-SPARSAM-PROTOKOLLE in Club-App AGENTS.md (PR #70).
