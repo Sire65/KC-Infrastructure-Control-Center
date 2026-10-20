@@ -1,6 +1,6 @@
 # Plan: KC-Datenbank-Backups zusaetzlich auf Backblaze B2
 
-Feature-ID: **KICC-F-099** · Status: **GEPLANT** (Umsetzung nach dem Weihnachtsmarkt) · Stand: 2026-10-08
+Feature-ID: **KICC-F-099** · Status: **GEPLANT** (Umsetzung nach dem Weihnachtsmarkt) · Stand: 2026-10-08, Ist-Zustand nachgetragen 2026-10-20
 
 ## 1. Ausgangslage
 | Was | Ist-Zustand (geprueft 2026-10-08) |
@@ -12,6 +12,19 @@ Feature-ID: **KICC-F-099** · Status: **GEPLANT** (Umsetzung nach dem Weihnachts
 | B2 | nur PRIVATER Bucket des PC Backup Vault (`pc`), 2.305 Objekte, ca. 3,7 GB; fuer KC nicht freigegeben |
 | Vorbereitet | `storage/kc-b2-prepared.js`: Ressource `storage-b2-kc-backup` (PREPARED), Freigabeschritte in `docs/KC-B2-PREPARATION.md` |
 
+**Nachtrag 2026-10-20 (geprueft in Supabase und Neon):**
+| Was | Ist-Zustand 2026-10-20 |
+|---|---|
+| Taegliches Backup | **00:40 UTC** (pg_cron Job 45, seit 2026-10-16; vorher 00:12), `kc_neon_low_compute_backup_cycle()` → `kc_db_backup_daily()` → `kc-db-backup-worker` **Version 20** |
+| Grosse Tabellen | KICC-F-105: Tabellen ≥ 2 MB (hoechstens 15) laedt `kc_db_backup_nachholen()` (Job 75, alle 10 min 00–07 UTC) in denselben Satz nach; dabei entsteht kein neuer Satz |
+| Nur geaenderte Daten | KICC-F-107 (Worker v20, deployt 2026-10-18): unveraenderte Tabellen (gleiche Zeilenzahl und Pruefsumme) werden innerhalb von Neon aus dem letzten geprueften Satz kopiert. Spart Supabase-Egress, **nicht** Neon-Speicher |
+| Restore-Test | **06:30 UTC** (Job 51, seit 2026-10-15; vorher 00:15), KICC-F-102 v8 in Teilpaketen; zusaetzlich startet der Worker den Test, sobald ein Satz vollstaendig ist |
+| Aufbewahrung in Neon | KICC-F-103, aktiv seit 2026-10-16: alle Saetze der letzten 7 Tage, 4 Wochen- und 3 Monatssaetze, immer der neueste gepruefte Satz (`kc_backup_retention_policy`, `kc_backup_retention_anwenden()`) |
+| Groesse | 273 Tabellen, ca. 21 MB Payload je Satz; Neon gesamt ca. 376 MB (davon `kc_backup_snapshots` 290 MB, voruebergehend erhoeht durch Wartungs-Testlaeufe 13.–18.10.) |
+| Quellcode Worker | Kopf von v20 sagt „Quelle im Repo seit Version 20“, die Datei liegt aber weder in KICC noch in KC-Clubapp (`supabase/functions/`) |
+
+Details: `docs/NEON-TELEMETRY-BRIDGE.md`, Abschnitt „Speicherbelegung“.
+
 **Risiko:** Spiegel und Backups liegen beim selben Anbieter. Verlust des Neon-Projekts oder -Kontos (Fehlbedienung, Sperre, Anbieterausfall) trifft beides gleichzeitig. Es gibt keine Kopie ausser Haus (3-2-1-Regel verletzt).
 
 ## 2. Ziel
@@ -21,12 +34,13 @@ Nicht-Ziele: kein Umbau des Neon-Backups, keine Aenderung am PRIVATEN Bucket, ke
 
 ## 3. Architektur
 ```
-pg_cron 00:12 ──► kc-db-backup-worker ──► Neon (wie heute)
+pg_cron 00:40 ──► kc-db-backup-worker ──► Neon (wie heute; 00:00–07:50 Nachholen grosser Tabellen)
                                   └────► B2 KC-Bucket (neu, S3-API, Object Lock)
-pg_cron 00:15 ──► kc-db-backup-verify-v2 ──► Neon-Satz pruefen (wie heute)
-pg_cron 00:40 ──► kc-db-backup-b2-verify (neu) ──► B2-Satz lesen, Hash vergleichen
+pg_cron 06:30 ──► kc-db-backup-verify-v2 ──► Neon-Satz pruefen (wie heute)
+pg_cron 08:10 ──► kc-db-backup-b2-verify (neu) ──► B2-Satz lesen, Hash vergleichen
 kicc-backup-telemetry ──► KICC: Ressource storage-b2-kc-backup (PREPARED → beobachtet)
 ```
+- **Zeitplan (Nachtrag 2026-10-20):** Der urspruenglich geplante B2-Verify um 00:40 kollidiert inzwischen mit dem Neon-Backup (Job 45). Der Upload nach B2 darf erst erfolgen, wenn der Satz vollstaendig ist, also nach dem Nachholen (bis ca. 07:50). Der B2-Verify ist deshalb fuer 08:10 vorgesehen; die genaue Zeit wird bei Phase 4 festgelegt.
 - **Bestehende Kerne nutzen (Regel 3):** Der vorhandene Backup-Worker bekommt ein zweites Ziel ueber einen Storage-Adapter; kein paralleler Backup-Dienst.
 - **Adapter statt hart codiert (Regel 4/18):** Ziel `s3-compatible` mit Endpoint, Bucket und Key aus Secrets. B2 ist der erste Anbieter; spaeter ist auch Cloudflare R2 oder ein NAS-S3 moeglich.
 - **Verschluesselung:** Der Backup-Satz wird bereits clientseitig mit AES-256-GCM verschluesselt (`kc_db_backup_key_v1` im Vault). Auf B2 landet nur Chiffretext. Der Schluessel liegt nie bei B2.
@@ -48,7 +62,7 @@ kicc-backup-telemetry ──► KICC: Ressource storage-b2-kc-backup (PREPARED �
 | 1 | B2: Bucket `kc-core-backup` **mit Object Lock** anlegen (am einfachsten direkt beim Anlegen aktivieren), Lifecycle-Regel, App-Key nur fuer diesen Bucket ohne `deleteFiles` | Betreiber (B2-Konsole, Anleitung folgt) | 15 min |
 | 2 | Key als Supabase-Edge-Secret hinterlegen (`KC_B2_*`), niemals im Repo oder Browser | Betreiber oder Claude mit Freigabe | 5 min |
 | 3 | Storage-Adapter `s3-compatible` im Backup-Worker; Upload nach dem Neon-Schreiben; Manifest mit SHA-256 je Tabelle; Fehler beim B2-Upload stoppen **nicht** das Neon-Backup, werden aber als `warning` protokolliert | Claude | 1 Tag |
-| 4 | Neue Funktion `kc-db-backup-b2-verify` plus Cron 00:40: Manifest lesen, Stichprobe pruefen, monatlich Vollpruefung; Ergebnis in `kc_db_mirror_runs` (`run_type = 'offsite_verify'`) | Claude | 0,5 Tag |
+| 4 | Neue Funktion `kc-db-backup-b2-verify` plus Cron nach dem Nachholfenster (vorlaeufig 08:10, siehe Abschnitt 3): Manifest lesen, Stichprobe pruefen, monatlich Vollpruefung; Ergebnis in `kc_db_mirror_runs` (`run_type = 'offsite_verify'`) | Claude | 0,5 Tag |
 | 5 | Waechter: `kc_db_mirror_watchdog` meldet zusaetzlich „Offsite-Backup aelter als 26 h“ und „Offsite-Verify fehlgeschlagen“ ueber die bestehende Alarmkette | Claude | 2 h |
 | 6 | KICC: `storage-b2-kc-backup` von PREPARED auf beobachtet umstellen; Karte mit Alter, Groesse, Objektzahl und letztem Verify; veraltet → gelb, fehlend → UNKNOWN (Regel 11) | Claude | 0,5 Tag |
 | 7 | Abnahme: echter Restore eines B2-Satzes in einen **temporaeren Neon-Branch**, Datenvergleich, danach Branch loeschen | Claude, Betreiber gibt frei | 1 h |
@@ -72,7 +86,7 @@ kicc-backup-telemetry ──► KICC: Ressource storage-b2-kc-backup (PREPARED �
 - Loeschversuch mit dem App-Key schlaegt fehl (Object Lock und fehlende Rechte).
 - B2 nicht erreichbar → Neon-Backup laeuft trotzdem, Waechter meldet Warnung.
 - Falscher Schluessel → Verify meldet Fehler, nicht OK.
-- Restore aus B2 in einen temporaeren Branch: 240/240 Tabellen identisch.
+- Restore aus B2 in einen temporaeren Branch: alle Tabellen des Satzes identisch (2026-10-08: 240, 2026-10-20: 273).
 - KICC: frisch → gruen, aelter als 26 h → gelb „veraltet“, keine Daten → UNKNOWN.
 - Kostenwaechter: Simulation 8 GB → Warnung.
 - Doku und Versionen aktualisiert; Playwright 50/50 gruen.
