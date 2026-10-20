@@ -50,7 +50,7 @@ async function refresh(){
   render();
   globalThis.dispatchEvent(new CustomEvent('kicc:backup-telemetry',{detail:{latest,measuredAt,error:errorText,recovery:globalThis.KICC_RECOVERY_GATE?.evaluate?.(latest)||null}}));
 }
-function start(){render();refresh();setInterval(refresh,REFRESH_MS);}
+function start(){render();refresh();setInterval(()=>{if(!document.hidden)refresh()},REFRESH_MS);/* dev.100: nicht im Hintergrund (Datenbank schonen) */}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 globalThis.addEventListener('kicc:recovery-policy',render);
 globalThis.KICC_BACKUP_TELEMETRY={refresh,render,snapshot:()=>({latest,measuredAt,error:errorText,recovery:globalThis.KICC_RECOVERY_GATE?.evaluate?.(latest)||null})};
