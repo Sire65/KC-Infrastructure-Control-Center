@@ -21,7 +21,7 @@ Feature-ID: **KICC-F-099** · Status: **GEPLANT** (Umsetzung nach dem Weihnachts
 | Restore-Test | **06:30 UTC** (Job 51, seit 2026-10-15; vorher 00:15), KICC-F-102 v8 in Teilpaketen; zusaetzlich startet der Worker den Test, sobald ein Satz vollstaendig ist |
 | Aufbewahrung in Neon | KICC-F-103, aktiv seit 2026-10-16: alle Saetze der letzten 7 Tage, 4 Wochen- und 3 Monatssaetze, immer der neueste gepruefte Satz (`kc_backup_retention_policy`, `kc_backup_retention_anwenden()`) |
 | Groesse | 273 Tabellen, ca. 21 MB Payload je Satz; Neon gesamt ca. 376 MB (davon `kc_backup_snapshots` 290 MB, voruebergehend erhoeht durch Wartungs-Testlaeufe 13.–18.10.) |
-| Quellcode Worker | KC-Clubapp `supabase/functions/kc-db-backup-worker/index.ts` (Stand Deploy v20, uebernommen 2026-10-20, Zweig `ccr-dd9c24a0-xlbwwd`, noch nicht in `main`). Kein Upload-Workflow; Deploy weiterhin von Hand |
+| Quellcode Worker | KC-Clubapp `supabase/functions/kc-db-backup-worker/index.ts` (Stand Deploy v20, uebernommen 2026-10-20, Sire65/KC-Clubapp#101, in `main`). Kein Upload-Workflow; Deploy weiterhin von Hand |
 
 Details: `docs/NEON-TELEMETRY-BRIDGE.md`, Abschnitt „Speicherbelegung“.
 
