@@ -42,6 +42,6 @@ async function refresh(){
   }catch(e){lastError=e instanceof Error?e.message:String(e);return {ok:false,reason:lastError};}
 }
 function status(){return{endpoint:ENDPOINT,lastSuccessAt,lastError,lastCount,state:lastSuccessAt&&!lastError?'READY':lastError==='AUTH_REQUIRED'?'AUTH_REQUIRED':lastError?'DEGRADED':'VERIFYING'};}
-setTimeout(refresh,4500);setInterval(refresh,15000);
+setTimeout(refresh,4500);setInterval(()=>{if(!document.hidden)refresh()},30000);/* dev.100: nicht im Hintergrund (Datenbank schonen) */
 addEventListener('kicc:tabchange',e=>{if(e.detail?.tab==='live')refresh();});
 globalThis.KICC_REMOTE_PROGRAM_FLOWS={refresh,status,endpoint:ENDPOINT};

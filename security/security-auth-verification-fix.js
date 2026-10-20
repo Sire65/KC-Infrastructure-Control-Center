@@ -29,6 +29,6 @@ async function verify(){
   globalThis.KICC_SECURITY?.render?.();
 }
 setTimeout(verify,1800);
-setInterval(verify,30000);
+setInterval(()=>{if(!document.hidden)verify()},60000);/* dev.100: nicht im Hintergrund (Datenbank schonen) */
 addEventListener('kicc:authchange',verify);
 globalThis.KICC_SECURITY_AUTH_FIX={verify};
