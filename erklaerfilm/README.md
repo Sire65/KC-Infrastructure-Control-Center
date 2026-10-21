@@ -41,6 +41,7 @@ Gesendet, gespeichert oder hochgeladen wird nur gegenüber dem Demo-Server – i
   Altes Rathaus, Kirchhof – Vincent van Zeijst (CC BY-SA 4.0) · Stadtmuseum, Sprichwörterbrunnen, Kapuzinerkloster – Mbdortmund (GFDL 1.2) ·
   Moormann-Brunnen – Tasto (CC BY-SA 3.0) · Kochlöffel – Clément Bucco-Lechat (CC BY-SA 3.0) · Artischocken – Toby Hudson (CC BY-SA 3.0) ·
   Romanesco – George Chernilevsky (CC BY 4.0) · Zitrone – Ivar Leidus (CC BY-SA 4.0) · Paprika – AntanO (CC BY-SA 4.0). Keine Fotos von Mitgliedern.
+- **Rätselbild in Kapitel 2.13:** ein zufälliges freies Werne-Foto aus `KC-Clubapp/raetsel/` (z. B. Altes Rathaus – Vincent van Zeijst, Rochuskapelle oder Gersteinwerk – Icy2008, alle CC BY-SA 4.0); vollständiger Nachweis in `raetsel/QUELLEN.md`, die App zeigt ihn auch unter dem Lösungsbild.
 - Schriften Inter/DejaVu (OFL/frei), Emojis Noto Color Emoji (OFL), ffmpeg, Playwright/Chromium – alles kostenlos.
 
 ## Neu erzeugen (`quellen/`)

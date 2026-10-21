@@ -46,8 +46,10 @@ async function ziel(sel) {
   const l = p.locator(sel).filter({ visible: true }).first();
   await l.waitFor({ state: "visible", timeout: 2000 });
   const imBild = await l.evaluate((e) => { const r = e.getBoundingClientRect(); return r.top > 90 && r.bottom < innerHeight - 150; });
-  if (!imBild) { await l.evaluate((e) => e.scrollIntoView({ behavior: "smooth", block: "center" })); await warte(0.7); }
-  const r = await l.boundingBox(); return { l, x: r.x + r.width / 2, y: r.y + r.height / 2 };
+  if (!imBild) { await l.evaluate((e) => e.scrollIntoView({ behavior: "smooth", block: "center" })); await warte(0.4); }
+  let r = await l.boundingBox(); // warten, bis das Ziel stillsteht (Blättern unter Last dauert länger)
+  for (let i = 0; i < 12; i++) { await warte(0.15); const n = await l.boundingBox(); if (n && Math.abs(n.x - r.x) < 1 && Math.abs(n.y - r.y) < 1) break; r = n; }
+  return { l, x: r.x + r.width / 2, y: r.y + r.height / 2 };
 }
 const hin = async (z) => { await p.evaluate(([x, y]) => __hand(x, y), [z.x, z.y]); await warte(FAHRT + 0.15); };
 const puls = (sel) => p.locator(sel).filter({ visible: true }).first().evaluate((e) => { e.classList.remove("rg-puls"); void e.offsetWidth; e.classList.add("rg-puls"); setTimeout(() => e.classList.remove("rg-puls"), 2300); }, null, { timeout: 2000 }).catch(() => {});
