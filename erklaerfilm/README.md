@@ -8,7 +8,7 @@ Jedes Kapitel gibt es zweimal: **…-Handy.mp4** (1080×1920, Hochformat für Ha
 
 | Kapitel | Datei (ohne -Handy/-Beamer) | Länge | Inhalt |
 |---|---|---|---|
-| **Vorspann** – Willkommen | `Teil0-Vorspann-Willkommen` | ca. 1:25 | Begrüßung, warum die App und ihre Vorteile (alles an einem Ort, denkt mit, gemeinsam planen, nur für Mitglieder, einfach), Aufbau des Films |
+| **Vorspann** – Willkommen | `Teil0-Vorspann-Willkommen` | 1:31 | Begrüßung, warum die App und ihre Vorteile (alles an einem Ort, denkt mit, gemeinsam planen, nur für Mitglieder, einfach), Aufbau des Films |
 | 1.6 Voreinstellungen (Muster) | `Teil1-Kap06-Voreinstellungen` | 1:33 | Mehr → Das Wichtigste, Neuigkeiten „Beides“, Nicht stören, Lieblingsfarbe (Küchengrün und zurück), Große Schrift an/aus, Fragezeichen |
 | 2.1 Nachrichten | `Teil2-Kap01-Nachrichten` | 2:03 | Chat öffnen, antworten und senden, Haken ✓/✓✓, Foto & Mikrofon zeigen, neue Nachricht an Otto, Gruppen-Chat |
 | 2.2 Termine & Zusagen | `Teil2-Kap02-Termine-Zusagen` | 2:23 | Termin öffnen, „Ich komme“, Mitfahrt mit 2 Plätzen anbieten, privaten Termin mit Erinnerung anlegen, Liste/Kalender/To-do |
