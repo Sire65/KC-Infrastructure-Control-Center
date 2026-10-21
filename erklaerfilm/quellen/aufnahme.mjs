@@ -47,8 +47,10 @@ async function ziel(sel) {
   await l.waitFor({ state: "visible", timeout: 2000 });
   const imBild = await l.evaluate((e) => { const r = e.getBoundingClientRect(); return r.top > 90 && r.bottom < innerHeight - 150; });
   if (!imBild) { await l.evaluate((e) => e.scrollIntoView({ behavior: "smooth", block: "center" })); await warte(0.4); }
-  let r = await l.boundingBox(); // warten, bis das Ziel stillsteht (Blättern unter Last dauert länger)
-  for (let i = 0; i < 12; i++) { await warte(0.15); const n = await l.boundingBox(); if (n && Math.abs(n.x - r.x) < 1 && Math.abs(n.y - r.y) < 1) break; r = n; }
+  const box = () => l.boundingBox({ timeout: 1000 }).catch(() => null);
+  let r = await box(); // warten, bis das Ziel stillsteht (Blättern unter Last dauert länger)
+  for (let i = 0; i < 12; i++) { await warte(0.15); const n = await box(); if (n && r && Math.abs(n.x - r.x) < 1 && Math.abs(n.y - r.y) < 1) break; if (n) r = n; }
+  if (!r) throw new Error("Ziel ohne Lage: " + sel);
   return { l, x: r.x + r.width / 2, y: r.y + r.height / 2 };
 }
 const hin = async (z) => { await p.evaluate(([x, y]) => __hand(x, y), [z.x, z.y]); await warte(FAHRT + 0.15); };

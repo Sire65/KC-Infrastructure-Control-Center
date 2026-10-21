@@ -7,7 +7,7 @@ from chatterbox.mtl_tts import ChatterboxMultilingualTTS
 from faster_whisper import WhisperModel
 auftrag = json.load(open(sys.argv[1], encoding="utf8"))
 tts = ChatterboxMultilingualTTS.from_pretrained(device="cpu"); asr = WhisperModel("small", device="cpu", compute_type="int8")
-norm = lambda t: re.sub(r"[^a-zäöüß ]", "", t.lower().replace("-", " ")).split()
+norm = lambda t: re.sub(r"[^a-zäöüß]", "", t.lower())  # nur Buchstaben: „Kurzzusagen“ = „kurz zusagen“, aber „Melke“ ≠ „Merke“
 for a in auftrag:
     best = None
     for versuch in range(5):
