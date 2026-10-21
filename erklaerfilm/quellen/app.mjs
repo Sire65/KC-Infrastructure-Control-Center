@@ -2,9 +2,10 @@
 import { chromium } from "/opt/node22/lib/node_modules/playwright/index.mjs";
 export const CLUB = process.env.CLUB || "/home/user/sire65/kc-clubapp";
 const { ANTWORTEN } = await import(CLUB + "/tools/anleitung/demo.mjs");
-export const launch = () => chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
+// Schein-Mikrofon/-Kamera: sonst zeigt die App das Mikrofon durchgestrichen (die Aufnahme hat kein echtes Gerät)
+export const launch = () => chromium.launch({ executablePath: "/opt/pw-browsers/chromium", args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"] });
 export async function seite(b, opt = {}) {
-  const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, serviceWorkers: "block", locale: "de-DE", timezoneId: "Europe/Berlin" });
+  const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, serviceWorkers: "block", locale: "de-DE", timezoneId: "Europe/Berlin", permissions: ["microphone", "camera"] });
   const p = await ctx.newPage();
   p.fehler = []; p.on("pageerror", (e) => p.fehler.push(String(e).slice(0, 160)));
   // Einstellungen speichern: der Demo-Server gibt den gespeicherten Wert zurück wie der echte (sonst meldet die App einen Fehler)
