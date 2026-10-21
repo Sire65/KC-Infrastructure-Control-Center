@@ -19,7 +19,7 @@ export async function seite(b, opt = {}) {
     await r.fulfill({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*", "access-control-allow-headers": "*" }, body: JSON.stringify(body) });
   });
   await p.route("**/notbetrieb.json*", (r) => r.fulfill({ status: 200, contentType: "application/json", body: '{"modus":"aus","url":""}' }));
-  await p.addInitScript(() => { try { localStorage.setItem("kc_club_key", "a".repeat(32)); localStorage.setItem("kc_club_begruesst_P1", "1"); localStorage.setItem("kc_club_version_gesehen", "9.9.9"); sessionStorage.setItem("kc_buero_gefragt", "1"); sessionStorage.setItem("kc_club_start_gemeldet", "1"); } catch {} });
+  await p.addInitScript(() => { try { localStorage.setItem("kc_club_key", "a".repeat(32)); localStorage.setItem("kc_club_begruesst_P1", "1"); localStorage.setItem("kc_club_version_gesehen", "9.9.9"); sessionStorage.setItem("kc_buero_gefragt", "1"); sessionStorage.setItem("kc_club_start_gemeldet", "1"); localStorage.setItem("kc_club_kuckuck", "0"); } catch {} });
   if (opt.init) await p.addInitScript(opt.init);
   await p.goto("http://localhost:8765/index.html"); await p.waitForTimeout(2500);
   await p.evaluate(() => { document.querySelectorAll(".blatt").forEach((x) => x.classList.add("versteckt")); document.getElementById("updateBanner")?.remove(); });
