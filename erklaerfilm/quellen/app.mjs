@@ -3,7 +3,8 @@ import { chromium } from "/opt/node22/lib/node_modules/playwright/index.mjs";
 export const CLUB = process.env.CLUB || "/home/user/sire65/kc-clubapp";
 const { ANTWORTEN } = await import(CLUB + "/tools/anleitung/demo.mjs");
 // Schein-Mikrofon/-Kamera: sonst zeigt die App das Mikrofon durchgestrichen (die Aufnahme hat kein echtes Gerät)
-export const launch = () => chromium.launch({ executablePath: "/opt/pw-browsers/chromium", args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"] });
+export const launch = () => chromium.launch({ executablePath: "/opt/pw-browsers/chromium", args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream", "--lang=de-DE"],
+  env: { ...process.env, LANG: "de_DE.UTF-8", LANGUAGE: "de" } }); // Datum/Uhrzeit-Felder deutsch (sonst 10/22/2026, 06:00 PM)
 export async function seite(b, opt = {}) {
   const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, serviceWorkers: "block", locale: "de-DE", timezoneId: "Europe/Berlin", permissions: ["microphone", "camera"] });
   const p = await ctx.newPage();

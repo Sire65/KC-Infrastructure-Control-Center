@@ -3,7 +3,7 @@
 // Handgriffe je Szene („tun“, nacheinander; „bei“ = Wort im Sprechertext oder Sekunden, ohne „bei“ gleich nach dem vorigen):
 //   tipp: Wähler – hinfahren, Tipp-Ring, echter Klick · zeig: Wähler – nur hinzeigen · puls: Wähler – kurz pulsieren · weg: true – Hand weg
 //   schreib: { sel, text } – ins Feld tippen und Buchstabe für Buchstabe schreiben · lang: Wähler – lange drücken
-//   wisch: { sel, dx, dy } – mit der Hand über das Element wischen · zu: Wähler – sanft dorthin blättern · warte: Sekunden · js: Seitencode (nur Vorbereitung, z. B. Ansicht öffnen)
+//   wisch: { sel, dx, dy } – mit der Hand über das Element wischen · zu: Wähler – sanft dorthin blättern · warte: Sekunden · js: Seitencode als Ausdruck oder „(() => { … })()“ (nur Vorbereitung, z. B. Ansicht öffnen)
 // Kapitel: „ansicht“ (einfach|erweitert), „vorher“ (Handgriffe vor dem Mitschnitt, ohne Hand), <kapitel>.demo.mjs (eigene Demodaten)
 // Die Klickhand nutzt das Aussehen der Erklär-Videos der App (.rg-finger, .rg-tippring, .rg-puls aus index.html).
 // Getippt wird mit echten Maus-Ereignissen – der Server ist durch Demodaten ersetzt, es geht nichts an den Club.
@@ -26,7 +26,8 @@ const p = await seite(b, {
   },
 });
 // Twinkeys Bewegungs-Einladung (kommt nach 12 s) und die einmalige „Warum diese App?“-Karte gehören nicht ins Kapitel
-await p.evaluate(() => { try { bwEinSetzen({ aus: true }); } catch {} document.head.insertAdjacentHTML("beforeend", "<style>.rg-hinweis { display: none !important; }</style>"); });
+// … ebenso die Kuckucksuhr zur vollen Stunde (schiebt sich über den Kopf und fängt Tipps ab)
+await p.evaluate(() => { try { bwEinSetzen({ aus: true }); } catch {} try { kuckuckPruefen = () => {}; } catch {} document.head.insertAdjacentHTML("beforeend", "<style>.kuckuck { display: none !important; }</style>"); document.head.insertAdjacentHTML("beforeend", "<style>.rg-hinweis { display: none !important; }</style>"); });
 await p.evaluate(() => { document.querySelectorAll(".meldung").forEach((m) => m.remove()); document.querySelectorAll(".rg-hinweis").forEach((e) => e.closest("[id]")?.id !== "app" && e.remove()); });
 
 // ---------- Klickhand im Bild ----------
