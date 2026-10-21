@@ -13,7 +13,8 @@ STIMMEN = {
 }
 # Englische Wörter englisch sprechen (wie werbefilm/quellen/vo.py) – nur für die Stimme, Untertitel bleiben unverändert
 AUSSPRACHE = [(r"\bApps?\b", "Äpp"), (r"\bE-Mails?\b", "iiemejl"), (r"\bTwinkey\b", "Twinki"), (r"\bChats?\b", "Tschätt"), (r"\bchatten\b", "tschätten"),
-  (r"\bEmojis?\b", "Emodschi"), (r"\bPush\b", "Pusch"), (r"\bonline\b", "onlain"), (r"\bOnline\b", "Onlain"), (r"\boffline\b", "offlain"), (r"\bLink\b", "Link"), (r"\bSelfie\b", "Selfi")]
+  (r"\bEmojis?\b", "Emodschi"), (r"\bPush\b", "Pusch"), (r"\bonline\b", "onlain"), (r"\bOnline\b", "Onlain"), (r"\boffline\b", "offlain"), (r"\bLink\b", "Link"), (r"\bSelfie\b", "Selfi"),
+  (r"\b112\b", "eins eins zwei"), (r"\b110\b", "eins eins null")]  # Notrufnummern Ziffer für Ziffer, wie man sie wählt
 def aussprache(t):
     for a, b in AUSSPRACHE: t = re.sub(a, b, t)
     return t
