@@ -1,0 +1,33 @@
+{
+  "id": "1-1-oeffnen",
+  "teil": "Teil 1 · So findest du dich zurecht",
+  "kapitel": "App öffnen – die Kochmütze antippen",
+  "kapKurz": "App öffnen", "kap1": "App öffnen", "kap2": "die Kochmütze antippen", "naechstes": "Die Startseite",
+  "ansicht": "einfach",
+  "schritte": ["App finden", "Antippen", "Die Startseite", "Kochmütze & Version", "Zurück zum Handy"],
+  "vorher": [{ "js": "(() => { const d = document.createElement('div'); d.id = 'heimBild'; d.style.cssText = 'position:fixed;inset:0;z-index:9000;background:linear-gradient(170deg,#5f7d8f 0%,#3b5566 55%,#2a3d4a 100%);display:flex;flex-direction:column;align-items:center;padding-top:16px;color:#fff;font-family:Inter,DejaVu Sans,sans-serif;transition:opacity .45s,transform .45s'; const sym = (e, n, f) => `<div style=\"display:flex;flex-direction:column;align-items:center;gap:6px;width:76px\"><div style=\"width:60px;height:60px;border-radius:16px;background:${f};display:grid;place-items:center;font-size:30px;box-shadow:0 2px 6px rgba(0,0,0,.25)\">${e}</div><span style=\"font-size:12px;opacity:.95\">${n}</span></div>`; d.innerHTML = `<div style=\"width:100%;display:flex;justify-content:space-between;padding:0 22px;font-size:14px;opacity:.9\"><b>10:30</b><span>▂▄▆ 🔋</span></div><div style=\"font-size:54px;font-weight:300;margin:40px 0 4px\">10:30</div><div style=\"font-size:15px;opacity:.85;margin-bottom:46px\">Mittwoch, 21. Oktober</div><div style=\"display:grid;grid-template-columns:repeat(4,76px);gap:22px 12px\">${sym('📞','Telefon','#e8eef2')}${sym('💬','SMS','#e8eef2')}${sym('📷','Kamera','#e8eef2')}${sym('🖼️','Galerie','#e8eef2')}${sym('🗓️','Kalender','#e8eef2')}${sym('🌤️','Wetter','#e8eef2')}${sym('⏰','Uhr','#e8eef2')}<div style=\"display:flex;flex-direction:column;align-items:center;gap:6px;width:76px\"><img id=\"heimIcon\" src=\"icon-192.png\" style=\"width:60px;height:60px;border-radius:16px;box-shadow:0 2px 6px rgba(0,0,0,.3);cursor:pointer\"><span style=\"font-size:12px\">Köcheclub</span></div></div><div style=\"position:absolute;bottom:26px;font-size:12px;opacity:.7\">nachgestellt – dein Handy sieht etwas anders aus</div>`; document.body.appendChild(d); window.__heim = (an) => { d.style.display = 'flex'; requestAnimationFrame(() => { d.style.opacity = an ? '1' : '0'; d.style.transform = an ? 'scale(1)' : 'scale(1.15)'; }); if (!an) setTimeout(() => { d.style.display = 'none'; }, 480); }; d.querySelector('#heimIcon').onclick = () => __heim(false); })()" }],
+  "szenen": [
+    { "id": "titel", "art": "tafel", "vor": 3.0, "stimme": "thorsten",
+      "text": "App öffnen. Ich zeige dir, wie du die Club-App auf deinem Handy findest und öffnest." },
+    { "id": "erkennen", "schritt": 0, "stimme": "thorsten",
+      "text": "So oder ähnlich sieht das auf deinem Handy aus. Die Club-App erkennst du an der weißen Kochmütze auf weinrotem Grund. Darunter steht Köcheclub.",
+      "tun": [{ "bei": "Kochmütze", "zeig": "#heimIcon" }, { "bei": "weinrotem", "puls": "#heimIcon" }] },
+    { "id": "oeffnen", "schritt": 1, "stimme": "thorsten",
+      "text": "Tippe einmal kurz darauf – und die App öffnet sich.",
+      "tun": [{ "bei": "Tippe", "tipp": "#heimIcon" }, { "bei": "öffnet", "weg": true }] },
+    { "id": "start", "schritt": 2, "stimme": "thorsten",
+      "text": "Das ist die Startseite der Club-App. Hier beginnt alles – und hierher kommst du immer wieder zurück.",
+      "tun": [{ "bei": "Startseite", "puls": "#v-start .hero" }] },
+    { "id": "kopf", "schritt": 3, "stimme": "thorsten",
+      "text": "Oben links siehst du wieder unsere Kochmütze. Darunter steht die Versionsnummer der App. Die brauchst du nur, wenn Hansi einmal danach fragt.",
+      "tun": [{ "bei": "Kochmütze", "zeig": "#v-start .kopflogo .logo", "puls": "#v-start .kopflogo .logo" }, { "bei": "Versionsnummer", "zeig": "#kopfVersion", "puls": "#kopfVersion" }, { "bei": "danach fragt", "weg": true }] },
+    { "id": "zurueck", "schritt": 4, "stimme": "thorsten",
+      "text": "Fertig für heute? Dann gehst du wie bei jeder anderen App mit der Zurück- oder Home-Taste deines Handys zum Startbildschirm. Die Club-App wartet dort auf dich.",
+      "tun": [{ "bei": "zum Startbildschirm", "js": "__heim(true)" }, { "bei": "wartet", "zeig": "#heimIcon", "puls": "#heimIcon" }] },
+    { "id": "merke", "art": "merke", "stimme": "sprecherin", "nach": 1.5,
+      "text": "Merke: Kochmütze antippen – und schon bist du im Club." },
+    { "id": "ende", "stimme": "thorsten", "nach": 4.0, "endtafel": true,
+      "text": "Wir öffnen die App noch einmal. Im nächsten Kapitel schauen wir uns die Startseite genauer an.",
+      "tun": [{ "bei": "öffnen", "tipp": "#heimIcon" }, { "bei": "Im nächsten", "weg": true }] }
+  ]
+}
