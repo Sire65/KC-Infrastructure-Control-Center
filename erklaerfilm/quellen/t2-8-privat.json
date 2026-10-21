@@ -39,7 +39,7 @@
               { "bei": "auf Abmelden", "zeig": ".schalter:has-text(\"Von diesem Gerät abmelden\") button" }, { "bei": "natürlich nicht", "weg": true }] },
     { "id": "link", "schritt": 5, "stimme": "thorsten",
       "text": "Die App öffnest du über deinen persönlichen Link – so wie hier im Beispiel. Gib ihn bitte nicht weiter: Wer ihn hat, ist in der App als du angemeldet.",
-      "tun": [{ "bei": 0, "js": "(() => { rgSim(simWhatsApp()); const a = document.querySelector('#rgSim [data-s=link]'); if (a) a.textContent = 'https://sire65.github.io/KC-Clubapp/?k=••••••••'; })()" }, { "bei": "persönlichen Link", "zeig": "#rgSim [data-s=link]", "puls": "#rgSim [data-s=link]" }, { "bei": "nicht weiter", "weg": true }] },
+      "tun": [{ "bei": 0, "js": "(() => { rgSim(simWhatsApp()); const a = document.querySelector('#rgSim [data-s=link]'); if (a) a.textContent = 'https://… /?k=••••••••'; })()" }, { "bei": "persönlichen Link", "zeig": "#rgSim [data-s=link]", "puls": "#rgSim [data-s=link]" }, { "bei": "nicht weiter", "weg": true }] },
     { "id": "verloren", "schritt": 5, "stimme": "thorsten",
       "text": "Neues Handy oder Link verloren? Dann tippe auf der Anmeldeseite auf Link verloren. Ein neuer Link kommt per E-Mail. Oder Hansi erzeugt dir einen neuen.",
       "tun": [{ "bei": 0, "js": "rgSim(simAnmeldung('handy'))" }, { "bei": "auf Link verloren", "zeig": "#rgSim [data-s=verloren]", "puls": "#rgSim [data-s=verloren]" }, { "bei": "Oder Hansi", "weg": true }] },
