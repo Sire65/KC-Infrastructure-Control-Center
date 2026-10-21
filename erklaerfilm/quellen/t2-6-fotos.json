@@ -1,0 +1,278 @@
+{
+ "id": "2-6-fotos",
+ "teil": "Teil 2 · Die Funktionen im Einzelnen",
+ "kapitel": "Fotoalbum – ansehen, Diashow, eigene Fotos",
+ "kapKurz": "Fotoalbum",
+ "kap1": "Fotoalbum",
+ "kap2": "ansehen, Diashow, eigene Fotos",
+ "naechstes": "Mitteilungen richtig einrichten",
+ "ansicht": "einfach",
+ "schritte": [
+  "Fotos öffnen",
+  "Foto ansehen",
+  "Alben",
+  "Diashow",
+  "Eigene Fotos"
+ ],
+ "szenen": [
+  {
+   "id": "titel",
+   "art": "tafel",
+   "vor": 3.0,
+   "stimme": "thorsten",
+   "text": "Fotoalbum. Hier findest du die schönsten Bilder aus dem Clubleben – und du kannst eigene Fotos dazulegen."
+  },
+  {
+   "id": "wo",
+   "schritt": 0,
+   "stimme": "thorsten",
+   "text": "Wo finde ich das? Auf der Startseite gibt es die Kachel Fotos. Tippe sie an.",
+   "tun": [
+    {
+     "bei": "Kachel Fotos",
+     "zu": ".kachel[data-id=fotos]"
+    },
+    {
+     "puls": ".kachel[data-id=fotos]"
+    },
+    {
+     "bei": "Tippe",
+     "tipp": ".kachel[data-id=fotos]"
+    }
+   ]
+  },
+  {
+   "id": "ueberblick",
+   "schritt": 0,
+   "stimme": "thorsten",
+   "text": "Oben siehst du die Alben – zum Beispiel unseren Ausflug nach Werne. Darunter liegen alle Fotos, nach Monaten sortiert.",
+   "tun": [
+    {
+     "bei": "Alben",
+     "puls": "#fotoAlben"
+    },
+    {
+     "bei": "Ausflug",
+     "zeig": "#fotoAlben .fa-album:has-text(\"Ausflug Werne\")"
+    },
+    {
+     "bei": "Darunter",
+     "weg": true
+    },
+    {
+     "zu": "#fotoListe .fotoraster"
+    }
+   ]
+  },
+  {
+   "id": "ansehen",
+   "schritt": 1,
+   "stimme": "thorsten",
+   "text": "Tippe ein Foto an – dann siehst du es groß. Darunter steht, was es zeigt und wer es hochgeladen hat.",
+   "tun": [
+    {
+     "bei": "Tippe",
+     "tipp": ".fotokachel"
+    },
+    {
+     "bei": "Darunter",
+     "puls": "#fbInfo"
+    }
+   ]
+  },
+  {
+   "id": "blaettern",
+   "schritt": 1,
+   "stimme": "thorsten",
+   "text": "Zum nächsten Foto wischst du einfach zur Seite. Oder du tippst auf den Pfeil rechts.",
+   "tun": [
+    {
+     "bei": "wischst",
+     "zeig": "#fbBild"
+    },
+    {
+     "js": "new Promise((ok) => { const e = document.getElementById('fbBild'), r = e.getBoundingClientRect(), y = r.top + r.height / 2, a = r.left + r.width * 0.78, z = r.left + r.width * 0.2; const f = document.getElementById('filmFinger'); f.style.transition = 'opacity .3s, transform .6s ease-in-out'; __hand(a, y); setTimeout(() => { __hand(z, y); const t = (x) => new Touch({ identifier: 1, target: e, clientX: x, clientY: y }); e.dispatchEvent(new TouchEvent('touchstart', { bubbles: true, touches: [t(a)], changedTouches: [t(a)] })); setTimeout(() => { e.dispatchEvent(new TouchEvent('touchend', { bubbles: true, touches: [], changedTouches: [t(z)] })); f.style.transition = 'opacity .3s, transform .75s cubic-bezier(.4,.1,.2,1)'; ok(); }, 600); }, 650); })"
+    },
+    {
+     "bei": "Pfeil",
+     "tipp": ".fb-pf.rechts"
+    }
+   ]
+  },
+  {
+   "id": "zurueck",
+   "schritt": 1,
+   "stimme": "thorsten",
+   "text": "Mit dem Kreuz oben links kommst du zurück ins Album.",
+   "tun": [
+    {
+     "bei": "Kreuz",
+     "tipp": "[onclick=\"fotoSchliessen()\"]"
+    }
+   ]
+  },
+  {
+   "id": "album",
+   "schritt": 2,
+   "stimme": "thorsten",
+   "text": "Ein Album öffnest du mit einem Tipp. Dann siehst du nur seine Fotos. Mit Alle Fotos geht es wieder zurück.",
+   "tun": [
+    {
+     "bei": 0,
+     "zu": "#fotoAlben"
+    },
+    {
+     "bei": "Album öffnest",
+     "tipp": "#fotoAlben .fa-album:has-text(\"Ausflug Werne\")"
+    },
+    {
+     "bei": "Alle Fotos",
+     "tipp": "#fotoAlben button:has-text(\"Alle Fotos\")"
+    }
+   ]
+  },
+  {
+   "id": "diashow",
+   "schritt": 3,
+   "stimme": "thorsten",
+   "text": "Und jetzt zum Zurücklehnen: die Diashow. Tippe oben auf Diashow und such dir ein Album aus.",
+   "tun": [
+    {
+     "bei": "Tippe oben",
+     "tipp": "#v-fotos .kopf2 [onclick=\"faDiashow()\"]"
+    },
+    {
+     "bei": "Album aus",
+     "tipp": ".blatt button:has-text(\"Ausflug Werne\")"
+    },
+    {
+     "weg": true
+    }
+   ]
+  },
+  {
+   "id": "diashowlauf",
+   "schritt": 3,
+   "stimme": "thorsten",
+   "nach": 1.0,
+   "text": "Die Bilder wechseln von selbst. Mit den Pfeilen blätterst du, mit dem Pausenknopf hältst du an. Auf Wunsch läuft dazu unser Club-Song.",
+   "tun": [
+    {
+     "bei": "Pfeilen",
+     "puls": ".es-k[onclick=\"esDiaSchritt(1)\"]"
+    },
+    {
+     "bei": "Pausenknopf",
+     "puls": "#esDiaPause"
+    },
+    {
+     "bei": "Club-Song",
+     "puls": "#esDiaMusik"
+    }
+   ]
+  },
+  {
+   "id": "diashowzu",
+   "schritt": 3,
+   "stimme": "thorsten",
+   "text": "Genug geschaut? Tippe zweimal schnell auf das Eselsohr unten rechts – dann dreht sich alles wieder zurück.",
+   "tun": [
+    {
+     "bei": "zweimal",
+     "zeig": ".eselsohr.hinten"
+    },
+    {
+     "js": "new Promise((ok) => { const o = document.querySelector('.eselsohr.hinten'), r = o.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2; const ev = (t) => o.dispatchEvent(new PointerEvent(t, { bubbles: true, clientX: x, clientY: y, pointerId: 1, pointerType: 'touch', isPrimary: true })); const tipp = () => { __ring(x, y); ev('pointerdown'); ev('pointerup'); }; tipp(); setTimeout(() => { tipp(); setTimeout(ok, 600); }, 250); })"
+    },
+    {
+     "bei": "zurück",
+     "weg": true
+    }
+   ]
+  },
+  {
+   "id": "neu",
+   "schritt": 4,
+   "stimme": "thorsten",
+   "text": "Eigene Fotos legst du so dazu: wieder die Kachel Fotos, dann oben auf Plus Neu.",
+   "tun": [
+    {
+     "bei": "Kachel Fotos",
+     "tipp": ".kachel[data-id=fotos]"
+    },
+    {
+     "bei": "Plus Neu",
+     "tipp": "#v-fotos .kopf2 .knopf.haupt"
+    }
+   ]
+  },
+  {
+   "id": "formular",
+   "schritt": 4,
+   "stimme": "thorsten",
+   "text": "Wähle Bilder aus der Galerie, oder mach gleich ein Foto mit der Kamera. Dann noch ein Thema – und auf Hochladen tippen. Alle Clubmitglieder sehen deine Fotos dann im Album.",
+   "tun": [
+    {
+     "bei": "Galerie",
+     "puls": "#fotoForm button:has-text(\"Aus der Galerie\")"
+    },
+    {
+     "bei": "Kamera",
+     "puls": "#fotoForm button:has-text(\"Kamera\")"
+    },
+    {
+     "bei": "Thema",
+     "zeig": "#faThema"
+    },
+    {
+     "bei": "Hochladen",
+     "zeig": "#fotoForm button:has-text(\"Hochladen\")"
+    },
+    {
+     "bei": "Hochladen",
+     "puls": "#fotoForm button:has-text(\"Hochladen\")"
+    }
+   ]
+  },
+  {
+   "id": "abbrechen",
+   "schritt": 4,
+   "stimme": "thorsten",
+   "text": "Hier lade ich nichts hoch – mit Abbrechen geht es zurück.",
+   "tun": [
+    {
+     "bei": "Abbrechen",
+     "tipp": "#fotoForm button:has-text(\"Abbrechen\")"
+    },
+    {
+     "bei": "zurück",
+     "weg": true
+    }
+   ]
+  },
+  {
+   "id": "merke",
+   "art": "merke",
+   "stimme": "sprecherin",
+   "nach": 1.5,
+   "text": "Merke: Antippen zeigt ein Foto groß, Wischen blättert weiter – und mit Plus Neu kommen deine eigenen Fotos dazu."
+  },
+  {
+   "id": "ende",
+   "stimme": "thorsten",
+   "nach": 4.0,
+   "endtafel": true,
+   "text": "Fertig! Im nächsten Kapitel richten wir die Mitteilungen richtig ein – damit du nichts verpasst.",
+   "tun": [
+    {
+     "bei": 0.3,
+     "tipp": "#fuss [data-v=start]"
+    },
+    {
+     "bei": "nächsten",
+     "weg": true
+    }
+   ]
+  }
+ ]
+}

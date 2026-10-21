@@ -6,3 +6,7 @@ vo/
 stimmen/
 musik.wav
 musik.raw
+# Probe-Skripte beim Erkunden der App
+t2-*-probe*
+t2-*-bautest*
+t2-*-lang.mjs
