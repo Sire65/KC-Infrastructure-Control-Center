@@ -47,7 +47,7 @@ function ton() {
 
 // ---------- Handy-Aufnahme: Bilder mit echten Zeitstempeln → gleichmäßige 30 Bilder/s ----------
 function handyListe() {
-  const b = Z.bilder, z = [];
+  const b = [...Z.bilder].sort((x, y) => x.t - y.t), z = []; // unter Last kommen Bilder manchmal in falscher Reihenfolge an
   for (let i = 0; i < b.length; i++) { const von = Math.max(0, b[i].t), bis = i + 1 < b.length ? Math.max(0, b[i + 1].t) : LANG; if (bis <= von && i + 1 < b.length) continue;
     z.push(`file '${process.cwd()}/${A}/${b[i].name}'`, `duration ${(bis - von).toFixed(4)}`); }
   z.push(`file '${process.cwd()}/${A}/${b.at(-1).name}'`);
