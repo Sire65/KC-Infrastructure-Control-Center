@@ -8,15 +8,31 @@ Jedes Kapitel gibt es zweimal: **…-Handy.mp4** (1080×1920, Hochformat für Ha
 
 | Kapitel | Datei (ohne -Handy/-Beamer) | Länge | Inhalt |
 |---|---|---|---|
-| **Vorspann** – Willkommen | `Teil0-Vorspann-Willkommen` | 1:31 | Begrüßung, warum die App und ihre Vorteile (alles an einem Ort, denkt mit, gemeinsam planen, nur für Mitglieder, einfach), Aufbau des Films |
-| 1.6 Voreinstellungen (Muster) | `Teil1-Kap06-Voreinstellungen` | 1:33 | Mehr → Das Wichtigste, Neuigkeiten „Beides“, Nicht stören, Lieblingsfarbe (Küchengrün und zurück), Große Schrift an/aus, Fragezeichen |
-| 2.1 Nachrichten | `Teil2-Kap01-Nachrichten` | 2:03 | Chat öffnen, antworten und senden, Haken ✓/✓✓, Foto & Mikrofon zeigen, neue Nachricht an Otto, Gruppen-Chat |
-| 2.2 Termine & Zusagen | `Teil2-Kap02-Termine-Zusagen` | 2:23 | Termin öffnen, „Ich komme“, Mitfahrt mit 2 Plätzen anbieten, privaten Termin mit Erinnerung anlegen, Liste/Kalender/To-do |
-| 2.3 Pinnwand | `Teil2-Kap03-Pinnwand` | 1:35 | Zettel lesen, erledigt, mit 👍 antworten, eigenen Zettel schreiben, anheften und wieder abnehmen |
-| 2.4 Mitglieder & Status | `Teil2-Kap04-Mitglieder-Status` | 1:47 | Wer ist online, schreiben, anklopfen, anrufen (nur gezeigt), Status „im Urlaub“ mit Hinweis und zurück auf verfügbar |
-| 2.5 Mein Dienst & Wunschdienst | `Teil2-Kap05-Mein-Dienst` | 2:34 | Wünsche für den Weihnachtsmarkt mit Twinkey (Tag, 16–22 Uhr, Vorne), speichern, eigene Dienste, Dienstplan, mit Erika vergleichen, Übersicht |
-| 2.6 Fotoalbum | `Teil2-Kap06-Fotoalbum` | 1:44 | Foto ansehen und blättern, Album, Diashow, eigene Fotos hochladen (nur gezeigt) |
-| 2.7 Mitteilungen richtig einrichten | `Teil2-Kap07-Mitteilungen` | 2:04 | je Bereich Handy/E-Mail, Häkchen setzen und zurück, Push auf diesem Handy, Test-Push, Meine Geräte, wenn nichts ankommt |
+| **Vorspann** – Willkommen | `Teil0-Vorspann-Willkommen` | 1:31 | Begrüßung, warum die App, Vorteile, Aufbau des Films |
+| 1.1 App öffnen | `Teil1-Kap01-App-oeffnen` | 1:00 | App-Symbol auf dem Handy (nachgestellt), öffnen, Kochmütze & Version, zurück |
+| 1.2 Die Startseite | `Teil1-Kap02-Startseite` | 1:24 | Einfache Ansicht, Neuigkeiten oben, die großen Kacheln, antippen & zurück |
+| 1.3 Zahlen auf den Kacheln | `Teil1-Kap03-Zahlen-auf-Kacheln` | 1:22 | Was die Zahlen heißen, drei Felder im Kopf, ansehen → Zahl ist weg |
+| 1.4 Die Leiste unten | `Teil1-Kap04-Leiste-unten` | 1:21 | Start, Termine, Nachrichten, Mitglieder, Mehr, Pfeil zurück |
+| 1.5 Der Kopf | `Teil1-Kap05-Der-Kopf` | 1:46 | Kochmütze, Status, Info-Laufband, drei Felder, Kopf einrollen |
+| 1.6 Voreinstellungen | `Teil1-Kap06-Voreinstellungen` | 1:36 | Das Wichtigste: Neuigkeiten, Nicht stören, Farbe, Große Schrift, Fragezeichen |
+| 1.7 Einfach oder erweitert? | `Teil1-Kap07-Einfach-oder-erweitert` | 1:28 | Umschalten, Register, wischen, zurück |
+| 1.8 Hilfe | `Teil1-Kap08-Hilfe` | 1:58 | Fragezeichen, Twinkey, Lupe, „Was kann ich antippen?“, Erklär-Videos – Abschluss Teil 1 |
+| 2.1 Nachrichten | `Teil2-Kap01-Nachrichten` | 2:05 | Chat öffnen, antworten, Haken, Foto & Mikrofon, neue Nachricht, Gruppe |
+| 2.2 Termine & Zusagen | `Teil2-Kap02-Termine-Zusagen` | 2:23 | Zusagen, Mitfahrt anbieten, privater Termin mit Erinnerung, Ansichten |
+| 2.3 Pinnwand | `Teil2-Kap03-Pinnwand` | 1:35 | Lesen, erledigt, 👍 antworten, eigener Zettel anheften und abnehmen |
+| 2.4 Mitglieder & Status | `Teil2-Kap04-Mitglieder-Status` | 1:46 | Wer ist online, schreiben, anklopfen, Status „im Urlaub“ und zurück |
+| 2.5 Mein Dienst & Wunschdienst | `Teil2-Kap05-Mein-Dienst` | 2:33 | Wünsche mit Twinkey, Dienste, Dienstplan, vergleichen |
+| 2.6 Fotoalbum | `Teil2-Kap06-Fotoalbum` | 1:47 | Fotos ansehen, Album, Diashow, Hochladen (gezeigt) |
+| 2.7 Mitteilungen | `Teil2-Kap07-Mitteilungen` | 2:06 | Je Bereich Handy/E-Mail, Test-Push, Meine Geräte, wenn nichts ankommt |
+| 2.8 Privatsphäre | `Teil2-Kap08-Privatsphaere` | 1:50 | Wer sieht was, Schalter aus/an, Abmelden, persönlicher Link |
+| 2.9 Nach meinem Geschmack | `Teil2-Kap09-Nach-meinem-Geschmack` | 2:12 | Tag/Nacht, Farbe, Effekte, Schnellstart, Kacheln anordnen, umdrehen |
+| 2.10 Dokumente & Daten | `Teil2-Kap10-Dokumente-Daten` | 2:14 | Protokolle filtern & lesen, Meine Dokumente, Meine Daten, Anschrift melden |
+| 2.11 Mitmachen | `Teil2-Kap11-Mitmachen` | 2:46 | Abstimmen, Thema unterstützen/vorschlagen, Helfen & Leihen, Erstattung, Feedback |
+| 2.12 SOS – im Notfall | `Teil2-Kap12-SOS` | 1:45 | Notrufnummern (nur gezeigt), Wo bin ich?, Notfallpass, Mitglieder |
+| 2.13 Freizeit | `Teil2-Kap13-Freizeit` | 2:10 | Tic-Tac-Toe, Werne-Rätsel, Bühne mit Club-Song |
+| 2.14 Wenn etwas nicht klappt | `Teil2-Kap14-Wenn-etwas-nicht-klappt` | 2:17 | Neu öffnen, Update, Lämpchen, Schnecke, Hilfe, Hansi fragen – Abschluss Teil 2 |
+
+Gesamt rund 43 Minuten in 23 kurzen Filmen. Aufnahme in voller Auflösung (780×1688), die Web-Adresse der App wird in der Aufnahme automatisch abgedeckt.
 
 Jede Einstellung nimmt die Klickhand 👆 in der echten App vor (echte Tipps, Wirkung sichtbar); was verändert wurde, wird zurückgestellt oder der Rückweg gezeigt.
 Gesendet, gespeichert oder hochgeladen wird nur gegenüber dem Demo-Server – im Club kommt nichts an.

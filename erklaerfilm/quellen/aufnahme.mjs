@@ -36,7 +36,7 @@ await p.evaluate(() => {
   const decke = (wurzel) => {
     const w = document.createTreeWalker(wurzel, NodeFilter.SHOW_TEXT); let n;
     while ((n = w.nextNode())) if (ADR.test(n.nodeValue)) { ADR.lastIndex = 0; n.nodeValue = n.nodeValue.replace(ADR, "https://… /"); }
-    wurzel.querySelectorAll?.("input, textarea").forEach((e) => { if (ADR.test(e.value)) { ADR.lastIndex = 0; e.value = e.value.replace(ADR, "https://… /"); } ADR.lastIndex = 0; });
+    wurzel.querySelectorAll?.("input, textarea").forEach((e) => { for (const k of ["value", "placeholder"]) { ADR.lastIndex = 0; if (ADR.test(e[k])) { ADR.lastIndex = 0; e[k] = e[k].replace(ADR, "https://… /"); } } ADR.lastIndex = 0; });
   };
   let geplant = false; decke(document.body);
   new MutationObserver(() => { if (!geplant) { geplant = true; requestAnimationFrame(() => { geplant = false; decke(document.body); }); } }).observe(document.body, { childList: true, subtree: true, characterData: true });
