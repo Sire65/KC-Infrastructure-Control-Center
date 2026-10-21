@@ -10,7 +10,8 @@ export async function seite(b, opt = {}) {
   const p = await ctx.newPage();
   p.fehler = []; p.on("pageerror", (e) => p.fehler.push(String(e).slice(0, 160)));
   // Einstellungen speichern: der Demo-Server gibt den gespeicherten Wert zurück wie der echte (sonst meldet die App einen Fehler)
-  const antw = { einstellung_setzen: (q) => ({ ok: true, wert: q.wert }), ...ANTWORTEN };
+  // … und merkt ihn sich: die App lädt alle 60 s neu – sonst spränge z. B. die Ansicht auf den Ausgangswert zurück
+  const antw = { einstellung_setzen: (q) => { antw.init = { ...antw.init, einstellungen: { ...antw.init.einstellungen, [q.schluessel]: q.wert } }; return { ok: true, wert: q.wert }; }, ...ANTWORTEN };
   if (opt.demo) opt.demo(antw); // kapitelweise Demodaten (<kapitel>.demo.mjs), z. B. eine gesendete Nachricht erscheint danach in der Unterhaltung
   antw.init = { ...antw.init, einstellungen: { ...antw.init.einstellungen, ansicht: { art: opt.ansicht || "einfach", gewaehlt: true }, einweisung: { an: false, gesehen: {} }, spiel_einladung: { an: false } } };
   await p.route("**/functions/v1/kc-club*", async (r) => {

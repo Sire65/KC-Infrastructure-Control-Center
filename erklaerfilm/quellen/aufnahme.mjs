@@ -94,7 +94,7 @@ for (const s of K.szenen) {
   const start = Date.now() / 1000 - t0, sprechAb = start + (s.vor || 0);
   szenen.push({ id: s.id, start, sprechAb });
   const plan = (s.tun || []).map((a) => ({ a, t: (s.vor || 0) + wortZeit(s, a.bei) - (a.tipp || a.zeig || a.lang || a.wisch || a.schreib ? FAHRT + 0.15 : 0) }));
-  for (const { a, t } of plan) { const jetzt = Date.now() / 1000 - t0 - start; if (t > jetzt) await warte(t - jetzt); await tu(a).catch((e) => console.log("⚠️", s.id, JSON.stringify(a), String(e).slice(0, 120))); }
+  for (const { a, t } of plan) { const jetzt = Date.now() / 1000 - t0 - start; if (t > jetzt) await warte(t - jetzt); if (process.env.FILM_LOG) console.log("  ", (Date.now() / 1000 - t0).toFixed(1), s.id, JSON.stringify(a).slice(0, 90)); await tu(a).catch((e) => console.log("⚠️", s.id, JSON.stringify(a), String(e).slice(0, 120))); }
   const ende = start + (s.vor || 0) + DAUER[s.id] + PAUSE + (s.nach || 0), jetzt = Date.now() / 1000 - t0;
   if (ende > jetzt) await warte(ende - jetzt);
   szenen[szenen.length - 1].ende = Date.now() / 1000 - t0;
