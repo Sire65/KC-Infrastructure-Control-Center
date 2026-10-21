@@ -5,5 +5,6 @@ for k in "$@"; do
   echo "=== $k"; python3 vo.py $k.json 2>&1 | grep -v "Missing phoneme"
   node aufnahme.mjs $k.json 2>&1 | grep -E "⚠️|Bilder|Fehler" || true
   node bau.mjs $k.json 2>&1 | grep -E "fertig|Error" || true
+  id=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['id'])" $k.json); rm -f aufnahme/$id/bild-*.jpg arbeit/$id/*.png  # Rohbilder brauchen viel Platz
 done
 echo ALLES FERTIG

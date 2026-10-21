@@ -40,7 +40,7 @@
       "text": "Noch einmal auf den rechten Pfeil – und der Kopf ist wieder ganz da.",
       "tun": [{ "bei": "rechten Pfeil", "tipp": "#kopfPfeil" }, { "bei": "wieder ganz da", "weg": true }] },
     { "id": "tagnacht", "schritt": 4, "stimme": "thorsten",
-      "text": "Übrigens: In der erweiterten Ansicht gibt es oben rechts noch einen Mond-Knopf für helle und dunkle Farben. Den zeige ich dir im Kapitel Einfach oder erweitert." },
+      "text": "Übrigens: In der erweiterten Ansicht gibt es oben rechts noch einen Mond-Knopf für helle und dunkle Farben. Den zeige ich dir in Teil zwei, im Kapitel: Die App nach meinem Geschmack." },
     { "id": "merke", "art": "merke", "stimme": "sprecherin", "nach": 1.5,
       "text": "Merke: Der Kopf zeigt dir auf einen Blick, was im Club gerade los ist." },
     { "id": "ende", "stimme": "thorsten", "nach": 4.0, "endtafel": true,

@@ -80,7 +80,7 @@ cdp.on("Page.screencastFrame", ({ data, metadata, sessionId }) => {
   const name = `bild-${String(nr++).padStart(5, "0")}.jpg`; fs.writeFileSync(`${OUT}/${name}`, Buffer.from(data, "base64"));
   bilder.push({ name, t: metadata.timestamp }); cdp.send("Page.screencastFrameAck", { sessionId }).catch(() => {});
 });
-await cdp.send("Page.startScreencast", { format: "jpeg", quality: 92, everyNthFrame: 1 });
+await cdp.send("Page.startScreencast", { format: "jpeg", quality: 88, everyNthFrame: 1, maxWidth: 780, maxHeight: 1688 }); // volle Auflösung (Bildpunktdichte 2), sonst nur 390×844
 // Stillstand erzeugt keine Bilder – ein unsichtbarer Takt hält die Übertragung am Laufen
 await p.evaluate(() => { const d = document.createElement("div"); d.style.cssText = "position:fixed;left:0;top:0;width:1px;height:1px;opacity:.01;z-index:99999;pointer-events:none"; document.body.appendChild(d); let i = 0; setInterval(() => { d.style.background = (i++ % 2) ? "#000" : "#111"; }, 33); });
 await warte(0.5);
