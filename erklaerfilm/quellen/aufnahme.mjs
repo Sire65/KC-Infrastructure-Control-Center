@@ -30,6 +30,18 @@ const p = await seite(b, {
 await p.evaluate(() => { try { bwEinSetzen({ aus: true }); } catch {} try { kuckuckPruefen = () => {}; } catch {} document.head.insertAdjacentHTML("beforeend", "<style>.kuckuck { display: none !important; }</style>"); document.head.insertAdjacentHTML("beforeend", "<style>.rg-hinweis { display: none !important; }</style>"); });
 await p.evaluate(() => { document.querySelectorAll(".meldung").forEach((m) => m.remove()); document.querySelectorAll(".rg-hinweis").forEach((e) => e.closest("[id]")?.id !== "app" && e.remove()); });
 
+// Keine Web-Adresse der App im Bild (wie im Werbefilm: Zugang nur über den persönlichen Link) – Text und Eingabefelder laufend abdecken
+await p.evaluate(() => {
+  const ADR = /(https?:\/\/)?(sire65\.github\.io\/KC-Clubapp\/?|localhost:8765\/?(index\.html)?)/gi;
+  const decke = (wurzel) => {
+    const w = document.createTreeWalker(wurzel, NodeFilter.SHOW_TEXT); let n;
+    while ((n = w.nextNode())) if (ADR.test(n.nodeValue)) { ADR.lastIndex = 0; n.nodeValue = n.nodeValue.replace(ADR, "https://… /"); }
+    wurzel.querySelectorAll?.("input, textarea").forEach((e) => { if (ADR.test(e.value)) { ADR.lastIndex = 0; e.value = e.value.replace(ADR, "https://… /"); } ADR.lastIndex = 0; });
+  };
+  let geplant = false; decke(document.body);
+  new MutationObserver(() => { if (!geplant) { geplant = true; requestAnimationFrame(() => { geplant = false; decke(document.body); }); } }).observe(document.body, { childList: true, subtree: true, characterData: true });
+});
+
 // ---------- Klickhand im Bild ----------
 await p.evaluate(() => {
   const f = document.createElement("div"); f.id = "filmFinger"; f.className = "rg-finger"; f.innerHTML = "<span>👆</span>";
