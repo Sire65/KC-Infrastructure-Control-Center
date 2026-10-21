@@ -1,0 +1,329 @@
+{
+ "id": "2-13-freizeit",
+ "teil": "Teil 2 · Die Funktionen im Einzelnen",
+ "kapitel": "Freizeit – spielen, rätseln, mitsingen",
+ "kapKurz": "Freizeit",
+ "kap1": "Freizeit",
+ "kap2": "spielen, rätseln, mitsingen",
+ "naechstes": "Wenn etwas nicht klappt",
+ "ansicht": "einfach",
+ "schritte": [
+  "Spiele öffnen",
+  "Gegen den Computer",
+  "Werne-Rätsel",
+  "Bühne & Club-Song"
+ ],
+ "vorher": [
+  {
+   "js": "(() => { let s = 1991; Math.random = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; try { localStorage.setItem(SP_HINWEIS, '1'); } catch {} try { fiLsSetzen(FI_HINWEIS_KEY, true); } catch {} scrollTo(0, 0); })()"
+  }
+ ],
+ "szenen": [
+  {
+   "id": "titel",
+   "art": "tafel",
+   "vor": 3.0,
+   "stimme": "thorsten",
+   "text": "Freizeit. In der App kannst du nicht nur planen – du kannst auch spielen, rätseln und mitsingen. Ich zeige dir, wo du das alles findest."
+  },
+  {
+   "id": "wo",
+   "schritt": 0,
+   "stimme": "thorsten",
+   "text": "Wo finde ich das? Auf der Startseite gibt es die Kachel Spiele. Tippe sie an.",
+   "tun": [
+    {
+     "bei": "Wo finde",
+     "zu": "#v-start .kachel[data-id=spiele]"
+    },
+    {
+     "warte": 0.6
+    },
+    {
+     "bei": "Kachel Spiele",
+     "puls": "#v-start .kachel[data-id=spiele]"
+    },
+    {
+     "bei": "Tippe",
+     "tipp": "#v-start .kachel[data-id=spiele]"
+    }
+   ]
+  },
+  {
+   "id": "uebersicht",
+   "schritt": 0,
+   "stimme": "thorsten",
+   "text": "Hier suchst du dir ein Spiel aus: Tic-Tac-Toe, Schach, Bauernskat, Mensch ärgere dich nicht und noch mehr. Wir nehmen Tic-Tac-Toe.",
+   "tun": [
+    {
+     "bei": "Hier suchst",
+     "puls": "#spInhalt .sp-kacheln"
+    },
+    {
+     "bei": "Wir nehmen",
+     "tipp": "#spInhalt .sp-kachel[onclick=\"spArtWahl('ttt')\"]"
+    }
+   ]
+  },
+  {
+   "id": "gegner",
+   "schritt": 1,
+   "stimme": "thorsten",
+   "text": "Oben wählst du: gegen den Computer oder gegen Mitglieder aus dem Club. Darunter stellst du ein, wie stark der Computer spielt.",
+   "tun": [
+    {
+     "bei": "Oben wählst",
+     "puls": "#spTabs"
+    },
+    {
+     "bei": "gegen den Computer",
+     "zeig": "#spTabs button[onclick=\"spTab('pc')\"]"
+    },
+    {
+     "bei": "wie stark",
+     "zeig": "[onclick=\"spPcStaerke('mittel')\"]",
+     "puls": "[onclick=\"spPcStaerke('mittel')\"]"
+    }
+   ]
+  },
+  {
+   "id": "spielen",
+   "schritt": 1,
+   "stimme": "thorsten",
+   "text": "Jetzt tippst du einfach auf ein freies Feld. Du spielst die Tomate, der Computer den Brokkoli. Wer zuerst drei in einer Reihe hat, gewinnt.",
+   "tun": [
+    {
+     "bei": "freies Feld",
+     "tipp": "[onclick=\"spPcZug(4)\"]"
+    },
+    {
+     "bei": "Brokkoli",
+     "js": "(() => { document.querySelectorAll('[data-film=frei]').forEach((e) => e.removeAttribute('data-film')); const b = [...document.querySelectorAll('[onclick^=\"spPcZug(\"]')].find((e) => !e.textContent.trim() && !e.disabled); if (b) b.dataset.film = 'frei'; })()",
+     "tipp": "[data-film=frei]"
+    }
+   ]
+  },
+  {
+   "id": "neu",
+   "schritt": 1,
+   "stimme": "thorsten",
+   "text": "Mit Neues Spiel fängst du von vorn an. Und unter Gegen Mitglieder forderst du jemanden aus dem Club heraus – ihr zieht dann abwechselnd.",
+   "tun": [
+    {
+     "bei": "Neues Spiel",
+     "tipp": "[onclick=\"spPcNeu()\"]"
+    },
+    {
+     "bei": "Gegen Mitglieder",
+     "zu": "#spTabs"
+    },
+    {
+     "bei": "forderst",
+     "zeig": "#spTabs button[onclick=\"spTab('mg')\"]",
+     "puls": "#spTabs button[onclick=\"spTab('mg')\"]"
+    }
+   ]
+  },
+  {
+   "id": "zurueck",
+   "schritt": 1,
+   "stimme": "thorsten",
+   "text": "Mit dem Pfeil oben links kommst du zurück zur Auswahl – und mit Start wieder zur Startseite.",
+   "tun": [
+    {
+     "bei": "Pfeil",
+     "tipp": "#v-spiele .kopf2 .zurueck"
+    },
+    {
+     "bei": "mit Start",
+     "tipp": "#fuss [data-v=start]"
+    }
+   ]
+  },
+  {
+   "id": "ohr",
+   "schritt": 2,
+   "stimme": "thorsten",
+   "text": "Noch mehr Spaß gibt es auf der Rückseite des Kopfes. Tippe zweimal schnell auf das Eselsohr unten rechts im Kopf.",
+   "tun": [
+    {
+     "bei": "Rückseite",
+     "zu": "#eselsohr"
+    },
+    {
+     "bei": "Eselsohr",
+     "zeig": "#eselsohr",
+     "puls": "#eselsohr"
+    },
+    {
+     "bei": "im Kopf",
+     "js": "new Promise((ok) => { const o = document.querySelector('#eselsohr'), r = o.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2; const ev = (t) => o.dispatchEvent(new PointerEvent(t, { bubbles: true, clientX: x, clientY: y, pointerId: 1, pointerType: 'touch', isPrimary: true })); const tipp = () => { __ring(x, y); ev('pointerdown'); ev('pointerup'); }; tipp(); setTimeout(() => { tipp(); setTimeout(ok, 900); }, 250); })"
+    }
+   ]
+  },
+  {
+   "id": "raetsel",
+   "schritt": 2,
+   "stimme": "thorsten",
+   "text": "Der Kopf hat sich umgedreht. Oben tippst du auf Rätsel – und dann auf Werne üben.",
+   "tun": [
+    {
+     "bei": "Rätsel",
+     "tipp": "#heroRueck [data-tab=raetsel]"
+    },
+    {
+     "bei": "Werne üben",
+     "tipp": "#qzWahl button[onclick=\"qzStart('werne')\"]"
+    }
+   ]
+  },
+  {
+   "id": "bild",
+   "schritt": 2,
+   "stimme": "thorsten",
+   "text": "Das Foto aus Werne ist erst ganz grob und wird nach und nach schärfer. Je früher du es erkennst, desto mehr Punkte bekommst du.",
+   "tun": [
+    {
+     "bei": "Das Foto",
+     "puls": "#hrFlaeche .qz-bildfeld"
+    },
+    {
+     "bei": "mehr Punkte",
+     "zeig": "#qzPunkte",
+     "puls": "#qzPunkte"
+    }
+   ]
+  },
+  {
+   "id": "buzzer",
+   "schritt": 2,
+   "stimme": "thorsten",
+   "text": "Erkannt? Dann drück den roten Buzzer. Jetzt erscheinen sechs Antworten – tippe auf die richtige.",
+   "tun": [
+    {
+     "bei": "Erkannt",
+     "js": "(() => { scrollTo({ top: 110, behavior: 'smooth' }); })()"
+    },
+    {
+     "bei": "roten Buzzer",
+     "tipp": "#qzBuzzer"
+    },
+    {
+     "bei": "sechs Antworten",
+     "puls": "#qzTipps .qz-tipp-gitter"
+    },
+    {
+     "bei": "richtige",
+     "js": "(() => { const S = QZ.spiel, B = S.bilder[S.i]; [...document.querySelectorAll('#qzTipps .qz-tipp')][B.tipps.indexOf(B.m.a)].dataset.film = 'ok'; })()",
+     "tipp": "[data-film=ok]"
+    }
+   ]
+  },
+  {
+   "id": "richtig",
+   "schritt": 2,
+   "stimme": "thorsten",
+   "nach": 1.0,
+   "text": "Richtig! Dazu gibt es Konfetti, die Punkte und ein paar Worte zum Bild.",
+   "tun": [
+    {
+     "bei": "Punkte",
+     "puls": "#qzLoesung"
+    },
+    {
+     "bei": "Worte",
+     "weg": true
+    }
+   ]
+  },
+  {
+   "id": "buehne",
+   "schritt": 3,
+   "stimme": "thorsten",
+   "text": "Gleich daneben ist die Bühne. Hier turnt Twinkey mit dir – im Sitzen, im Stehen oder mit Küchenhelfern.",
+   "tun": [
+    {
+     "bei": "Bühne",
+     "tipp": "#heroRueck [data-tab=buehne]"
+    },
+    {
+     "bei": "im Sitzen",
+     "puls": "#hrFlaeche [onclick=\"bwWahlSetzen({modus:'sitzen'})\"]"
+    },
+    {
+     "bei": "im Stehen",
+     "puls": "#hrFlaeche [onclick=\"bwWahlSetzen({modus:'stehen'})\"]"
+    },
+    {
+     "bei": "Küchenhelfern",
+     "puls": "#hrFlaeche [onclick=\"bwWahlSetzen({modus:'kueche'})\"]"
+    }
+   ]
+  },
+  {
+   "id": "song",
+   "schritt": 3,
+   "stimme": "thorsten",
+   "nach": 2.0,
+   "text": "Und hier ist unser Club-Song zum Mitsingen: Seit einundneunzig. Twinkey tanzt, und der Text läuft mit.",
+   "tun": [
+    {
+     "bei": "Und hier",
+     "zu": "#hrFlaeche [onclick=\"bwClubSong()\"]"
+    },
+    {
+     "warte": 0.7
+    },
+    {
+     "bei": "Club-Song",
+     "tipp": "#hrFlaeche [onclick=\"bwClubSong()\"]"
+    },
+    {
+     "bei": "Text läuft",
+     "puls": "#bwKaraoke"
+    },
+    {
+     "bei": "mit.",
+     "weg": true
+    }
+   ]
+  },
+  {
+   "id": "schluss",
+   "schritt": 3,
+   "stimme": "thorsten",
+   "text": "Mit Ende hörst du auf. Und wieder zweimal aufs Eselsohr – schon dreht sich der Kopf zurück.",
+   "tun": [
+    {
+     "bei": "Ende",
+     "tipp": "[onclick=\"bwStopp(true)\"]"
+    },
+    {
+     "bei": "Eselsohr",
+     "zeig": ".eselsohr.hinten"
+    },
+    {
+     "bei": "schon dreht",
+     "js": "new Promise((ok) => { const o = document.querySelector('.eselsohr.hinten'), r = o.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2; const ev = (t) => o.dispatchEvent(new PointerEvent(t, { bubbles: true, clientX: x, clientY: y, pointerId: 1, pointerType: 'touch', isPrimary: true })); const tipp = () => { __ring(x, y); ev('pointerdown'); ev('pointerup'); }; tipp(); setTimeout(() => { tipp(); setTimeout(ok, 900); }, 250); })"
+    },
+    {
+     "weg": true
+    }
+   ]
+  },
+  {
+   "id": "merke",
+   "art": "merke",
+   "stimme": "sprecherin",
+   "nach": 1.5,
+   "text": "Merke: Spiele findest du auf der Startseite – Rätsel und Bühne hinter dem Eselsohr."
+  },
+  {
+   "id": "ende",
+   "stimme": "thorsten",
+   "nach": 4.0,
+   "endtafel": true,
+   "text": "Viel Spaß beim Spielen, Rätseln und Mitsingen! Im nächsten Kapitel zeige ich dir, was du tun kannst, wenn mal etwas nicht klappt."
+  }
+ ]
+}
