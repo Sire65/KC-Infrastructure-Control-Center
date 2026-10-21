@@ -37,7 +37,7 @@
     { "id": "frage", "schritt": 6, "stimme": "thorsten",
       "text": "Und lass das Fragezeichen unten rechts eingeschaltet. Es erklärt dir jederzeit die Seite, auf der du gerade bist.",
       "tun": [{ "bei": "Fragezeichen", "zeig": "#setHzFrageE", "puls": "#setHzFrageE" }, { "bei": "unten rechts", "zeig": "#hzFrage", "puls": "#hzFrage" }, { "bei": "gerade bist", "weg": true }] },
-    { "id": "merke", "art": "merke", "stimme": "kerstin", "nach": 1.5,
+    { "id": "merke", "art": "merke", "stimme": "sprecherin", "nach": 1.5,
       "text": "Merke: Einmal einrichten – und jederzeit unter Mehr wieder ändern." },
     { "id": "ende", "stimme": "thorsten", "nach": 4.0, "endtafel": true,
       "text": "Fertig! Deine App ist jetzt eingerichtet. Im nächsten Kapitel zeige ich dir, wie du zwischen einfacher und erweiterter Ansicht wechselst.",

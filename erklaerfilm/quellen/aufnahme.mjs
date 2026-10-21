@@ -1,17 +1,24 @@
 // Aufnahme eines Kapitels: echte Club-App (Demodaten), Klickhand führt vor, Bildschirm wird mitgeschnitten.
 // Aufruf: node aufnahme.mjs voreinstellungen.json   → aufnahme/<id>/bild-*.jpg, zeiten.json (Szenen-Startzeiten, Bildzeiten)
+// Handgriffe je Szene („tun“, nacheinander; „bei“ = Wort im Sprechertext oder Sekunden, ohne „bei“ gleich nach dem vorigen):
+//   tipp: Wähler – hinfahren, Tipp-Ring, echter Klick · zeig: Wähler – nur hinzeigen · puls: Wähler – kurz pulsieren · weg: true – Hand weg
+//   schreib: { sel, text } – ins Feld tippen und Buchstabe für Buchstabe schreiben · lang: Wähler – lange drücken
+//   wisch: { sel, dx, dy } – mit der Hand über das Element wischen · zu: Wähler – sanft dorthin blättern · warte: Sekunden · js: Seitencode (nur Vorbereitung, z. B. Ansicht öffnen)
+// Kapitel: „ansicht“ (einfach|erweitert), „vorher“ (Handgriffe vor dem Mitschnitt, ohne Hand), <kapitel>.demo.mjs (eigene Demodaten)
 // Die Klickhand nutzt das Aussehen der Erklär-Videos der App (.rg-finger, .rg-tippring, .rg-puls aus index.html).
 // Getippt wird mit echten Maus-Ereignissen – der Server ist durch Demodaten ersetzt, es geht nichts an den Club.
 import fs from "fs";
 import { launch, seite } from "./app.mjs";
 
 const K = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+const DEMO = process.argv[2].replace(/\.json$/, ".demo.mjs"), demo = fs.existsSync(DEMO) ? (await import("./" + DEMO)).default : null;
 const DAUER = JSON.parse(fs.readFileSync(`vo/${K.id}/dauer.json`, "utf8"));
 const OUT = `aufnahme/${K.id}`; fs.rmSync(OUT, { recursive: true, force: true }); fs.mkdirSync(OUT, { recursive: true });
 const PAUSE = 0.9, FAHRT = 0.75; // Ruhe nach jeder Szene, Fahrzeit der Hand
 
 const b = await launch();
 const p = await seite(b, {
+  ansicht: K.ansicht, demo,
   init: () => { // Mitteilungen im Film „erlaubt“ (sonst fragt das echte Browserfenster – das zeigt der Film als Standbild)
     try { Object.defineProperty(Notification, "permission", { get: () => "granted" }); } catch {}
     try { Object.defineProperty(navigator.serviceWorker, "ready", { get: () => Promise.resolve({ pushManager: { getSubscription: async () => ({ endpoint: "demo" }) } }) }); } catch {}
@@ -45,6 +52,15 @@ const hin = async (z) => { await p.evaluate(([x, y]) => __hand(x, y), [z.x, z.y]
 const puls = (sel) => p.locator(sel).filter({ visible: true }).first().evaluate((e) => { e.classList.remove("rg-puls"); void e.offsetWidth; e.classList.add("rg-puls"); setTimeout(() => e.classList.remove("rg-puls"), 2300); }, null, { timeout: 2000 }).catch(() => {});
 async function tu(a) {
   if (a.weg) { await p.evaluate(() => __weg()); return; }
+  if (a.js) { await p.evaluate(a.js); await warte(0.3); }
+  if (a.warte) await warte(a.warte);
+  if (a.zu) { await p.locator(a.zu).filter({ visible: true }).first().evaluate((e) => e.scrollIntoView({ behavior: "smooth", block: "center" }), null, { timeout: 2000 }); await warte(0.8); }
+  if (a.lang) { const z = await ziel(a.lang); await hin(z); await p.mouse.move(z.x, z.y); await p.mouse.down(); await p.evaluate(([x, y]) => __ring(x, y), [z.x, z.y]); await warte(0.9); await p.mouse.up(); await warte(0.4); }
+  if (a.wisch) { const z = await ziel(a.wisch.sel); await hin(z); const dx = a.wisch.dx || 0, dy = a.wisch.dy || 0;
+    await p.mouse.move(z.x, z.y); await p.mouse.down(); for (let i = 1; i <= 15; i++) { await p.mouse.move(z.x + dx * i / 15, z.y + dy * i / 15); await p.evaluate(([x, y]) => { const f = document.getElementById("filmFinger"); f.style.transition = "opacity .3s"; __hand(x, y); }, [z.x + dx * i / 15, z.y + dy * i / 15]); await warte(0.03); }
+    await p.mouse.up(); await p.evaluate(() => { document.getElementById("filmFinger").style.transition = "opacity .3s, transform .75s cubic-bezier(.4,.1,.2,1)"; }); await warte(0.4); }
+  if (a.schreib) { const z = await ziel(a.schreib.sel); await hin(z); await p.evaluate(([x, y]) => __ring(x, y), [z.x, z.y]); await p.mouse.click(z.x, z.y); await warte(0.3);
+    await p.evaluate(() => __weg()); await p.keyboard.type(a.schreib.text, { delay: 85 }); await warte(0.3); }
   if (a.puls) await puls(a.puls);
   if (a.zeig) await hin(await ziel(a.zeig));
   if (a.tipp) { const z = await ziel(a.tipp); await hin(z); await p.evaluate(([x, y]) => __ring(x, y), [z.x, z.y]); await p.mouse.click(z.x, z.y); await warte(0.5);
@@ -52,6 +68,9 @@ async function tu(a) {
 }
 // Zeitpunkt eines Worts in der Szene: Anteil der Buchstaben bis zum Wort × Sprechdauer (Hand kommt kurz vorher an)
 const wortZeit = (s, bei) => typeof bei === "number" ? bei : Math.max(0, (s.text.indexOf(bei) / s.text.length) * DAUER[s.id] - (bei ? 0.2 : 0));
+
+for (const a of K.vorher || []) await tu(a).catch((e) => console.log("⚠️ vorher", JSON.stringify(a), String(e).slice(0, 120)));
+await p.evaluate(() => { __weg(); document.querySelectorAll(".meldung").forEach((m) => m.remove()); }); await warte(0.5);
 
 // ---------- Mitschnitt (Bildschirm-Übertragung von Chromium, Bilder mit Zeitstempel) ----------
 const cdp = await p.context().newCDPSession(p);
@@ -69,7 +88,7 @@ const t0 = Date.now() / 1000, szenen = [];
 for (const s of K.szenen) {
   const start = Date.now() / 1000 - t0, sprechAb = start + (s.vor || 0);
   szenen.push({ id: s.id, start, sprechAb });
-  const plan = (s.tun || []).map((a) => ({ a, t: (s.vor || 0) + wortZeit(s, a.bei) - (a.tipp || a.zeig ? FAHRT + 0.15 : 0) }));
+  const plan = (s.tun || []).map((a) => ({ a, t: (s.vor || 0) + wortZeit(s, a.bei) - (a.tipp || a.zeig || a.lang || a.wisch || a.schreib ? FAHRT + 0.15 : 0) }));
   for (const { a, t } of plan) { const jetzt = Date.now() / 1000 - t0 - start; if (t > jetzt) await warte(t - jetzt); await tu(a).catch((e) => console.log("⚠️", s.id, JSON.stringify(a), String(e).slice(0, 120))); }
   const ende = start + (s.vor || 0) + DAUER[s.id] + PAUSE + (s.nach || 0), jetzt = Date.now() / 1000 - t0;
   if (ende > jetzt) await warte(ende - jetzt);
