@@ -57,6 +57,12 @@ function zeige(form, z) { // z: { art, teil, kap, schritte, schritt, ut, merke, 
     h += `<div class="merke" style="${b}"><div class="m">💡 Merke</div><div class="s">${z.merke}</div></div>`;
   }
   if (z.art === "tafel") h += `<div class="tafel">${logo}<div class="teil">${z.teil}</div><h1>${z.kap1}</h1><p>${z.kap2}</p>${z.ut ? `<p style="font-size:${form === "hoch" ? 40 : 36}px;max-width:900px;margin-top:40px;opacity:.95">${z.ut}</p>` : ""}</div>`;
+  if (z.art === "uebersicht") { // Aufbau des Films: Teile untereinander, Untertitel darunter
+    const gr = form === "hoch" ? { h: 64, t: 40, u: 30, ut: 36, w: 900 } : { h: 60, t: 36, u: 26, ut: 32, w: 1300 };
+    h += `<div class="tafel" style="justify-content:center;gap:18px">${logo}<h1 style="font-size:${gr.h}px">So ist der Film aufgebaut</h1>
+      <div style="display:flex;flex-direction:column;gap:14px;width:${gr.w}px;text-align:left;margin-top:10px">${(z.uebersicht || []).map((x, i) => `<div style="background:rgba(255,255,255,${i === 0 ? .22 : .1});border-radius:22px;padding:16px 26px;${i === 0 ? "border:3px solid var(--gold)" : ""}"><div style="font-size:${gr.t}px;font-weight:800;color:${i === 0 ? "var(--gold)" : "#fff"}">${x.t}</div><div style="font-size:${gr.u}px;opacity:.9">${x.u}</div></div>`).join("")}</div>
+      ${z.ut ? `<p style="font-size:${gr.ut}px;max-width:${gr.w}px;margin-top:18px;opacity:.95">${z.ut}</p>` : ""}</div>`;
+  }
   if (z.art === "ende") h += `<div class="tafel">${logo}<div class="teil">Als Nächstes</div><h1 style="font-size:${form === "hoch" ? 76 : 84}px">${z.naechstes}</h1><p>Köcheclub Werne · Club-App</p></div>`;
   f.innerHTML = h;
   return Promise.all([...document.images].map((i) => i.decode().catch(() => {})));

@@ -1,0 +1,42 @@
+{
+  "id": "0-vorspann",
+  "teil": "Einführung",
+  "kapitel": "Willkommen in der Club-App",
+  "kapKurz": "Willkommen", "kap1": "Willkommen", "kap2": "in der Club-App vom Köcheclub Werne", "naechstes": "Teil 1 · So findest du dich zurecht",
+  "schritte": ["Alles an einem Ort", "Die App denkt mit", "Gemeinsam planen", "Nur für Mitglieder", "Einfach & mit Hilfe", "So ist der Film aufgebaut"],
+  "uebersicht": [
+    { "t": "Einführung", "u": "Warum diese App – und was sie dir bringt" },
+    { "t": "Teil 1 · So findest du dich zurecht", "u": "Oberfläche, Bedienung und Voreinstellungen" },
+    { "t": "Teil 2 · Die Funktionen im Einzelnen", "u": "Nachrichten, Termine, Pinnwand, Mitglieder, Dienst, Fotos, Mitteilungen" },
+    { "t": "Weitere Teile", "u": "Zusätzliche Funktionen und Vertiefungen" }
+  ],
+  "szenen": [
+    { "id": "titel", "art": "tafel", "vor": 3.0, "stimme": "thorsten",
+      "text": "Hallo! Du bist Mitglied im Köcheclub Werne – das ist prima. Damit vieles für uns alle einfacher und übersichtlicher wird, gibt es jetzt die neue Club-App." },
+    { "id": "ort", "schritt": 0, "stimme": "thorsten",
+      "text": "Das Gute daran: Alles ist an einem Ort. Termine, Nachrichten, die Pinnwand, dein Dienstplan und die Fotos aus dem Clubleben – immer dabei, in deinem Handy.",
+      "tun": [{ "bei": "Termine", "puls": "#v-start .kachel[data-id=termine]" }, { "bei": "Nachrichten", "puls": "#v-start .kachel[data-id=kommunikation]" },
+              { "bei": "Pinnwand", "puls": "#v-start .kachel[data-id=pinnwand]" }, { "bei": "Dienstplan", "zu": "#v-start .kachel[data-id=meindienst]", "puls": "#v-start .kachel[data-id=meindienst]" },
+              { "bei": "Fotos", "zu": "#v-start .kachel[data-id=fotos]", "puls": "#v-start .kachel[data-id=fotos]" }] },
+    { "id": "zettel", "schritt": 0, "stimme": "thorsten",
+      "text": "Keine Zettelwirtschaft mehr und keine langen Telefonketten: Was im Club los ist, siehst du ganz oben mit einem Blick.",
+      "tun": [{ "bei": "Keine", "zu": "#heroInfo" }, { "bei": "ganz oben", "puls": "#heroInfo", "zeig": "#v-start .hero" }] },
+    { "id": "denkt", "schritt": 1, "stimme": "thorsten",
+      "text": "Die App denkt mit. Sie erinnert dich an Treffen und Dienste. Und eine kleine Zahl zeigt dir, was auf dich wartet – zum Beispiel zwei neue Nachrichten.",
+      "tun": [{ "bei": "Treffen", "puls": "#heroInfo" }, { "bei": "kleine Zahl", "zeig": ".kacheln3 .mini >> nth=0", "puls": ".kacheln3 .mini >> nth=0" }, { "bei": "Nachrichten", "puls": "#fuss [data-v=nachrichten]" }] },
+    { "id": "gemeinsam", "schritt": 2, "stimme": "thorsten",
+      "text": "Gemeinsam planen wird leichter: Unter Termine siehst du sofort, wer zum Clubabend kommt und wer mitfährt. Und auf der Startseite siehst du, wer gerade in der App ist.",
+      "tun": [{ "bei": "Unter Termine", "tipp": "#v-start .kachel[data-id=termine]" }, { "bei": "wer zum Clubabend", "zeig": "#v-termine >> text=Clubabend Oktober", "puls": "#v-termine >> text=Clubabend Oktober" },
+              { "bei": "Und auf der Startseite", "tipp": "#fuss [data-v=start]" }, { "bei": "wer gerade", "zeig": ".kacheln3 .mini >> nth=1", "puls": ".kacheln3 .mini >> nth=1" }, { "bei": "App ist", "weg": true }] },
+    { "id": "sicher", "schritt": 3, "stimme": "thorsten",
+      "text": "Und alles bleibt unter uns: In die App kommt nur, wer Mitglied ist und einen persönlichen Zugang hat.",
+      "tun": [{ "bei": "unter uns", "puls": "#statusChip" }] },
+    { "id": "einfach", "schritt": 4, "stimme": "thorsten",
+      "text": "Die App ist einfach zu bedienen: große Knöpfe, klare Wege. Und wenn du mal nicht weiterweißt, hilft dir die Lupe unten rechts: Sie findet jede Funktion.",
+      "tun": [{ "bei": "große Knöpfe", "puls": "#v-start .kachel[data-id=termine]" }, { "bei": "Lupe", "zeig": ".su-klein", "puls": ".su-klein" }, { "bei": "jede Funktion", "weg": true }] },
+    { "id": "aufbau", "art": "uebersicht", "schritt": 5, "stimme": "thorsten",
+      "text": "Damit du dich schnell zurechtfindest, gibt es diese Video-Einführung. Sie führt dich ruhig und sicher durch die Grundfunktionen. Für jede Funktion gibt es ein eigenes, kurzes Kapitel. Weitere Teile erklären dir zusätzliche Funktionen und gehen in einigen Kapiteln noch genauer auf einzelne Bereiche ein." },
+    { "id": "ende", "stimme": "thorsten", "nach": 4.0, "endtafel": true,
+      "text": "Du musst nichts mitmachen – schau einfach zu. Und keine Sorge: Kaputt machen kannst du nichts. Los geht's!" }
+  ]
+}

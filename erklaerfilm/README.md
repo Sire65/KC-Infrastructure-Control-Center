@@ -8,6 +8,7 @@ Jedes Kapitel gibt es zweimal: **…-Handy.mp4** (1080×1920, Hochformat für Ha
 
 | Kapitel | Datei (ohne -Handy/-Beamer) | Länge | Inhalt |
 |---|---|---|---|
+| **Vorspann** – Willkommen | `Teil0-Vorspann-Willkommen` | ca. 1:25 | Begrüßung, warum die App und ihre Vorteile (alles an einem Ort, denkt mit, gemeinsam planen, nur für Mitglieder, einfach), Aufbau des Films |
 | 1.6 Voreinstellungen (Muster) | `Teil1-Kap06-Voreinstellungen` | 1:33 | Mehr → Das Wichtigste, Neuigkeiten „Beides“, Nicht stören, Lieblingsfarbe (Küchengrün und zurück), Große Schrift an/aus, Fragezeichen |
 | 2.1 Nachrichten | `Teil2-Kap01-Nachrichten` | 2:03 | Chat öffnen, antworten und senden, Haken ✓/✓✓, Foto & Mikrofon zeigen, neue Nachricht an Otto, Gruppen-Chat |
 | 2.2 Termine & Zusagen | `Teil2-Kap02-Termine-Zusagen` | 2:23 | Termin öffnen, „Ich komme“, Mitfahrt mit 2 Plätzen anbieten, privaten Termin mit Erinnerung anlegen, Liste/Kalender/To-do |
@@ -23,14 +24,15 @@ Gesendet, gespeichert oder hochgeladen wird nur gegenüber dem Demo-Server – i
 - **Handy:** oben Kapitel und Schritt („5/7 · Lieblingsfarbe“), Mitte die App im Handy-Rahmen, unten große Untertitel.
 - **Beamer:** links die Schritte zum Mitverfolgen (erledigt ✓, aktuell rot), Mitte das Handy, rechts der Untertitel in großer Schrift.
 
-`Hoerprobe-Merksatz-Stimmen.mp3`: A = Kerstin (bisher), B = Sprecherin 26 (jetzt verwendet), C = 102, D = 71 – Umstellen: `SPRECHERIN=102 python3 vo.py …`.
+`Hoerprobe-Neue-Sprecherin.mp3`: „Bisher“ (Piper mls) und „Neu“ (Chatterbox, jetzt verwendet) im Vergleich. `Hoerprobe-Merksatz-Stimmen.mp3`: die älteren Piper-Stimmen A–D.
 
 ## Stimmen, Musik, Lizenzen (Zero-Cost)
 
 - **Sprecher:** Piper `de_DE-thorsten-medium` (Datensatz CC0, Piper MIT) – wie Werbefilm und Erklär-Videos der App.
-- **Merksätze:** Piper `de_DE-mls-medium`, Sprecherin 26 – aus 236 Stimmen nach Tonhöhe, Klarheit und Rauschabstand gewählt.
-  Datensatz Multilingual LibriSpeech (OpenSLR 94), Lizenz **CC BY 4.0** – Nennung: „Merksatz-Stimme: Piper mls, Multilingual LibriSpeech (Pratap et al., 2020), CC BY 4.0“.
-  Die Stimme „dii“ wird nicht verwendet (nur nicht-gewerblich).
+- **Merksätze:** [Chatterbox Multilingual](https://github.com/resemble-ai/chatterbox) (Resemble AI, **MIT**), Stimmfarbe aus `quellen/sprecherin-vorlage.wav` –
+  zwei Sätze einer echten deutschen Sprecherin aus dem [Kerstin-Datensatz](https://github.com/rhasspy/dataset-voice-kerstin) (**CC0**). Je Satz bis zu 5 Fassungen,
+  behalten wird die, die die Spracherkennung faster-whisper (MIT) wortgenau versteht (`sprecherin.py`). Chatterbox setzt ein unhörbares Wasserzeichen (Perth).
+  Ohne Chatterbox fällt `vo.py` auf Piper `de_DE-mls-medium` Sprecherin 26 zurück (CC BY 4.0, Multilingual LibriSpeech). Die Stimme „dii“ wird nicht verwendet (nur nicht-gewerblich).
 - **Musik:** Twinkeys „Küchen-Disco“ (Trainingsmusik der Bühne, 116 Schläge/Min.) – mit `musik-auszug.py` 1:1 aus `KC-Clubapp/app.js` übernommen und offline gerendert.
   Im Vorspann und auf der Schlusstafel voll, unter den Erklärungen leise; beim Sprechen wird sie zusätzlich abgesenkt (Stimme gut 10 dB über der Musik).
 - **Klickhand, Pulsen, Tipp-Ring:** Aussehen der Erklär-Videos der App (`.rg-finger`, `.rg-tippring`, `.rg-puls` aus `index.html`).
@@ -50,6 +52,11 @@ cd erklaerfilm/quellen
 mkdir -p stimmen && for f in de_DE-mls-medium.onnx de_DE-mls-medium.onnx.json; do
   curl -sSLo stimmen/$f https://huggingface.co/rhasspy/piper-voices/resolve/main/de/de_DE/mls/medium/$f; done
 (cd "$CLUB" && python3 -m http.server 8765 &)   # Club-App lokal; Server-Aufrufe ersetzt app.mjs durch Demodaten
+# einmalig: eigenes Python für die Sprecherin (Torch nur für Prozessor, ca. 1 GB)
+python3 -m venv ~/ctts && ~/ctts/bin/pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+~/ctts/bin/pip install --no-deps chatterbox-tts==0.1.7 && ~/ctts/bin/pip install "numpy>=2" librosa==0.11.0 s3tokenizer transformers==5.2.0 \
+  diffusers==0.29.0 resemble-perth conformer==0.3.2 safetensors==0.5.3 pyloudnorm omegaconf pykakasi==2.3.0 faster-whisper soundfile
+export CT_PYTHON=~/ctts/bin/python
 python3 vo.py voreinstellungen.json             # Sprecher je Szene → vo/<id>/*.wav + dauer.json
 python3 musik-auszug.py                         # nur wenn sich die Küchen-Disco in der App geändert hat
 node aufnahme.mjs voreinstellungen.json         # echte App + Klickhand, Bild für Bild mitgeschnitten → aufnahme/<id>/

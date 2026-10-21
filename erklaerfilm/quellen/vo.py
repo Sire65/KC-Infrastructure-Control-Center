@@ -1,6 +1,8 @@
 # Sprecher je Szene → vo/<kapitel>/<szene>.wav und dauer.json
-# Thorsten (CC0, wie Werbefilm und Erklär-Videos der App) erklärt, eine Sprecherin aus Piper „mls“ (CC-BY 4.0, Multilingual LibriSpeech) spricht die Merksätze.
-import json, re, sys, wave, os
+# Thorsten (CC0, wie Werbefilm und Erklär-Videos der App) erklärt. Die Merksätze spricht eine Sprecherin:
+#   – mit CT_PYTHON (Python mit chatterbox-tts + faster-whisper): Chatterbox, Stimme aus sprecherin-vorlage.wav (siehe sprecherin.py) – Standard
+#   – sonst Ersatz: Piper „mls“ Sprecherin 26 (CC-BY 4.0, Multilingual LibriSpeech)
+import json, re, sys, wave, os, subprocess
 from piper import PiperVoice, SynthesisConfig
 CLUB = os.environ.get("CLUB", "/home/user/sire65/kc-clubapp")
 MLS = os.environ.get("MLS", "stimmen/de_DE-mls-medium.onnx")
@@ -18,10 +20,18 @@ def aussprache(t):
 k = json.load(open(sys.argv[1], encoding="utf8"))
 os.makedirs(f"vo/{k['id']}", exist_ok=True)
 dauer = {}
+CT = os.environ.get("CT_PYTHON")
+auftrag = []
 for s in k["szenen"]:
-    v, cfg = STIMMEN[s["stimme"]]
     pfad = f"vo/{k['id']}/{s['id']}.wav"
+    if s["stimme"] == "sprecherin" and CT: auftrag.append({"text": aussprache(s["text"]), "aus": pfad}); continue
+    v, cfg = STIMMEN[s["stimme"]]
     with wave.open(pfad, "wb") as w: v.synthesize_wav(aussprache(s["text"]), w, syn_config=cfg)
+if auftrag:
+    json.dump(auftrag, open(f"vo/{k['id']}/sprecherin.json", "w", encoding="utf8"), ensure_ascii=False)
+    subprocess.run([CT, "sprecherin.py", f"vo/{k['id']}/sprecherin.json"], check=True)
+for s in k["szenen"]:
+    pfad = f"vo/{k['id']}/{s['id']}.wav"
     with wave.open(pfad) as w: dauer[s["id"]] = round(w.getnframes() / w.getframerate(), 3)
 json.dump(dauer, open(f"vo/{k['id']}/dauer.json", "w"), indent=1)
 print(dauer, "gesamt", round(sum(dauer.values()), 1))

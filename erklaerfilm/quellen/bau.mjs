@@ -17,12 +17,12 @@ function stuecke(t) {
   return aus;
 }
 const plan = []; // { von, bis, z }
-const basis = { teil: K.teil, kapKurz: K.kapKurz, kap1: K.kap1, kap2: K.kap2, naechstes: K.naechstes, schritte: K.schritte };
+const basis = { teil: K.teil, kapKurz: K.kapKurz, kap1: K.kap1, kap2: K.kap2, naechstes: K.naechstes, schritte: K.schritte, uebersicht: K.uebersicht };
 let schritt = null, alleFertig = false;
 K.szenen.forEach((s, i) => {
   const zs = Z.szenen[i]; if (s.schritt != null) schritt = s.schritt;
   if (s.art === "merke") { schritt = null; alleFertig = true; }
-  const z0 = { ...basis, art: s.art, schritt: s.art === "tafel" ? null : schritt, alleFertig };
+  const z0 = { ...basis, art: s.art, schritt: s.art === "tafel" || s.art === "uebersicht" ? null : schritt, alleFertig };
   if (s.art === "merke") { plan.push({ von: zs.start, bis: zs.ende, z: { ...z0, merke: s.text.replace(/^Merke:\s*/, "") } }); return; }
   const st = stuecke(s.text), n = st.reduce((a, x) => a + x.length, 0); let t = zs.sprechAb;
   if (zs.sprechAb > zs.start) plan.push({ von: zs.start, bis: zs.sprechAb, z: z0 });
