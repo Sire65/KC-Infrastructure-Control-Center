@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<!-- Rahmen um die Handy-Aufnahme: Kapitelzeile, Schritte, Untertitel, Tafeln. Das Loch für das Handy bleibt durchsichtig. -->
+<style>
+  :root { --rot: #741521; --rot2: #8f2433; --beige: #f3e9dc; --beige2: #e8d8c3; --text: #1f1412; --gold: #f2c94c; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: transparent; font-family: "Inter", "DejaVu Sans", sans-serif; color: var(--text); overflow: hidden; }
+  #f { position: relative; overflow: hidden; }
+  /* Loch: rundes Fenster, alles drumherum Beige (großer Schatten) – darunter liegt das Video */
+  .loch { position: absolute; border-radius: 34px; box-shadow: 0 0 0 14px #1d1414, 0 0 0 16px #4a3a36, 0 0 0 4000px var(--beige); }
+  .muster { position: absolute; inset: 0; background: radial-gradient(circle at 15% 10%, rgba(116,21,33,.07) 0 160px, transparent 161px), radial-gradient(circle at 90% 85%, rgba(116,21,33,.06) 0 220px, transparent 221px); pointer-events: none; }
+  .kopf { position: absolute; display: flex; align-items: center; gap: 22px; }
+  .logo { width: 92px; height: 92px; border-radius: 22px; background: var(--rot); display: grid; place-items: center; flex: none; }
+  .logo img { width: 68px; }
+  .teil { font-size: 26px; font-weight: 600; color: var(--rot); letter-spacing: .02em; }
+  .kap { font-size: 44px; font-weight: 800; line-height: 1.1; }
+  .schritt { font-size: 30px; font-weight: 700; color: #fff; background: var(--rot); border-radius: 999px; padding: 8px 22px; display: inline-block; }
+  .ut { position: absolute; background: #fff; border-radius: 26px; box-shadow: 0 6px 24px rgba(60,20,20,.18); padding: 22px 30px; font-weight: 600; line-height: 1.3; display: flex; align-items: center; border-left: 10px solid var(--rot); }
+  .liste { position: absolute; display: flex; flex-direction: column; gap: 14px; }
+  .liste div { font-size: 30px; font-weight: 600; padding: 14px 22px; border-radius: 18px; background: rgba(255,255,255,.55); color: #7a6a64; display: flex; gap: 16px; align-items: center; }
+  .liste div b { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--beige2); color: var(--rot); flex: none; font-size: 26px; }
+  .liste div.fertig { color: var(--text); } .liste div.fertig b { background: #2e7d32; color: #fff; }
+  .liste div.jetzt { background: var(--rot); color: #fff; transform: scale(1.04); box-shadow: 0 6px 18px rgba(116,21,33,.35); } .liste div.jetzt b { background: var(--gold); color: var(--rot); }
+  /* Tafeln */
+  .tafel { position: absolute; inset: 0; background: linear-gradient(160deg, var(--rot) 0%, #4e0d16 100%); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 26px; padding: 60px; }
+  .tafel .logo { width: 190px; height: 190px; border-radius: 44px; background: rgba(255,255,255,.12); } .tafel .logo img { width: 140px; }
+  .tafel .teil { color: var(--gold); font-size: 40px; } .tafel h1 { font-size: 96px; line-height: 1.05; } .tafel p { font-size: 44px; opacity: .9; }
+  .dunkel { position: absolute; inset: 0; background: rgba(30,10,12,.55); }
+  .merke { position: absolute; background: #fffaf0; border-radius: 36px; border: 8px solid var(--gold); box-shadow: 0 20px 60px rgba(0,0,0,.45); padding: 48px 56px; text-align: center; }
+  .merke .m { font-size: 40px; font-weight: 800; color: var(--rot); margin-bottom: 18px; } .merke .s { font-size: 54px; font-weight: 800; line-height: 1.25; }
+</style></head>
+<body><div id="f"></div>
+<script>
+const LOGO = "LOGO_PFAD";
+// Lage von Loch, Kopf, Liste und Untertitel je Format (Pixel). Handy-Aufnahme 780×1688 → Seitenverhältnis 0,462
+const FORM = {
+  hoch: { w: 1080, h: 1920, loch: [205, 196, 670, 1450], kopf: [48, 34], ut: [48, 1690, 984, 196, 40] },
+  quer: { w: 1920, h: 1080, loch: [738, 60, 444, 960], kopf: [70, 60], liste: [70, 230, 600], ut: [1250, 300, 610, 480, 44] },
+};
+function zeige(form, z) { // z: { art, teil, kap, schritte, schritt, ut, merke, ende }
+  const F = FORM[form], f = document.getElementById("f"); f.style.width = F.w + "px"; f.style.height = F.h + "px";
+  const [lx, ly, lw, lh] = F.loch, logo = `<div class="logo"><img src="${LOGO}"></div>`;
+  let h = `<div class="loch" style="left:${lx}px;top:${ly}px;width:${lw}px;height:${lh}px"></div><div class="muster"></div>`;
+  const nr = z.schritt != null ? `Schritt ${z.schritt + 1} von ${z.schritte.length} · ${z.schritte[z.schritt]}` : "";
+  if (form === "hoch") {
+    h += `<div class="kopf" style="left:${F.kopf[0]}px;top:${F.kopf[1]}px">${logo}<div><div class="teil">${z.teil}</div><div class="kap" style="font-size:40px">${z.kapKurz}</div></div></div>`;
+    if (nr) h += `<div style="position:absolute;right:48px;top:44px"><span class="schritt" style="font-size:26px;padding:6px 18px">${z.schritt + 1}/${z.schritte.length} · ${z.schritte[z.schritt]}</span></div>`;
+  } else {
+    h += `<div class="kopf" style="left:${F.kopf[0]}px;top:${F.kopf[1]}px">${logo}<div><div class="teil">${z.teil}</div><div class="kap">${z.kapKurz}</div></div></div>`;
+    const [x, y, w] = F.liste;
+    h += `<div class="liste" style="left:${x}px;top:${y}px;width:${w}px">${z.schritte.map((s, i) => `<div class="${z.schritt == null ? (z.alleFertig ? "fertig" : "") : i < z.schritt ? "fertig" : i === z.schritt ? "jetzt" : ""}"><b>${(z.schritt != null && i < z.schritt) || z.alleFertig ? "✓" : i + 1}</b>${s}</div>`).join("")}</div>`;
+  }
+  if (z.ut) { const [x, y, w, hh, fs] = F.ut; h += `<div class="ut" style="left:${x}px;top:${y}px;width:${w}px;height:${hh}px;font-size:${fs}px">${z.ut}</div>`; }
+  if (z.merke) {
+    h += `<div class="dunkel"></div>`;
+    const b = form === "hoch" ? "left:80px;right:80px;top:640px" : "left:330px;right:330px;top:300px";
+    h += `<div class="merke" style="${b}"><div class="m">💡 Merke</div><div class="s">${z.merke}</div></div>`;
+  }
+  if (z.art === "tafel") h += `<div class="tafel">${logo}<div class="teil">${z.teil}</div><h1>${z.kap1}</h1><p>${z.kap2}</p>${z.ut ? `<p style="font-size:${form === "hoch" ? 40 : 36}px;max-width:900px;margin-top:40px;opacity:.95">${z.ut}</p>` : ""}</div>`;
+  if (z.art === "ende") h += `<div class="tafel">${logo}<div class="teil">Als Nächstes</div><h1 style="font-size:${form === "hoch" ? 76 : 84}px">${z.naechstes}</h1><p>Köcheclub Werne · Club-App</p></div>`;
+  f.innerHTML = h;
+  return Promise.all([...document.images].map((i) => i.decode().catch(() => {})));
+}
+</script></body></html>

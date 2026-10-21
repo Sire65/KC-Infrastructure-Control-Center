@@ -1,0 +1,8 @@
+# Zwischenstände – werden von vo.py, aufnahme.mjs, musik.mjs und bau.mjs neu erzeugt
+aufnahme/
+arbeit/
+film/
+vo/
+stimmen/
+musik.wav
+musik.raw

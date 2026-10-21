@@ -1,6 +1,6 @@
 # Erklärfilm Club-App – Konzept
 
-**Feature-ID:** KC-CLUB-ERKLAERFILM · **Stand:** 21.10.2026 · **Status:** Konzept, wartet auf Freigabe durch Hansi
+**Feature-ID:** KC-CLUB-ERKLAERFILM · **Stand:** 21.10.2026 · **Status:** freigegeben (21.10.2026), Musterkapitel 1.6 gebaut – siehe `README.md`
 **Bezug:** Club-App 2.553.0 (`Sire65/KC-Clubapp`), Werbefilm „Köcheclub to go“ (`werbefilm/`)
 
 ---
@@ -48,7 +48,8 @@ Anders als der Werbefilm (nachgebaute Handy-Bilder in `werbefilm/quellen/film.ht
 6. **Merksatz am Kapitelende** als Tafel, z. B. „Merke: Unten ist immer die Leiste – damit kommst du überall zurück.“
 7. **Duzen, Alltagssprache,** keine Fachwörter (statt „Push-Benachrichtigung“: „Mitteilung aufs Handy“; das Wort „Push“ wird einmal erklärt).
 8. **Nur Mitgliederbereich:** nichts aus Admin, Büro, Clubleitung oder Technik-Verwaltung (Prüfung gegen `nur:`-Bedingungen, wie beim Werbefilm). Eigene Filme für die Clubleitung später.
-9. **Musik nur leise** in Vorspann und Abspann (Club-Song „Seit einundneunzig“ als Instrumental), nie unter Erklärungen.
+9. **Musik:** Twinkeys „Küchen-Disco“ aus der Bühne der App – im Vorspann und auf der Schlusstafel voll, unter den Erklärungen leise und beim Sprechen zusätzlich abgesenkt (Entscheidung Hansi).
+10. **Merksätze mit weiblicher Stimme** (Kerstin, CC0), Erklärungen mit Thorsten – so hört man sofort: Das ist zum Merken.
 
 **Bildaufbau (Hochformat 9:16, 1080×1920):**
 
@@ -82,7 +83,7 @@ Die App startet im Film in der **einfachen Ansicht** – so, wie neue Mitglieder
 | 1.3 | 2:00–2:40 | **Zahlen auf den Kacheln** | Kachel „Nachrichten“ mit roter 2 pulsiert, 👆 tippt, Nachricht wird gelesen, Zahl verschwindet | „Steht oben auf einer Kachel eine Zahl, wartet dort etwas auf dich – zum Beispiel zwei neue Nachrichten. Hast du sie angeschaut, ist die Zahl weg.“ |
 | 1.4 | 2:40–3:20 | **Die Leiste unten** | Leiste pulsiert: Start, Termine, Nachrichten, Mitglieder, Mehr; 👆 tippt „Termine“, dann „Start“ | „Ganz unten ist immer diese Leiste. Egal, wo du gerade bist: Mit ‚Start‘ kommst du immer wieder hierher zurück.“ – **Merke:** „Unten ist immer der Weg zurück.“ |
 | 1.5 | 3:20–4:00 | **Der Kopf** | Kopf pulsiert; Status, Info-Laufband, drei kleine Felder, Mond für Tag/Nacht | „Oben im Kopf: dein Status, das Info-Laufband mit den Neuigkeiten und drei kleine Felder – neue Nachrichten, wer gerade in der App ist und wie lange es bis zum nächsten Treffen dauert.“ |
-| 1.6 | 4:00–6:30 | **Voreinstellungen – einmal einrichten** | 👆 tippt „Mehr“ → „Das Wichtigste“. Dann **echt eingestellt**: (a) Mitteilungen aufs Handy einschalten, (b) „Nicht stören“ 22–7 Uhr, (c) Farbe wählen – Küchengrün, Startseite färbt sich um, danach zurück auf Klassik, (d) große Schrift an – alles wird größer, (e) Tag/Nacht automatisch, (f) Fragezeichen-Hilfe an | „Jetzt richten wir die App einmal ein. Das dauert zwei Minuten und du musst es nur einmal machen. Tippe unten auf ‚Mehr‘ …“ – je Einstellung: was sie bewirkt, Klick, Wirkung zeigen. |
+| 1.6 | 4:00–5:35 | **Voreinstellungen – einmal einrichten** ✅ Muster gebaut | 👆 tippt „Mehr“ → „Das Wichtigste“. Dann **echt eingestellt**: (a) Mitteilungen aufs Handy einschalten, (b) „Nicht stören“ 22–7 Uhr, (c) Farbe wählen – Küchengrün, Startseite färbt sich um, danach zurück auf Klassik, (d) große Schrift an – alles wird größer – und wieder aus, (e) Fragezeichen-Hilfe an lassen | „Jetzt richten wir die App einmal ein. Das dauert zwei Minuten und du musst es nur einmal machen. Tippe unten auf ‚Mehr‘ …“ – je Einstellung: was sie bewirkt, Klick, Wirkung zeigen. |
 | 1.7 | 6:30–7:20 | **Einfach oder erweitert?** | 👆 tippt „🔧 Erweiterte Ansicht“ → Register Club / Meins / Technik, 👆 wischt einmal zum nächsten Register → 👆 tippt „🟢 Einfache Ansicht“, zurück | „Wenn du dich eingewöhnt hast, kannst du alle Funktionen einschalten: die erweiterte Ansicht. Und genauso schnell geht es zurück. Du entscheidest.“ |
 | 1.8 | 7:20–8:20 | **Hilfe – du bist nicht allein** | 👆 tippt „?“ unten rechts → Hilfe zum Bereich; Lupe → „Termin eintragen“ wird getippt; Twinkey; 👆-Knopf „Was kann ich antippen?“ rahmt alles rot ein; Liste der Erklär-Videos | „Wenn du mal nicht weiterweißt: Das Fragezeichen erklärt dir die Seite, auf der du gerade bist. Mit der Lupe findest du jede Funktion. Und zu fast jedem Thema gibt es ein Erklär-Video.“ |
 | 1.9 | 8:20–8:45 | **Abschluss** | Startseite, Logo, Vorschau-Kacheln von Teil 2 | „Das war Teil 1. Probier ruhig alles aus – kaputt machen kannst du nichts. In Teil 2 zeige ich dir die einzelnen Bereiche genauer.“ |
@@ -170,10 +171,13 @@ ffmpeg: Bild + Stimme + leise Musik (nur Vor-/Abspann) + Untertitel eingebrannt 
 
 ---
 
-## 9. Offene Fragen an Hansi
+## 9. Entscheidungen (Hansi, 21.10.2026)
 
-1. **Format:** Nur Hochformat fürs Handy – oder zusätzlich die Beamer-Fassung 16:9 für den Clubabend?
-2. **Sprecher:** Thorsten wie im Werbefilm – einverstanden?
-3. **Musik:** Club-Song leise in Vor- und Abspann – oder ganz ohne Musik?
-4. **Teil 2:** Alle 14 Kapitel – oder zuerst nur die ersten sieben (Alltag)?
-5. **Start-Ansicht:** Teil 1 beginnt in der einfachen Ansicht – passt das, oder sollen beide Ansichten gleich stark gezeigt werden?
+1. **Format:** Hochformat fürs Handy **und** Beamer-Fassung 16:9 – beide aus derselben Aufnahme.
+2. **Sprecher:** Thorsten ✔ – Merksätze mit weiblicher Stimme (Kerstin, CC0).
+3. **Musik:** Twinkeys Disco-Musik als Untermalung.
+4. **Reihenfolge:** zuerst die Probe (Musterkapitel 1.6 Voreinstellungen), dann die ersten sieben Kapitel von Teil 2.
+5. **Start-Ansicht:** offen – Teil 1 beginnt vorerst in der einfachen Ansicht.
+
+**Abweichung vom Entwurf in 1.6:** „Tag/Nacht“ steht in der einfachen Ansicht nicht unter „Das Wichtigste“ und ist deshalb nicht im Musterkapitel;
+es kommt in Kapitel 1.5 (Mond oben im Kopf) bzw. 2.9. Die Länge ist mit 1:33 kürzer als geschätzt – ruhiges Tempo, nichts weggelassen.
