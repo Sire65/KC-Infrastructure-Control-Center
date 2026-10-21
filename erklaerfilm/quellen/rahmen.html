@@ -40,7 +40,7 @@ const FORM = {
 function zeige(form, z) { // z: { art, teil, kap, schritte, schritt, ut, merke, ende }
   const F = FORM[form], f = document.getElementById("f"); f.style.width = F.w + "px"; f.style.height = F.h + "px";
   const [lx, ly, lw, lh] = F.loch, logo = `<div class="logo"><img src="${LOGO}"></div>`;
-  let h = `<div class="loch" style="left:${lx}px;top:${ly}px;width:${lw}px;height:${lh}px"></div><div class="muster"></div>`;
+  let h = `<div class="loch" style="left:${lx}px;top:${ly}px;width:${lw}px;height:${lh}px"></div><div class="muster" style="clip-path:path(evenodd,'M0 0H${F.w}V${F.h}H0Z M${lx} ${ly}h${lw}v${lh}h-${lw}Z')"></div>`; // Muster nicht über dem Handy-Fenster
   const nr = z.schritt != null ? `Schritt ${z.schritt + 1} von ${z.schritte.length} · ${z.schritte[z.schritt]}` : "";
   if (form === "hoch") {
     h += `<div class="kopf" style="left:${F.kopf[0]}px;top:${F.kopf[1]}px">${logo}<div><div class="teil">${z.teil}</div><div class="kap" style="font-size:40px">${z.kapKurz}</div></div></div>`;

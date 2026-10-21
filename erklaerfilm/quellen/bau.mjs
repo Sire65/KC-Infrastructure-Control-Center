@@ -66,6 +66,7 @@ for (const form of FORMATE) {
     const name = `${W}/${form}-${String(i).padStart(3, "0")}.png`;
     await p.evaluate(([form, z]) => zeige(form, z), [form, plan[i].z]);
     await p.screenshot({ path: name, omitBackground: true });
+    ff("-i", name, "-pix_fmt", "rgba", name + ".tmp.png"); fs.renameSync(name + ".tmp.png", name); // deckende Tafeln sonst als rgb24 → Überlagern bricht beim Wechsel ab
     liste.push(`file '${process.cwd()}/${name}'`, `duration ${(plan[i].bis - plan[i].von).toFixed(4)}`);
   }
   liste.push(liste.at(-2)); fs.writeFileSync(`${W}/${form}-rahmen.txt`, liste.join("\n")); await p.close();
