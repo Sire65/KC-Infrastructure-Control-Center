@@ -1,6 +1,6 @@
 # Erklärfilm Club-App – Konzept
 
-**Feature-ID:** KC-CLUB-ERKLAERFILM · **Stand:** 21.10.2026 · **Status:** freigegeben (21.10.2026), Musterkapitel 1.6 gebaut – siehe `README.md`
+**Feature-ID:** KC-CLUB-ERKLAERFILM · **Stand:** 21.10.2026 · **Status:** freigegeben (21.10.2026) – gebaut: Musterkapitel 1.6 und Teil 2 Kapitel 2.1–2.7, siehe `README.md`
 **Bezug:** Club-App 2.553.0 (`Sire65/KC-Clubapp`), Werbefilm „Köcheclub to go“ (`werbefilm/`)
 
 ---
@@ -49,7 +49,7 @@ Anders als der Werbefilm (nachgebaute Handy-Bilder in `werbefilm/quellen/film.ht
 7. **Duzen, Alltagssprache,** keine Fachwörter (statt „Push-Benachrichtigung“: „Mitteilung aufs Handy“; das Wort „Push“ wird einmal erklärt).
 8. **Nur Mitgliederbereich:** nichts aus Admin, Büro, Clubleitung oder Technik-Verwaltung (Prüfung gegen `nur:`-Bedingungen, wie beim Werbefilm). Eigene Filme für die Clubleitung später.
 9. **Musik:** Twinkeys „Küchen-Disco“ aus der Bühne der App – im Vorspann und auf der Schlusstafel voll, unter den Erklärungen leise und beim Sprechen zusätzlich abgesenkt (Entscheidung Hansi).
-10. **Merksätze mit weiblicher Stimme** (Kerstin, CC0), Erklärungen mit Thorsten – so hört man sofort: Das ist zum Merken.
+10. **Merksätze mit weiblicher Stimme** (Piper mls, Sprecherin 26, CC BY 4.0 – ersetzt Kerstin nach Rückmeldung Hansi), Erklärungen mit Thorsten – so hört man sofort: Das ist zum Merken.
 
 **Bildaufbau (Hochformat 9:16, 1080×1920):**
 
@@ -174,7 +174,7 @@ ffmpeg: Bild + Stimme + leise Musik (nur Vor-/Abspann) + Untertitel eingebrannt 
 ## 9. Entscheidungen (Hansi, 21.10.2026)
 
 1. **Format:** Hochformat fürs Handy **und** Beamer-Fassung 16:9 – beide aus derselben Aufnahme.
-2. **Sprecher:** Thorsten ✔ – Merksätze mit weiblicher Stimme (Kerstin, CC0).
+2. **Sprecher:** Thorsten ✔ – Merksätze mit weiblicher Stimme (zuerst Kerstin; „noch nicht so gut“ → Piper mls Sprecherin 26).
 3. **Musik:** Twinkeys Disco-Musik als Untermalung.
 4. **Reihenfolge:** zuerst die Probe (Musterkapitel 1.6 Voreinstellungen), dann die ersten sieben Kapitel von Teil 2.
 5. **Start-Ansicht:** offen – Teil 1 beginnt vorerst in der einfachen Ansicht.
