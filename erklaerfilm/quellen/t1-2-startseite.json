@@ -1,0 +1,205 @@
+{
+ "id": "1-2-startseite",
+ "teil": "Teil 1 · So findest du dich zurecht",
+ "kapitel": "Die Startseite",
+ "kapKurz": "Die Startseite",
+ "kap1": "Die Startseite",
+ "kap2": "alles Wichtige auf einen Blick",
+ "naechstes": "Zahlen auf den Kacheln",
+ "ansicht": "einfach",
+ "schritte": [
+  "Einfache Ansicht",
+  "Oben: Neuigkeiten",
+  "Die großen Kacheln",
+  "Weiter unten",
+  "Antippen & zurück"
+ ],
+ "szenen": [
+  {
+   "id": "titel",
+   "art": "tafel",
+   "vor": 3.0,
+   "stimme": "thorsten",
+   "text": "Die Startseite. Hier beginnt alles. Ich zeige dir in Ruhe, was du auf der Startseite findest."
+  },
+  {
+   "id": "einfach",
+   "schritt": 0,
+   "stimme": "thorsten",
+   "text": "Das ist die Startseite in der einfachen Ansicht. Daran erkennst du sie: Über den Kacheln steht in grüner Schrift Einfache Ansicht.",
+   "tun": [
+    {
+     "bei": "grüner Schrift",
+     "zu": ".ansichtname.ein"
+    },
+    {
+     "bei": "Einfache Ansicht.",
+     "zeig": ".ansichtname.ein",
+     "puls": ".ansichtname.ein"
+    }
+   ]
+  },
+  {
+   "id": "treffen",
+   "schritt": 1,
+   "stimme": "thorsten",
+   "text": "Ganz oben im farbigen Feld laufen die Neuigkeiten aus dem Club – zum Beispiel das nächste Treffen. Diesen Kopf schauen wir uns später genauer an.",
+   "tun": [
+    {
+     "bei": 0,
+     "js": "window.scrollTo({ top: 0, behavior: 'smooth' })"
+    },
+    {
+     "bei": "farbigen Feld",
+     "zeig": "#v-start .hero",
+     "puls": "#heroInfo"
+    },
+    {
+     "bei": "Diesen Kopf",
+     "weg": true
+    }
+   ]
+  },
+  {
+   "id": "termine",
+   "schritt": 2,
+   "stimme": "thorsten",
+   "text": "Darunter liegen die großen Kacheln. Jede öffnet einen Bereich. Termine: alle Clubtermine – hier sagst du zu oder ab.",
+   "tun": [
+    {
+     "bei": "großen Kacheln",
+     "zu": "#v-start .kachel[data-id=termine]"
+    },
+    {
+     "bei": "Termine:",
+     "zeig": "#v-start .kachel[data-id=termine]",
+     "puls": "#v-start .kachel[data-id=termine]"
+    }
+   ]
+  },
+  {
+   "id": "nachrichten",
+   "schritt": 2,
+   "stimme": "thorsten",
+   "text": "Nachrichten: Hier liest du, was dir andere schreiben, und antwortest. Pinnwand: das schwarze Brett des Clubs.",
+   "tun": [
+    {
+     "bei": "Nachrichten",
+     "zeig": "#v-start .kachel[data-id=kommunikation]",
+     "puls": "#v-start .kachel[data-id=kommunikation]"
+    },
+    {
+     "bei": "Pinnwand",
+     "zeig": "#v-start .kachel[data-id=pinnwand]",
+     "puls": "#v-start .kachel[data-id=pinnwand]"
+    }
+   ]
+  },
+  {
+   "id": "dienst",
+   "schritt": 2,
+   "stimme": "thorsten",
+   "text": "Mein Dienst zeigt dir, wann du dran bist. Und unter Mitglieder findest du alle aus dem Club.",
+   "tun": [
+    {
+     "bei": "Mein Dienst",
+     "zu": "#v-start .kachel[data-id=meindienst]",
+     "zeig": "#v-start .kachel[data-id=meindienst]",
+     "puls": "#v-start .kachel[data-id=meindienst]"
+    },
+    {
+     "bei": "Mitglieder",
+     "zeig": "#v-start .kachel[data-id=mitglieder]",
+     "puls": "#v-start .kachel[data-id=mitglieder]"
+    },
+    {
+     "bei": "aus dem Club",
+     "weg": true
+    }
+   ]
+  },
+  {
+   "id": "unten",
+   "schritt": 3,
+   "stimme": "thorsten",
+   "text": "Weiter unten geht es weiter: die Fotos aus dem Clubleben, deine Dokumente, Spiele – und ganz unten SOS für den Notfall.",
+   "tun": [
+    {
+     "bei": 0,
+     "weg": true
+    },
+    {
+     "bei": "Fotos",
+     "zu": "#v-start .kachel[data-id=fotos]",
+     "puls": "#v-start .kachel[data-id=fotos]"
+    },
+    {
+     "bei": "Dokumente",
+     "zu": "#v-start .kachel[data-id=dokumente]",
+     "puls": "#v-start .kachel[data-id=dokumente]"
+    },
+    {
+     "bei": "Spiele",
+     "puls": "#v-start .kachel[data-id=spiele]",
+     "zu": "#v-start .kachel[data-id=sos]"
+    },
+    {
+     "bei": "SOS",
+     "zeig": "#v-start .kachel[data-id=sos]",
+     "puls": "#v-start .kachel[data-id=sos]"
+    },
+    {
+     "bei": "Notfall",
+     "weg": true
+    }
+   ]
+  },
+  {
+   "id": "antippen",
+   "schritt": 4,
+   "stimme": "thorsten",
+   "text": "Probieren wir es aus: Ein Tipp auf Termine – und schon ist der Bereich offen.",
+   "tun": [
+    {
+     "bei": 0,
+     "zu": "#v-start .kachel[data-id=termine]"
+    },
+    {
+     "bei": "Termine",
+     "tipp": "#v-start .kachel[data-id=termine]"
+    }
+   ]
+  },
+  {
+   "id": "zurueck",
+   "schritt": 4,
+   "stimme": "thorsten",
+   "nach": 1.0,
+   "text": "Und zurück? Ganz einfach: unten links auf Start. Schon bist du wieder auf der Startseite.",
+   "tun": [
+    {
+     "bei": "Start.",
+     "tipp": "#fuss [data-v=start]"
+    },
+    {
+     "bei": "Startseite",
+     "weg": true
+    }
+   ]
+  },
+  {
+   "id": "merke",
+   "art": "merke",
+   "stimme": "sprecherin",
+   "nach": 1.5,
+   "text": "Merke: Jede Kachel öffnet einen Bereich – und mit Start kommst du immer zurück."
+  },
+  {
+   "id": "ende",
+   "stimme": "thorsten",
+   "nach": 4.0,
+   "endtafel": true,
+   "text": "Das war die Startseite. Im nächsten Kapitel erfährst du, was die kleinen Zahlen auf den Kacheln bedeuten."
+  }
+ ]
+}

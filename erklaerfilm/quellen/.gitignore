@@ -12,3 +12,5 @@ t2-*-bautest*
 t2-*-lang.mjs
 t2-*-bau.mjs
 alle.log
+t[0-9]-*-probe*
+t[0-9]-*-bau.mjs
