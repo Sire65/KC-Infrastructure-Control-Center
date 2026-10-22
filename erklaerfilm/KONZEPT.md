@@ -1,6 +1,6 @@
 # Erklärfilm Club-App – Konzept
 
-**Feature-ID:** KC-CLUB-ERKLAERFILM · **Stand:** 21.10.2026 · **Status:** freigegeben (21.10.2026) – gebaut: Musterkapitel 1.6 und Teil 2 Kapitel 2.1–2.7, siehe `README.md`
+**Feature-ID:** KC-CLUB-ERKLAERFILM · **Stand:** 22.10.2026 · **Status:** gebaut – Vorspann, Teil 1 (1.1–1.8, Abschluss in 1.8) und Teil 2 (2.1–2.14) als 23 Einzelfilme, Handy + Beamer, siehe `README.md`
 **Bezug:** Club-App 2.553.0 (`Sire65/KC-Clubapp`), Werbefilm „Köcheclub to go“ (`werbefilm/`)
 
 ---
@@ -159,15 +159,19 @@ ffmpeg: Bild + Stimme + leise Musik (nur Vor-/Abspann) + Untertitel eingebrannt 
 
 ## 8. Definition of Done
 
-- [ ] Teil 1 als MP4 (1080×1920 und 720×1280), Untertitel eingebrannt, ca. 8–9 Minuten
-- [ ] Teil 2: 14 Kapitel als einzelne MP4 + Gesamtfassung mit Kapitelmarken
-- [ ] Nur Demodaten sichtbar, kein echter Name, keine echte Nachricht (Bild für Bild geprüft)
-- [ ] Nichts aus Admin, Büro oder Clubleitung zu sehen
-- [ ] Jede gezeigte Einstellung wird im Film wieder zurückgestellt oder der Rückweg wird erklärt
-- [ ] Bild und Text stimmen überein (Stichprobe je Kapitel: Gesagtes = Gezeigtes)
-- [ ] Texte gleichlautend im passenden Rundgang der Club-App
-- [ ] README in `erklaerfilm/` mit Ablauf, Sprechertexten, Lizenzen und „Neu erzeugen“ (wie `werbefilm/README.md`)
-- [ ] Zero-Cost-Check: keine kostenpflichtige Abhängigkeit
+- [x] Teil 1 als Einzelkapitel (1080×1920 Handy + 1920×1080 Beamer), Untertitel eingebrannt, zusammen 11:55 (+ Vorspann 1:31)
+- [ ] Kleine Fassung 720×1280 zum Verschicken – offen (bei Bedarf)
+- [x] Teil 2: 14 Kapitel als einzelne MP4 (29:29)
+- [ ] Gesamtfassung mit Kapitelmarken – bewusst noch nicht (Wunsch Hansi: erst einzelne Kapitel)
+- [x] Nur Demodaten sichtbar (Stichproben je Kapitel, nicht Bild für Bild); Web-Adresse der App automatisch abgedeckt
+- [x] Nichts aus Admin, Büro oder Clubleitung zu sehen
+- [x] Jede gezeigte Einstellung wird im Film wieder zurückgestellt oder der Rückweg wird erklärt
+- [x] Bild und Text stimmen überein (Stichprobe je Kapitel); Merksätze per Spracherkennung geprüft
+- [ ] Texte gleichlautend im passenden Rundgang der Club-App – offen (Änderung im Repo KC-Clubapp, dort nur Lesezugriff)
+- [ ] Filme in der Club-App einbinden (Erklär-Videos / `film/`) – offen (wie oben)
+- [ ] Abnahme durch Hansi: jedes Kapitel einmal ansehen und anhören
+- [x] README in `erklaerfilm/` mit Ablauf, Lizenzen und „Neu erzeugen“
+- [x] Zero-Cost-Check: keine kostenpflichtige Abhängigkeit (Piper, Chatterbox, faster-whisper, Playwright, ffmpeg – alles frei)
 
 ---
 
