@@ -194,3 +194,19 @@ document.getElementById('drucken').addEventListener('click',()=>window.print());
 </script></body></html>'''
 open('dienstplan-druck.html','w').write(page)
 print(NB,'Blätter',[len(b) for b in blaetter],len(page))
+# Kurzform für die Club App (Archiv → Mein Ordner → Dienstplan-Druck): dp-druck.json, nur lokal, wird beim Admin
+# in kc_club_person_einstellung „dp_druck“ abgelegt. Die App zeichnet daraus dieselben Blätter.
+WK={'pref':'p','avai':'a','if_n':'i','unav':'u'}
+kurz={'v':1,'titel':'Weihnachtsmarkt Werne 2026','stand':datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds'),'von':LO,'bis':HI,'tage':[]}
+for d in days:
+    gm={g[0]:g for g in plan[d+'_gaps']};dienst={n:(a,b) for n,a,b in plan[d]}
+    leute=sorted({k[0] for k in wun if k[1]==d},key=lambda n:(n not in dienst,dienst.get(n,(99,))[0],n))
+    kurz['tage'].append({'d':d,'art':KIND.get(d,'Markttag'),
+        'bedarf':[dem[d].get(s,(0,))[0] for s in ALL],'besetzt':[gm[s][2] if s in gm else 0 for s in ALL],'fehlt':[gm[s][3] if s in gm else 0 for s in ALL],
+        'leute':[{'n':FULL[n],'z':zonetext(n,d),'w':''.join(WK.get(wun[(n,d)].get(s),'-') for s in ALL),'s':list(dienst[n]) if n in dienst else None} for n in leute],
+        'ber':[{'n':FULL[n],'s':[a,b]} for n,a,b in ber[d]]})
+open('dp-druck.json','w').write(json.dumps(kurz,ensure_ascii=False,separators=(',',':')))
+print('dp-druck.json',len(json.dumps(kurz,ensure_ascii=False,separators=(',',':'))))
+# Ablegen beim Admin (Hansi, KC-P-002): dp-druck.sql in Supabase ausführen (nur lokal, personenbezogen – nicht ins Repo)
+open('dp-druck.sql','w').write("insert into public.kc_club_person_einstellung (person_id, schluessel, wert, geaendert_am) values ('KC-P-002', 'dp_druck', $dp$"
+    +json.dumps(kurz,ensure_ascii=False,separators=(',',':'))+"$dp$::jsonb, now()) on conflict (person_id, schluessel) do update set wert = excluded.wert, geaendert_am = excluded.geaendert_am;\n")

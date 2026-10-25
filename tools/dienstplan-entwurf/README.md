@@ -38,3 +38,5 @@ Vorschlag für den Dienstplan aus Bedarf und Wunschplänen. Erstellt am 23.10.20
 `python3 druck.py` schreibt `dienstplan-druck.html` (A4 quer, Tage untereinander mit Regelzeit, alle Wünsche,
 Entwurf, fehlende Personen rot). Optional `bereitschaft.txt` (`datum|Name|von|bis`, nur lokal) für den
 Bereitschafts-Vorschlag. Im Browser zwischen „1 Blatt breit“ und „2 Blätter breit“ (größer, Klebekante 15:30–16 Uhr) wählen.
+Für die Club App (ab 2.642.0, Archiv → Mein Ordner → „🗓️ Dienstplan zum Drucken“) schreibt das Skript zusätzlich
+`dp-druck.json` und `dp-druck.sql` (nur lokal): die SQL-Datei in Supabase ausführen, dann zeigt die App sofort den neuen Stand.
