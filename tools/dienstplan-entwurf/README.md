@@ -24,3 +24,8 @@ Vorschlag für den Dienstplan aus Bedarf und Wunschplänen. Erstellt am 23.10.20
 - 10 von 18 Mitgliedern hatten Wünsche abgegeben.
 - Eingeplant waren 433,5 von 543 h, offen 109,5 h. Davon waren 84 h mit den vorhandenen Wünschen gar nicht zu besetzen.
 - Die größte Lücke war der 12.12. (−21 h), dazu fehlte an fast allen Markttagen der Spätdienst bis 23 Uhr.
+
+## Stand 25.10.2026
+- Neu: Karla und Ruth haben den 5.12. ganz gesperrt (11–23 Uhr). Vorher wollten sie 18–23 Uhr.
+- Eingeplant sind jetzt 427 von 543 h, offen 120,5 h (vorher 109,5 h).
+- Der 5.12. fehlt jetzt 14 h, vor allem der Spätdienst. Größte Lücke bleibt der 12.12. (−21 h).
