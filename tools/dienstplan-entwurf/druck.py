@@ -38,6 +38,8 @@ if os.path.exists('bereitschaft.txt'):
         if line.strip():
             d,n,a,b=line.strip().split('|');ber[d].append((n,float(a),float(b)))
 days=sorted(k for k in plan if not k.endswith('_gaps'))
+GES={n:sum(b-a for d in days for m,a,b in plan[d] if m==n) for n in FULL}
+GES_BER={n:sum(b-a for d in ber for m,a,b in ber[d] if m==n) for n in FULL}
 def zonetext(n,d):
     z=zone[(n,d)]
     if d in KIND or not z: return ''
@@ -65,15 +67,21 @@ for d in days:
             elif t=='unav': txt='×'
             cells.append((s,' '.join(cl),txt))
         info=f"{hh(b-a)} h" if a is not None else ('gesperrt' if w and all(v=='unav' for v in w.values()) else 'nicht eingeplant')
-        rows.append(('p',FULL[n],zonetext(n,d),info,cells))
+        rows.append(('p',FULL[n],zonetext(n,d),info,cells,(hh(b-a) if a is not None else '–'),f"ges. {hh(GES[n])}"))
     for n,a,b in ber[d]:
         cells=[(s,'ber'+(' anf' if abs(s-a)<1e-9 else '')+(' zu' if need[s]==0 else '') if a<=s<b else ('leer zu' if need[s]==0 else 'leer'),f"{hm(a)}–{hm(b)}" if abs(s-a)<1e-9 else '') for s in ALL]
-        rows.append(('b',FULL[n],'Bereitschaft','Vorschlag',cells))
-    rows.append(('s','Bedarf / besetzt','','',[(s,'sum'+(' zu' if need[s]==0 else ''),f"{need[s]}/{gm[s][2]}" if s in gm else '') for s in ALL]))
+        rows.append(('b',FULL[n],'Bereitschaft','Vorschlag',cells,hh(b-a),'Bereitsch.'))
     fehl=sum(g[3]*H for g in plan[d+'_gaps'])
-    rows.append(('f','Fehlt',f"{hh(fehl)} Std." if fehl else 'voll besetzt','',[(s,('fehlt' if s in gm and gm[s][3]>0 else 'ok')+(' zu' if need[s]==0 else ''),f"−{gm[s][3]}" if s in gm and gm[s][3]>0 else '') for s in ALL]))
+    bes={s:(gm[s][2] if s in gm else 0) for s in ALL}
+    ueber=sum(max(0,bes[s]-need[s])*H for s in ALL);einpl=sum(min(bes[s],need[s])*H for s in ALL)
+    rows.append(('s','Bedarf / besetzt','Personen je halbe Stunde','',[(s,'sum'+(' zu' if need[s]==0 else ''),f"{need[s]}/{bes[s]}" if need[s] or bes[s] else '') for s in ALL],hh(sum(need.values())*H),'Bedarf'))
+    def ampel(s):
+        x=bes[s]-need[s]
+        if not need[s] and not bes[s]: return (s,'leer zu','')
+        return (s,'a-rot' if x<0 else 'a-gelb' if x>0 else 'a-gruen',f"−{-x}" if x<0 else f"+{x}" if x>0 else '✓')
+    rows.append(('f','Ampel','rot fehlt · grün passt · gelb zu viel','',[ampel(s) for s in ALL],('−'+hh(fehl)) if fehl else '✓',('+'+hh(ueber)+' über') if ueber else 'Std.'))
     wt,dt=dlabel(d)
-    tage.append(dict(d=d,wt=wt,dt=dt,kind=KIND.get(d,'Markttag'),regel=regel,rows=rows,fehl=fehl,bedarf=sum(need.values())*H))
+    tage.append(dict(d=d,wt=wt,dt=dt,kind=KIND.get(d,'Markttag'),regel=regel,regelstd=len(offen)*H,rows=rows,fehl=fehl,ueber=ueber,einpl=einpl,bedarf=sum(need.values())*H))
 # Tage auf Blätter verteilen (beide Druckarten nutzen dieselbe Aufteilung, damit die Teile zusammenpassen)
 blaetter=[[]];n=0
 for t in tage:
@@ -82,17 +90,18 @@ for t in tage:
     blaetter[-1].append(t);n+=z
 NB=len(blaetter)
 def kopf(teil):
-    cols=''.join(f'<col class="c">' for _ in teil)
+    rechts=teil[-1]==ALL[-1]
+    cols=''.join(f'<col class="c">' for _ in teil)+('<col class="std">' if rechts else '')
     th=''.join(f'<th class="t{" voll" if abs(s-int(s))<1e-9 else ""}">{int(s) if abs(s-int(s))<1e-9 else ""}</th>' for s in teil)
-    return f'<colgroup><col class="tag"><col class="wer">{cols}</colgroup><thead><tr><th class="tag">Tag · Regelzeit</th><th class="wer">Mitglied</th>{th}</tr></thead>'
+    return f'<colgroup><col class="tag"><col class="wer">{cols}</colgroup><thead><tr><th class="tag">Tag · Regelzeit</th><th class="wer">Mitglied</th>{th}{'<th class="std">Std.</th>' if rechts else ''}</tr></thead>'
 def tabelle(bl,teil):
-    idx=set(teil);body=[]
+    idx=set(teil);body=[];rechts=teil[-1]==ALL[-1]
     for t in bl:
         rs=t['rows']
-        for i,(art,name,sub,info,cells) in enumerate(rs):
+        for i,(art,name,sub,info,cells,std,stdklein) in enumerate(rs):
             tr=[]
             if i==0:
-                tr.append(f'<th class="tag" rowspan="{len(rs)}"><b>{t["wt"]} {t["dt"]}</b><span class="kind">{t["kind"]}</span><span class="regel">{t["regel"]} Uhr</span><span class="bil{" rot" if t["fehl"] else ""}">{"fehlt "+hh(t["fehl"])+" Std." if t["fehl"] else "voll besetzt"}</span></th>')
+                tr.append(f'<th class="tag" rowspan="{len(rs)}"><b>{t["wt"]} {t["dt"]}</b><span class="kind">{t["kind"]}</span><span class="regel">{t["regel"]} Uhr</span><span class="rstd">Regelzeit {hh(t["regelstd"])} Std.</span><span class="zahl">Bedarf {hh(t["bedarf"])} Std.</span><span class="zahl">eingeplant {hh(t["einpl"])} Std.</span><span class="bil {"rot" if t["fehl"] else "gruen"}">{"● fehlt "+hh(t["fehl"])+" Std." if t["fehl"] else "● richtig besetzt"}</span>{f'<span class="bil gelb">● {hh(t["ueber"])} Std. zu viel</span>' if t["ueber"] else ""}</th>')
             tr.append(f'<th class="wer {art}">{html.escape(name)}<small>{html.escape(" · ".join(x for x in (sub,info) if x))}</small></th>')
             vis=[c for c in cells if c[0] in idx]
             for j,(s,cl,txt) in enumerate(vis):
@@ -100,6 +109,7 @@ def tabelle(bl,teil):
                     # Dienst läuft vom linken Blatt herüber: Zeit noch einmal zeigen
                     txt=next(c[2] for c in cells if 'anf' in c[1] and 'dienst' in c[1])
                 tr.append(f'<td class="{cl}"><span>{html.escape(txt)}</span></td>' if txt else f'<td class="{cl}"></td>')
+            if rechts: tr.append(f'<td class="std {art}"><b>{html.escape(std)}</b><small>{html.escape(stdklein)}</small></td>')
             body.append(f'<tr class="z {art}{" erste" if i==0 else ""}">{"".join(tr)}</tr>')
     return f'<table class="raster">{kopf(teil)}<tbody>{"".join(body)}</tbody></table>'
 def fuss(i,seite,nseiten):
@@ -110,12 +120,29 @@ def fuss(i,seite,nseiten):
     if nseiten>1 and seite==1: teile.append('linken Rand bis zur Klebekante umknicken, auf Blatt '+str(i+1)+' links legen')
     if i<NB-1: teile.append(f'unten geht es mit Blatt {i+2} weiter')
     return ' · '.join(teile)
-LEG='''<div class="leg"><span><i class="pref"></i>Wunschzeit</span><span><i class="avai"></i>kann</span><span><i class="if_n"></i>nur wenn nötig</span><span><i class="unav">×</i>gesperrt</span><span><i class="dienst"></i>im Entwurf eingeplant</span><span><i class="ber"></i>Bereitschaft (Vorschlag)</span><span><i class="fehlt">−2</i>so viele Personen fehlen</span><span><i class="zu"></i>kein Bedarf</span></div>'''
+LEG='''<div class="leg"><span><i class="pref"></i>Wunschzeit</span><span><i class="avai"></i>kann</span><span><i class="if_n"></i>nur wenn nötig</span><span><i class="unav">×</i>gesperrt</span><span><i class="dienst"></i>im Entwurf eingeplant</span><span><i class="ber"></i>Bereitschaft (Vorschlag)</span><span><i class="a-rot">−2</i>fehlen</span><span><i class="a-gruen">✓</i>richtig besetzt</span><span><i class="a-gelb">+1</i>zu viel</span><span><i class="zu"></i>kein Bedarf</span></div>'''
 def blatt(bl,i,teil,seite,nseiten):
     titel=f'<header class="bk"><div><p class="eb">KC Club · Weihnachtsmarkt Werne 2026 · Entwurf, nicht veröffentlicht · Stand {datetime.date.today():%d.%m.%Y}</p><h1>Dienstplan 02.–14.12.2026 – Wünsche und offene Zeiten</h1></div>{LEG}</header>'
     return f'<section class="blatt">{titel}{tabelle(bl,teil)}<footer class="fuss">{fuss(i,seite,nseiten)}</footer></section>'
-eins=''.join(blatt(bl,i,ALL,0,1) for i,bl in enumerate(blaetter))
-zwei=''.join(blatt(bl,i,teil,k,2) for i,bl in enumerate(blaetter) for k,teil in enumerate(TEILE))
+def uebersicht():
+    # Stunden je Person über alle Tage (Entwurf), dazu Bereitschaft und je Tag die Ampel
+    leute=sorted([n for n in FULL if GES[n] or GES_BER[n] or any(k[0]==n for k in wun)],key=lambda n:(-GES[n],FULL[n]))
+    tg={d:{m:b-a for m,a,b in plan[d]} for d in days}
+    kopf=''.join(f'<th>{t["wt"]}<small>{t["dt"]}</small></th>' for t in tage)
+    zeilen=''.join(f'<tr><td>{html.escape(FULL[n])}</td>'+''.join(f'<td class="{"" if n in tg[d] else "leer"}">{hh(tg[d][n]) if n in tg[d] else "–"}</td>' for d in days)
+        +f'<td class="ges">{hh(GES[n])}</td><td>{hh(GES_BER[n]) if GES_BER[n] else "–"}</td></tr>' for n in leute)
+    alle=sum(GES.values())
+    zeilen+='<tr class="alle"><td>Alle zusammen</td>'+''.join(f'<td>{hh(sum(tg[d].values()))}</td>' for d in days)+f'<td class="ges">{hh(alle)}</td><td>{hh(sum(GES_BER.values()))}</td></tr>'
+    zeilen+='<tr class="bed"><td>Bedarf</td>'+''.join(f'<td>{hh(t["bedarf"])}</td>' for t in tage)+f'<td class="ges">{hh(sum(t["bedarf"] for t in tage))}</td><td></td></tr>'
+    amp=lambda t:('rot',f'−{hh(t["fehl"])}') if t["fehl"] else ('gelb',f'+{hh(t["ueber"])}') if t["ueber"] else ('gruen','✓')
+    zeilen+='<tr><td>Ampel (fehlt / zu viel)</td>'+''.join(f'<td class="{amp(t)[0]}">{amp(t)[1]}{f"<small>+{hh(t["ueber"])}</small>" if t["fehl"] and t["ueber"] else ""}</td>' for t in tage)
+    tf=sum(t["fehl"] for t in tage);tu=sum(t["ueber"] for t in tage)
+    zeilen+=f'<td class="ges rot">−{hh(tf)}</td><td>{f"+{hh(tu)} zu viel" if tu else ""}</td></tr>'
+    titel=f'<header class="bk"><div><p class="eb">KC Club · Weihnachtsmarkt Werne 2026 · Entwurf, nicht veröffentlicht · Stand {datetime.date.today():%d.%m.%Y}</p><h1>Stunden je Person – alle Tage</h1></div></header>'
+    return f'<section class="blatt">{titel}<table class="sum-tab"><thead><tr><th>Mitglied</th>{kopf}<th class="ges">Gesamt</th><th>Bereitschaft<small>Vorschlag</small></th></tr></thead><tbody>{zeilen}</tbody></table><p class="eb" style="margin-top:3mm;text-transform:none;letter-spacing:0">Stunden laut Entwurf (eingeplante Dienste). Bereitschaft zählt nicht mit. Ampel je Tag: rot = so viele Personenstunden fehlen, gelb = zu viel eingeplant, grün = richtig besetzt.</p><footer class="fuss">Stundenübersicht · letztes Blatt</footer></section>'
+UEB=uebersicht()
+eins=''.join(blatt(bl,i,ALL,0,1) for i,bl in enumerate(blaetter))+UEB
+zwei=''.join(blatt(bl,i,teil,k,2) for i,bl in enumerate(blaetter) for k,teil in enumerate(TEILE))+UEB
 tot_b=sum(t['bedarf'] for t in tage);tot_f=sum(t['fehl'] for t in tage)
 page=f'''<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Dienstplan Druckübersicht</title>
@@ -142,7 +169,7 @@ h1{{margin:0;font-size:12pt}}
 .leg i.pref{{background:var(--pref)}}.leg i.avai{{background:var(--avai)}}.leg i.if_n{{background:var(--ifn)}}.leg i.unav{{background:var(--unav)}}.leg i.dienst{{background:var(--dienst)}}.leg i.ber{{background:repeating-linear-gradient(45deg,var(--ber) 0 .6mm,transparent .6mm 1.4mm)}}.leg i.fehlt{{background:var(--fehltbg);color:var(--fehlt);font-weight:700}}.leg i.zu{{background:var(--zu)}}
 table.raster{{border-collapse:collapse;table-layout:fixed;width:100%;min-width:250mm;font-size:6.5pt}}
 .art2 table.raster{{font-size:7.5pt}}
-col.tag{{width:23mm}}col.wer{{width:30mm}}
+col.tag{{width:24mm}}col.wer{{width:30mm}}col.std{{width:12mm}}
 .raster th,.raster td{{border:.15mm solid var(--line);padding:0;height:5.4mm;font-variant-numeric:tabular-nums}}
 .art2 .raster th,.art2 .raster td{{height:5.6mm}}
 .raster thead th{{font-weight:600;font-size:6.5pt;color:var(--muted);text-align:left;padding-left:.5mm;height:4mm}}
@@ -167,7 +194,22 @@ td.dienst span,td.ber span{{position:absolute;left:1mm;top:50%;transform:transla
 td.ber{{background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--ber) 45%,transparent) 0 .6mm,transparent .6mm 1.4mm)}}
 td.ber span{{color:var(--ber)}}
 tr.s td{{font-size:5.5pt;color:var(--muted)}}
-td.fehlt{{background:var(--fehltbg);color:var(--fehlt);font-weight:800;font-size:7pt}}
+td.a-rot{{background:var(--fehltbg);color:var(--fehlt);font-weight:800;font-size:7pt}}
+td.a-gruen{{background:#d4ecd9;color:#1f5a3e;font-weight:700;font-size:6pt}}
+td.a-gelb{{background:#fde7b0;color:#8a5a00;font-weight:800;font-size:7pt}}
+.leg i.a-rot{{background:var(--fehltbg);color:var(--fehlt);font-weight:700}}.leg i.a-gruen{{background:#d4ecd9;color:#1f5a3e}}.leg i.a-gelb{{background:#fde7b0;color:#8a5a00;font-weight:700}}
+.raster th.std{{text-align:center;padding:0;border-left:.4mm solid var(--ink)}}
+td.std{{border-left:.4mm solid var(--ink);line-height:1;font-variant-numeric:tabular-nums}}td.std b{{display:block;font-size:7.5pt}}td.std small{{display:block;font-size:5pt;color:var(--muted)}}
+td.std.f b{{color:var(--fehlt)}}td.std.b b{{color:var(--ber)}}
+th.tag .rstd{{color:var(--muted)}}th.tag .zahl{{color:var(--muted)}}th.tag .bil.gruen{{color:#1f5a3e;font-weight:700}}th.tag .bil.gelb{{color:#8a5a00;font-weight:700}}
+.sum-tab{{border-collapse:collapse;width:100%;font-size:8pt;font-variant-numeric:tabular-nums;margin-top:3mm}}
+.sum-tab th,.sum-tab td{{border:.15mm solid var(--line);padding:1.2mm 1.5mm;text-align:center}}
+.sum-tab th:first-child,.sum-tab td:first-child{{text-align:left;white-space:nowrap}}
+.sum-tab thead th{{background:#f3e9dc;font-weight:700}}.sum-tab small{{display:block;font-weight:400;color:var(--muted);font-size:6.5pt}}
+.sum-tab td.ges,.sum-tab th.ges{{border-left:.5mm solid var(--ink);font-weight:800}}
+.sum-tab tr.alle td{{border-top:.6mm solid var(--ink);font-weight:800}}.sum-tab tr.bed td{{color:var(--muted)}}
+.sum-tab td.rot{{background:var(--fehltbg);color:var(--fehlt);font-weight:800}}.sum-tab td.gruen{{background:#d4ecd9;color:#1f5a3e;font-weight:700}}.sum-tab td.gelb{{background:#fde7b0;color:#8a5a00}}
+.sum-tab td.leer{{color:#c9c2b8}}
 .fuss{{margin-top:1.5mm;font-size:7pt;color:var(--muted);display:flex;justify-content:space-between;border-top:.3mm dashed var(--muted);padding-top:1mm}}
 .anl{{max-width:1120px;margin:0 auto;color:var(--muted)}}
 @page{{size:A4 landscape;margin:0}}
@@ -181,7 +223,7 @@ td.fehlt{{background:var(--fehltbg);color:var(--fehlt);font-weight:800;font-size
 </style></head>
 <body data-art="1">
 <div class="bar"><h2>Druckübersicht Dienstplan</h2>
-<div class="knoepfe" role="group" aria-label="Druckart"><button type="button" data-a="1" aria-pressed="true">1 Blatt breit ({NB} Blätter)</button><button type="button" data-a="2" aria-pressed="false">2 Blätter breit, größer ({NB*2} Blätter)</button><button type="button" id="drucken">🖨 Drucken</button></div>
+<div class="knoepfe" role="group" aria-label="Druckart"><button type="button" data-a="1" aria-pressed="true">1 Blatt breit ({NB+1} Blätter)</button><button type="button" data-a="2" aria-pressed="false">2 Blätter breit, größer ({NB*2+1} Blätter)</button><button type="button" id="drucken">🖨 Drucken</button></div>
 <p>Drucken mit „A4 Querformat“, Ränder „Keine“, „Hintergrundgrafiken“ einschalten. Bedarf {hh(tot_b)} Std., davon fehlen noch {hh(tot_f)} Std. (rot).</p></div>
 <div class="art art1">{eins}</div><div class="art art2">{zwei}</div>
 <p class="anl">Eingeplant = Entwurf aus allen Wünschen (noch nicht in DP2 übernommen). Bereitschaft = Vorschlag aus den Rückmeldungen, noch nicht abgesprochen.</p>
