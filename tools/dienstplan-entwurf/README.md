@@ -32,3 +32,9 @@ Vorschlag für den Dienstplan aus Bedarf und Wunschplänen. Erstellt am 23.10.20
 - Hansi eingeplant nach seinem Vorschlag (Aufbau 2./3.12. morgens, 4.12. 10–16 Uhr – die Sperre dort war nur ein Test –, Markttage meist 11–15/16 Uhr, Abende nur Sa 5.12. und Sa 12.12., Abbau 14.12. 9–13 Uhr): 47 h.
 - Damit eingeplant 453 von 543 h, offen 95,5 h. Größte Lücken: 12.12. (−16 h), 6.12. (−12,5 h), 13.12. (−11 h).
 
+
+## Druckübersicht (Stand 25.10.2026)
+
+`python3 druck.py` schreibt `dienstplan-druck.html` (A4 quer, Tage untereinander mit Regelzeit, alle Wünsche,
+Entwurf, fehlende Personen rot). Optional `bereitschaft.txt` (`datum|Name|von|bis`, nur lokal) für den
+Bereitschafts-Vorschlag. Im Browser zwischen „1 Blatt breit“ und „2 Blätter breit“ (größer, Klebekante 15:30–16 Uhr) wählen.
