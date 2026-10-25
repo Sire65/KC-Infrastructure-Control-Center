@@ -157,13 +157,13 @@ def bedarfsblatt():
             # keine Vorgabe: je Stunde, wie viele Mitglieder sich eingetragen haben; daneben je Person die eingetragene Zeit
             for h in std:
                 n=sum(1 for (m,dd),w in wun.items() if dd==d and w.get(float(h)) in ('pref','avai','if_n'))
-                zellen+=f'<td class="wu"><b>{n}</b><small>eingetr.</small></td>' if n else '<td class="zu"></td>'
+                zellen+=f'<td class="wu"><b>{n}</b></td>' if n else '<td class="zu"></td>'
             pers=[]
             for (m,dd),w in sorted(wun.items(),key=lambda x:FULL[x[0][0]]):
                 if dd!=d: continue
                 sl=[x for x,v in w.items() if v in ('pref','avai','if_n')]
                 if sl: pers.append(f'{html.escape(FULL[m].split()[0])} {bereiche(sl)}')
-            zeilen+=f'<tr class="ohne"><th class="tg"><b>{t["wt"]} {t["dt"]}</b><small>{t["kind"]}</small></th><td class="rz"><b>keine Vorgabe</b><small>eingetragen {bereiche(set(x for (m,dd),w in wun.items() if dd==d for x,v in w.items() if v!="unav"))} Uhr</small></td>{zellen}<td class="bd"><span class="ganz">So haben sich die Mitglieder eingetragen:</span>{"<br>".join(pers)}</td></tr>'
+            zeilen+=f'<tr class="ohne"><th class="tg"><b>{t["wt"]} {t["dt"]}</b><small>{t["kind"]}</small></th><td class="rz"><b>keine Vorgabe</b><small>eingetragen {bereiche(set(x for (m,dd),w in wun.items() if dd==d for x,v in w.items() if v!="unav"))} Uhr</small></td>{zellen}<td class="bd zwei"><span class="ganz">So haben sich eingetragen:</span>{"<br>".join(pers)}</td></tr>'
             continue
         for h in std:
             v=dem[d].get(float(h))
@@ -175,9 +175,9 @@ def bedarfsblatt():
             if part.startswith(d+'|'):
                 for x in part.split('|',1)[1].split():
                     rng,val=x.split(':');a,b=rng.split('-');v=val.split('/')
-                    if int(v[0]): baender.append(f'{a}–{b} Uhr: <b>{v[0]} Pers.</b>'+(f' ({v[1]} V, {v[2]} H)' if len(v)>2 else ''))
-        zeilen+=f'<tr><th class="tg"><b>{t["wt"]} {t["dt"]}</b><small>{t["kind"]}</small></th><td class="rz"><b>{t["regel"]} Uhr</b><small>{hh(t["regelstd"])} Std. · Bedarf {hh(t["bedarf"])} Std.</small></td>{zellen}<td class="bd">{"<br>".join(baender)}</td></tr>'
-    titel=f'<header class="bk"><div><p class="eb">KC Club · Weihnachtsmarkt Werne 2026 · Bedarf V13 · Stand {datetime.date.today():%d.%m.%Y}</p><h1>Regelzeit und Besetzung je Stunde</h1></div><div class="leg"><span><b>3</b> = Personen gesamt</span><span><b>2 V · 1 H</b> = davon vorne / hinten</span><span><i class="zu"></i>kein Dienst</span><span><i class="wu"></i>Aufbau/Nachbereitung: eingetragen laut Wunschplänen</span></div></header>'
+                    if int(v[0]): baender.append(f'<span class="bnd">{a}–{b}: <b>{v[0]}</b>'+(f' ({v[1]} V, {v[2]} H)' if len(v)>2 else '')+'</span>')
+        zeilen+=f'<tr><th class="tg"><b>{t["wt"]} {t["dt"]}</b><small>{t["kind"]}</small></th><td class="rz"><b>{t["regel"]} Uhr</b><small>{hh(t["regelstd"])} Std. · Bedarf {hh(t["bedarf"])} Std.</small></td>{zellen}<td class="bd">{" ".join(baender)}</td></tr>'
+    titel=f'<header class="bk"><div><p class="eb">KC Club · Weihnachtsmarkt Werne 2026 · Bedarf V13 · Stand {datetime.date.today():%d.%m.%Y}</p><h1>Regelzeit und Besetzung je Stunde</h1></div><div class="leg"><span><b>3</b> = Personen gesamt</span><span><b>2 V · 1 H</b> = davon vorne / hinten</span><span><i style="background:#fff"></i>kein Dienst</span><span><i class="wu"></i><b style="color:#3d5fa8">7</b> = so viele haben sich eingetragen (Aufbau/Nachbereitung)</span></div></header>'
     return f'<section class="blatt">{titel}<table class="bed-tab"><thead><tr><th>Tag</th><th>Regelzeit</th>{kopf}<th>Besetzung</th></tr></thead><tbody>{zeilen}</tbody></table><p class="eb" style="margin-top:2mm;text-transform:none;letter-spacing:0">Vorgabe gilt für die Markttage (4.–13.12.): zusammen {hh(sum(t["bedarf"] for t in tage if t["d"] not in KIND))} Personenstunden. Aufbau (2./3.12.) und Nachbereitung (14.12.) haben keine Vorgabe – dort steht, wie sich die Mitglieder in ihren Wunschplänen eingetragen haben.</p><footer class="fuss">Regelzeit und Besetzung · vorne vor Blatt 1</footer></section>'
 BED=bedarfsblatt()
 UEB=uebersicht()
@@ -256,10 +256,10 @@ th.tag .rstd{{color:var(--muted)}}th.tag .zahl{{color:var(--muted)}}th.tag .bil.
 .bed-tab thead th:nth-child(1){{width:17mm}}.bed-tab thead th:nth-child(2){{width:25mm}}.bed-tab thead th:last-child{{width:78mm}}
 .bed-tab th.tg,.bed-tab td.rz,.bed-tab td.bd{{text-align:left;padding:.8mm 1.2mm}}
 .bed-tab small{{display:block;font-size:5.5pt;color:var(--muted);font-weight:400;white-space:nowrap}}
-.bed-tab td b{{font-size:9pt}}.bed-tab td.rz b,.bed-tab td.bd b{{font-size:7pt}}.bed-tab td.bd{{font-size:5.8pt;line-height:1.25;column-count:2;column-gap:2mm}}
-.bed-tab td.zu{{background:var(--zu)}}
+.bed-tab td b{{font-size:9pt}}.bed-tab td.rz b,.bed-tab td.bd b{{font-size:7pt}}.bed-tab td.bd{{font-size:6.2pt;line-height:1.5;white-space:normal}}.bed-tab td.bd.zwei{{column-count:2;column-gap:2mm;font-size:5.8pt;line-height:1.25}}
+.bed-tab td.zu{{background:#fff}}.bed-tab .bnd{{white-space:nowrap;margin-right:2.2mm;display:inline-block}}
 .bed-tab td.wu,.leg i.wu{{background:#eef0fa}}.bed-tab tr.ohne td.rz b{{color:#3d5fa8}}.bed-tab tr.ohne small{{white-space:normal}}.bed-tab .ganz{{display:block;column-span:all;color:var(--muted);margin-bottom:.4mm}}.bed-tab td.wu b{{color:#3d5fa8}}
-.bed-tab tr>*{{height:10mm}}
+.bed-tab tbody tr>*{{height:10.4mm}}
 .fuss{{margin-top:1.5mm;font-size:7pt;color:var(--muted);display:flex;justify-content:space-between;border-top:.3mm dashed var(--muted);padding-top:1mm}}
 .anl{{max-width:1120px;margin:0 auto;color:var(--muted)}}
 @page{{size:A4 landscape;margin:0}}
