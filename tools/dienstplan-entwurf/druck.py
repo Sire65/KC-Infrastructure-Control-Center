@@ -38,9 +38,15 @@ if os.path.exists('bereitschaft.txt'):
         if line.strip():
             d,n,a,b=line.strip().split('|');ber[d].append((n,float(a),float(b)))
 days=sorted(k for k in plan if not k.endswith('_gaps'))
+# Leerzeilen (nur lokal, leerzeilen.txt „Name|Bezeichnung“): Person steht jeden Tag mit leerer Zeile da, ohne eingetragene Zeiten
+LEER={}
+if os.path.exists('leerzeilen.txt'):
+    for line in open('leerzeilen.txt'):
+        if line.strip(): n,lab=line.strip().split('|');LEER[n]=lab
 GES={n:sum(b-a for d in days for m,a,b in plan[d] if m==n) for n in FULL}
 GES_BER={n:sum(b-a for d in ber for m,a,b in ber[d] if m==n) for n in FULL}
 def zonetext(n,d):
+    if n in LEER: return LEER[n]
     z=zone[(n,d)]
     if d in KIND or not z: return ''
     return 'vorne+hinten' if 'B' in z or len(z)>1 else ('vorne' if 'V' in z else 'hinten')
@@ -51,7 +57,7 @@ for d in days:
     regel=bereiche(offen)
     gm={g[0]:g for g in plan[d+'_gaps']}
     dienst={n:(a,b) for n,a,b in plan[d]}
-    leute=sorted({k[0] for k in wun if k[1]==d},key=lambda n:(n not in dienst,dienst.get(n,(99,))[0],n))
+    leute=sorted({k[0] for k in wun if k[1]==d}|set(LEER),key=lambda n:(n in LEER,n not in dienst,dienst.get(n,(99,))[0],n))
     rows=[]
     for n in leute:
         w=wun[(n,d)];a,b=dienst.get(n,(None,None))
@@ -66,7 +72,7 @@ for d in days:
                 if abs(s+H-b)<1e-9: cl.append('end')
             elif t=='unav': txt='×'
             cells.append((s,' '.join(cl),txt))
-        info=f"{hh(b-a)} h" if a is not None else ('gesperrt' if w and all(v=='unav' for v in w.values()) else 'nicht eingeplant')
+        info=f"{hh(b-a)} h" if a is not None else ('gesperrt' if w and all(v=='unav' for v in w.values()) else 'Zeiten folgen' if n in LEER else 'nicht eingeplant')
         rows.append(('p',FULL[n],zonetext(n,d),info,cells,(hh(b-a) if a is not None else '–'),f"ges. {hh(GES[n])}"))
     for n,a,b in ber[d]:
         cells=[(s,'ber'+(' anf' if abs(s-a)<1e-9 else '')+(' zu' if need[s]==0 else '') if a<=s<b else ('leer zu' if need[s]==0 else 'leer'),f"{hm(a)}–{hm(b)}" if abs(s-a)<1e-9 else '') for s in ALL]
@@ -126,7 +132,7 @@ def blatt(bl,i,teil,seite,nseiten):
     return f'<section class="blatt">{titel}{tabelle(bl,teil)}<footer class="fuss">{fuss(i,seite,nseiten)}</footer></section>'
 def uebersicht():
     # Stunden je Person über alle Tage (Entwurf), dazu Bereitschaft und je Tag die Ampel
-    leute=sorted([n for n in FULL if GES[n] or GES_BER[n] or any(k[0]==n for k in wun)],key=lambda n:(-GES[n],FULL[n]))
+    leute=sorted([n for n in FULL if GES[n] or GES_BER[n] or n in LEER or any(k[0]==n for k in wun)],key=lambda n:(n in LEER,-GES[n],FULL[n]))
     tg={d:{m:b-a for m,a,b in plan[d]} for d in days}
     kopf=''.join(f'<th>{t["wt"]}<small>{t["dt"]}</small></th>' for t in tage)
     zeilen=''.join(f'<tr><td>{html.escape(FULL[n])}</td>'+''.join(f'<td class="{"" if n in tg[d] else "leer"}">{hh(tg[d][n]) if n in tg[d] else "–"}</td>' for d in days)
@@ -140,9 +146,31 @@ def uebersicht():
     zeilen+=f'<td class="ges rot">−{hh(tf)}</td><td>{f"+{hh(tu)} zu viel" if tu else ""}</td></tr>'
     titel=f'<header class="bk"><div><p class="eb">KC Club · Weihnachtsmarkt Werne 2026 · Entwurf, nicht veröffentlicht · Stand {datetime.date.today():%d.%m.%Y}</p><h1>Stunden je Person – alle Tage</h1></div></header>'
     return f'<section class="blatt">{titel}<table class="sum-tab"><thead><tr><th>Mitglied</th>{kopf}<th class="ges">Gesamt</th><th>Bereitschaft<small>Vorschlag</small></th></tr></thead><tbody>{zeilen}</tbody></table><p class="eb" style="margin-top:3mm;text-transform:none;letter-spacing:0">Stunden laut Entwurf (eingeplante Dienste). Bereitschaft zählt nicht mit. Ampel je Tag: rot = so viele Personenstunden fehlen, gelb = zu viel eingeplant, grün = richtig besetzt.</p><footer class="fuss">Stundenübersicht · letztes Blatt</footer></section>'
+def bedarfsblatt():
+    # Regelzeit je Tag und Besetzung je Stunde (aus demand.txt): Personen gesamt, darunter vorne/hinten
+    std=list(range(int(LO),int(HI)))
+    kopf=''.join(f'<th>{h}–{h+1}</th>' for h in std)
+    zeilen=''
+    for t in tage:
+        d=t['d'];zellen=''
+        for h in std:
+            v=dem[d].get(float(h))
+            if not v or not v[0]: zellen+='<td class="zu"></td>';continue
+            tot,f,b=v
+            zellen+=f'<td><b>{tot}</b>'+(f'<small>{f} V · {b} H</small>' if f is not None else '')+'</td>'
+        baender=[]
+        for part in open('demand.txt').read().split('\n'):
+            if part.startswith(d+'|'):
+                for x in part.split('|',1)[1].split():
+                    rng,val=x.split(':');a,b=rng.split('-');v=val.split('/')
+                    if int(v[0]): baender.append(f'{a}–{b} Uhr: <b>{v[0]} Pers.</b>'+(f' ({v[1]} V, {v[2]} H)' if len(v)>2 else ''))
+        zeilen+=f'<tr><th class="tg"><b>{t["wt"]} {t["dt"]}</b><small>{t["kind"]}</small></th><td class="rz"><b>{t["regel"]} Uhr</b><small>{hh(t["regelstd"])} Std. · Bedarf {hh(t["bedarf"])} Std.</small></td>{zellen}<td class="bd">{"<br>".join(baender)}</td></tr>'
+    titel=f'<header class="bk"><div><p class="eb">KC Club · Weihnachtsmarkt Werne 2026 · Bedarf V13 · Stand {datetime.date.today():%d.%m.%Y}</p><h1>Regelzeit und Besetzung je Stunde</h1></div><div class="leg"><span><b>3</b> = Personen gesamt</span><span><b>2 V · 1 H</b> = davon vorne / hinten</span><span><i class="zu"></i>kein Dienst</span></div></header>'
+    return f'<section class="blatt">{titel}<table class="bed-tab"><thead><tr><th>Tag</th><th>Regelzeit</th>{kopf}<th>Besetzung</th></tr></thead><tbody>{zeilen}</tbody></table><p class="eb" style="margin-top:2mm;text-transform:none;letter-spacing:0">Aufbau und Abbau ohne Aufteilung vorne/hinten. Zusammen {hh(sum(t["bedarf"] for t in tage))} Personenstunden.</p><footer class="fuss">Regelzeit und Besetzung · vorne vor Blatt 1</footer></section>'
+BED=bedarfsblatt()
 UEB=uebersicht()
-eins=''.join(blatt(bl,i,ALL,0,1) for i,bl in enumerate(blaetter))+UEB
-zwei=''.join(blatt(bl,i,teil,k,2) for i,bl in enumerate(blaetter) for k,teil in enumerate(TEILE))+UEB
+eins=BED+''.join(blatt(bl,i,ALL,0,1) for i,bl in enumerate(blaetter))+UEB
+zwei=BED+''.join(blatt(bl,i,teil,k,2) for i,bl in enumerate(blaetter) for k,teil in enumerate(TEILE))+UEB
 tot_b=sum(t['bedarf'] for t in tage);tot_f=sum(t['fehl'] for t in tage)
 page=f'''<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Dienstplan Druckübersicht</title>
@@ -210,6 +238,15 @@ th.tag .rstd{{color:var(--muted)}}th.tag .zahl{{color:var(--muted)}}th.tag .bil.
 .sum-tab tr.alle td{{border-top:.6mm solid var(--ink);font-weight:800}}.sum-tab tr.bed td{{color:var(--muted)}}
 .sum-tab td.rot{{background:var(--fehltbg);color:var(--fehlt);font-weight:800}}.sum-tab td.gruen{{background:#d4ecd9;color:#1f5a3e;font-weight:700}}.sum-tab td.gelb{{background:#fde7b0;color:#8a5a00}}
 .sum-tab td.leer{{color:#c9c2b8}}
+.bed-tab{{border-collapse:collapse;width:100%;table-layout:fixed;font-size:7pt;font-variant-numeric:tabular-nums}}
+.bed-tab th,.bed-tab td{{border:.15mm solid var(--line);padding:.6mm .5mm;text-align:center;vertical-align:middle}}
+.bed-tab thead th{{background:#f3e9dc;font-weight:700;font-size:6.5pt}}
+.bed-tab thead th:nth-child(1){{width:17mm}}.bed-tab thead th:nth-child(2){{width:25mm}}.bed-tab thead th:last-child{{width:78mm}}
+.bed-tab th.tg,.bed-tab td.rz,.bed-tab td.bd{{text-align:left;padding:.8mm 1.2mm}}
+.bed-tab small{{display:block;font-size:5.5pt;color:var(--muted);font-weight:400;white-space:nowrap}}
+.bed-tab td b{{font-size:9pt}}.bed-tab td.rz b,.bed-tab td.bd b{{font-size:7pt}}.bed-tab td.bd{{font-size:5.8pt;line-height:1.25;column-count:2;column-gap:2mm}}
+.bed-tab td.zu{{background:var(--zu)}}
+.bed-tab tr>*{{height:10mm}}
 .fuss{{margin-top:1.5mm;font-size:7pt;color:var(--muted);display:flex;justify-content:space-between;border-top:.3mm dashed var(--muted);padding-top:1mm}}
 .anl{{max-width:1120px;margin:0 auto;color:var(--muted)}}
 @page{{size:A4 landscape;margin:0}}
@@ -223,7 +260,7 @@ th.tag .rstd{{color:var(--muted)}}th.tag .zahl{{color:var(--muted)}}th.tag .bil.
 </style></head>
 <body data-art="1">
 <div class="bar"><h2>Druckübersicht Dienstplan</h2>
-<div class="knoepfe" role="group" aria-label="Druckart"><button type="button" data-a="1" aria-pressed="true">1 Blatt breit ({NB+1} Blätter)</button><button type="button" data-a="2" aria-pressed="false">2 Blätter breit, größer ({NB*2+1} Blätter)</button><button type="button" id="drucken">🖨 Drucken</button></div>
+<div class="knoepfe" role="group" aria-label="Druckart"><button type="button" data-a="1" aria-pressed="true">1 Blatt breit ({NB+2} Blätter)</button><button type="button" data-a="2" aria-pressed="false">2 Blätter breit, größer ({NB*2+2} Blätter)</button><button type="button" id="drucken">🖨 Drucken</button></div>
 <p>Drucken mit „A4 Querformat“, Ränder „Keine“, „Hintergrundgrafiken“ einschalten. Bedarf {hh(tot_b)} Std., davon fehlen noch {hh(tot_f)} Std. (rot).</p></div>
 <div class="art art1">{eins}</div><div class="art art2">{zwei}</div>
 <p class="anl">Eingeplant = Entwurf aus allen Wünschen (noch nicht in DP2 übernommen). Bereitschaft = Vorschlag aus den Rückmeldungen, noch nicht abgesprochen.</p>
@@ -242,8 +279,9 @@ WK={'pref':'p','avai':'a','if_n':'i','unav':'u'}
 kurz={'v':1,'titel':'Weihnachtsmarkt Werne 2026','stand':datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds'),'von':LO,'bis':HI,'tage':[]}
 for d in days:
     gm={g[0]:g for g in plan[d+'_gaps']};dienst={n:(a,b) for n,a,b in plan[d]}
-    leute=sorted({k[0] for k in wun if k[1]==d},key=lambda n:(n not in dienst,dienst.get(n,(99,))[0],n))
+    leute=sorted({k[0] for k in wun if k[1]==d}|set(LEER),key=lambda n:(n in LEER,n not in dienst,dienst.get(n,(99,))[0],n))
     kurz['tage'].append({'d':d,'art':KIND.get(d,'Markttag'),
+        'vorne':[dem[d][s][1] if s in dem[d] else None for s in ALL],'hinten':[dem[d][s][2] if s in dem[d] else None for s in ALL],
         'bedarf':[dem[d].get(s,(0,))[0] for s in ALL],'besetzt':[gm[s][2] if s in gm else 0 for s in ALL],'fehlt':[gm[s][3] if s in gm else 0 for s in ALL],
         'leute':[{'n':FULL[n],'z':zonetext(n,d),'w':''.join(WK.get(wun[(n,d)].get(s),'-') for s in ALL),'s':list(dienst[n]) if n in dienst else None} for n in leute],
         'ber':[{'n':FULL[n],'s':[a,b]} for n,a,b in ber[d]]})
