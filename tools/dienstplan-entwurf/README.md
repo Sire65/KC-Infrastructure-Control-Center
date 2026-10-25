@@ -29,3 +29,6 @@ Vorschlag für den Dienstplan aus Bedarf und Wunschplänen. Erstellt am 23.10.20
 - Neu: Karla und Ruth haben den 5.12. ganz gesperrt (11–23 Uhr). Vorher wollten sie 18–23 Uhr.
 - Eingeplant sind jetzt 427 von 543 h, offen 120,5 h (vorher 109,5 h).
 - Der 5.12. fehlt jetzt 14 h, vor allem der Spätdienst. Größte Lücke bleibt der 12.12. (−21 h).
+- Hansi eingeplant nach seinem Vorschlag (Aufbau 2./3.12. morgens, 4.12. 10–16 Uhr – die Sperre dort war nur ein Test –, Markttage meist 11–15/16 Uhr, Abende nur Sa 5.12. und Sa 12.12., Abbau 14.12. 9–13 Uhr): 47 h.
+- Damit eingeplant 453 von 543 h, offen 95,5 h. Größte Lücken: 12.12. (−16 h), 6.12. (−12,5 h), 13.12. (−11 h).
+
