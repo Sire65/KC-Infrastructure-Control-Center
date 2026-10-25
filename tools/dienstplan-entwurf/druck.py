@@ -4,7 +4,7 @@
 import json,html,os,sys,datetime,collections
 exec(open('solve.py').read().split("people=sorted")[0])
 P=json.load(open('plan.json'));plan=P['plan'];hours=P['hours']
-FULL={'Christina B':'Christina Brösel','Dieter Z':'Dieter Zander','Frank B':'Frank Brösel','Hans-Joachim K':'Hans-Joachim Koch','Karla K':'Karla Kazik','Klaus Z':'Klaus Zander','Manfred S':'Manfred Schoppmann','Reinhilde E':'Reinhilde Eggenstein','Ruth K':'Ruth Kazik','Steven L':'Steven Linley'}
+FULL={'Christina B':'Christina Brösel','Dieter Z':'Dieter Zander','Frank B':'Frank Brösel','Hans-Joachim K':'Hans-Joachim Koch','Karla K':'Karla Kazik','Klaus Z':'Klaus Zander','Manfred S':'Manfred Schoppmann','Reinhilde E':'Reinhilde Eggenstein','Ruth K':'Ruth Kazik','Steven L':'Steven Linley','Leon W':'Leon Wördemann'}
 WD=['Mo','Di','Mi','Do','Fr','Sa','So']
 KIND={'2026-12-02':'Aufbau','2026-12-03':'Aufbau','2026-12-14':'Abbau'}
 LO,HI=8.0,23.0
@@ -144,7 +144,7 @@ table.raster{{border-collapse:collapse;table-layout:fixed;width:100%;min-width:2
 .art2 table.raster{{font-size:7.5pt}}
 col.tag{{width:23mm}}col.wer{{width:30mm}}
 .raster th,.raster td{{border:.15mm solid var(--line);padding:0;height:5.4mm;font-variant-numeric:tabular-nums}}
-.art2 .raster th,.art2 .raster td{{height:5.8mm}}
+.art2 .raster th,.art2 .raster td{{height:5.6mm}}
 .raster thead th{{font-weight:600;font-size:6.5pt;color:var(--muted);text-align:left;padding-left:.5mm;height:4mm}}
 .raster thead th.t{{border-left-color:transparent}}.raster thead th.t.voll{{border-left:.3mm solid var(--ink);color:var(--ink)}}
 .raster th.tag{{text-align:left;vertical-align:top;padding:1mm;border-right:.4mm solid var(--ink);font-weight:400}}

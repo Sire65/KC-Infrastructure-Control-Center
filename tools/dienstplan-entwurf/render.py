@@ -1,7 +1,7 @@
 import json,html,collections
 exec(open('solve.py').read().split("people=sorted")[0])
 P=json.load(open('plan.json'));plan=P['plan'];hours=P['hours']
-FULL={'Christina B':'Christina Brösel','Dieter Z':'Dieter Zander','Frank B':'Frank Brösel','Hans-Joachim K':'Hans-Joachim Koch','Karla K':'Karla Kazik','Klaus Z':'Klaus Zander','Manfred S':'Manfred Schoppmann','Reinhilde E':'Reinhilde Eggenstein','Ruth K':'Ruth Kazik','Steven L':'Steven Linley'}
+FULL={'Christina B':'Christina Brösel','Dieter Z':'Dieter Zander','Frank B':'Frank Brösel','Hans-Joachim K':'Hans-Joachim Koch','Karla K':'Karla Kazik','Klaus Z':'Klaus Zander','Manfred S':'Manfred Schoppmann','Reinhilde E':'Reinhilde Eggenstein','Ruth K':'Ruth Kazik','Steven L':'Steven Linley','Leon W':'Leon Wördemann'}
 WD=['Mo','Di','Mi','Do','Fr','Sa','So']
 import datetime
 def dlabel(d):
