@@ -61,7 +61,7 @@ export function zustand() {
     buero_einladung: (q) => { S.einladung_am = MITTAG; return { ok: true, empfaenger: q.ziel ? q.ziel.ids.length : LEUTE.length - 1 }; },
     aktentasche_termine: () => ({ termine: [{ id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim", art: "treffen", tasche: S.tasche ? { status: S.tasche.status, anzahl: S.tasche.inhalt.length } : null },
       { id: "T2", titel: "Weihnachtsmarkt Aufbau", beginn: "2026-11-27T09:00:00+01:00", ort: "Marktplatz", art: "veranstaltung", tasche: null }], frueher: [] }),
-    aktentasche_holen: () => ({ treffen: { id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim", art: "treffen" }, tasche: tasche(), vorschlag: vorschlag(), blatt: {}, register: ["einladung", "protokolle", "vorschlaege", "mitglieder", "aufgaben", "sonstiges"] }),
+    aktentasche_holen: () => ({ treffen: { id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim", art: "treffen" }, tasche: tasche(), vorschlag: vorschlag(), blatt: { tagesordnung: top().map((x) => x.t), einladung_am: S.einladung_am, mitglieder: mitglieder(false).map((m) => ({ name: m.name, antwort: m.antwort })).sort((x, y) => x.name.localeCompare(y.name, "de")), aufgaben: AUFGABEN.map((a) => ({ wer: a.wer, text: a.text, faellig: a.faellig })) }, register: ["einladung", "protokolle", "vorschlaege", "mitglieder", "aufgaben", "sonstiges"] }),
     aktentasche_aendern: (q) => {
       if (!S.tasche) S.tasche = { inhalt: [], notiz: "", status: "offen", geaendert: null, gepackt: null };
       if (q.op === "packen") for (const i of vorschlag().filter((v) => q.keys.includes(v.k))) { const { vor: _v, grund: _g, ...rest } = i; S.tasche.inhalt.push({ ...rest, dabei: false, vonName: "Klaus", neu: false }); }
