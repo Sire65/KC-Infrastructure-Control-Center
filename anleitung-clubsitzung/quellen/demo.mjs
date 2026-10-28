@@ -62,6 +62,7 @@ export function zustand() {
     aktentasche_termine: () => ({ termine: [{ id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim", art: "treffen", tasche: S.tasche ? { status: S.tasche.status, anzahl: S.tasche.inhalt.length } : null },
       { id: "T2", titel: "Weihnachtsmarkt Aufbau", beginn: "2026-11-27T09:00:00+01:00", ort: "Marktplatz", art: "veranstaltung", tasche: null }], frueher: [] }),
     aktentasche_holen: () => ({ treffen: { id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim", art: "treffen" }, tasche: tasche(), vorschlag: vorschlag(), blatt: { tagesordnung: top().map((x) => x.t), einladung_am: S.einladung_am, mitglieder: mitglieder(false).map((m) => ({ name: m.name, antwort: m.antwort })).sort((x, y) => x.name.localeCompare(y.name, "de")), aufgaben: AUFGABEN.map((a) => ({ wer: a.wer, text: a.text, faellig: a.faellig })) }, register: ["einladung", "protokolle", "vorschlaege", "mitglieder", "aufgaben", "sonstiges"] }),
+    archiv_eingang_verteilen: (q) => { S.verteilt = [...(S.verteilt || []), { titel: q.titel, mime: q.mime, daten: q.daten }]; return { ok: true, empfaenger: q.personen.length, uebersprungen: [] }; },
     aktentasche_aendern: (q) => {
       if (!S.tasche) S.tasche = { inhalt: [], notiz: "", status: "offen", geaendert: null, gepackt: null };
       if (q.op === "packen") for (const i of vorschlag().filter((v) => q.keys.includes(v.k))) { const { vor: _v, grund: _g, ...rest } = i; S.tasche.inhalt.push({ ...rest, dabei: false, vonName: "Klaus", neu: false }); }
@@ -79,7 +80,15 @@ export function zustand() {
     terminumfrage_festlegen: () => { S.live = { ...S.live, status: "festgelegt", treffen: { id: "T3", titel: S.live.titel, beginn: S.live.option.beginn, ort: S.live.ort } }; return { ok: true }; },
     unterhaltungen: { unterhaltungen: [{ id: "G1", betreff: "", teilnehmer: [], anzahl: 5, gruppe: { name: "Küchenteam", symbol: "🍳" }, personen: ["P1", "P2", "P3", "P7", "P10"], letzte: null, ungelesen: 0, aktualisiert: MITTAG }] },
   });
-  return { S, antworten };
+  // Mitglied mit Eingangskorb (KC-CLUB-EINGANG-DURCHGEHEN): zeigt, was Klaus freigegeben hat
+  const eingang = () => ({
+    init: (x) => ({ ...x, ich: ICH_ERIKA, eingangskorb: (S.verteilt || []).length }),
+    archiv_liste: () => ({ ordner: [{ id: "O2", titel: "Erika Beispiel", jahr: 2026, eigen: true, pruefung: (S.verteilt || []).length, register: ["Urkunden", "Schulungen", "Rechnungen", "Fotos", "Sonstiges"], art: "persoenlich" }],
+      dokumente: (S.verteilt || []).map((d, i) => ({ id: "D" + i, ordner_id: "O2", titel: d.titel, status: "pruefung", datei: "A" + i, mime: d.mime, name: d.titel + ".pdf", register: "Sonstiges", von: "Klaus Clubsprecher", beschreibung: "Unterlagen zur Clubsitzung – bitte vorher durchlesen." })), arten: {}, darf: false }),
+    anlage_url: (q) => ({ url: `data:application/pdf;base64,${S.verteilt[Number(String(q.id).slice(1))].daten}` }),
+    archiv_pruefung: { ok: true },
+  });
+  return { S, antworten, eingang };
 }
 
 // Grundantworten (Start der App) – Form wie KC-Clubapp/tools/anleitung/demo.mjs

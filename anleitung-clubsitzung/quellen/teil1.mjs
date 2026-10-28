@@ -1,7 +1,7 @@
 // Teil 1: Freitagmittag im Büro – Sitzung vorbereiten, speichern, Einladung senden
 import { launch, seite, bild, tipp, speichern } from "./basis.mjs";
 import { zustand, MITTAG } from "./demo.mjs";
-const { antworten } = zustand();
+const { antworten, eingang } = zustand();
 const b = await launch();
 const p = await seite(b, { zeit: MITTAG, antworten: antworten("klaus") });
 const oben = () => p.evaluate(() => window.scrollTo(0, 0));
@@ -55,7 +55,7 @@ await p.locator("#buAn").evaluate((e) => e.scrollIntoView({ block: "center" }));
 await bild(p, "a21c-gruppe", "#buAn .hl-chips + .hl-chips");
 await tipp(p, '#buAn .chip:has-text("Noch ohne Antwort")');
 await bild(p, "a21d-gruppe-ohne", ['#buAn .chip:has-text("Noch ohne Antwort")', "#buAn p.hinweis"]);
-await tipp(p, '#buAn .chip:has-text("Auswahl")'); await p.waitForTimeout(600);
+await tipp(p, '#buAn .chip:has-text("Einzeln")'); await p.waitForTimeout(600);
 await bild(p, "a21e-auswahl", "#vfaListe");
 await tipp(p, '#vfAuswahlBlatt button:has-text("Abbrechen")');
 await tipp(p, '#buAn .chip:has-text("Alle")');
@@ -114,11 +114,37 @@ await bild(p, "b17-drucken-auswahl", '#atBlatt button:has-text("Drucken – ausw
 await tipp(p, '#atBlatt button:has-text("Drucken – auswählen")'); await p.waitForTimeout(800);
 await bild(p, "b18-druckwahl", '#atDruckBlatt button:has-text("Ausgewählte drucken")');
 await tipp(p, '#atDruckBlatt button:has-text("Abbrechen")');
+// KC-CLUB-AKTENTASCHE-FREIGEBEN (2.741.0): Unterlagen in den Eingangskorb der Mitglieder
+await p.locator('#atBlatt button:has-text("Freigeben")').scrollIntoViewIfNeeded();
+await bild(p, "b18b-freigeben", '#atBlatt button:has-text("Freigeben")');
+await tipp(p, '#atBlatt button:has-text("Freigeben")'); await p.waitForTimeout(800);
+await p.locator('#atFreiBlatt label:has-text("Tagesordnung") input').check(); await p.locator('#atFreiBlatt label:has-text("Zusagen") input').check();
+await p.locator('#atFreiBlatt label:has-text("Tagesordnung")').evaluate((e) => e.scrollIntoView({ block: "start" })); await p.locator("#atFreiBlatt .blatt-innen").evaluate((e) => e.scrollBy(0, -40));
+await bild(p, "b18c-frei-wahl", ['#atFreiBlatt label:has-text("Tagesordnung") input', '#atFreiBlatt label:has-text("Zusagen") input']);
+await p.locator("#atFreiAn").evaluate((e) => e.scrollIntoView({ block: "center" }));
+await bild(p, "b18d-frei-an", "#atFreiAn > .hl-chips");
+await p.locator("#atFreiNotiz").click(); await p.locator("#atFreiNotiz").pressSequentially("Unterlagen zur Clubsitzung – bitte vorher durchlesen.", { delay: 15 });
+await p.locator("#atFreiLos").evaluate((e) => e.scrollIntoView({ block: "center" }));
+await bild(p, "b18e-frei-senden", ["#atFreiReg", "#atFreiLos"]);
+await tipp(p, "#atFreiLos"); await p.waitForTimeout(600);
+await bild(p, "b18f-frei-frage", 'button:has-text("📤 Senden"):visible');
+await p.locator('button:has-text("📤 Senden"):visible').last().click(); await p.waitForTimeout(9000);
+await bild(p, "b18g-frei-gesendet");
 await bild(p, "b19-fertig-gepackt", '#atBlatt button:has-text("Fertig gepackt")');
 await tipp(p, '#atBlatt button:has-text("Fertig gepackt")'); await p.waitForTimeout(800);
 await bild(p, "b20a-frage", 'button:has-text("Ja, gepackt")');
 await tipp(p, 'button:has-text("Ja, gepackt")'); await p.waitForTimeout(2500);
 await p.locator("#atBlatt .blatt-innen").evaluate((e) => e.scrollTo(0, 0));
 await bild(p, "b20-gepackt", "#atBlatt .marke");
+// So kommt es bei den Mitgliedern an (Erika): Hinweis beim Öffnen → ansehen → ablegen oder löschen
+const e = await seite(b, { zeit: MITTAG, antworten: { ...antworten("erika"), ...eingang() } });
+await e.waitForTimeout(7000);
+await bild(e, "b21-mitglied-hinweis", 'button:has-text("Ja, ansehen")');
+await tipp(e, 'button:has-text("Ja, ansehen")'); await e.waitForTimeout(4000);
+await bild(e, "b22-mitglied-ansehen", "#egVorschau");
+await e.locator('#egBlatt [data-w="ab"]').scrollIntoViewIfNeeded();
+await bild(e, "b23-mitglied-frage", ['#egBlatt [data-w="ab"]', '#egBlatt [data-w="weg"]']);
+await tipp(e, '#egBlatt [data-w="ab"]'); await e.waitForTimeout(800);
+await bild(e, "b24-mitglied-ablegen", ["#awOrdner", "#awReg"]);
 await b.close();
 speichern("szenen-1.json");
