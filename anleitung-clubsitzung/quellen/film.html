@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f4ece1; font-family: "Liberation Sans", "DejaVu Sans", sans-serif; color: #3b2f2a; }
+  #kopf { position: absolute; left: 0; top: 0; width: 1080px; height: 170px; background: #741521; color: #fff; display: flex; align-items: center; gap: 22px; padding: 0 40px; }
+  #kopf img { width: 92px; height: 92px; }
+  #kopf .t1 { font-size: 30px; opacity: .85; letter-spacing: .04em; text-transform: uppercase; }
+  #kopf .t2 { font-size: 44px; font-weight: 700; margin-top: 4px; }
+  #fortschritt { position: absolute; left: 0; top: 170px; height: 10px; width: 1080px; background: #e4d6c3; }
+  #fortschritt b { display: block; height: 100%; background: #c9962b; width: 0; }
+  #handy { position: absolute; top: 205px; left: 50%; width: 668px; height: 1410px; margin-left: -334px; border-radius: 56px; background: #1d1716; padding: 15px; box-shadow: 0 24px 60px rgba(60,30,20,.35); }
+  #schirm { position: relative; width: 638px; height: 1380px; border-radius: 42px; overflow: hidden; background: #f4ece1; }
+  #schirm img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .ring { position: absolute; border: 7px solid #ff8a00; border-radius: 22px; box-shadow: 0 0 0 6px rgba(255,138,0,.25), 0 0 34px rgba(255,138,0,.7); pointer-events: none; }
+  #unten { position: absolute; left: 40px; right: 40px; top: 1640px; height: 250px; display: flex; align-items: center; justify-content: center; text-align: center;
+    background: #fffaf2; border-radius: 28px; box-shadow: 0 8px 24px rgba(60,30,20,.15); padding: 18px 34px; font-size: 42px; line-height: 1.28; font-weight: 600; }
+  #karte { position: absolute; inset: 0; background: linear-gradient(170deg, #8a1c2a, #5b0f19); color: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px; }
+  #karte img { width: 230px; height: 230px; margin-bottom: 40px; }
+  #karte .k1 { font-size: 40px; opacity: .85; letter-spacing: .06em; text-transform: uppercase; }
+  #karte .k2 { font-size: 86px; font-weight: 700; line-height: 1.12; margin-top: 24px; }
+  #karte .k3 { font-size: 44px; line-height: 1.35; margin-top: 48px; opacity: .95; max-width: 920px; }
+  #karte ol { text-align: left; font-size: 40px; line-height: 1.5; margin-top: 50px; padding-left: 50px; }
+  #karte .klein { position: absolute; bottom: 70px; font-size: 30px; opacity: .75; }
+</style></head><body>
+<div id="kopf"><img src="kc-kochmuetze-weiss.webp" alt=""><div><div class="t1">Anleitung · Clubsitzung</div><div class="t2" id="kap"></div></div></div>
+<div id="fortschritt"><b id="fb"></b></div>
+<div id="handy"><div id="schirm"><img id="alt"><img id="neu"><div id="ringe"></div></div></div>
+<div id="unten"><span id="ut"></span></div>
+<div id="karte"></div>
+<script>
+let Z = [], R = {}; // Zeitplan (zeiten.json) und Tipp-Ringe je Bild (szenen-*.json)
+const S = 638 / 390; // CSS-Pixel der App-Ansicht → Pixel im Film
+const KARTEN = {
+  titel: () => `<img src="kc-kochmuetze-weiss.webp"><div class="k1">Köcheclub Werne · Club-App</div><div class="k2">Clubsitzung vorbereiten<br>und leiten</div><div class="k3">Anleitung für Klaus, unseren Clubsprecher</div><div class="klein">Alle Bilder: die echte Club-App mit Beispieldaten</div>`,
+  "kapitel:1": () => kap("Teil 1", "Freitagmittag", "Im Büro die Sitzung vorbereiten und die Einladung senden"),
+  "kapitel:2": () => kap("Teil 2", "Drucken &amp; Aktentasche", "Unterlagen auf Papier und die Tasche für den Abend"),
+  "kapitel:3": () => kap("Teil 3", "Am Abend", "Clubabend Live: Anwesende, Tagesordnung, nächster Termin"),
+  "kapitel:4": () => kap("Teil 4", "Noch etwas unklar?", "Hansi hilft dir gern"),
+  ende: () => `<img src="kc-kochmuetze-weiss.webp"><div class="k2">Viel Erfolg, Klaus!</div><ol>
+    <li>Büro → gelber Zettel „Sitzung vorbereiten“</li><li>4 Schritte → „Fertig – speichern“</li><li>Tagesordnung an die Mitglieder senden</li>
+    <li>Drucken &amp; Aktentasche packen</li><li>Abends: Clubabend Live – Anwesende nachtragen</li><li>Tagesordnung abhaken</li><li>Nächsten Termin live abstimmen</li></ol>
+    <div class="klein">Fragen? Schreib Hansi eine Nachricht in der Club-App.</div>`,
+};
+function kap(a, b, c) { return `<img src="kc-kochmuetze-weiss.webp"><div class="k1">${a}</div><div class="k2">${b}</div><div class="k3">${c}</div>`; }
+const bildDa = (z) => z && !z.bild.startsWith("kapitel") && z.bild !== "titel" && z.bild !== "ende";
+let stand = { neu: null, alt: null, karte: null, ring: null };
+function setzeBild(el, name) { const src = name ? `bild/${name}.png` : ""; if (el.dataset.n !== (name || "")) { el.dataset.n = name || ""; if (src) el.src = src; else el.removeAttribute("src"); } el.style.display = name ? "block" : "none"; }
+// Satzweise Untertitel: Satzlänge bestimmt den Anteil an der Sprechzeit
+function saetze(text) { return text.match(/[^.!?…]+(?:[.!?…]+|$)\s*/g).map((s) => s.trim()).filter(Boolean); }
+function untertitel(z, t) {
+  const s = saetze(z.text), n = s.reduce((a, x) => a + x.length, 0);
+  let ab = z.sprecher, d = z.sprecherEnde - z.sprecher;
+  for (const x of s) { ab += d * x.length / n; if (t < ab) return x; }
+  return s[s.length - 1];
+}
+function zeige(t) {
+  let i = Z.findIndex((z) => t < z.ab + z.dauer); if (i < 0) i = Z.length - 1;
+  const z = Z[i], ende = Z[Z.length - 1].ab + Z[Z.length - 1].dauer;
+  document.getElementById("fb").style.width = (t / ende * 100).toFixed(2) + "%";
+  const k = document.getElementById("karte");
+  if (!bildDa(z)) {
+    if (stand.karte !== z.bild) { k.innerHTML = KARTEN[z.bild](); stand.karte = z.bild; }
+    k.style.display = "flex"; const f = Math.min(1, (t - z.ab) / 0.4); k.style.opacity = f;
+    if (f >= 1) return;
+  } else k.style.display = "none";
+  stand.karte = bildDa(z) ? null : stand.karte;
+  document.getElementById("kap").textContent = bildDa(z) ? z.kapitel : (Z[i - 1]?.kapitel || z.kapitel);
+  const zb = bildDa(z) ? z : Z.slice(0, i).reverse().find(bildDa);
+  // Überblendung vom vorigen Bild (0,35 s)
+  const vor = Z.slice(0, i).reverse().find(bildDa), mitte = t - z.ab;
+  setzeBild(document.getElementById("neu"), zb?.bild);
+  const alt = document.getElementById("alt");
+  if (bildDa(z) && vor && mitte < 0.35) { setzeBild(alt, vor.bild); document.getElementById("neu").style.opacity = mitte / 0.35; }
+  else { setzeBild(alt, null); document.getElementById("neu").style.opacity = 1; }
+  document.getElementById("ut").textContent = bildDa(z) ? untertitel(z, t) : "";
+  // Tipp-Ring: erscheint kurz nach Sprechbeginn und pulsiert
+  const ringe = bildDa(z) && t > z.sprecher + 0.3 ? R[z.bild] || [] : [];
+  const puls = 1 + 0.06 * Math.sin((t - z.sprecher) * 5.5), deck = Math.min(1, (t - z.sprecher - 0.3) / 0.3);
+  document.getElementById("ringe").innerHTML = ringe.map((r) => {
+    const p = 10, w = (r.w + 2 * p) * S, h = (r.h + 2 * p) * S, x = (r.x - p) * S + w / 2, y = (r.y - p) * S + h / 2;
+    return `<div class="ring" style="left:${x - w * puls / 2}px;top:${y - h * puls / 2}px;width:${w * puls}px;height:${h * puls}px;opacity:${deck}"></div>`;
+  }).join("");
+}
+</script></body></html>

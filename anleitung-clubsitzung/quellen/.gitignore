@@ -1,0 +1,6 @@
+bild/
+probe/
+vo/
+*.wav
+bild.mp4
+__pycache__/
