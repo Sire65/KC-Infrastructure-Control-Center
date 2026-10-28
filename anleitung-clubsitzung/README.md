@@ -5,6 +5,10 @@
 Zeigt Schritt für Schritt mit **echten Bildschirmen der Club-App** (Beispieldaten), was der Clubsprecher am Freitagmittag
 und am Sitzungsabend tut. Jede Bedienung ist mit einem pulsierenden orangefarbenen Rahmen markiert, der Sprechertext steht als Untertitel darunter.
 
+**In der Club-App (ab 2.738.0, KC-CLUB-FILM-HINWEIS):** liegt als `film/clubsitzung-anleitung.mp4`. Wer das Amt **Clubsprecher** hat, bekommt beim
+Öffnen der App einmal den Hinweis mit **▶ Film jetzt ansehen** (spielt direkt in der App); jederzeit wieder über Büro → 🎬 Anleitung.
+Nach einer neuen Fassung des Films die Datei dort ersetzen.
+
 ## Ablauf
 
 1. **Freitagmittag – Sitzung vorbereiten:** Kachel Büro → gelber Zettel „Nächster Schritt: Sitzung vorbereiten“ →
