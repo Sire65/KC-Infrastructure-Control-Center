@@ -6,7 +6,7 @@ const { S, antworten } = zustand();
 // Stand vom Mittag: Sitzung vorbereitet, Einladung raus, Tasche gepackt (wie in Teil 1 aufgenommen)
 const k = antworten("klaus"), sz = k.buero_sitzung();
 k.buero_speichern({ anwesend: sz.standard.anwesend, anmerkung: sz.anmerkungVorschlag, tagesordnung: [...sz.standard.tagesordnung.slice(0, 5), { t: "Ausflug im Frühjahr: Spargelhof", art: "vorschlag", id: "V3" }, { t: "Termine 2027 festlegen", art: "eigen" }, sz.standard.tagesordnung[5]], zeilen: 5 });
-k.buero_einladung();
+k.buero_einladung({});
 k.aktentasche_aendern({ op: "packen", keys: ["tagesordnung", "protokoll:PR1", "protokoll:PR0", "vorschlag:V1", "vorschlag:V2", "teilnehmer", "aufgaben"] });
 k.aktentasche_aendern({ op: "status", status: "gepackt" });
 const b = await launch();

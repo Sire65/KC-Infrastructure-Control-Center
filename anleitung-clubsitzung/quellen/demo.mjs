@@ -58,7 +58,7 @@ export function zustand() {
     buero_nachher: { sitzungen: [] }, eingang_korb: { posten: [] },
     buero_sitzung: () => sitzung(),
     buero_speichern: (q) => { S.vorbereitung = { anwesend: q.anwesend, anmerkung: q.anmerkung, tagesordnung: q.tagesordnung, zeilen: q.zeilen }; return { ok: true, protokoll_id: "PR1", protokollStand: "angelegt" }; },
-    buero_einladung: () => { S.einladung_am = MITTAG; return { ok: true, empfaenger: LEUTE.length }; },
+    buero_einladung: (q) => { S.einladung_am = MITTAG; return { ok: true, empfaenger: q.ziel ? q.ziel.ids.length : LEUTE.length - 1 }; },
     aktentasche_termine: () => ({ termine: [{ id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim", art: "treffen", tasche: S.tasche ? { status: S.tasche.status, anzahl: S.tasche.inhalt.length } : null },
       { id: "T2", titel: "Weihnachtsmarkt Aufbau", beginn: "2026-11-27T09:00:00+01:00", ort: "Marktplatz", art: "veranstaltung", tasche: null }], frueher: [] }),
     aktentasche_holen: () => ({ treffen: { id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim", art: "treffen" }, tasche: tasche(), vorschlag: vorschlag(), blatt: {}, register: ["einladung", "protokolle", "vorschlaege", "mitglieder", "aufgaben", "sonstiges"] }),
@@ -77,7 +77,7 @@ export function zustand() {
     live_termin_holen: () => ({ live: live(rolle !== "erika", rolle === "erika" ? S.erikaWahl : "ja") }),
     terminumfrage_antwort: (q) => { if (rolle === "erika") S.erikaWahl = q.antwort || null; return { ok: true }; },
     terminumfrage_festlegen: () => { S.live = { ...S.live, status: "festgelegt", treffen: { id: "T3", titel: S.live.titel, beginn: S.live.option.beginn, ort: S.live.ort } }; return { ok: true }; },
-    unterhaltungen: { unterhaltungen: [] },
+    unterhaltungen: { unterhaltungen: [{ id: "G1", betreff: "", teilnehmer: [], anzahl: 5, gruppe: { name: "Küchenteam", symbol: "🍳" }, personen: ["P1", "P2", "P3", "P7", "P10"], letzte: null, ungelesen: 0, aktualisiert: MITTAG }] },
   });
   return { S, antworten };
 }
