@@ -180,7 +180,7 @@ def schaubild():
     t = [defs]
     t.append(box(300, 6, 200, 50, "GitHub Pages", ["nur das App-Programm – keine Daten"], "leise"))
     t.append(box(16, 90, 230, 80, "Du (Handy / Tablet)", ["Zusagen, Nachrichten, Fotos,", "Status, Änderungsmeldungen"]))
-    t.append(box(554, 90, 230, 80, "Clubleitung / Admin", ["Mitgliederpflege, Termine,", "Änderungen eintragen"]))
+    t.append(box(554, 90, 230, 80, "Clubleitung", ["Mitgliederpflege, Termine,", "Änderungen eintragen"]))
     t.append(box(270, 196, 260, 84, "Club-Server  (Türsteher)", ["prüft bei JEDER Anfrage:", "Wer bist du?  Darfst du das?"], "kern"))
     t.append(box(16, 210, 190, 60, "Benachrichtigung", ["Push oder E-Mail: „Neue", "Nachricht“ – Hinweis"], "leise"))
     t.append(box(594, 206, 190, 70, "Notbetrieb (Cloudflare)", ["Lesekopie, signiert,", "alle 15 Minuten"], "cf"))
@@ -221,18 +221,18 @@ def schaubild():
 J, N, T = '<span class="ja">✔ ja</span>', '<span class="nein">✘ nein</span>', lambda s: f'<span class="teil">◐ {s}</span>'
 
 SICHT = [
-    ("Name, Bild, Status (z. B. „im Urlaub“)", J, J, J, J),
-    ("Handy, Festnetz, E-Mail, Adresse", J, T("nur, wenn du es erlaubst"), J, J),
-    ("Geburtstag", J, T("nur Tag + Monat, wenn erlaubt"), T("Alter nur bei runden Geburtstagen, wenn erlaubt"), J),
-    ("Notfallkontakt", J, N, T("Clubsprecher + Kassenwart"), J),
-    ("Notfallpass (Allergien, Medikamente)", T("nur auf deinem Handy"), N, N, N),
-    ("Chat-Nachrichten und Anhänge", J, T("nur Teilnehmer der Unterhaltung"), T("nur, wenn sie Teilnehmer sind"), T("nur, wenn Teilnehmer*")),
-    ("Fotoalbum", J, T("Club-Album: ja · privates Album: nein"), T("Club-Album: ja"), T("Club-Album: ja")),
-    ("Zu-/Absage zu Terminen", J, J, J, J),
-    ("Eigene Dienstzeiten", J, T("nur mit deiner Freigabe (Standard: aus)"), J, J),
-    ("Online / zuletzt da / Tippen", J, T("nur, wenn eingeschaltet"), T("wie Mitglieder"), T("wie Mitglieder")),
-    ("Wie du geheim abgestimmt hast", T("nur, dass du abgestimmt hast"), N, N, N),
-    ("Bankverbindung (zurzeit nicht abgefragt)", J, N, T("nur Kassenwart"), J),
+    ("Name, Bild, Status (z. B. „im Urlaub“)", J, J, J),
+    ("Handy, Festnetz, E-Mail, Adresse", J, T("nur, wenn du es erlaubst"), J),
+    ("Geburtstag", J, T("nur Tag + Monat, wenn erlaubt"), T("Alter nur bei runden Geburtstagen, wenn erlaubt")),
+    ("Notfallkontakt", J, N, T("Clubsprecher + Kassenwart")),
+    ("Notfallpass (Allergien, Medikamente)", T("nur auf deinem Handy"), N, N),
+    ("Chat-Nachrichten und Anhänge", J, T("nur Teilnehmer der Unterhaltung"), T("nur, wenn sie Teilnehmer sind")),
+    ("Fotoalbum", J, T("Club-Album: ja · privates Album: nein"), T("Club-Album: ja · privates Album: nein")),
+    ("Zu-/Absage zu Terminen", J, J, J),
+    ("Eigene Dienstzeiten", J, T("nur mit deiner Freigabe (Standard: aus)"), J),
+    ("Online / zuletzt da / Tippen", J, T("nur, wenn eingeschaltet"), T("wie Mitglieder")),
+    ("Wie du geheim abgestimmt hast", T("nur, dass du abgestimmt hast"), N, N),
+    ("Bankverbindung (zurzeit nicht abgefragt)", J, N, T("nur Kassenwart")),
 ]
 
 DSGVO = [
@@ -261,11 +261,14 @@ p {{ margin: 4px 0 8px; }}
 .seite:last-child {{ break-after: auto; }}
 .unter {{ color: var(--text2); margin-bottom: 12px; font-size: 10.5pt; }}
 .kopf {{ display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--wein); padding-bottom:4px; margin-bottom:14px; font-size:8.5pt; color:var(--muted); }}
-.titelbild {{ background: var(--wein); color:#fff; border-radius:16px; padding: 28px 28px 22px; margin-bottom: 18px; }}
+.titelbild {{ background: var(--wein); color:#fff; border-radius:16px; padding: 20px 24px 14px; margin-bottom: 12px; }}
 .titelbild h1 {{ color:#fff; }}
 .titelbild p {{ color:#f3dfe2; font-size: 11.5pt; }}
 .schloss {{ font-size: 34pt; float:right; line-height:1; }}
-.kern {{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }}
+.kern {{ display:grid; grid-template-columns: 1fr 1fr; gap: 8px; }}
+.seite1 .karte {{ padding: 9px 12px; font-size: 9.8pt; }}
+.seite1 .kpis {{ margin: 10px 0; }}
+.seite1 h1 {{ font-size: 24pt; }}
 .karte {{ background: var(--beige); border-radius: 12px; padding: 12px 14px; break-inside: avoid; }}
 .karte b.gross {{ display:block; font-size: 11.5pt; color: var(--wein); margin-bottom:2px; }}
 .karte.weiss {{ background:#fff; border:1.5px solid var(--beige2); }}
@@ -325,6 +328,50 @@ table.dsgvo td:nth-child(2) {{ font-weight:600; width: 150px; }}
 """
 
 
+def kreislauf():
+    """Pruef-Kreislauf: Pruefen -> Finden -> Beheben -> Testen -> Einspielen"""
+    schritte = [("1 · Prüfen", "KI liest das ganze Programm"), ("2 · Finden", "Lücken, Logikfehler,", ), ("3 · Beheben", "Fehler an der Quelle"), ("4 · Testen", "automatische Tests"), ("5 · Einspielen", "nur mit Freigabe")]
+    zweite = ["", "umständliche Bedienung", "", "rot = kein Update", "als neue Version"]
+    cx, cy, r = 320, 200, 140
+    out = [f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{BEIGE2}" stroke-width="10"/>']
+    for i, (t, u) in enumerate(schritte):
+        w = -math.pi / 2 + 2 * math.pi * i / 5
+        x, y = cx + r * math.cos(w), cy + r * math.sin(w)
+        w2 = w + 2 * math.pi / 10
+        ax, ay = cx + r * math.cos(w2), cy + r * math.sin(w2)
+        out.append(f'<polygon points="-7,-6 7,0 -7,6" fill="{WEIN}" transform="translate({ax:.1f},{ay:.1f}) rotate({math.degrees(w2) + 90:.1f})"/>')
+        out.append(f'<rect x="{x - 78:.1f}" y="{y - 26:.1f}" width="156" height="52" rx="12" fill="#fff" stroke="{WEIN}" stroke-width="2"/>')
+        out.append(f'<text x="{x:.1f}" y="{y - 8:.1f}" text-anchor="middle" class="lab" fill="{WEIN}">{esc(t)}</text>')
+        out.append(f'<text x="{x:.1f}" y="{y + 7:.1f}" text-anchor="middle" class="lab2">{esc(u)}</text>')
+        if zweite[i]:
+            out.append(f'<text x="{x:.1f}" y="{y + 19:.1f}" text-anchor="middle" class="lab2">{esc(zweite[i])}</text>')
+    out.append(f'<text x="{cx}" y="{cy - 4}" text-anchor="middle" class="d-gross">immer</text>')
+    out.append(f'<text x="{cx}" y="{cy + 18}" text-anchor="middle" class="d-klein">wieder von vorn</text>')
+    return '<svg viewBox="100 28 440 320" width="100%" role="img" aria-label="Pruef-Kreislauf">' + "".join(out) + "</svg>"
+
+
+KI = """<section class="seite">{kopf}
+<h2>Regelmäßig von KI überprüft</h2>
+<p class="unter">Unser Admin lässt die <b>gesamte App</b> regelmäßig mit künstlicher Intelligenz überprüfen – mit <b>Claude Code</b> und <b>ChatGPT</b>. Vier Augen sehen mehr als zwei, und zwei verschiedene KI-Prüfer finden mehr als einer.</p>
+<div class="kern">
+<div class="karte"><b class="gross">🛡️ Sicherheit</b>Wo könnte jemand eindringen? Sind alle Türen zu? Liegt irgendwo ein Passwort, wo es nicht hingehört?</div>
+<div class="karte"><b class="gross">🔍 Sicherheitslücken</b>Jede Server-Funktion wird einzeln gelesen: Prüft sie selbst, wer anfragt? Lässt sie nur das Erlaubte durch?</div>
+<div class="karte"><b class="gross">👆 Bedienkonzept</b>Ist alles einfach und verständlich? Findet man sich zurecht – auch mit großer Schrift und ohne Technikwissen?</div>
+<div class="karte"><b class="gross">🧠 Logik</b>Rechnet und entscheidet die App richtig? Passen Termine, Dienstpläne, Abstimmungen und Benachrichtigungen zusammen?</div>
+</div>
+<div class="diagramm"><h3>Der Prüf-Kreislauf</h3><p class="was">Jede gefundene Schwachstelle durchläuft diese Schritte – erst danach kommt ein Update zu dir.</p>
+<div style="max-width:430px;margin:0 auto">{kreislauf}</div></div>
+<div class="zwei">
+<div class="karte weiss"><b>Beispiele aus diesem Monat</b><ul class="liste">
+<li><b>13.10.2026:</b> Quelltext aller 85 Server-Funktionen auf Lücken geprüft.</li>
+<li><b>23.10.2026:</b> alle 42 Datenbank-Funktionen mit Zugang von außen einzeln geprüft.</li>
+<li><b>23.10.2026:</b> alle Club-Programme samt Verlauf nach Passwörtern und Schlüsseln durchsucht – nichts gefunden.</li></ul></div>
+<div class="karte weiss"><b>Klare Regeln für die KI</b><ul class="liste">
+<li>Die KI bekommt <b>keine Passwörter oder Schlüssel</b>.</li>
+<li>Sie schlägt vor – <b>entscheiden und freigeben</b> tut immer ein Mensch.</li>
+<li>Vor jedem Update laufen <b>automatische Tests</b>; ein roter Test stoppt das Update.</li></ul></div>
+</div>
+</section>"""
 def kopf(nr):
     return f'<div class="kopf"><span>Köcheclub Werne · Club-App · Sicherheit &amp; Datenschutz</span><span>Seite {nr}</span></div>'
 
@@ -332,7 +379,7 @@ def kopf(nr):
 def bauen():
     S = []
     # Seite 1 – Titel und das Wichtigste
-    S.append(f"""<section class="seite">
+    S.append(f"""<section class="seite seite1">
 <div class="titelbild"><span class="schloss">🔒</span>
 <h1>Wie sicher sind<br>meine Daten in der Club-App?</h1>
 <p>Eine einfache Erklärung für alle Mitglieder des Köcheclub Werne – Handy, Datenbank, Zugang, Spiegelung und Sicherung. Stand {STAND}.</p></div>
@@ -344,6 +391,7 @@ def bauen():
 <div class="karte"><b class="gross">4. Unterwegs immer verschlüsselt</b>Zwischen Handy und Server läuft alles verschlüsselt (wie beim Online-Banking). Auch gespeichert sind die Daten verschlüsselt.</div>
 <div class="karte"><b class="gross">5. Fünf Orte, die auf deine Daten aufpassen</b>Original, Spiegel und drei getrennte Sicherungen – die Sicherungen verschlüsselt und gegen Ändern gesperrt. Jeden Tag wird geprüft, ob die Wiederherstellung klappt.</div>
 <div class="karte"><b class="gross">6. Kostenlos und ohne Werbung</b>Die Datenbank steht in London, Sicherungen zusätzlich in Frankfurt – alles auf kostenlosen Tarifen. Keine Werbung, kein Verkauf von Daten, keine Weitergabe an Fremde.</div>
+<div class="karte" style="grid-column:1/-1"><b class="gross">7. Regelmäßig von KI überprüft</b>Unser Admin lässt die gesamte App regelmäßig mit künstlicher Intelligenz (Claude Code und ChatGPT) auf Sicherheit, Sicherheitslücken, Bedienung und Logik prüfen – mehr auf Seite 9.</div>
 </div>
 <div class="kpis">
 <div class="karte"><div class="zahl">273</div><small>Tabellen in jeder Tagessicherung – alle beim Test geprüft</small></div>
@@ -355,7 +403,7 @@ def bauen():
 <table class="ampel">
 <tr><td><span class="ja">● Gut geschützt</span></td><td>Zugang (Link/Code), Datenbank, Rechte, Sicherungen, Wiederherstellung, Wächter, geheime Abstimmungen</td></tr>
 <tr><td><span class="teil">● Gut – mit deiner Mithilfe</span></td><td>Dein Handy: Bildschirmsperre benutzen, Link nicht weitergeben, vor dem Weitergeben des Geräts abmelden</td></tr>
-<tr><td><span class="teil">● Bewusste Grenze</span></td><td>Chat ist nicht Ende-zu-Ende-verschlüsselt (siehe Seite 9 „Ehrlich gesagt“)</td></tr>
+<tr><td><span class="teil">● Bewusste Grenze</span></td><td>Chat ist nicht Ende-zu-Ende-verschlüsselt (siehe Seite 10 „Ehrlich gesagt“)</td></tr>
 </table>
 </section>""")
 
@@ -381,11 +429,10 @@ def bauen():
     # Seite 3 – Wer sieht was
     S.append(f"""<section class="seite">{kopf(3)}
 <h2>Wer kann welche Daten sehen?</h2>
-<p class="unter">Aufteilung nach Art der Daten. „Clubleitung“ sind Clubsprecher und Kassenwart (Ämter). „Admin“ betreut die App technisch.</p>
-<table class="sicht"><tr><th style="width:27%">Daten</th><th>Du selbst</th><th>Andere Mitglieder</th><th>Clubleitung</th><th>Admin</th></tr>
-{"".join(f"<tr><td><b>{esc(r[0])}</b></td><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td><td>{r[4]}</td></tr>" for r in SICHT)}
+<p class="unter">Aufteilung nach Art der Daten. „Clubleitung“ sind Clubsprecher und Kassenwart (Ämter).</p>
+<table class="sicht"><tr><th style="width:30%">Daten</th><th>Du selbst</th><th>Andere Mitglieder</th><th>Clubleitung</th></tr>
+{"".join(f"<tr><td><b>{esc(r[0])}</b></td><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>" for r in SICHT)}
 </table>
-<p class="fuss">* Die App zeigt Chats nur den Teilnehmern. Wer die Datenbank technisch betreut, könnte sie grundsätzlich einsehen, weil der Chat nicht Ende-zu-Ende-verschlüsselt ist – das geschieht nicht ohne Anlass, und Datenbank-Zugang haben nur die technischen Betreuer.</p>
 <div class="gut"><b>Geheime Abstimmung – wirklich geheim:</b> Die Stimme wird <b>ohne deinen Namen</b> gespeichert, mit einer zufälligen Nummer, damit man nicht einmal die Reihenfolge ablesen kann. Gemerkt wird nur, <i>dass</i> du abgestimmt hast – nicht <i>wie</i>.</div>
 <div class="gut"><b>Selbst prüfen:</b> Unter <i>Einstellungen → Privatsphäre</i> stellst du alles ein. Mit „So sehen mich die anderen“ siehst du sofort das Ergebnis. Die Kachel „Meine Daten“ zeigt dir, was über dich gespeichert ist – nur dir.</div>
 </section>""")
@@ -487,8 +534,11 @@ def bauen():
 <div class="karte weiss"><b>Zusätzlich jede Woche:</b> Sonntags holt ein Prüf-Ablauf eine zufällige Tabelle aus der Sicherung und entschlüsselt sie <b>ganz ohne Supabase</b> – mit der Schlüssel-Kopie aus dem Tresor. Montags wird die Zweitkopie bei Cloudflare angelegt, zurückgelesen und geprüft. So ist jede Woche bewiesen: Die Daten sind auch im schlimmsten Fall wieder herstellbar.</div>
 </section>""")
 
-    # Seite 9 – DSGVO + ehrlich
-    S.append(f"""<section class="seite">{kopf(9)}
+    # Seite 9 – KI-Pruefung
+    S.append(KI.format(kopf=kopf(9), kreislauf=kreislauf()))
+
+    # Seite 10 – DSGVO + ehrlich
+    S.append(f"""<section class="seite">{kopf(10)}
 <h2>Datenschutz-Grundverordnung (DSGVO)</h2>
 <p class="unter">Deine Rechte – und wo du sie in der App findest.</p>
 <table class="dsgvo">{"".join(f"<tr><td>{a}</td><td>{esc(b)}</td><td>{esc(c)}</td></tr>" for a, b, c in DSGVO)}</table>
