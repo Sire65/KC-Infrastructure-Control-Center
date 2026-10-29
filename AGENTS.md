@@ -20,3 +20,4 @@ Diese Regeln gelten fuer Menschen, Codex, Claude und andere Coding-Agents.
 16. PWA-/Update-Mechanismus muss atomar sein; Mischstaende aus alter/neuer Version sind verboten.
 17. Release-Artefakte sind unveraenderlich. Fehler werden mit neuer Version korrigiert.
 18. Lokale, Cloud- und kuenftige Provider muessen ueber austauschbare Adapter integrierbar bleiben.
+19. Corporate Design Köcheclub Werne: Alles Gedruckte (Briefbögen, Protokolle, Listen, Einladungen, To-do-Listen) nutzt nur das zentrale CD – Kochmütze als Logo, Schriftzug „Köcheclub Werne“, Weinrot + Beige, einheitliche Kopf- und Fußzeile (Brief: „Köcheclub Werne · Clubsprecher · <Name>“). Keine eigenen Köpfe, Farben oder Logos (Club-App: KC_CD/cdKopf/cdFuss, docs/CORPORATE_DESIGN.md).
