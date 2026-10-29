@@ -1,26 +1,19 @@
-// Teil 1: ein paar Tage vorher (spätestens 3 Tage vor der Sitzung) – Frage beim Start, Sitzung vorbereiten, speichern, Einladung senden
-// 2.750.0: beginnt mit der Frage beim Start (KC-CLUB-SITZUNG-AUFGABE-START) statt mit Kachel Büro → gelber Zettel (der kommt in b01)
+// Teil 1–3 (Club-App 2.751.0, KC-CLUB-SITZUNG-ABLAUF): 1. rechtzeitig Tagesordnung festlegen und einladen (Frage beim Start) · 2. bis zur Sitzung:
+// erinnern, Änderung nach der Einladung („Mitglieder informieren?“), Frist knapp, Vertretung durch den Kassenwart · 3. Sitzung vorbereiten (Anwesende,
+// Anmerkung, Mitschreibbogen) und zuletzt die Aktentasche mit Mitnehm-Liste. Freigeben zeigt Teil 4 (teil2.mjs) im Clubabend.
 import { launch, seite, bild, tipp, speichern } from "./basis.mjs";
-import { zustand, MITTAG, MITTWOCH, ZU_SPAET } from "./demo.mjs";
-const { S, antworten, eingang } = zustand();
+import { zustand, MITTAG, MITTWOCH, DONNERSTAG, ZU_SPAET } from "./demo.mjs";
+const { S, antworten } = zustand();
 const b = await launch();
-const p = await seite(b, { zeit: MITTAG, antworten: antworten("klaus"), aufgabe: true });
+let p = await seite(b, { zeit: MITTAG, antworten: antworten("klaus"), aufgabe: true });
 const oben = () => p.evaluate(() => window.scrollTo(0, 0));
+// --- Teil 1: Frage beim Start → Tagesordnung festlegen
 await p.locator("#buAufgabeBlatt").waitFor({ timeout: 20000 });
 await bild(p, "a00-frage", "#buAufgabeBlatt .bu-schritte");
 await bild(p, "a00b-ja", ['#buAufgabeBlatt [data-w="ja"]', '#buAufgabeBlatt [data-w="spaeter"]']);
 await tipp(p, '#buAufgabeBlatt [data-w="ja"]'); await p.waitForTimeout(1500); await oben();
-await bild(p, "a04-kopf", ["#buInhalt .bu-schritte", "#buInhalt .bu-stand"]);
-const karte = (n) => `#buInhalt .karte:has(h3:text-matches("^${n}"))`;
-await p.locator(karte("1")).scrollIntoViewIfNeeded(); await p.evaluate(() => window.scrollBy(0, -70));
-await bild(p, "a05-wer", karte("1"));
-await bild(p, "a06-haken", '#buInhalt .bu-haken:has-text("Klara")');
-await tipp(p, '#buInhalt .bu-haken:has-text("Klara") input');
-await bild(p, "a07-haken-an", '#buInhalt .bu-haken:has-text("Klara")');
-await tipp(p, '#buInhalt .bu-haken:has-text("Klara") input'); // wieder zurück: Klara kommt später – wird abends nachgetragen
-await p.locator(karte("2")).scrollIntoViewIfNeeded(); await p.evaluate(() => window.scrollBy(0, 0));
-await bild(p, "a08-anmerkung", karte("2"));
-await p.locator(karte("3")).evaluate((e) => e.scrollIntoView({ block: "start" })); await p.evaluate(() => window.scrollBy(0, -70));
+await bild(p, "a04-kopf", ["#buInhalt .bu-teil", "#buInhalt .bu-stand"]);
+await p.locator("#buInhalt ol.bu-top").evaluate((e) => e.scrollIntoView({ block: "start" })); await p.evaluate(() => window.scrollBy(0, -120));
 await bild(p, "a09-top", "#buInhalt ol.bu-top");
 await bild(p, "a10-pfeile", "#buInhalt ol.bu-top li:nth-child(5) .bu-top-knoepfe");
 await tipp(p, "#buInhalt ol.bu-top li:nth-child(5) button[aria-label='nach oben']");
@@ -35,17 +28,13 @@ await bild(p, "a14-eigen", ["#buNeu", '#buInhalt button:has-text("Dazu")']);
 await tipp(p, '#buInhalt button:has-text("Dazu")');
 await p.locator('#buInhalt ol.bu-top li:has-text("Termine 2027")').evaluate((e) => e.scrollIntoView({ block: "center" }));
 await bild(p, "a15-eigen-drin", '#buInhalt ol.bu-top li:has-text("Termine 2027")');
-await p.locator(karte("4")).evaluate((e) => e.scrollIntoView({ block: "start" })); await p.evaluate(() => window.scrollBy(0, -70));
-await bild(p, "a16-zeilen", karte("4") + " .hl-chips");
-await p.waitForTimeout(1200);
-await p.locator("#lvKasten").evaluate((e) => e.scrollIntoView({ block: "start" })); await p.evaluate(() => window.scrollBy(0, -70)); await p.waitForTimeout(800);
-await bild(p, "a17-vorschau", "#lvKasten");
-await p.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-await bild(p, "a18-fertig", '#buInhalt button:has-text("Fertig – speichern")');
-await tipp(p, '#buInhalt button:has-text("Fertig – speichern")'); await p.waitForTimeout(800);
+await bild(p, "a18-fertig", '#buInhalt .bu-leiste button:has-text("Tagesordnung speichern")');
+await tipp(p, '#buInhalt .bu-leiste button:has-text("Tagesordnung speichern")'); await p.waitForTimeout(800);
 await bild(p, "a19-gespeichert", '#buWeiter button:has-text("Weiter: Mitglieder einladen")');
 await tipp(p, '#buWeiter button:has-text("Weiter: Mitglieder einladen")'); await p.waitForTimeout(1200);
 await bild(p, "a20-einladung", "#buEinladung .karte");
+await p.locator("#buBrief").evaluate((e) => e.scrollIntoView({ block: "end" }));
+await bild(p, "a20b-dringend-satz", "#buBrief");
 await p.locator("#buZusatz").click(); await p.locator("#buZusatz").pressSequentially("Bitte Kassenbuch mitbringen", { delay: 30 });
 await bild(p, "a21-zeile", "#buZusatz");
 await p.locator("#buAn").evaluate((e) => e.scrollIntoView({ block: "center" }));
@@ -68,12 +57,9 @@ await bild(p, "a23-wege-beide", '#buWege .chip[data-w="beide"]');
 await tipp(p, '#buWege .chip[data-w=""]');
 await bild(p, "a24-senden", '#buEinladung button:has-text("Jetzt an")');
 await tipp(p, '#buEinladung button:has-text("Jetzt an")'); await p.waitForTimeout(600);
-await bild(p, "a25-frage");
-const ja = p.locator(".dlg button.haupt, .dlg-knoepfe button.haupt, dialog button.haupt").first();
-await ja.click().catch(async () => console.log("ja-Knopf?", await p.evaluate(() => document.body.innerHTML.match(/dlg[^"]*"/g)?.slice(0, 10))));
-await p.waitForTimeout(1200);
-await bild(p, "a26-gesendet", ['#buWeiter button:has-text("Weiter: Aktentasche packen")', '#buWeiter button:has-text("Zurück ins Büro")']);
-// Teil 2: Büro mit dem gelben Zettel, nur bestimmte Mitglieder anschreiben, Unterlagen drucken, Aktentasche packen
+await bild(p, "a25-frage", 'button:has-text("✅ Ja"):visible');
+await p.locator('button:has-text("✅ Ja"):visible').last().click(); await p.waitForTimeout(1200);
+await bild(p, "a26-gesendet", '#buWeiter button:has-text("Zurück ins Büro")');
 await tipp(p, '#buWeiter button:has-text("Zurück ins Büro")'); await p.waitForTimeout(1200); await oben();
 await bild(p, "b00-buero");
 await p.locator("#v-buero .bu-zettelreihe").evaluate((e) => e.scrollIntoView({ block: "center" }));
@@ -87,19 +73,77 @@ await tipp(p, '#buInhalt .chip:has-text("Noch ohne Antwort")');
 await bild(p, "b05-kontakt-ohne", '#buInhalt .chip:has-text("Noch ohne Antwort")');
 await p.locator('#buInhalt .mini-kachel:has-text("Nachricht schreiben")').evaluate((e) => e.scrollIntoView({ block: "center" }));
 await bild(p, "b06-kontakt-wie", '#buInhalt .mini-kachel:has-text("Nachricht schreiben")');
-await tipp(p, '#buInhalt button:has-text("Zurück ins Büro")'); await p.waitForTimeout(1200);
-await p.locator("#v-buero .bu-drucker").evaluate((e) => e.scrollIntoView({ block: "center" }));
-await bild(p, "b07-drucker", "#v-buero .bu-drucker");
-await tipp(p, "#v-buero .bu-drucker");
-await bild(p, "b08-drucker-menue", '#buDruckerBlatt .mini-kachel:has-text("Sitzungs-Vorlage")');
-await tipp(p, '#buDruckerBlatt .mini-kachel:has-text("Sitzungs-Vorlage")'); await p.waitForTimeout(2000);
+// Sitzungs-Vorgaben (Clubleitung): Ordner „Sitzung“ im Regal → ⚙️
+await p.evaluate(() => { buStart(); }); await p.waitForTimeout(800); await p.evaluate(() => buOrdner("sitzung")); await p.waitForTimeout(1000);
+await p.locator('#buInhalt .mini-kachel:has-text("Sitzungs-Vorgaben")').evaluate((e) => e.scrollIntoView({ block: "center" }));
+await bild(p, "v01-vorgaben-kachel", '#buInhalt .mini-kachel:has-text("Sitzungs-Vorgaben")');
+await tipp(p, '#buInhalt .mini-kachel:has-text("Sitzungs-Vorgaben")'); await p.waitForTimeout(1200);
+await bild(p, "v02-vorgaben", "#svBlatt .karte");
+await p.locator("#svOhne").evaluate((e) => e.scrollIntoView({ block: "center" }));
+await bild(p, "v03-vorgaben-termin", ["#svWt", "#svUhr", "#svOrt", "#svOhne"]);
+await p.evaluate(() => $("svBlatt")?.remove());
+
+// --- Teil 2: bis zur Sitzung – Mittwoch: an die Antwort erinnern
+const e1 = await seite(b, { zeit: MITTWOCH, antworten: antworten("klaus"), aufgabe: true });
+await e1.locator("#buAufgabeBlatt").waitFor({ timeout: 20000 });
+await bild(e1, "e01-erinnern-frage", ['#buAufgabeBlatt .bu-schritt.jetzt', '#buAufgabeBlatt [data-w="ja"]']);
+await tipp(e1, '#buAufgabeBlatt [data-w="ja"]'); await e1.waitForTimeout(1500);
+await e1.locator('#buEinladung button:has-text("Jetzt an")').scrollIntoViewIfNeeded();
+await bild(e1, "e02-erinnern-senden", '#buEinladung button:has-text("Jetzt an")');
+S.erinnerung_am = MITTWOCH;
+// ein dringender Vorschlag wurde aufgenommen → Tagesordnung geändert → „Mitglieder informieren?“
+const l = S.vorbereitung.tagesordnung, vi = l.findIndex((x) => x.t === "Verschiedenes");
+l.splice(vi, 0, { t: "❗ Spende an die Tafel Werne", art: "vorschlag", id: "V4" }); S.geaendert = true;
+const e2 = await seite(b, { zeit: MITTWOCH, antworten: antworten("klaus"), aufgabe: true });
+await e2.locator("#buAufgabeBlatt").waitFor({ timeout: 20000 });
+await bild(e2, "e03-aenderung-frage", ['#buAufgabeBlatt [data-w="ja"]', '#buAufgabeBlatt [data-w="nein"]']);
+await tipp(e2, '#buAufgabeBlatt [data-w="ja"]'); await e2.waitForTimeout(1500);
+await bild(e2, "e03b-aenderung-brief", "#buBrief");
+S.geaendert = false; S.versandt = [...l]; // Änderungsmeldung ist raus
+// Frist knapp (eigener Stand): Tagesordnung fertig, Einladung noch nicht raus
+const { antworten: a3 } = zustand();
+const k3 = a3("klaus"), sz3 = k3.buero_sitzung(); k3.buero_speichern({ anwesend: sz3.standard.anwesend, anmerkung: "", tagesordnung: sz3.standard.tagesordnung, zeilen: 5 });
+const e3 = await seite(b, { zeit: ZU_SPAET, antworten: k3, aufgabe: true });
+await e3.locator("#buAufgabeBlatt").waitFor({ timeout: 20000 });
+await bild(e3, "e04-knapp", "#buAufgabeBlatt .bu-schritt.knapp");
+// Vertretung: Klaus ist krank – Kassenwart Paul bekommt den Kontroll-Hinweis und übernimmt
+const e4 = await seite(b, { zeit: ZU_SPAET, antworten: a3("paul"), aufgabe: true });
+await e4.locator("#buAufgabeBlatt").waitFor({ timeout: 20000 });
+await bild(e4, "e05-kontrolle", "#buAufgabeBlatt ul.bu-hinweise");
+await bild(e4, "e05b-uebernehmen", ['#buAufgabeBlatt [data-w="schreiben"]', '#buAufgabeBlatt [data-w="uebernehmen"]']);
+await tipp(e4, '#buAufgabeBlatt [data-w="uebernehmen"]'); await e4.waitForTimeout(6000); await e4.evaluate(() => { window.scrollTo(0, 0); document.querySelectorAll(".melde, #melde, .toast").forEach((x) => x.remove()); });
+await bild(e4, "e06-vertretung", "#v-buero .bu-vertretung");
+
+// --- Teil 3: Donnerstag – Sitzung vorbereiten, dann zuletzt die Aktentasche
+p = await seite(b, { zeit: DONNERSTAG, antworten: antworten("klaus"), aufgabe: true });
+await p.locator("#buAufgabeBlatt").waitFor({ timeout: 20000 });
+await bild(p, "f01-vorbereiten-frage", ['#buAufgabeBlatt .bu-schritt.jetzt', '#buAufgabeBlatt [data-w="ja"]']);
+await tipp(p, '#buAufgabeBlatt [data-w="ja"]'); await p.waitForTimeout(1500); await oben();
+await bild(p, "f02-vorbereiten-seite", "#buInhalt .bu-teil");
+const karte = (n) => `#buInhalt .karte:has(h3:text-matches("^${n}"))`;
+await p.locator(karte("1")).scrollIntoViewIfNeeded(); await p.evaluate(() => window.scrollBy(0, -70));
+await bild(p, "a05-wer", karte("1"));
+await bild(p, "a06-haken", '#buInhalt .bu-haken:has-text("Klara")');
+await tipp(p, '#buInhalt .bu-haken:has-text("Klara") input');
+await bild(p, "a07-haken-an", '#buInhalt .bu-haken:has-text("Klara")');
+await tipp(p, '#buInhalt .bu-haken:has-text("Klara") input');
+await p.locator(karte("2")).scrollIntoViewIfNeeded();
+await bild(p, "a08-anmerkung", karte("2"));
+await p.locator(karte("3")).evaluate((e) => e.scrollIntoView({ block: "start" })); await p.evaluate(() => window.scrollBy(0, -70));
+await bild(p, "a16-zeilen", karte("3") + " .hl-chips");
+await p.waitForTimeout(1200);
+await p.locator("#lvKasten").evaluate((e) => e.scrollIntoView({ block: "start" })); await p.evaluate(() => window.scrollBy(0, -70)); await p.waitForTimeout(800);
+await bild(p, "a17-vorschau", "#lvKasten");
+await bild(p, "f03-fertig", '#buInhalt .bu-leiste button:has-text("Fertig – vorbereitet")');
+await tipp(p, '#buInhalt .bu-leiste button:has-text("Fertig – vorbereitet")'); await p.waitForTimeout(800);
+await bild(p, "f04-vorbereitet", ['#buWeiter button:has-text("Mitschreibbogen drucken")', '#buWeiter button:has-text("Aktentasche")']);
+await tipp(p, '#buWeiter button:has-text("Mitschreibbogen drucken")'); await p.waitForTimeout(2000);
 await bild(p, "b09-druckvorschau");
 await p.locator('#druckVorschau button:has-text("Schließen")').first().click();
-await p.waitForTimeout(800); await oben();
-await bild(p, "b10-aktentasche", '#v-buero button:has-text("Aktentasche")');
-await tipp(p, '#v-buero button:has-text("Aktentasche")'); await p.waitForTimeout(1000);
-await bild(p, "b11-anlass", '.ca-wahl button[data-id="T1"]');
-await tipp(p, '.ca-wahl button[data-id="T1"]'); await p.waitForTimeout(1200);
+await p.waitForTimeout(800); await p.evaluate(() => buStart()); await p.waitForTimeout(1200); await oben();
+await p.locator("#v-buero .bu-zettelreihe").evaluate((e) => e.scrollIntoView({ block: "center" }));
+await bild(p, "b10-aktentasche", "#v-buero .bu-zettelreihe .bu-zettel:not(.blau)");
+await tipp(p, "#v-buero .bu-zettelreihe .bu-zettel:not(.blau)"); await p.waitForTimeout(1500);
 await bild(p, "b12-packen", "#atBlatt .blatt-innen");
 await p.locator('#atBlatt button:has-text("Packen")').scrollIntoViewIfNeeded();
 await bild(p, "b13-packen-knopf", '#atBlatt button:has-text("Packen")');
@@ -109,59 +153,26 @@ await tipp(p, '#atBlatt .at-teil:has-text("Tagesordnung") .at-haken'); await p.w
 await tipp(p, '#atBlatt .at-teil:has-text("Zusagen") .at-haken'); await p.waitForTimeout(1200);
 await p.locator('#atBlatt .at-teil:has-text("Tagesordnung")').evaluate((e) => e.scrollIntoView({ block: "start" })); await p.locator("#atBlatt .blatt-innen").evaluate((e) => e.scrollBy(0, -40));
 await bild(p, "b15-abhaken", ['#atBlatt .at-teil:has-text("Tagesordnung") .at-haken', '#atBlatt .at-teil:has-text("Zusagen") .at-haken']);
-await p.locator("#atNotiz").scrollIntoViewIfNeeded(); await p.locator("#atNotiz").click(); await p.locator("#atNotiz").pressSequentially("Kassenbuch und Schürzen-Muster mitnehmen", { delay: 25 });
+// Mitnehm-Liste (KC-CLUB-AKTENTASCHE-MITNEHMEN)
+await p.locator("#atMit").scrollIntoViewIfNeeded(); await p.locator("#atMit").click(); await p.locator("#atMit").pressSequentially("Muster der neuen Schilder", { delay: 25 });
+await bild(p, "b15b-mitnehmen", ["#atMit", '#atBlatt button[onclick^="atMitnehmen"]']);
+await tipp(p, '#atBlatt button[onclick^="atMitnehmen"]'); await p.waitForTimeout(1200);
+await p.locator("#atMit").click(); await p.locator("#atMit").pressSequentially("Getränkeproben", { delay: 25 });
+await tipp(p, '#atBlatt button[onclick^="atMitnehmen"]'); await p.waitForTimeout(1200);
+await tipp(p, '#atBlatt .at-teil:has-text("Getränkeproben") .at-haken'); await p.waitForTimeout(1200);
+await p.locator('#atBlatt .at-teil:has-text("Muster der neuen Schilder")').evaluate((e) => e.scrollIntoView({ block: "center" }));
+await bild(p, "b15c-mitnehmen-liste", ['#atBlatt .at-teil:has-text("Muster der neuen Schilder")', '#atBlatt .at-teil:has-text("Getränkeproben")']);
+await p.locator("#atNotiz").scrollIntoViewIfNeeded(); await p.locator("#atNotiz").click(); await p.locator("#atNotiz").pressSequentially("Kassenbuch nicht vergessen", { delay: 25 });
 await bild(p, "b16-notiz", "#atNotiz");
 await bild(p, "b17-drucken-auswahl", '#atBlatt button:has-text("Drucken – auswählen")');
 await tipp(p, '#atBlatt button:has-text("Drucken – auswählen")'); await p.waitForTimeout(800);
 await bild(p, "b18-druckwahl", '#atDruckBlatt button:has-text("Ausgewählte drucken")');
 await tipp(p, '#atDruckBlatt button:has-text("Abbrechen")');
-// KC-CLUB-AKTENTASCHE-FREIGEBEN (2.741.0): Unterlagen in den Eingangskorb der Mitglieder
-await p.locator('#atBlatt button:has-text("Freigeben")').scrollIntoViewIfNeeded();
-await bild(p, "b18b-freigeben", '#atBlatt button:has-text("Freigeben")');
-await tipp(p, '#atBlatt button:has-text("Freigeben")'); await p.waitForTimeout(800);
-await p.locator('#atFreiBlatt label:has-text("Tagesordnung") input').check(); await p.locator('#atFreiBlatt label:has-text("Zusagen") input').check();
-await p.locator('#atFreiBlatt label:has-text("Tagesordnung")').evaluate((e) => e.scrollIntoView({ block: "start" })); await p.locator("#atFreiBlatt .blatt-innen").evaluate((e) => e.scrollBy(0, -40));
-await bild(p, "b18c-frei-wahl", ['#atFreiBlatt label:has-text("Tagesordnung") input', '#atFreiBlatt label:has-text("Zusagen") input']);
-await p.locator("#atFreiAn").evaluate((e) => e.scrollIntoView({ block: "center" }));
-await bild(p, "b18d-frei-an", "#atFreiAn > .hl-chips");
-await p.locator("#atFreiNotiz").click(); await p.locator("#atFreiNotiz").pressSequentially("Unterlagen zur Clubsitzung – bitte vorher durchlesen.", { delay: 15 });
-await p.locator("#atFreiLos").evaluate((e) => e.scrollIntoView({ block: "center" }));
-await bild(p, "b18e-frei-senden", ["#atFreiReg", "#atFreiLos"]);
-await tipp(p, "#atFreiLos"); await p.waitForTimeout(600);
-await bild(p, "b18f-frei-frage", 'button:has-text("📤 Senden"):visible');
-await p.locator('button:has-text("📤 Senden"):visible').last().click(); await p.waitForTimeout(9000);
-await bild(p, "b18g-frei-gesendet");
 await bild(p, "b19-fertig-gepackt", '#atBlatt button:has-text("Fertig gepackt")');
 await tipp(p, '#atBlatt button:has-text("Fertig gepackt")'); await p.waitForTimeout(800);
 await bild(p, "b20a-frage", 'button:has-text("Ja, gepackt")');
 await tipp(p, 'button:has-text("Ja, gepackt")'); await p.waitForTimeout(2500);
 await p.locator("#atBlatt .blatt-innen").evaluate((e) => e.scrollTo(0, 0));
 await bild(p, "b20-gepackt", "#atBlatt .marke");
-// So kommt es bei den Mitgliedern an (Erika): Hinweis beim Öffnen → ansehen → ablegen oder löschen
-const e = await seite(b, { zeit: MITTAG, antworten: { ...antworten("erika"), ...eingang() } });
-await e.waitForTimeout(7000);
-await bild(e, "b21-mitglied-hinweis", 'button:has-text("Ja, ansehen")');
-await tipp(e, 'button:has-text("Ja, ansehen")'); await e.waitForTimeout(4000);
-await bild(e, "b22-mitglied-ansehen", "#egVorschau");
-await e.locator('#egBlatt [data-w="ab"]').scrollIntoViewIfNeeded();
-await bild(e, "b23-mitglied-frage", ['#egBlatt [data-w="ab"]', '#egBlatt [data-w="weg"]']);
-await tipp(e, '#egBlatt [data-w="ab"]'); await e.waitForTimeout(800);
-await bild(e, "b24-mitglied-ablegen", ["#awOrdner", "#awReg"]);
-// Teil 3 (2.750.0): die Tage bis zur Sitzung – die App fragt beim Start nach der nächsten Aufgabe
-const e1 = await seite(b, { zeit: MITTWOCH, antworten: antworten("klaus"), aufgabe: true });
-await e1.locator("#buAufgabeBlatt").waitFor({ timeout: 20000 });
-await bild(e1, "e01-erinnern-frage", ['#buAufgabeBlatt .bu-schritt.jetzt', '#buAufgabeBlatt [data-w="ja"]']);
-await tipp(e1, '#buAufgabeBlatt [data-w="ja"]'); await e1.waitForTimeout(1500);
-await e1.locator('#buEinladung button:has-text("Jetzt an")').scrollIntoViewIfNeeded();
-await bild(e1, "e02-erinnern-senden", '#buEinladung button:has-text("Jetzt an")');
-S.erinnerung_am = MITTWOCH; S.geaendert = true; // danach noch ein Punkt in die Tagesordnung gekommen
-const e2 = await seite(b, { zeit: MITTWOCH, antworten: antworten("klaus"), aufgabe: true });
-await e2.locator("#buAufgabeBlatt").waitFor({ timeout: 20000 });
-await bild(e2, "e03-aenderung-frage", '#buAufgabeBlatt [data-w="ja"]');
-const { antworten: a3 } = zustand(); // eigener Stand: Tagesordnung fertig, aber die Frist ist vorbei
-const k3 = a3("klaus"), sz3 = k3.buero_sitzung(); k3.buero_speichern({ anwesend: sz3.standard.anwesend, anmerkung: "", tagesordnung: sz3.standard.tagesordnung, zeilen: 5 });
-const e3 = await seite(b, { zeit: ZU_SPAET, antworten: k3, aufgabe: true });
-await e3.locator("#buAufgabeBlatt").waitFor({ timeout: 20000 });
-await bild(e3, "e04-knapp", "#buAufgabeBlatt .bu-schritt.knapp");
 await b.close();
 speichern("szenen-1.json");

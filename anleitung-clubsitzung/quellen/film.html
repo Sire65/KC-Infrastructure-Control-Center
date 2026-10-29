@@ -33,14 +33,14 @@ let Z = [], R = {}; // Zeitplan (zeiten.json) und Tipp-Ringe je Bild (szenen-*.j
 const S = 638 / 390; // CSS-Pixel der App-Ansicht → Pixel im Film
 const KARTEN = {
   titel: () => `<img src="kc-kochmuetze-weiss.webp"><div class="k1">Köcheclub Werne · Club-App</div><div class="k2">Clubsitzung vorbereiten<br>und leiten</div><div class="k3">Anleitung für Klaus, unseren Clubsprecher</div><div class="klein">Alle Bilder: die echte Club-App mit Beispieldaten</div>`,
-  "kapitel:1": () => kap("Teil 1", "Rechtzeitig vorbereiten", "Tagesordnung festlegen und einladen – spätestens 3 Tage vor der Sitzung"),
-  "kapitel:2": () => kap("Teil 2", "Drucken &amp; Aktentasche", "Unterlagen auf Papier und die Tasche für den Abend"),
-  "kapitel:3": () => kap("Teil 3", "Bis zur Sitzung", "Die App erinnert dich: Antworten, Änderungen, Frist"),
-  "kapitel:4": () => kap("Teil 4", "Am Abend", "Clubabend Live: Anwesende, Tagesordnung, nächster Termin"),
+  "kapitel:1": () => kap("Teil 1", "Tagesordnung & Einladung", "Rechtzeitig – spätestens 3 Tage vor der Sitzung einladen"),
+  "kapitel:2": () => kap("Teil 2", "Bis zur Sitzung", "Erinnern, Änderungen, Frist – und die Vertretung"),
+  "kapitel:3": () => kap("Teil 3", "Vorbereiten &amp; Aktentasche", "Einen Tag vorher: Vorlagen, Mitschreibbogen, Tasche mit Mitnehm-Liste"),
+  "kapitel:4": () => kap("Teil 4", "Am Abend", "Clubabend Live: Tasche, freigeben, Anwesende, zum Schluss, nächster Termin"),
   "kapitel:5": () => kap("Teil 5", "Noch etwas unklar?", "Hansi hilft dir gern"),
   ende: () => `<img src="kc-kochmuetze-weiss.webp"><div class="k2">Viel Erfolg, Klaus!</div><ol>
-    <li>App öffnen → Frage beantworten (oder Büro → gelber Zettel)</li><li>Tagesordnung festlegen → „Fertig – speichern“</li><li>Einladen – spätestens 3 Tage vorher</li>
-    <li>Drucken &amp; Aktentasche packen</li><li>Erinnern, Änderungen mitteilen</li><li>Abends: Clubabend Live – Anwesende, Tagesordnung</li><li>Nächsten Termin live abstimmen</li></ol>
+    <li>App öffnen → Frage beantworten (oder gelber Zettel)</li><li>Tagesordnung festlegen → einladen (3 Tage vorher)</li><li>Erinnern, Änderungen: „Mitglieder informieren?“</li>
+    <li>1 Tag vorher: Sitzung vorbereiten, drucken</li><li>Zuletzt: Aktentasche + Mitnehm-Liste</li><li>Abends: Clubabend Live – freigeben, Zum Schluss</li><li>Als Letztes: nächster Termin live</li></ol>
     <div class="klein">Fragen? Schreib Hansi eine Nachricht in der Club-App.</div>`,
 };
 function kap(a, b, c) { return `<img src="kc-kochmuetze-weiss.webp"><div class="k1">${a}</div><div class="k2">${b}</div><div class="k3">${c}</div>`; }

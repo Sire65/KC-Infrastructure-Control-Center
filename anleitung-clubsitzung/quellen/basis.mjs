@@ -16,7 +16,7 @@ export async function seite(b, opt) {
   if (opt.zeit) await p.clock.setFixedTime(new Date(opt.zeit));
   const antw = { ...ANTWORTEN, ...opt.antworten };
   const init0 = { ...ANTWORTEN.init, naechstesTreffen: opt.treffen === undefined ? ANTWORTEN.init.naechstesTreffen : opt.treffen, ungelesen: 0, ungelesenLaut: 0, offeneAbstimmungen: 0, protokolleUngelesen: 0,
-    einstellungen: { ...ANTWORTEN.init.einstellungen, ansicht: { art: opt.ansicht || "erweitert", gewaehlt: true }, einweisung: { an: false, gesehen: {} }, spiel_einladung: { an: false }, effekte: { an: false }, filme: Object.fromEntries(["clubsitzung", "clubsitzungneu", "clubsitzungfrist"].map((id) => [id, { wie: "angesehen", z: "2026-10-28T12:00:00.000Z" }])) } }; // Film-Hinweis (2.738.0) nicht im Bild
+    einstellungen: { ...ANTWORTEN.init.einstellungen, ansicht: { art: opt.ansicht || "erweitert", gewaehlt: true }, einweisung: { an: false, gesehen: {} }, spiel_einladung: { an: false }, effekte: { an: false }, filme: Object.fromEntries(["clubsitzung", "clubsitzungneu", "clubsitzungfrist", "clubsitzungablauf"].map((id) => [id, { wie: "angesehen", z: "2026-10-28T12:00:00.000Z" }])) } }; // Film-Hinweis (2.738.0) nicht im Bild
   antw.init = typeof opt.antworten?.init === "function" ? opt.antworten.init(init0) : init0;
   await p.route("**/functions/v1/kc-club*", async (r) => {
     let a = "", q = {}; try { q = JSON.parse(r.request().postData() || "{}"); a = q.action; } catch {}

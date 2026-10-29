@@ -1,12 +1,14 @@
 // Beispieldaten für den Anleitungsfilm „Clubsitzung vorbereiten“ – erfundene Mitglieder, keine echten Mitgliederdaten.
 // Klaus (Clubsprecher) und Hansi (Admin) sind die beiden Personen aus dem Auftrag; alle anderen Namen sind erfunden.
 // Antworten im Format des Club-Servers (supabase/functions/kc-club/index.ts der Club-App), damit die echte Oberfläche sie zeigt.
-export const SITZUNG = "2026-10-30T19:00:00+01:00"; // Freitag, 30.10.2026, 19 Uhr
+export const SITZUNG = "2026-10-30T18:00:00+01:00"; // Freitag, 30.10.2026, 18 Uhr (Sitzungs-Vorgaben 2.751.0)
 export const MITTAG = "2026-10-26T18:15:00+01:00"; // Montag, 4 Tage vorher (Frist für die Einladung: Di 27.10.) – KC-CLUB-SITZUNG-FRIST (2.750.0)
-export const MITTWOCH = "2026-10-28T17:30:00+01:00"; // 2 Tage vorher: an die Antwort erinnern
+export const MITTWOCH = "2026-10-28T18:30:00+01:00"; // 2 Tage vorher: an die Antwort erinnern
 export const ZU_SPAET = "2026-10-28T09:00:00+01:00"; // Frist vorbei, noch nicht eingeladen (nur fürs Bild „⚠️ Knapp“)
-export const ABEND = "2026-10-30T19:05:00+01:00";
+export const ABEND = "2026-10-30T18:05:00+01:00";
+export const DONNERSTAG = "2026-10-29T17:30:00+01:00"; // 1 Tag vorher: Sitzung vorbereiten, Aktentasche (2.751.0)
 const ICH_KLAUS = { person_id: "P1", name: "Klaus Clubsprecher", vorname: "Klaus", admin: false, vorstand: true, aemter: ["Clubsprecher"], protokolle: true, kontakte: true, buero: "schreiben" };
+const ICH_PAUL = { person_id: "P3", name: "Paul Probe", vorname: "Paul", admin: false, vorstand: true, aemter: ["Kassenwart"], protokolle: true, kontakte: true, buero: "schreiben" }; // Vertretung (2.751.0)
 const ICH_ERIKA = { person_id: "P2", name: "Erika Beispiel", vorname: "Erika", admin: false, vorstand: false, aemter: [], protokolle: true, kontakte: true, buero: null };
 // [id, Name, Antwort auf die Einladung, Notiz]
 const LEUTE = [
@@ -14,7 +16,7 @@ const LEUTE = [
   ["P5", "Otto Muster", "nein", "Urlaub"], ["P6", "Rita Sommer", null], ["P7", "Uwe Winter", "ja"], ["P8", "Lena Herbst", null],
   ["P9", "Hans-Joachim Koch", "ja"], ["P10", "Bernd Brot", "ja"], ["P11", "Gabi Gans", "nein", "krank"], ["P12", "Jens Jung", null], ["P13", "Moni Mehl", "vielleicht"],
 ];
-const treffen = { id: "T1", titel: "Clubsitzung November", beginn: SITZUNG, ende: null, ort: "Vereinsheim", beschreibung: null, status: "geplant", art: "treffen", ganztaegig: false, gastgeber: null,
+const treffen = { id: "T1", titel: "Clubsitzung November", beginn: SITZUNG, ende: null, ort: "Hütte Anne", beschreibung: null, status: "geplant", art: "treffen", ganztaegig: false, gastgeber: null,
   teilnahme: LEUTE.filter((l) => l[2]).map(([id, name, antwort, notiz]) => ({ person_id: id, name, antwort, notiz: notiz || null })), ja: 6, nein: 2, vielleicht: 2, meine: "ja", mitfahrten: [], mitfahrtSuche: [] };
 const VORSCHLAEGE = [
   { id: "V1", art: "thema", titel: "Planung Weihnachtsmarkt", text: "Planung Weihnachtsmarkt: Dienstplan und Einkauf", fuerDiese: true, dringend: null, status: "offen", unterstuetzt: 6, von: "Erika" },
@@ -27,13 +29,15 @@ const TOP_STANDARD = [{ t: "Begrüßung", art: "fest" }, { t: "Genehmigung des l
   { t: VORSCHLAEGE[0].text, art: "vorschlag", id: "V1" }, { t: VORSCHLAEGE[1].text, art: "vorschlag", id: "V2" }, { t: "Verschiedenes", art: "fest" }];
 const mitglieder = (zusage) => LEUTE.map(([id, name, antwort, notiz]) => ({ person_id: id, name, ...(zusage ? { zusage: antwort } : { antwort, notiz: notiz || null }) }));
 
+// 2.751.0 KC-CLUB-SITZUNG-VORGABEN (wie in der Club-Datenbank eingerichtet)
+const VORGABEN = { vorschlag_tage: 4, vorschlag_stunde: 17, einladung_tage: 3, erinnerung_tage: 2, unterlagen_tage: 1, tasche_stunde: 14, vorlauf_tage: 7, vorbereiter_amt: "Clubsprecher", wochentag: 5, uhrzeit: "18:00", ort: "Hütte Anne", ohne_monate: [12] };
 // Zustand, den die Aufnahme verändert (Speichern, Packen, Abhaken …) – wie der echte Server, nur im Speicher
 export function zustand() {
-  const S = { vorbereitung: null, einladung_am: null, erinnerung_am: null, geaendert: false, tasche: null, ca: { anwesend: new Set(["P1", "P2", "P3", "P7", "P9", "P10"]), erledigt: new Set() }, live: null };
-  const sitzung = () => ({ treffen: { id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim" }, mitglieder: mitglieder(false).map((m) => ({ ...m, antwort_am: m.antwort ? "2026-10-20T10:00:00+01:00" : null })), vorschlaege: VORSCHLAEGE,
+  const S = { vorbereitung: null, einladung_am: null, erinnerung_am: null, geaendert: false, versandt: null, unterlagen_am: null, vertretung: null, tasche: null, abschluss: new Set(), ca: { anwesend: new Set(["P1", "P2", "P3", "P7", "P9", "P10"]), erledigt: new Set() }, live: null };
+  const sitzung = () => ({ treffen: { id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Hütte Anne" }, mitglieder: mitglieder(false).map((m) => ({ ...m, antwort_am: m.antwort ? "2026-10-20T10:00:00+01:00" : null })), vorschlaege: VORSCHLAEGE,
     empfaenger: LEUTE.map((l) => l[0]).filter((id) => id !== "P1"), // 2.749.0: wie beim Versand (ohne mich)
     anmerkungVorschlag: "Protokoll vom 25.09.2026 ist genehmigt (keine Einsprüche).", letztes: { titel: "Clubsitzung Oktober", datum: "2026-09-25", status: "veroeffentlicht" }, aufgaben: AUFGABEN,
-    vorbereitung: S.vorbereitung ? { ...S.vorbereitung, einladung_am: S.einladung_am, erinnerung_am: S.erinnerung_am, geaendert_am: S.vorbereitung.geaendert_am, geaendert_von: "Klaus Clubsprecher" } : null,
+    vorbereitung: S.vorbereitung ? { ...S.vorbereitung, einladung_am: S.einladung_am, erinnerung_am: S.erinnerung_am, geaendert_am: S.vorbereitung.geaendert_am, geaendert_von: "Klaus Clubsprecher", versandt_top: S.versandt, unterlagen_am: S.unterlagen_am } : null,
     standard: { anwesend: LEUTE.filter((l) => l[2] === "ja").map((l) => l[0]), tagesordnung: TOP_STANDARD, zeilen: 5 }, protokoll: S.vorbereitung ? { id: "PR1", status: "entwurf" } : null, zeilenWahl: [0, 3, 5, 8, 12] });
   const top = () => (S.vorbereitung?.tagesordnung || TOP_STANDARD);
   const vorschlag = () => [
@@ -46,40 +50,48 @@ export function zustand() {
     { k: "aufgaben", reg: "aufgaben", art: "aufgaben", ref: "T1", titel: "Offene Aufgaben aus dem letzten Protokoll (2)", grund: "nachfragen, was erledigt ist", vor: true },
   ];
   const tasche = () => S.tasche ? { ...S.tasche, inhalt: S.tasche.inhalt.map((i) => ({ ...i })) } : null;
-  const ca = (leitung) => ({ aktiv: true, leitung, treffen: { id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim" },
+  const ca = (leitung) => ({ aktiv: true, leitung, treffen: { id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Hütte Anne" },
     tagesordnung: top().map((x, i) => ({ k: "top" + i, t: x.t, erledigt: S.ca.erledigt.has("top" + i), vorschlag: x.art === "vorschlag", von: VORSCHLAEGE.find((v) => v.id === x.id)?.von || null, stimmen: VORSCHLAEGE.find((v) => v.id === x.id)?.unterstuetzt || 0 })),
     anwesend: LEUTE.filter((l) => S.ca.anwesend.has(l[0])).map(([id, name]) => ({ person_id: id, name })), mitglieder: mitglieder(true),
     aktentasche: S.tasche ? { anzahl: S.tasche.inhalt.length, vorlaeufig: S.tasche.status === "vorlaeufig" } : null, album: null,
-    geburtstage: [{ name: "Klara Koch", tag: "2026-10-12", heute: false }], aufgaben: AUFGABEN.map((a) => ({ wer: a.wer, text: a.text, faellig: a.faellig })), protokoll: { id: "PR1" }, letztesProtokoll: true });
+    geburtstage: [{ name: "Klara Koch", tag: "2026-10-12", heute: false }], aufgaben: AUFGABEN.map((a) => ({ wer: a.wer, text: a.text, faellig: a.faellig })), protokoll: { id: "PR1" }, letztesProtokoll: true, abschluss: [...S.ca.erledigt].filter((k) => k.startsWith("ab:")) });
   const live = (leiter, meine) => S.live ? { ...S.live, leiter, meine: meine ?? null, kalender: [] } : null;
   const antworten = (rolle) => ({
-    init: (b) => ({ ...b, ich: rolle === "erika" ? ICH_ERIKA : ICH_KLAUS }),
+    init: (b) => ({ ...b, ich: rolle === "erika" ? ICH_ERIKA : rolle === "paul" ? ICH_PAUL : ICH_KLAUS, sitzungVorgaben: VORGABEN }),
     mitglieder: { aemter: ["Clubsprecher", "Kassenwart"], onlineSichtbar: true, mitglieder: LEUTE.map(([id, name], i) => ({ person_id: id, name, vorname: name.split(" ")[0], vorstand: id === "P1" || id === "P3", aemter: id === "P1" ? ["Clubsprecher"] : id === "P3" ? ["Kassenwart"] : [], admin: id === "P9",
       status: null, online: id === "P9", zuletztDa: { online: id === "P9" }, verborgen: false, heute: true, wege: { push: true, mail: true, whatsapp: i % 2 === 0 }, aktiv: true })) },
     mitglied_details: { kontakt: { mail: "hansi@example.de", handy: "0170 0000009" } },
-    buero_start: () => ({ sitzungen: [{ ...treffen, vorbereitet: !!S.vorbereitung, einladung_am: S.einladung_am, erinnerung_am: S.erinnerung_am, geaendert_nach_einladung: S.geaendert,
-      aktentasche: S.tasche ? { status: S.tasche.status, gepackt_am: null } : null, ja: 6, nein: 2, ohne: 3 }], eingang: { vorschlaege: 2 } }), // 2.749.0 Schritte
+    buero_start: () => ({ sitzungen: [{ ...treffen, vorbereitet: !!S.vorbereitung, einladung_am: S.einladung_am, erinnerung_am: S.erinnerung_am, geaendert_nach_einladung: S.geaendert, unterlagen_am: S.unterlagen_am,
+      aktentasche: S.tasche ? { status: S.tasche.status, gepackt_am: null } : null, ja: 6, nein: 2, ohne: 3, vertretung: S.vertretung, vorbereiter: S.vertretung ? [S.vertretung.person_id] : ["P1"] }],
+      eingang: { vorschlaege: 2 }, vorbereiter: ["P1"], vorgaben: VORGABEN }), // 2.751.0 Schritte, Vertretung, Vorgaben
     buero_nachher: { sitzungen: [] }, eingang_korb: { posten: [] },
     buero_sitzung: () => sitzung(),
-    buero_speichern: (q) => { S.vorbereitung = { anwesend: q.anwesend, anmerkung: q.anmerkung, tagesordnung: q.tagesordnung, zeilen: q.zeilen, geaendert_am: MITTAG }; if (S.einladung_am) S.geaendert = true;
-      return { ok: true, protokoll_id: "PR1", protokollStand: "angelegt", stand: MITTAG, einladung_am: S.einladung_am }; },
+    buero_speichern: (q) => { const neu = JSON.stringify(q.tagesordnung) !== JSON.stringify(S.vorbereitung?.tagesordnung);
+      S.vorbereitung = { anwesend: q.anwesend, anmerkung: q.anmerkung, tagesordnung: q.tagesordnung, zeilen: q.zeilen, geaendert_am: MITTAG }; if (S.einladung_am && neu) S.geaendert = true;
+      S.unterlagen_am = q.teil === "vor" ? DONNERSTAG : neu ? null : S.unterlagen_am;
+      return { ok: true, protokoll_id: "PR1", protokollStand: "angelegt", stand: MITTAG, einladung_am: S.einladung_am, unterlagen_am: S.unterlagen_am, informieren: S.geaendert }; },
+    buero_informieren_nein: () => { S.geaendert = false; return { ok: true }; },
+    buero_vertretung: (q) => { S.vertretung = q.an ? { person_id: rolle === "paul" ? "P3" : "P1", am: ZU_SPAET, name: rolle === "paul" ? "Paul Probe" : "Klaus Clubsprecher" } : null; return { ok: true, vertretung: S.vertretung }; },
+    sitzung_vorgaben: () => ({ vorgaben: VORGABEN }), sitzung_vorgaben_speichern: () => ({ ok: true, vorgaben: VORGABEN }),
     buero_einladung: (q) => { if (!q.ziel) { if (q.nur_offen) S.erinnerung_am = MITTWOCH; else { S.einladung_am = MITTAG; S.geaendert = false; } }
+      if (!q.ziel && !q.nur_offen) S.versandt = S.vorbereitung ? [...S.vorbereitung.tagesordnung] : null;
       return { ok: true, empfaenger: q.ziel ? q.ziel.ids.length : q.nur_offen ? 3 : LEUTE.length - 1, alle: !q.ziel }; },
-    aktentasche_termine: () => ({ termine: [{ id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim", art: "treffen", tasche: S.tasche ? { status: S.tasche.status, anzahl: S.tasche.inhalt.length } : null },
+    aktentasche_termine: () => ({ termine: [{ id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Hütte Anne", art: "treffen", tasche: S.tasche ? { status: S.tasche.status, anzahl: S.tasche.inhalt.length } : null },
       { id: "T2", titel: "Weihnachtsmarkt Aufbau", beginn: "2026-11-27T09:00:00+01:00", ort: "Marktplatz", art: "veranstaltung", tasche: null }], frueher: [] }),
-    aktentasche_holen: () => ({ treffen: { id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Vereinsheim", art: "treffen" }, tasche: tasche(), vorschlag: vorschlag(), blatt: { tagesordnung: top().map((x) => x.t), einladung_am: S.einladung_am, mitglieder: mitglieder(false).map((m) => ({ name: m.name, antwort: m.antwort })).sort((x, y) => x.name.localeCompare(y.name, "de")), aufgaben: AUFGABEN.map((a) => ({ wer: a.wer, text: a.text, faellig: a.faellig })) }, register: ["einladung", "protokolle", "vorschlaege", "mitglieder", "aufgaben", "sonstiges"] }),
+    aktentasche_holen: () => ({ treffen: { id: "T1", titel: treffen.titel, beginn: SITZUNG, ort: "Hütte Anne", art: "treffen" }, tasche: tasche(), vorschlag: vorschlag(), blatt: { tagesordnung: top().map((x) => x.t), einladung_am: S.einladung_am, mitglieder: mitglieder(false).map((m) => ({ name: m.name, antwort: m.antwort })).sort((x, y) => x.name.localeCompare(y.name, "de")), aufgaben: AUFGABEN.map((a) => ({ wer: a.wer, text: a.text, faellig: a.faellig })) }, register: ["einladung", "protokolle", "vorschlaege", "mitglieder", "aufgaben", "sonstiges"] }),
     archiv_eingang_verteilen: (q) => { S.verteilt = [...(S.verteilt || []), { titel: q.titel, mime: q.mime, daten: q.daten }]; return { ok: true, empfaenger: q.personen.length, uebersprungen: [] }; },
     aktentasche_aendern: (q) => {
       if (!S.tasche) S.tasche = { inhalt: [], notiz: "", status: "offen", geaendert: null, gepackt: null };
       if (q.op === "packen") for (const i of vorschlag().filter((v) => q.keys.includes(v.k))) { const { vor: _v, grund: _g, ...rest } = i; S.tasche.inhalt.push({ ...rest, dabei: false, vonName: "Klaus", neu: false }); }
       if (q.op === "dabei") { const i = S.tasche.inhalt.find((x) => x.k === q.k); if (i) i.dabei = q.an; }
+      if (q.op === "mitnehmen") S.tasche.inhalt.push({ k: "mit:" + S.tasche.inhalt.length, reg: "mitnehmen", art: "mitnehmen", titel: q.titel, dabei: false, vonName: "Klaus", neu: false });
       if (q.op === "status") { S.tasche.status = q.status; S.tasche.gepackt = "Klaus"; }
       if (q.op === "notiz") { S.tasche.notiz = q.notiz; S.tasche.geaendert = "Klaus"; }
       return { tasche: tasche() };
     },
     clubabend: () => ca(rolle !== "erika"),
     clubabend_setzen: (q) => { if (q.anwesend) q.an ? S.ca.anwesend.add(q.anwesend) : S.ca.anwesend.delete(q.anwesend); if (q.erledigt) q.an ? S.ca.erledigt.add(q.erledigt) : S.ca.erledigt.delete(q.erledigt); return ca(true); },
-    live_termin_vorschlag: { titel: "Clubsitzung Dezember", beginn: "2026-11-27T19:00:00+01:00", ort: "Vereinsheim" },
+    live_termin_vorschlag: { titel: "Köcheclub-Treffen", beginn: "2026-11-27T18:00:00+01:00", ort: "Hütte Anne" }, // letzter Freitag im Folgemonat, 18 Uhr (Sitzungs-Vorgaben)
     live_termin_start: (q) => { S.live = { id: "U1", status: "offen", titel: q.titel, ort: q.ort, von: "Klaus", option: { id: "O1", beginn: q.beginn }, zahlen: { ja: 0, vielleicht: 0, nein: 0 }, namen: { ja: [], vielleicht: [], nein: [] }, alternativen: 0 }; return { ok: true }; },
     live_termin_holen: () => ({ live: live(rolle !== "erika", rolle === "erika" ? S.erikaWahl : "ja") }),
     terminumfrage_antwort: (q) => { if (rolle === "erika") S.erikaWahl = q.antwort || null; return { ok: true }; },

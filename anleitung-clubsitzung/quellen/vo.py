@@ -6,7 +6,7 @@ MODELL = os.environ.get("KC_STIMME", "/home/user/kc-clubapp/stimmen/de_DE-thorst
 v = PiperVoice.load(MODELL)
 # Englische Wörter englisch sprechen (wie AUSSPRACHE im Werbefilm): nur für die Stimme, Bildtext bleibt
 AUSSPRACHE = [(r"\bApp\b", "Äpp"), (r"Club-App", "Club-Äpp"), (r"\bLive\b", "Laif"), (r"Live-", "Laif-"), (r"\bPush\b", "Pusch"), (r"E-Mail", "I-Mejl"), (r"\bPDFs?\b", "Pe-De-Ef"),
-  (r"Hansi", "Hanzi"), (r"\bok\b", "okay"), (r"30\. Oktober", "dreißigsten Oktober"), (r"19 Uhr", "neunzehn Uhr"), (r"12 Mitglieder", "zwölf Mitglieder"), (r"3 Mitglieder", "drei Mitglieder"), (r"27\. Oktober", "siebenundzwanzigsten Oktober")]
+  (r"Hansi", "Hanzi"), (r"\bok\b", "okay"), (r"30\. Oktober", "dreißigsten Oktober"), (r"19 Uhr", "neunzehn Uhr"), (r"18 Uhr", "achtzehn Uhr"), (r"17 Uhr", "siebzehn Uhr"), (r"14 Uhr", "vierzehn Uhr"), (r"12 Mitglieder", "zwölf Mitglieder"), (r"3 Mitglieder", "drei Mitglieder"), (r"27\. Oktober", "siebenundzwanzigsten Oktober")]
 def aussprache(t):
     for a, b in AUSSPRACHE: t = re.sub(a, b, t)
     return t

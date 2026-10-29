@@ -2,865 +2,982 @@
  {
   "bild": "titel",
   "kapitel": "Anleitung für Klaus",
-  "text": "Hallo Klaus! In diesem Video zeige ich dir Schritt für Schritt, wie du die Clubsitzung rechtzeitig vorbereitest – die App erinnert dich dabei an jede Aufgabe – und wie du die Sitzung am Abend mit der Club-App leitest. Alles, was du siehst, ist die echte App.",
+  "text": "Hallo Klaus! In diesem Video zeige ich dir Schritt für Schritt, wie du eine Clubsitzung vorbereitest und leitest – so, wie es im richtigen Leben abläuft. Die App erinnert dich an jede Aufgabe. Alles, was du siehst, ist die echte App.",
   "ab": 0.0,
   "sprecher": 1.1,
-  "sprecherEnde": 14.103,
-  "dauer": 16.203
+  "sprecherEnde": 13.569,
+  "dauer": 15.669
  },
  {
   "bild": "kapitel:1",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Teil eins: die Sitzung rechtzeitig vorbereiten. Die Einladung mit der Tagesordnung soll spätestens drei Tage vor der Sitzung bei allen Mitgliedern sein – damit sie sich damit beschäftigen können.",
-  "ab": 16.203,
-  "sprecher": 17.303,
-  "sprecherEnde": 27.624,
-  "dauer": 13.521
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Teil eins: Tagesordnung und Einladung. Die Einladung soll spätestens drei Tage vor der Sitzung bei allen sein – damit sich jeder mit der Tagesordnung beschäftigen kann.",
+  "ab": 15.669,
+  "sprecher": 16.769,
+  "sprecherEnde": 25.732,
+  "dauer": 12.163
  },
  {
   "bild": "a00-frage",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Ab einer Woche vor der Sitzung fragt dich die App beim Öffnen, was als Nächstes dran ist. Oben stehen alle Schritte bis zum Abend. Erledigte bekommen einen Haken, der Finger zeigt, was jetzt dran ist: die Tagesordnung festlegen – bis spätestens Dienstag.",
-  "ab": 29.724,
-  "sprecher": 30.224,
-  "sprecherEnde": 43.773,
-  "dauer": 14.949
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Ab einer Woche vor der Sitzung fragt dich die App beim Öffnen, was als Nächstes dran ist. Oben stehen alle Schritte bis zum Abend. Erledigte bekommen einen Haken, der Finger zeigt, was jetzt dran ist. Die Vorschläge der Mitglieder sind seit Montag, 17 Uhr, geschlossen – jetzt kommt die Tagesordnung, bis spätestens Dienstag.",
+  "ab": 27.832,
+  "sprecher": 28.332,
+  "sprecherEnde": 45.724,
+  "dauer": 18.792
  },
  {
   "bild": "a00b-ja",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Darunter die Frage: Jetzt Anwesenheit und Tagesordnung festlegen? Tippe auf Ja. Passt es gerade nicht, tippst du auf Später – dann fragt die App in ein paar Stunden wieder.",
-  "ab": 44.673,
-  "sprecher": 45.173,
-  "sprecherEnde": 54.31,
-  "dauer": 10.537
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Darunter die Frage: Jetzt die Tagesordnung festlegen? Tippe auf Ja. Passt es gerade nicht, tippst du auf Später – dann fragt die App in ein paar Stunden wieder.",
+  "ab": 46.624,
+  "sprecher": 47.124,
+  "sprecherEnde": 55.68,
+  "dauer": 9.957
  },
  {
   "bild": "a04-kopf",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Jetzt bist du in Sitzung vorbereiten – für die Clubsitzung November am Freitag um 19 Uhr im Vereinsheim. Oben siehst du noch einmal die Schritte. Darunter steht: Vorschlag der App – noch nicht gespeichert. Die Seite hat vier Teile.",
-  "ab": 55.21,
-  "sprecher": 55.71,
-  "sprecherEnde": 67.483,
-  "dauer": 13.173
- },
- {
-  "bild": "a05-wer",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Erstens: Wer ist dabei? Angehakt sind schon alle, die in der App zugesagt haben. Der grüne Haken heißt zugesagt, das Fragezeichen heißt vielleicht. Wer abgesagt hat, steht unten bei Entschuldigt – mit Grund.",
-  "ab": 68.383,
-  "sprecher": 68.883,
-  "sprecherEnde": 80.725,
-  "dauer": 13.242
- },
- {
-  "bild": "a06-haken",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Alle anderen bleiben erst einmal ohne Haken. Das ist richtig so: Wer noch kommt, wird am Abend in der Sitzung nachgetragen.",
-  "ab": 81.625,
-  "sprecher": 82.125,
-  "sprecherEnde": 88.917,
-  "dauer": 8.192
- },
- {
-  "bild": "a07-haken-an",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Weißt du schon mehr, tippst du einfach auf den Namen – dann ist der Haken gesetzt. Nochmal tippen nimmt ihn wieder weg.",
-  "ab": 89.817,
-  "sprecher": 90.317,
-  "sprecherEnde": 95.983,
-  "dauer": 7.066
- },
- {
-  "bild": "a08-anmerkung",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Zweitens: Anmerkung zum letzten Protokoll. Die App schlägt den Text schon vor, zum Beispiel: Das Protokoll ist genehmigt. Darunter stehen die offenen Aufgaben. Du kannst den Text ändern oder so lassen.",
-  "ab": 96.883,
-  "sprecher": 97.383,
-  "sprecherEnde": 107.53,
-  "dauer": 11.547
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Im Büro gibt es dafür zwei Seiten: Tagesordnung festlegen – das ist jetzt dran – und später Sitzung vorbereiten. Oben steht: Vorschlag der App – noch nicht gespeichert.",
+  "ab": 56.58,
+  "sprecher": 57.08,
+  "sprecherEnde": 66.554,
+  "dauer": 10.874
  },
  {
   "bild": "a09-top",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Drittens: die Tagesordnung. Begrüßung, Protokoll, Bericht des Kassenwarts und Verschiedenes sind immer schon drin. Dazu kommen die Vorschläge der Mitglieder für diese Sitzung – mit dem Namen, von wem der Vorschlag ist.",
-  "ab": 108.43,
-  "sprecher": 108.93,
-  "sprecherEnde": 120.807,
-  "dauer": 13.277
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Begrüßung, Protokoll, Bericht des Kassenwarts und Verschiedenes sind immer schon drin. Dazu kommen die Vorschläge der Mitglieder für diese Sitzung – mit dem Namen, von wem der Vorschlag ist.",
+  "ab": 67.454,
+  "sprecher": 67.954,
+  "sprecherEnde": 78.032,
+  "dauer": 11.477
  },
  {
   "bild": "a10-pfeile",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Die Reihenfolge änderst du mit den Pfeilen: Pfeil hoch schiebt einen Punkt nach oben, Pfeil runter nach unten. Mit dem Kreuz streichst du einen Punkt.",
-  "ab": 121.707,
-  "sprecher": 122.207,
-  "sprecherEnde": 129.3,
-  "dauer": 8.494
+  "ab": 78.932,
+  "sprecher": 79.432,
+  "sprecherEnde": 86.676,
+  "dauer": 8.645
  },
  {
   "bild": "a11-pfeile-nach",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "So – jetzt stehen die neuen Schürzen vor dem Weihnachtsmarkt.",
-  "ab": 130.2,
-  "sprecher": 130.7,
-  "sprecherEnde": 133.568,
-  "dauer": 4.268
+  "ab": 87.576,
+  "sprecher": 88.076,
+  "sprecherEnde": 90.955,
+  "dauer": 4.279
  },
  {
   "bild": "a12-vorschlaege",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Darunter stehen weitere Vorschläge der Mitglieder. Der Daumen zeigt, wie viele den Vorschlag unterstützen. Tippst du einen an, kommt er in die Tagesordnung – immer vor Verschiedenes.",
-  "ab": 134.468,
-  "sprecher": 134.968,
-  "sprecherEnde": 144.453,
+  "ab": 91.855,
+  "sprecher": 92.355,
+  "sprecherEnde": 101.841,
   "dauer": 10.885
  },
  {
   "bild": "a13-vorschlag-drin",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Der Ausflug zum Spargelhof ist jetzt Punkt sechs.",
-  "ab": 145.353,
-  "sprecher": 145.853,
-  "sprecherEnde": 148.733,
-  "dauer": 4.279
+  "ab": 102.741,
+  "sprecher": 103.241,
+  "sprecherEnde": 105.992,
+  "dauer": 4.152
  },
  {
   "bild": "a14-eigen",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Du hast selbst noch ein Thema? Schreib es in das Feld Eigener Punkt und tippe auf Dazu.",
-  "ab": 149.633,
-  "sprecher": 150.133,
-  "sprecherEnde": 154.742,
-  "dauer": 6.009
+  "ab": 106.892,
+  "sprecher": 107.392,
+  "sprecherEnde": 111.897,
+  "dauer": 5.905
  },
  {
   "bild": "a15-eigen-drin",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Fertig – auch dein eigener Punkt steht jetzt in der Tagesordnung.",
-  "ab": 155.642,
-  "sprecher": 156.142,
-  "sprecherEnde": 159.393,
-  "dauer": 4.651
- },
- {
-  "bild": "a16-zeilen",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Viertens: Schreiblinien je Punkt. Damit wählst du, wie viel Platz jeder Punkt auf der Papier-Vorlage zum Mitschreiben bekommt. Fünf Zeilen passen meistens.",
-  "ab": 160.293,
-  "sprecher": 160.793,
-  "sprecherEnde": 169.036,
-  "dauer": 9.643
- },
- {
-  "bild": "a17-vorschau",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Darunter siehst du sofort, wie die Vorlage gedruckt aussieht. Sie ändert sich bei jeder Änderung mit. Mit Groß ansehen kannst du sie vergrößern.",
-  "ab": 169.936,
-  "sprecher": 170.436,
-  "sprecherEnde": 177.553,
-  "dauer": 8.517
+  "ab": 112.797,
+  "sprecher": 113.297,
+  "sprecherEnde": 116.734,
+  "dauer": 4.837
  },
  {
   "bild": "a18-fertig",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Stimmt alles? Dann tippe ganz unten auf: Fertig – speichern.",
-  "ab": 178.453,
-  "sprecher": 178.953,
-  "sprecherEnde": 182.877,
-  "dauer": 5.324
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Stimmt alles? Dann tippe unten auf: Tagesordnung speichern.",
+  "ab": 117.634,
+  "sprecher": 118.134,
+  "sprecherEnde": 122.081,
+  "dauer": 5.347
  },
  {
   "bild": "a19-gespeichert",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Gespeichert – der erste Schritt ist erledigt, und der Protokoll-Entwurf ist gleich mit angelegt. Die App fragt, wie es weitergeht. Tippe auf: Weiter: Mitglieder einladen.",
-  "ab": 183.777,
-  "sprecher": 184.277,
-  "sprecherEnde": 193.878,
-  "dauer": 11.001
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Gespeichert – der Protokoll-Entwurf ist gleich mit angelegt. Die App fragt, wie es weitergeht. Tippe auf: Weiter: Mitglieder einladen.",
+  "ab": 122.981,
+  "sprecher": 123.481,
+  "sprecherEnde": 131.144,
+  "dauer": 9.063
  },
  {
   "bild": "a20-einladung",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Hier siehst du den Brief, den die Mitglieder bekommen – jeder mit seinem eigenen Vornamen: die Einladung mit Datum, Uhrzeit und Ort, die ganze Tagesordnung und dein Gruß als Clubsprecher.",
-  "ab": 194.778,
-  "sprecher": 195.278,
-  "sprecherEnde": 204.508,
-  "dauer": 10.63
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Hier siehst du den Brief, den die Mitglieder bekommen – jeder mit seinem eigenen Vornamen: die Einladung mit Datum, Uhrzeit und Ort und die ganze Tagesordnung.",
+  "ab": 132.044,
+  "sprecher": 132.544,
+  "sprecherEnde": 140.496,
+  "dauer": 9.353
+ },
+ {
+  "bild": "a20b-dringend-satz",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Darunter steht: Dringende Vorschläge oder Änderungen können bis zur Sitzung noch dazukommen. Und dein Gruß als Clubsprecher.",
+  "ab": 141.396,
+  "sprecher": 141.896,
+  "sprecherEnde": 148.468,
+  "dauer": 7.971
  },
  {
   "bild": "a21-zeile",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Darunter kannst du eine persönliche Zeile dazuschreiben, zum Beispiel: Bitte Kassenbuch mitbringen. Sie steht dann im Brief direkt vor dem Gruß.",
-  "ab": 205.408,
-  "sprecher": 205.908,
-  "sprecherEnde": 213.211,
-  "dauer": 8.703
+  "ab": 149.368,
+  "sprecher": 149.868,
+  "sprecherEnde": 157.6,
+  "dauer": 9.132
  },
  {
   "bild": "a21b-an",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Jetzt wählst du, an wen die Einladung gehen soll: Alle, Einzeln, eine Gruppe oder ein Amt. Vorgewählt ist Alle.",
-  "ab": 214.111,
-  "sprecher": 214.611,
-  "sprecherEnde": 220.764,
-  "dauer": 7.553
+  "ab": 158.5,
+  "sprecher": 159.0,
+  "sprecherEnde": 165.037,
+  "dauer": 7.437
  },
  {
   "bild": "a21c-gruppe",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Tippst du auf Gruppe, kannst du wählen: alle, die schon zugesagt haben, alle, die noch nicht geantwortet haben – oder eure eigenen Gruppen, zum Beispiel das Küchenteam. Die Zahl zeigt, wie viele es sind.",
-  "ab": 221.664,
-  "sprecher": 222.164,
-  "sprecherEnde": 232.636,
-  "dauer": 11.872
+  "ab": 165.937,
+  "sprecher": 166.437,
+  "sprecherEnde": 177.014,
+  "dauer": 11.977
  },
  {
   "bild": "a21d-gruppe-ohne",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Zum Beispiel: Noch ohne Antwort. Darunter steht sofort, wer die Einladung dann bekommt.",
-  "ab": 233.536,
-  "sprecher": 234.036,
-  "sprecherEnde": 238.773,
-  "dauer": 6.137
+  "ab": 177.914,
+  "sprecher": 178.414,
+  "sprecherEnde": 183.093,
+  "dauer": 6.079
  },
  {
   "bild": "a21e-auswahl",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Mit Einzeln kreuzt du einzelne Mitglieder an und tippst auf Übernehmen. Und unter Amt findest du zum Beispiel den Kassenwart.",
-  "ab": 239.673,
-  "sprecher": 240.173,
-  "sprecherEnde": 246.489,
-  "dauer": 7.716
+  "ab": 183.993,
+  "sprecher": 184.493,
+  "sprecherEnde": 190.634,
+  "dauer": 7.542
  },
  {
   "bild": "a21f-alle",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Für die Clubsitzung nehmen wir: Alle. Darunter steht: An alle Mitglieder.",
-  "ab": 247.389,
-  "sprecher": 247.889,
-  "sprecherEnde": 252.103,
-  "dauer": 5.614
+  "ab": 191.534,
+  "sprecher": 192.034,
+  "sprecherEnde": 195.842,
+  "dauer": 5.208
  },
  {
   "bild": "a22-wege",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Dann wählst du, wie die Mitglieder benachrichtigt werden: so, wie jeder es selbst eingestellt hat – das ist am besten. Oder nur Push, nur E-Mail …",
-  "ab": 253.003,
-  "sprecher": 253.503,
-  "sprecherEnde": 261.096,
-  "dauer": 8.993
+  "ab": 196.742,
+  "sprecher": 197.242,
+  "sprecherEnde": 204.94,
+  "dauer": 9.097
  },
  {
   "bild": "a23-wege-beide",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "… oder beides.",
-  "ab": 261.996,
-  "sprecher": 262.496,
-  "sprecherEnde": 263.356,
-  "dauer": 2.259
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "… oder beides. Die Push-Nachricht ist nur eine kurze Zeile – antippen öffnet direkt die Sitzung mit der Tagesordnung. Die E-Mail enthält den ganzen Brief.",
+  "ab": 205.84,
+  "sprecher": 206.34,
+  "sprecherEnde": 214.49,
+  "dauer": 9.55
  },
  {
   "bild": "a24-senden",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Wir lassen es bei: wie jeder es eingestellt hat. Jetzt tippst du auf: Jetzt an 12 Mitglieder senden.",
-  "ab": 264.256,
-  "sprecher": 264.756,
-  "sprecherEnde": 270.282,
-  "dauer": 6.926
+  "ab": 215.39,
+  "sprecher": 215.89,
+  "sprecherEnde": 221.857,
+  "dauer": 7.368
  },
  {
   "bild": "a25-frage",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Die App fragt zur Sicherheit noch einmal nach. Tippe auf Ja.",
-  "ab": 271.182,
-  "sprecher": 271.682,
-  "sprecherEnde": 274.828,
-  "dauer": 4.546
+  "ab": 222.757,
+  "sprecher": 223.257,
+  "sprecherEnde": 226.334,
+  "dauer": 4.477
  },
  {
   "bild": "a26-gesendet",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Geschafft – auch der zweite Schritt ist erledigt: Die Einladung mit der Tagesordnung ist bei allen Mitgliedern. Als Nächstes schlägt die App die Aktentasche vor. Wir gehen zuerst zurück ins Büro.",
-  "ab": 275.728,
-  "sprecher": 276.228,
-  "sprecherEnde": 286.131,
-  "dauer": 11.303
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Geschafft – die Einladung ist bei allen Mitgliedern. Die App sagt dir auch gleich, wie es weitergeht: erst erinnern, dann die Sitzung vorbereiten, zuletzt die Aktentasche. Wir gehen zurück ins Büro.",
+  "ab": 227.234,
+  "sprecher": 227.734,
+  "sprecherEnde": 238.206,
+  "dauer": 11.872
  },
  {
   "bild": "b00-buero",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Das ist dein Büro. Oben stehen im Regal die Ordner, darunter ist dein Schreibtisch. Hierher kommst du jederzeit über die Kachel Büro auf der Startseite.",
-  "ab": 287.031,
-  "sprecher": 287.531,
-  "sprecherEnde": 295.426,
-  "dauer": 9.295
+  "ab": 239.106,
+  "sprecher": 239.606,
+  "sprecherEnde": 247.199,
+  "dauer": 8.993
  },
  {
   "bild": "b01-zettel-weiter",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
-  "text": "Auf dem Schreibtisch sagt dir der gelbe Zettel immer, was als Nächstes dran ist – jetzt: Aktentasche packen. Hast du beim Öffnen der App auf Später getippt, findest du die Aufgabe also auch hier.",
-  "ab": 296.326,
-  "sprecher": 296.826,
-  "sprecherEnde": 306.997,
-  "dauer": 11.57
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Der gelbe Zettel auf dem Schreibtisch zeigt immer den nächsten Schritt – jetzt: An die Antwort erinnern, ab Mittwoch. Hast du beim Öffnen der App auf Später getippt, findest du die Aufgabe also auch hier.",
+  "ab": 248.099,
+  "sprecher": 248.599,
+  "sprecherEnde": 257.957,
+  "dauer": 10.758
  },
  {
   "bild": "b02-fueller",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Soll eine Nachricht nur an bestimmte Mitglieder gehen? Dann tippe auf dem Schreibtisch auf Schreiben.",
-  "ab": 307.897,
-  "sprecher": 308.397,
-  "sprecherEnde": 313.18,
-  "dauer": 6.183
+  "ab": 258.857,
+  "sprecher": 259.357,
+  "sprecherEnde": 264.21,
+  "dauer": 6.253
  },
  {
   "bild": "b03-fueller-menue",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Wähle: Nachricht an Mitglieder.",
-  "ab": 314.08,
-  "sprecher": 314.58,
-  "sprecherEnde": 316.484,
-  "dauer": 3.304
+  "ab": 265.11,
+  "sprecher": 265.61,
+  "sprecherEnde": 267.525,
+  "dauer": 3.316
  },
  {
   "bild": "b04-kontakt",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Jetzt wählst du, wer die Nachricht bekommen soll: alle, nur wer zur Sitzung kommt, wer noch nicht geantwortet hat, wer abgesagt hat – oder ein Amt wie Kassenwart.",
-  "ab": 317.384,
-  "sprecher": 317.884,
-  "sprecherEnde": 325.628,
-  "dauer": 9.144
+  "ab": 268.425,
+  "sprecher": 268.925,
+  "sprecherEnde": 277.029,
+  "dauer": 9.504
  },
  {
   "bild": "b05-kontakt-ohne",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Zum Beispiel: Noch ohne Antwort. Die App hakt genau diese Mitglieder an. Einzelne Namen kannst du zusätzlich an- oder abhaken.",
-  "ab": 326.528,
-  "sprecher": 327.028,
-  "sprecherEnde": 334.11,
-  "dauer": 8.482
+  "ab": 277.929,
+  "sprecher": 278.429,
+  "sprecherEnde": 285.593,
+  "dauer": 8.563
  },
  {
   "bild": "b06-kontakt-wie",
-  "kapitel": "Rechtzeitig · Sitzung vorbereiten",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
   "text": "Dann tippst du auf Nachricht schreiben – und los geht's.",
-  "ab": 335.01,
-  "sprecher": 335.51,
-  "sprecherEnde": 338.111,
-  "dauer": 4.001
+  "ab": 286.493,
+  "sprecher": 286.993,
+  "sprecherEnde": 289.651,
+  "dauer": 4.059
+ },
+ {
+  "bild": "v01-vorgaben-kachel",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Übrigens: Die Fristen stehen nicht fest im Programm. Im Ordner Sitzung findet die Clubleitung die Sitzungs-Vorgaben.",
+  "ab": 290.551,
+  "sprecher": 291.051,
+  "sprecherEnde": 297.112,
+  "dauer": 7.46
+ },
+ {
+  "bild": "v02-vorgaben",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Hier stellt ihr ein: Vorschläge bis vier Tage vorher, 17 Uhr – Einladung spätestens drei Tage vorher – erinnern ab zwei Tage vorher – vorbereiten bis einen Tag vorher – und die Aktentasche am Sitzungstag bis 14 Uhr.",
+  "ab": 298.012,
+  "sprecher": 298.512,
+  "sprecherEnde": 311.306,
+  "dauer": 14.194
+ },
+ {
+  "bild": "v03-vorgaben-termin",
+  "kapitel": "Rechtzeitig · Tagesordnung & Einladung",
+  "text": "Und den Vorschlag für den nächsten Termin: der letzte Freitag im Folgemonat, 18 Uhr, in der Hütte Anne. Im Dezember gibt es keine ordentliche Sitzung – dann schlägt die App gleich den Januar vor.",
+  "ab": 312.206,
+  "sprecher": 312.706,
+  "sprecherEnde": 322.69,
+  "dauer": 11.385
  },
  {
   "bild": "kapitel:2",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Teil zwei: Unterlagen drucken und die Aktentasche packen.",
-  "ab": 339.011,
-  "sprecher": 340.111,
-  "sprecherEnde": 343.419,
-  "dauer": 6.509
+  "kapitel": "Bis zur Sitzung",
+  "text": "Teil zwei: Bis zur Sitzung erinnert dich die App an alles Weitere.",
+  "ab": 323.59,
+  "sprecher": 324.69,
+  "sprecherEnde": 328.406,
+  "dauer": 6.915
  },
  {
-  "bild": "b07-drucker",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Wichtige Unterlagen brauchst du auf Papier? Tippe auf dem Schreibtisch auf Drucken.",
-  "ab": 345.519,
-  "sprecher": 346.019,
-  "sprecherEnde": 349.7,
-  "dauer": 5.08
+  "bild": "e01-erinnern-frage",
+  "kapitel": "Bis zur Sitzung",
+  "text": "Zwei Tage vor der Sitzung, beim Öffnen der App: Drei Mitglieder haben noch nicht geantwortet. Erinnerung senden? Tippe auf Ja. Brauchst du keine Erinnerung, tippst du auf Nein, nicht nötig – dann fragt die App für diese Sitzung nicht mehr.",
+  "ab": 330.506,
+  "sprecher": 331.006,
+  "sprecherEnde": 343.452,
+  "dauer": 13.846
  },
  {
-  "bild": "b08-drucker-menue",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Die Sitzungs-Vorlage mit den Schreiblinien ist zum Mitschreiben am Abend. Hier kannst du auch die Mitgliederliste oder die Termine drucken.",
-  "ab": 350.6,
-  "sprecher": 351.1,
-  "sprecherEnde": 357.625,
-  "dauer": 7.925
+  "bild": "e02-erinnern-senden",
+  "kapitel": "Bis zur Sitzung",
+  "text": "Die Erinnerung geht nur an die, die noch nicht geantwortet haben. Tippe auf: Jetzt an 3 Mitglieder senden.",
+  "ab": 344.352,
+  "sprecher": 344.852,
+  "sprecherEnde": 350.599,
+  "dauer": 7.147
+ },
+ {
+  "bild": "e03-aenderung-frage",
+  "kapitel": "Bis zur Sitzung",
+  "text": "Kommt nach der Einladung noch ein dringender Vorschlag dazu und die Clubleitung nimmt ihn auf, fragt die App: Sollen die Mitglieder informiert werden? Bei Nein geht nichts raus – die Änderung steht trotzdem in der App.",
+  "ab": 351.499,
+  "sprecher": 351.999,
+  "sprecherEnde": 362.865,
+  "dauer": 12.267
+ },
+ {
+  "bild": "e03b-aenderung-brief",
+  "kapitel": "Bis zur Sitzung",
+  "text": "Bei Ja siehst du die Änderungsmeldung: Was neu dazugekommen ist, steht oben und ist in der Tagesordnung mit Neu markiert. Gesendet wird wie bei der Einladung.",
+  "ab": 363.765,
+  "sprecher": 364.265,
+  "sprecherEnde": 372.915,
+  "dauer": 10.049
+ },
+ {
+  "bild": "e04-knapp",
+  "kapitel": "Bis zur Sitzung",
+  "text": "Und wird es knapp – ist die Einladung drei Tage vor der Sitzung noch nicht raus –, steht der Schritt rot: Knapp, die Mitglieder haben nur noch wenig Zeit. Einladen kannst du trotzdem noch – aber am besten rechtzeitig.",
+  "ab": 373.815,
+  "sprecher": 374.315,
+  "sprecherEnde": 384.717,
+  "dauer": 11.803
+ },
+ {
+  "bild": "e05-kontrolle",
+  "kapitel": "Bis zur Sitzung",
+  "text": "Ist eine Frist überschritten, bekommen auch Kassenwart und Admin zur Kontrolle einen Hinweis. Hier sieht Paul, unser Kassenwart: Die Einladung ist noch nicht raus.",
+  "ab": 385.617,
+  "sprecher": 386.117,
+  "sprecherEnde": 394.744,
+  "dauer": 10.026
+ },
+ {
+  "bild": "e05b-uebernehmen",
+  "kapitel": "Bis zur Sitzung",
+  "text": "Paul kann dich anschreiben. Und wenn du krank bist, tippt er auf: Ich übernehme die Vorbereitung.",
+  "ab": 395.644,
+  "sprecher": 396.144,
+  "sprecherEnde": 401.078,
+  "dauer": 6.334
+ },
+ {
+  "bild": "e06-vertretung",
+  "kapitel": "Bis zur Sitzung",
+  "text": "Jetzt steht im Büro: Vertretung – Paul bereitet diese Sitzung vor. Bis zur Sitzung bekommt Paul die Erinnerungen, und du bekommst eine kurze Nachricht. Bist du wieder fit, gebt ihr die Vertretung einfach zurück.",
+  "ab": 401.978,
+  "sprecher": 402.478,
+  "sprecherEnde": 413.542,
+  "dauer": 12.464
+ },
+ {
+  "bild": "kapitel:3",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Teil drei: Einen Tag vorher bereitest du die Sitzung vor – und packst zuletzt die Aktentasche.",
+  "ab": 414.442,
+  "sprecher": 415.542,
+  "sprecherEnde": 420.465,
+  "dauer": 8.123
+ },
+ {
+  "bild": "f01-vorbereiten-frage",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Einen Tag vor der Sitzung fragt die App: Jetzt die Sitzung vorbereiten? Tippe auf Ja.",
+  "ab": 422.565,
+  "sprecher": 423.065,
+  "sprecherEnde": 427.848,
+  "dauer": 6.183
+ },
+ {
+  "bild": "f02-vorbereiten-seite",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Jetzt bist du auf der zweiten Seite: Sitzung vorbereiten. Die Tagesordnung steht schon fest – hier geht es um die Vorlagen für den Abend.",
+  "ab": 428.748,
+  "sprecher": 429.248,
+  "sprecherEnde": 436.365,
+  "dauer": 8.517
+ },
+ {
+  "bild": "a05-wer",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Erstens: Wer ist dabei? Angehakt sind alle, die in der App zugesagt haben. Der grüne Haken heißt zugesagt, das Fragezeichen heißt vielleicht. Wer abgesagt hat, steht unten bei Entschuldigt – mit Grund.",
+  "ab": 437.265,
+  "sprecher": 437.765,
+  "sprecherEnde": 449.212,
+  "dauer": 12.847
+ },
+ {
+  "bild": "a06-haken",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Alle anderen bleiben erst einmal ohne Haken. Das ist richtig so: Wer noch kommt, wird am Abend in der Sitzung nachgetragen.",
+  "ab": 450.112,
+  "sprecher": 450.612,
+  "sprecherEnde": 456.882,
+  "dauer": 7.669
+ },
+ {
+  "bild": "a07-haken-an",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Weißt du schon mehr, tippst du einfach auf den Namen – dann ist der Haken gesetzt. Nochmal tippen nimmt ihn wieder weg.",
+  "ab": 457.782,
+  "sprecher": 458.282,
+  "sprecherEnde": 463.948,
+  "dauer": 7.066
+ },
+ {
+  "bild": "a08-anmerkung",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Zweitens: Anmerkung zum letzten Protokoll. Die App schlägt den Text schon vor, zum Beispiel: Das Protokoll ist genehmigt. Darunter stehen die offenen Aufgaben.",
+  "ab": 464.848,
+  "sprecher": 465.348,
+  "sprecherEnde": 473.811,
+  "dauer": 9.864
+ },
+ {
+  "bild": "a16-zeilen",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Drittens: Schreiblinien je Punkt. Damit wählst du, wie viel Platz jeder Punkt auf dem Mitschreibbogen bekommt. Fünf Zeilen passen meistens.",
+  "ab": 474.711,
+  "sprecher": 475.211,
+  "sprecherEnde": 482.793,
+  "dauer": 8.981
+ },
+ {
+  "bild": "a17-vorschau",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Darunter siehst du sofort, wie der Bogen gedruckt aussieht. Er ändert sich bei jeder Änderung mit.",
+  "ab": 483.693,
+  "sprecher": 484.193,
+  "sprecherEnde": 489.405,
+  "dauer": 6.613
+ },
+ {
+  "bild": "f03-fertig",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Stimmt alles? Dann tippe auf: Fertig – vorbereitet.",
+  "ab": 490.305,
+  "sprecher": 490.805,
+  "sprecherEnde": 494.103,
+  "dauer": 4.697
+ },
+ {
+  "bild": "f04-vorbereitet",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Die App schlägt vor: Mitschreibbogen drucken – und danach die Aktentasche packen. Wir drucken zuerst.",
+  "ab": 495.003,
+  "sprecher": 495.503,
+  "sprecherEnde": 500.785,
+  "dauer": 6.683
  },
  {
   "bild": "b09-druckvorschau",
-  "kapitel": "Drucken · Aktentasche packen",
+  "kapitel": "Vorbereiten · Aktentasche",
   "text": "Das ist die Druckansicht. Mit Drucken geht es zum Drucker – oder du speicherst sie als PDF.",
-  "ab": 358.525,
-  "sprecher": 359.025,
-  "sprecherEnde": 364.086,
-  "dauer": 6.462
+  "ab": 501.685,
+  "sprecher": 502.185,
+  "sprecherEnde": 507.201,
+  "dauer": 6.416
  },
  {
   "bild": "b10-aktentasche",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Jetzt die Aktentasche. Tippe im Büro oben auf Aktentasche.",
-  "ab": 364.986,
-  "sprecher": 365.486,
-  "sprecherEnde": 368.9,
-  "dauer": 4.813
- },
- {
-  "bild": "b11-anlass",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Wähle den Anlass: die Clubsitzung am Freitag.",
-  "ab": 369.8,
-  "sprecher": 370.3,
-  "sprecherEnde": 373.017,
-  "dauer": 4.117
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Zurück im Büro zeigt der gelbe Zettel den letzten Schritt: Aktentasche packen. Tippe darauf.",
+  "ab": 508.101,
+  "sprecher": 508.601,
+  "sprecherEnde": 513.512,
+  "dauer": 6.311
  },
  {
   "bild": "b12-packen",
-  "kapitel": "Drucken · Aktentasche packen",
+  "kapitel": "Vorbereiten · Aktentasche",
   "text": "Die App schlägt vor, was in die Tasche gehört: Tagesordnung und Einladung, Protokoll-Entwurf, das letzte Protokoll, die Vorschläge, die Liste der Zusagen zum Abhaken und die offenen Aufgaben. Was nicht hinein soll, hakst du einfach ab.",
-  "ab": 373.917,
-  "sprecher": 374.417,
-  "sprecherEnde": 386.34,
-  "dauer": 13.323
+  "ab": 514.412,
+  "sprecher": 514.912,
+  "sprecherEnde": 527.091,
+  "dauer": 13.579
  },
  {
   "bild": "b13-packen-knopf",
-  "kapitel": "Drucken · Aktentasche packen",
+  "kapitel": "Vorbereiten · Aktentasche",
   "text": "Dann tippe auf Packen.",
-  "ab": 387.24,
-  "sprecher": 387.74,
-  "sprecherEnde": 389.11,
-  "dauer": 2.77
+  "ab": 527.991,
+  "sprecher": 528.491,
+  "sprecherEnde": 529.628,
+  "dauer": 2.538
  },
  {
   "bild": "b14-packliste",
-  "kapitel": "Drucken · Aktentasche packen",
+  "kapitel": "Vorbereiten · Aktentasche",
   "text": "Das ist deine Tasche – nach Registern sortiert. In jedem Register kannst du noch Fotos, PDFs oder etwas aus dem Archiv dazulegen.",
-  "ab": 390.01,
-  "sprecher": 390.51,
-  "sprecherEnde": 398.265,
-  "dauer": 9.155
+  "ab": 530.528,
+  "sprecher": 531.028,
+  "sprecherEnde": 538.61,
+  "dauer": 8.981
  },
  {
   "bild": "b15-abhaken",
-  "kapitel": "Drucken · Aktentasche packen",
+  "kapitel": "Vorbereiten · Aktentasche",
   "text": "Auf der Packliste tippst du das Kästchen an, sobald ein Teil wirklich dabei ist.",
-  "ab": 399.165,
-  "sprecher": 399.665,
-  "sprecherEnde": 403.775,
-  "dauer": 5.51
+  "ab": 539.51,
+  "sprecher": 540.01,
+  "sprecherEnde": 543.945,
+  "dauer": 5.336
+ },
+ {
+  "bild": "b15b-mitnehmen",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Neu ist die Mitnehm-Liste – für alles, was nicht in der App liegt. Zum Beispiel: Muster der neuen Schilder. Tippe auf Dazu.",
+  "ab": 544.845,
+  "sprecher": 545.345,
+  "sprecherEnde": 551.673,
+  "dauer": 7.727
+ },
+ {
+  "bild": "b15c-mitnehmen-liste",
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Genauso die Getränkeproben. Liegt etwas im Auto, hakst du es ab – so vergisst du nichts.",
+  "ab": 552.573,
+  "sprecher": 553.073,
+  "sprecherEnde": 558.1,
+  "dauer": 6.427
  },
  {
   "bild": "b16-notiz",
-  "kapitel": "Drucken · Aktentasche packen",
+  "kapitel": "Vorbereiten · Aktentasche",
   "text": "Unten ist Platz für Notizen. Sie speichern sich von selbst.",
-  "ab": 404.675,
-  "sprecher": 405.175,
-  "sprecherEnde": 408.287,
+  "ab": 559.0,
+  "sprecher": 559.5,
+  "sprecherEnde": 562.611,
   "dauer": 4.511
  },
  {
   "bild": "b17-drucken-auswahl",
-  "kapitel": "Drucken · Aktentasche packen",
+  "kapitel": "Vorbereiten · Aktentasche",
   "text": "Auch aus der Tasche kannst du drucken: Tippe auf Drucken – auswählen …",
-  "ab": 409.187,
-  "sprecher": 409.687,
-  "sprecherEnde": 413.123,
-  "dauer": 4.837
+  "ab": 563.511,
+  "sprecher": 564.011,
+  "sprecherEnde": 567.332,
+  "dauer": 4.72
  },
  {
   "bild": "b18-druckwahl",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "… kreuze an, was du auf Papier brauchst, und tippe auf Ausgewählte drucken. Teil für Teil öffnet sich dann die Druckansicht.",
-  "ab": 414.023,
-  "sprecher": 414.523,
-  "sprecherEnde": 421.164,
-  "dauer": 8.041
- },
- {
-  "bild": "b18b-freigeben",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Neu: Unterlagen kannst du auch direkt an die Mitglieder geben – in ihren Eingangskorb. Tippe dazu auf Freigeben.",
-  "ab": 422.064,
-  "sprecher": 422.564,
-  "sprecherEnde": 428.253,
-  "dauer": 7.089
- },
- {
-  "bild": "b18c-frei-wahl",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Hake an, was die Mitglieder bekommen sollen – zum Beispiel die Tagesordnung und die Liste der Zusagen.",
-  "ab": 429.153,
-  "sprecher": 429.653,
-  "sprecherEnde": 434.657,
-  "dauer": 6.404
- },
- {
-  "bild": "b18d-frei-an",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Dann wählst du wieder, an wen: Alle, Einzeln, eine Gruppe oder ein Amt.",
-  "ab": 435.557,
-  "sprecher": 436.057,
-  "sprecherEnde": 440.144,
-  "dauer": 5.487
- },
- {
-  "bild": "b18e-frei-senden",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Darunter schlägst du vor, in welches Register die Mitglieder es ablegen sollen, und schreibst auf Wunsch eine kurze Nachricht dazu. Dann tippe auf Senden.",
-  "ab": 441.044,
-  "sprecher": 441.544,
-  "sprecherEnde": 449.264,
-  "dauer": 9.121
- },
- {
-  "bild": "b18f-frei-frage",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Die App fragt zur Sicherheit nach. Tippe auf Senden.",
-  "ab": 450.164,
-  "sprecher": 450.664,
-  "sprecherEnde": 453.451,
-  "dauer": 4.186
- },
- {
-  "bild": "b18g-frei-gesendet",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Fertig: Jedes Teil kommt als PDF in den Eingangskorb der Mitglieder – und jeder bekommt einen Hinweis.",
-  "ab": 454.351,
-  "sprecher": 454.851,
-  "sprecherEnde": 460.946,
-  "dauer": 7.495
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "… kreuze an, was du auf Papier brauchst, und tippe auf Ausgewählte drucken.",
+  "ab": 568.232,
+  "sprecher": 568.732,
+  "sprecherEnde": 572.761,
+  "dauer": 5.429
  },
  {
   "bild": "b19-fertig-gepackt",
-  "kapitel": "Drucken · Aktentasche packen",
+  "kapitel": "Vorbereiten · Aktentasche",
   "text": "Ist alles drin? Dann tippe auf Fertig gepackt.",
-  "ab": 461.846,
-  "sprecher": 462.346,
-  "sprecherEnde": 464.923,
-  "dauer": 3.977
+  "ab": 573.661,
+  "sprecher": 574.161,
+  "sprecherEnde": 576.517,
+  "dauer": 3.757
  },
  {
   "bild": "b20a-frage",
-  "kapitel": "Drucken · Aktentasche packen",
+  "kapitel": "Vorbereiten · Aktentasche",
   "text": "Sind noch nicht alle Teile abgehakt, fragt die App nach. Tippe auf: Ja, gepackt.",
-  "ab": 465.823,
-  "sprecher": 466.323,
-  "sprecherEnde": 470.909,
-  "dauer": 5.986
+  "ab": 577.417,
+  "sprecher": 577.917,
+  "sprecherEnde": 582.55,
+  "dauer": 6.032
  },
  {
   "bild": "b20-gepackt",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Die Tasche ist gepackt – der dritte Schritt ist erledigt. Neue Unterlagen kommen bis zur Sitzung von selbst dazu. Und am Abend findest du die Tasche in der Kachel Clubabend Live.",
-  "ab": 471.809,
-  "sprecher": 472.309,
-  "sprecherEnde": 481.145,
-  "dauer": 10.235
- },
- {
-  "bild": "b21-mitglied-hinweis",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "So sieht es bei den Mitgliedern aus: Beim Öffnen der App kommt der Hinweis: Neu in deinem Eingangskorb – mit dem Knopf Ja, ansehen.",
-  "ab": 482.045,
-  "sprecher": 482.545,
-  "sprecherEnde": 489.22,
-  "dauer": 8.076
- },
- {
-  "bild": "b22-mitglied-ansehen",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Dann sehen sie das Dokument mit deiner Nachricht.",
-  "ab": 490.12,
-  "sprecher": 490.62,
-  "sprecherEnde": 492.757,
-  "dauer": 3.536
- },
- {
-  "bild": "b23-mitglied-frage",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Und darunter die Frage: Möchtest du das Dokument ablegen oder löschen?",
-  "ab": 493.657,
-  "sprecher": 494.157,
-  "sprecherEnde": 497.825,
-  "dauer": 5.069
- },
- {
-  "bild": "b24-mitglied-ablegen",
-  "kapitel": "Drucken · Aktentasche packen",
-  "text": "Beim Ablegen schlägt die App den Ordner im Archiv und das Register vor – ein Tipp, und es ist abgelegt.",
-  "ab": 498.725,
-  "sprecher": 499.225,
-  "sprecherEnde": 504.636,
-  "dauer": 6.81
- },
- {
-  "bild": "kapitel:3",
-  "kapitel": "Bis zur Sitzung · Erinnerungen",
-  "text": "Teil drei: Bis zur Sitzung erinnert dich die App an alles Weitere.",
-  "ab": 505.536,
-  "sprecher": 506.636,
-  "sprecherEnde": 510.119,
-  "dauer": 6.683
- },
- {
-  "bild": "e01-erinnern-frage",
-  "kapitel": "Bis zur Sitzung · Erinnerungen",
-  "text": "Zwei Tage vor der Sitzung, beim Öffnen der App: Drei Mitglieder haben noch nicht geantwortet. Erinnerung senden? Tippe auf Ja. Brauchst du keine Erinnerung, tippst du auf Nein, nicht nötig – dann fragt die App für diese Sitzung nicht mehr.",
-  "ab": 512.219,
-  "sprecher": 512.719,
-  "sprecherEnde": 525.025,
-  "dauer": 13.707
- },
- {
-  "bild": "e02-erinnern-senden",
-  "kapitel": "Bis zur Sitzung · Erinnerungen",
-  "text": "Du siehst den Brief mit derselben Tagesordnung wie in der Einladung. Die Erinnerung geht nur an die, die noch nicht geantwortet haben. Tippe auf: Jetzt an 3 Mitglieder senden.",
-  "ab": 525.925,
-  "sprecher": 526.425,
-  "sprecherEnde": 535.307,
-  "dauer": 10.282
- },
- {
-  "bild": "e03-aenderung-frage",
-  "kapitel": "Bis zur Sitzung · Erinnerungen",
-  "text": "Hast du die Tagesordnung nach der Einladung noch geändert – zum Beispiel einen dringenden Punkt aufgenommen –, fragt die App: Sollen alle Mitglieder die geänderte Tagesordnung bekommen? So steht überall dieselbe Tagesordnung: in der App, im Brief, in der Aktentasche und am Abend.",
-  "ab": 536.207,
-  "sprecher": 536.707,
-  "sprecherEnde": 551.335,
-  "dauer": 16.029
- },
- {
-  "bild": "e04-knapp",
-  "kapitel": "Bis zur Sitzung · Erinnerungen",
-  "text": "Und wird es knapp – ist die Einladung drei Tage vor der Sitzung noch nicht raus –, steht der Schritt rot: Knapp, die Mitglieder haben nur noch wenig Zeit. Einladen kannst du trotzdem noch – aber am besten rechtzeitig.",
-  "ab": 552.235,
-  "sprecher": 552.735,
-  "sprecherEnde": 563.289,
-  "dauer": 11.953
+  "kapitel": "Vorbereiten · Aktentasche",
+  "text": "Die Tasche ist gepackt. Neue Unterlagen kommen bis zur Sitzung von selbst dazu. Am Abend liegt die Tasche im Clubabend Live.",
+  "ab": 583.45,
+  "sprecher": 583.95,
+  "sprecherEnde": 590.881,
+  "dauer": 8.331
  },
  {
   "bild": "kapitel:4",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Teil vier: Am Abend leitest du die Sitzung mit Clubabend Live.",
-  "ab": 564.189,
-  "sprecher": 565.289,
-  "sprecherEnde": 568.911,
-  "dauer": 6.822
+  "ab": 591.781,
+  "sprecher": 592.881,
+  "sprecherEnde": 596.318,
+  "dauer": 6.637
  },
  {
   "bild": "c01-frage",
   "kapitel": "Am Abend · Clubabend Live",
-  "text": "Am Sitzungsabend – ab zwei Stunden vorher – fragt dich die App beim Öffnen: Heute ist Clubsitzung. Jetzt den Clubabend öffnen? Tippe auf Ja. Du findest ihn auch jederzeit über die Kachel Clubabend Live auf der Startseite.",
-  "ab": 571.011,
-  "sprecher": 571.511,
-  "sprecherEnde": 583.493,
-  "dauer": 13.381
+  "text": "Am Sitzungsabend – ab zwei Stunden vorher – fragt dich die App beim Öffnen: Heute ist Clubsitzung. Jetzt den Clubabend öffnen? Tippe auf Ja. Du findest ihn auch jederzeit über die Kachel Clubabend Live.",
+  "ab": 598.418,
+  "sprecher": 598.918,
+  "sprecherEnde": 610.249,
+  "dauer": 12.731
  },
  {
   "bild": "c02-clubabend",
   "kapitel": "Am Abend · Clubabend Live",
-  "text": "Hier hast du alles für den Abend. Ganz oben: deine gepackte Aktentasche.",
-  "ab": 584.393,
-  "sprecher": 584.893,
-  "sprecherEnde": 588.852,
-  "dauer": 5.359
+  "text": "Hier hast du alles für den Abend. Ganz oben: deine gepackte Aktentasche – zum Nachschlagen oder Vorlesen.",
+  "ab": 611.149,
+  "sprecher": 611.649,
+  "sprecherEnde": 617.222,
+  "dauer": 6.973
+ },
+ {
+  "bild": "c02b-freigeben",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Darunter: Unterlagen freigeben. Damit gibst du Dokumente direkt in den Eingangskorb der Mitglieder – zum Beispiel die Tagesordnung.",
+  "ab": 618.122,
+  "sprecher": 618.622,
+  "sprecherEnde": 626.098,
+  "dauer": 8.877
+ },
+ {
+  "bild": "c02c-frei-wahl",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Hake an, was die Mitglieder bekommen sollen – zum Beispiel die Tagesordnung und die Liste der Zusagen.",
+  "ab": 626.998,
+  "sprecher": 627.498,
+  "sprecherEnde": 632.595,
+  "dauer": 6.497
+ },
+ {
+  "bild": "c02d-frei-an",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Dann wählst du wieder, an wen: Alle, Einzeln, eine Gruppe oder ein Amt.",
+  "ab": 633.495,
+  "sprecher": 633.995,
+  "sprecherEnde": 638.221,
+  "dauer": 5.626
+ },
+ {
+  "bild": "c02e-frei-senden",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Darunter schlägst du vor, in welches Register die Mitglieder es ablegen sollen, und schreibst auf Wunsch eine kurze Nachricht dazu. Dann tippe auf Senden.",
+  "ab": 639.121,
+  "sprecher": 639.621,
+  "sprecherEnde": 647.191,
+  "dauer": 8.97
+ },
+ {
+  "bild": "c02f-frei-frage",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Die App fragt zur Sicherheit nach. Tippe auf Senden.",
+  "ab": 648.091,
+  "sprecher": 648.591,
+  "sprecherEnde": 651.308,
+  "dauer": 4.117
+ },
+ {
+  "bild": "c02g-frei-gesendet",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Fertig: Jedes Teil kommt als PDF in den Eingangskorb der Mitglieder. Wer per E-Mail benachrichtigt wird, bekommt die PDFs zusätzlich als Anhang.",
+  "ab": 652.208,
+  "sprecher": 652.708,
+  "sprecherEnde": 661.241,
+  "dauer": 9.933
+ },
+ {
+  "bild": "c02h-mitglied-hinweis",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "So sieht es bei den Mitgliedern aus: Beim Öffnen der App kommt der Hinweis: Neu in deinem Eingangskorb – mit dem Knopf Ja, ansehen.",
+  "ab": 662.141,
+  "sprecher": 662.641,
+  "sprecherEnde": 669.607,
+  "dauer": 8.366
+ },
+ {
+  "bild": "c02i-mitglied-ansehen",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Dann sehen sie das Dokument mit deiner Nachricht.",
+  "ab": 670.507,
+  "sprecher": 671.007,
+  "sprecherEnde": 673.178,
+  "dauer": 3.571
+ },
+ {
+  "bild": "c02j-mitglied-frage",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Und darunter die Frage: Möchtest du das Dokument ablegen oder löschen?",
+  "ab": 674.078,
+  "sprecher": 674.578,
+  "sprecherEnde": 678.305,
+  "dauer": 5.127
+ },
+ {
+  "bild": "c02k-mitglied-ablegen",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Beim Ablegen schlägt die App den Ordner im Archiv und das Register vor – ein Tipp, und es ist abgelegt.",
+  "ab": 679.205,
+  "sprecher": 679.705,
+  "sprecherEnde": 685.301,
+  "dauer": 6.996
  },
  {
   "bild": "c03-top",
   "kapitel": "Am Abend · Clubabend Live",
-  "text": "Darunter die Tagesordnung.",
-  "ab": 589.752,
-  "sprecher": 590.252,
-  "sprecherEnde": 591.773,
-  "dauer": 2.921
+  "text": "Zurück bei dir: Darunter steht die Tagesordnung.",
+  "ab": 686.201,
+  "sprecher": 686.701,
+  "sprecherEnde": 689.394,
+  "dauer": 4.094
  },
  {
   "bild": "c04-anwesend",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Öffne Anwesend. Die Farben zeigen: Grün hat zugesagt, gelb vielleicht, rot hat sich noch nicht gemeldet, weiß hat abgesagt. Der Haken heißt: ist da.",
-  "ab": 592.673,
-  "sprecher": 593.173,
-  "sprecherEnde": 601.787,
+  "ab": 690.294,
+  "sprecher": 690.794,
+  "sprecherEnde": 699.409,
   "dauer": 10.015
  },
  {
   "bild": "c05-anwesend-leute",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Wer zugesagt hatte, ist schon eingetragen. Jetzt trägst du nach, wer sonst noch gekommen ist: Klara war unsicher, Lena hatte sich nicht gemeldet – beide sind da.",
-  "ab": 602.687,
-  "sprecher": 603.187,
-  "sprecherEnde": 611.57,
-  "dauer": 9.782
+  "ab": 700.309,
+  "sprecher": 700.809,
+  "sprecherEnde": 709.249,
+  "dauer": 9.84
  },
  {
   "bild": "c06-anwesend-nach",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Ein Tipp auf den Namen – und sie haben ihren Haken. So kommen alle Anwesenden ins Protokoll.",
-  "ab": 612.47,
-  "sprecher": 612.97,
-  "sprecherEnde": 617.881,
+  "ab": 710.149,
+  "sprecher": 710.649,
+  "sprecherEnde": 715.56,
   "dauer": 6.311
  },
  {
   "bild": "c07-top-abgehakt",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Während der Sitzung hakst du die Tagesordnungspunkte ab, sobald sie besprochen sind. Alle mit offener App sehen den Stand.",
-  "ab": 618.781,
-  "sprecher": 619.281,
-  "sprecherEnde": 625.144,
-  "dauer": 7.263
+  "ab": 716.46,
+  "sprecher": 716.96,
+  "sprecherEnde": 723.009,
+  "dauer": 7.449
+ },
+ {
+  "bild": "c07b-schluss",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Ganz unten steht: Zum Schluss. Damit am Ende nichts vergessen wird: Tagesordnung besprochen – das zählt von selbst –, Anwesende vollständig, Aufgaben verteilt, Fotos gemacht.",
+  "ab": 723.909,
+  "sprecher": 724.409,
+  "sprecherEnde": 733.651,
+  "dauer": 10.642
+ },
+ {
+  "bild": "c07c-schluss-abgehakt",
+  "kapitel": "Am Abend · Clubabend Live",
+  "text": "Erledigtes hakst du ab. Mit den Knöpfen daneben öffnest du gleich das Protokoll oder das Fotoalbum.",
+  "ab": 734.551,
+  "sprecher": 735.051,
+  "sprecherEnde": 740.322,
+  "dauer": 6.671
  },
  {
   "bild": "c08-termin-knopf",
   "kapitel": "Am Abend · Clubabend Live",
-  "text": "Zum Schluss die Terminabsprache: Wann treffen wir uns das nächste Mal? Tippe auf: Nächsten Termin abstimmen.",
-  "ab": 626.044,
-  "sprecher": 626.544,
-  "sprecherEnde": 632.186,
-  "dauer": 7.042
+  "text": "Und als Letztes der nächste Termin: Tippe auf Live-Abstimmung.",
+  "ab": 741.222,
+  "sprecher": 741.722,
+  "sprecherEnde": 745.007,
+  "dauer": 4.686
  },
  {
   "bild": "c09-lt-form",
   "kapitel": "Am Abend · Clubabend Live",
-  "text": "Die App schlägt den letzten Freitag im nächsten Monat vor, mit Uhrzeit und Ort wie heute. Titel, Datum, Uhrzeit und Ort kannst du noch ändern.",
-  "ab": 633.086,
-  "sprecher": 633.586,
-  "sprecherEnde": 641.725,
-  "dauer": 9.539
+  "text": "Die App schlägt den letzten Freitag im Folgemonat vor – 18 Uhr, Hütte Anne. Titel, Datum, Uhrzeit und Ort kannst du noch ändern.",
+  "ab": 745.907,
+  "sprecher": 746.407,
+  "sprecherEnde": 754.0,
+  "dauer": 8.993
  },
  {
   "bild": "c10-lt-start",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Jetzt sagst du in die Runde: Bitte alle die Handys raus und die Club-App öffnen! Dann tippst du auf Live-Abstimmung starten.",
-  "ab": 642.625,
-  "sprecher": 643.125,
-  "sprecherEnde": 649.232,
-  "dauer": 7.507
+  "ab": 754.9,
+  "sprecher": 755.4,
+  "sprecherEnde": 761.565,
+  "dauer": 7.565
  },
  {
   "bild": "c11-lt-leiter-leer",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Die Abstimmung läuft. Noch hat niemand abgestimmt.",
-  "ab": 650.132,
-  "sprecher": 650.632,
-  "sprecherEnde": 653.36,
-  "dauer": 4.128
+  "ab": 762.465,
+  "sprecher": 762.965,
+  "sprecherEnde": 766.088,
+  "dauer": 4.523
  },
  {
   "bild": "c12-mitglied",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "So sieht es auf den Handys der Mitglieder aus: der Termin, ein Blick in den eigenen Kalender – und drei Knöpfe: Ich kann, Unter Vorbehalt, Ich kann nicht.",
-  "ab": 654.26,
-  "sprecher": 654.76,
-  "sprecherEnde": 662.33,
+  "ab": 766.988,
+  "sprecher": 767.488,
+  "sprecherEnde": 775.058,
   "dauer": 8.97
  },
  {
   "bild": "c13-mitglied-ja",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Ein Tipp – und die Stimme ist abgegeben.",
-  "ab": 663.23,
-  "sprecher": 663.73,
-  "sprecherEnde": 665.935,
-  "dauer": 3.606
+  "ab": 775.958,
+  "sprecher": 776.458,
+  "sprecherEnde": 778.617,
+  "dauer": 3.559
  },
  {
   "bild": "c14-leiter-ergebnis",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Du siehst live, wie abgestimmt wird – mit Namen. Neun können, einer unter Vorbehalt, eine kann nicht.",
-  "ab": 666.835,
-  "sprecher": 667.335,
-  "sprecherEnde": 673.094,
-  "dauer": 7.159
+  "ab": 779.517,
+  "sprecher": 780.017,
+  "sprecherEnde": 785.648,
+  "dauer": 7.031
  },
  {
   "bild": "c15-alternative",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Passt der Termin nicht? Dann tippe auf Alternative vorschlagen, wähle ein anderes Datum oder eine andere Uhrzeit und stelle ihn zur Abstimmung. Alle stimmen sofort neu ab.",
-  "ab": 673.994,
-  "sprecher": 674.494,
-  "sprecherEnde": 683.666,
-  "dauer": 10.572
+  "ab": 786.548,
+  "sprecher": 787.048,
+  "sprecherEnde": 796.545,
+  "dauer": 10.897
  },
  {
   "bild": "c16-annehmen",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Passt der Termin: Tippe auf Termin annehmen.",
-  "ab": 684.566,
-  "sprecher": 685.066,
-  "sprecherEnde": 687.388,
-  "dauer": 3.722
+  "ab": 797.445,
+  "sprecher": 797.945,
+  "sprecherEnde": 800.337,
+  "dauer": 3.792
  },
  {
   "bild": "c17-festlegen-frage",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Die App fragt nach. Tippe auf Festlegen. Der Termin kommt in den Kalender, und wer Ich kann getippt hat, ist schon zugesagt.",
-  "ab": 688.288,
-  "sprecher": 688.788,
-  "sprecherEnde": 695.394,
-  "dauer": 8.006
+  "ab": 801.237,
+  "sprecher": 801.737,
+  "sprecherEnde": 808.111,
+  "dauer": 7.774
  },
  {
   "bild": "c18-festgelegt",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Der nächste Termin steht.",
-  "ab": 696.294,
-  "sprecher": 696.794,
-  "sprecherEnde": 698.071,
-  "dauer": 2.677
+  "ab": 809.011,
+  "sprecher": 809.511,
+  "sprecherEnde": 810.858,
+  "dauer": 2.747
  },
  {
   "bild": "c19-mitglied-kalender",
   "kapitel": "Am Abend · Clubabend Live",
   "text": "Und jedes Mitglied wird gefragt, ob der Termin in seinen Handy-Kalender soll.",
-  "ab": 698.971,
-  "sprecher": 699.471,
-  "sprecherEnde": 703.755,
-  "dauer": 5.684
+  "ab": 811.758,
+  "sprecher": 812.258,
+  "sprecherEnde": 816.484,
+  "dauer": 5.626
  },
  {
   "bild": "kapitel:5",
   "kapitel": "Hilfe",
   "text": "Und wenn noch etwas unklar ist?",
-  "ab": 704.655,
-  "sprecher": 705.755,
-  "sprecherEnde": 707.439,
-  "dauer": 4.883
+  "ab": 817.384,
+  "sprecher": 818.484,
+  "sprecherEnde": 820.26,
+  "dauer": 4.976
  },
  {
   "bild": "d01-post",
   "kapitel": "Hilfe",
   "text": "Dann schreib Hansi eine Nachricht. Im Büro auf dem Schreibtisch: Nachricht und Mail.",
-  "ab": 709.539,
-  "sprecher": 710.039,
-  "sprecherEnde": 714.404,
-  "dauer": 5.765
+  "ab": 822.36,
+  "sprecher": 822.86,
+  "sprecherEnde": 827.19,
+  "dauer": 5.731
  },
  {
   "bild": "d02-wer",
   "kapitel": "Hilfe",
   "text": "Tippe auf Hansi – Hans-Joachim Koch.",
-  "ab": 715.304,
-  "sprecher": 715.804,
-  "sprecherEnde": 717.836,
-  "dauer": 3.432
+  "ab": 828.09,
+  "sprecher": 828.59,
+  "sprecherEnde": 830.448,
+  "dauer": 3.258
  },
  {
   "bild": "d03-wie",
   "kapitel": "Hilfe",
   "text": "Dann auf: Nachricht in der App.",
-  "ab": 718.736,
-  "sprecher": 719.236,
-  "sprecherEnde": 720.849,
-  "dauer": 3.014
+  "ab": 831.348,
+  "sprecher": 831.848,
+  "sprecherEnde": 833.566,
+  "dauer": 3.118
  },
  {
   "bild": "d04-nachricht",
   "kapitel": "Hilfe",
   "text": "Schreib kurz, wobei du Hilfe brauchst, und tippe auf den Pfeil zum Senden. Hansi hilft dir gern weiter.",
-  "ab": 721.749,
-  "sprecher": 722.249,
-  "sprecherEnde": 727.532,
-  "dauer": 6.683
+  "ab": 834.466,
+  "sprecher": 834.966,
+  "sprecherEnde": 840.26,
+  "dauer": 6.694
  },
  {
   "bild": "ende",
   "kapitel": "Viel Erfolg, Klaus!",
-  "text": "Kurz zusammengefasst: Die App fragt dich beim Öffnen, was dran ist – oder du schaust im Büro auf den gelben Zettel. Tagesordnung festlegen, Fertig – speichern, spätestens drei Tage vorher einladen. Unterlagen drucken, Aktentasche packen. Erinnern und Änderungen mitteilen, wenn die App fragt. Am Abend Clubabend Live: Anwesende nachtragen, Tagesordnung abhaken, nächsten Termin live abstimmen. Viel Erfolg, Klaus!",
-  "ab": 728.432,
-  "sprecher": 728.932,
-  "sprecherEnde": 752.222,
-  "dauer": 25.89
+  "text": "Kurz zusammengefasst: Die App fragt dich beim Öffnen, was dran ist – oder du schaust auf den gelben Zettel. Tagesordnung festlegen, spätestens drei Tage vorher einladen, erinnern. Einen Tag vorher die Sitzung vorbereiten und zuletzt die Aktentasche packen. Am Abend Clubabend Live: Anwesende, Tagesordnung, zum Schluss alles abhaken – und als Letztes den nächsten Termin. Bist du krank, übernimmt Paul. Viel Erfolg, Klaus!",
+  "ab": 841.16,
+  "sprecher": 841.66,
+  "sprecherEnde": 865.31,
+  "dauer": 26.25
  }
 ]

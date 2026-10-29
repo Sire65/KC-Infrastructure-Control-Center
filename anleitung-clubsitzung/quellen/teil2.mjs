@@ -1,13 +1,15 @@
-// Teil 3: Am Abend – Clubabend Live, Anwesenheit nachtragen, Live-Abstimmung über den nächsten Termin (Klaus + Handy eines Mitglieds)
-// Teil 4: Hilfe – Hansi eine Nachricht schreiben
+// Teil 4 (2.751.0): Am Abend – Clubabend Live: Aktentasche, 📤 Unterlagen freigeben (und wie es beim Mitglied ankommt), Anwesenheit, Tagesordnung,
+// ✅ Zum Schluss, als Letztes die Live-Abstimmung über den nächsten Termin (Klaus + Handy eines Mitglieds) · Teil 5: Hilfe – Hansi eine Nachricht schreiben
 import { launch, seite, bild, tipp, speichern, SZENEN } from "./basis.mjs";
 import { zustand, ABEND, TREFFEN } from "./demo.mjs";
-const { S, antworten } = zustand();
+const { S, antworten, eingang } = zustand();
 // Stand vom Mittag: Sitzung vorbereitet, Einladung raus, Tasche gepackt (wie in Teil 1 aufgenommen)
 const k = antworten("klaus"), sz = k.buero_sitzung();
 k.buero_speichern({ anwesend: sz.standard.anwesend, anmerkung: sz.anmerkungVorschlag, tagesordnung: [...sz.standard.tagesordnung.slice(0, 5), { t: "Ausflug im Frühjahr: Spargelhof", art: "vorschlag", id: "V3" }, { t: "Termine 2027 festlegen", art: "eigen" }, sz.standard.tagesordnung[5]], zeilen: 5 });
 k.buero_einladung({});
+k.buero_speichern({ ...k.buero_sitzung().vorbereitung, teil: "vor" }); // Donnerstag: Sitzung vorbereitet (Teil 3)
 k.aktentasche_aendern({ op: "packen", keys: ["tagesordnung", "protokoll:PR1", "protokoll:PR0", "vorschlag:V1", "vorschlag:V2", "teilnehmer", "aufgaben"] });
+k.aktentasche_aendern({ op: "mitnehmen", titel: "Muster der neuen Schilder" }); k.aktentasche_aendern({ op: "mitnehmen", titel: "Getränkeproben" });
 k.aktentasche_aendern({ op: "status", status: "gepackt" });
 k.buero_einladung({ nur_offen: true }); // am Mittwoch erinnert (Teil 3)
 const b = await launch();
@@ -17,6 +19,33 @@ await p.locator("#buAufgabeBlatt").waitFor({ timeout: 20000 });
 await bild(p, "c01-frage", '#buAufgabeBlatt [data-w="ja"]');
 await tipp(p, '#buAufgabeBlatt [data-w="ja"]'); await p.waitForTimeout(1500);
 await bild(p, "c02-clubabend", "#caBlatt .ca-tasche");
+// KC-CLUB-CLUBABEND-ABSCHLUSS (2.751.0): Unterlagen während der Sitzung freigeben – in die Eingangskörbe der Mitglieder
+await bild(p, "c02b-freigeben", '#caBlatt [data-k="frei"]');
+await tipp(p, '#caBlatt [data-k="frei"]'); await p.waitForTimeout(2000);
+await p.locator('#atFreiBlatt label:has-text("Tagesordnung") input').check(); await p.locator('#atFreiBlatt label:has-text("Zusagen") input').check();
+await p.locator('#atFreiBlatt label:has-text("Tagesordnung")').evaluate((e) => e.scrollIntoView({ block: "start" })); await p.locator("#atFreiBlatt .blatt-innen").evaluate((e) => e.scrollBy(0, -40));
+await bild(p, "c02c-frei-wahl", ['#atFreiBlatt label:has-text("Tagesordnung") input', '#atFreiBlatt label:has-text("Zusagen") input']);
+await p.locator("#atFreiAn").evaluate((e) => e.scrollIntoView({ block: "center" }));
+await bild(p, "c02d-frei-an", "#atFreiAn > .hl-chips");
+await p.locator("#atFreiNotiz").click(); await p.locator("#atFreiNotiz").pressSequentially("Unterlagen zur heutigen Sitzung – zum Nachlesen.", { delay: 15 });
+await p.locator("#atFreiLos").evaluate((e) => e.scrollIntoView({ block: "center" }));
+await bild(p, "c02e-frei-senden", ["#atFreiReg", "#atFreiLos"]);
+await tipp(p, "#atFreiLos"); await p.waitForTimeout(600);
+await bild(p, "c02f-frei-frage", 'button:has-text("📤 Senden"):visible');
+await p.locator('button:has-text("📤 Senden"):visible').last().click(); await p.waitForTimeout(9000);
+await bild(p, "c02g-frei-gesendet");
+await p.evaluate(() => $("atBlatt")?.remove()); await p.waitForTimeout(500);
+// so kommt es beim Mitglied an (Erika)
+const m = await seite(b, { zeit: ABEND, antworten: { ...antworten("erika"), ...eingang() }, treffen: TREFFEN });
+await m.waitForTimeout(7000);
+await bild(m, "c02h-mitglied-hinweis", 'button:has-text("Ja, ansehen")');
+await tipp(m, 'button:has-text("Ja, ansehen")'); await m.waitForTimeout(4000);
+await bild(m, "c02i-mitglied-ansehen", "#egVorschau");
+await m.locator('#egBlatt [data-w="ab"]').scrollIntoViewIfNeeded();
+await bild(m, "c02j-mitglied-frage", ['#egBlatt [data-w="ab"]', '#egBlatt [data-w="weg"]']);
+await tipp(m, '#egBlatt [data-w="ab"]'); await m.waitForTimeout(800);
+await bild(m, "c02k-mitglied-ablegen", ["#awOrdner", "#awReg"]);
+await p.locator('#caBlatt details[data-ca="top"]').evaluate((e) => e.scrollIntoView({ block: "start" }));
 await bild(p, "c03-top", '#caBlatt details[data-ca="top"]');
 await tipp(p, '#caBlatt details[data-ca="da"] summary'); await p.waitForTimeout(500);
 await p.locator('#caBlatt details[data-ca="da"]').evaluate((e) => e.scrollIntoView({ block: "start" }));
@@ -30,8 +59,16 @@ await tipp(p, '#caBlatt [data-top="0"]'); await p.waitForTimeout(900);
 await tipp(p, '#caBlatt [data-top="1"]'); await p.waitForTimeout(900);
 await p.locator('#caBlatt details[data-ca="top"]').evaluate((e) => e.scrollIntoView({ block: "start" }));
 await bild(p, "c07-top-abgehakt", ['#caBlatt [data-top="0"]', '#caBlatt [data-top="1"]']);
-await bild(p, "c08-termin-knopf", '#caBlatt [data-k="termin"]');
-await tipp(p, '#caBlatt [data-k="termin"]'); await p.waitForTimeout(1200);
+// ✅ Zum Schluss: Abhak-Liste, als Letztes der nächste Termin
+await p.evaluate(() => { const d = document.querySelector('#caBlatt details[data-ca="ab"]'); d.open = true; }); await p.waitForTimeout(400);
+await p.locator('#caBlatt details[data-ca="ab"]').evaluate((e) => e.scrollIntoView({ block: "start" }));
+await bild(p, "c07b-schluss", '#caBlatt details[data-ca="ab"]');
+await tipp(p, '#caBlatt [data-ab="anwesend"]'); await p.waitForTimeout(900);
+await tipp(p, '#caBlatt [data-ab="aufgaben"]'); await p.waitForTimeout(900);
+await p.locator('#caBlatt details[data-ca="ab"]').evaluate((e) => e.scrollIntoView({ block: "start" }));
+await bild(p, "c07c-schluss-abgehakt", ['#caBlatt [data-ab="anwesend"]', '#caBlatt [data-ab="aufgaben"]']);
+await bild(p, "c08-termin-knopf", '#caBlatt [data-abk="termin"]');
+await tipp(p, '#caBlatt [data-abk="termin"]'); await p.waitForTimeout(1200);
 await bild(p, "c09-lt-form", ["#ltDatum", "#ltZeit", "#ltOrt"]);
 await bild(p, "c10-lt-start", '#ltStartBlatt button:has-text("Live-Abstimmung starten")');
 await tipp(p, '#ltStartBlatt button:has-text("Live-Abstimmung starten")'); await p.waitForTimeout(1500);
