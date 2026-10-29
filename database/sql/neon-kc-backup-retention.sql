@@ -7,6 +7,7 @@
 --   * je Monat der neueste ok-Satz der letzten `monate` Monate (Standard 3).
 -- Stand 26.10.2026 (KC-NEON-PRUEFUNG, Freigabe Hansi „Setze B auch um“): im Betrieb wochen = 2, monate = 1 (vorher 4/3) – Spiegel bleibt
 --   unter 1 GiB; per update auf kc_backup_retention_policy gesetzt. Rückweg: update … set wochen = 4, monate = 3 where id = 'primary';
+-- Stand 29.10.2026 (KICC-F-112): wieder wochen = 4, monate = 3; über 800 MiB rechnet der Plan von selbst mit 2/1 – siehe neon-kc-backup-retention-14.sql.
 -- Variante B, Freigabe Betreiber 15.10.2026. Taegliche Saetze ueber 14 Tage haelt zusaetzlich die Frankfurt-Sicherung.
 -- Alles andere (auch unvollstaendige running/error-Saetze ausserhalb der Tagesfrist) darf geloescht werden.
 -- Loeschen nur, wenn kc_backup_retention_policy.aktiv = true; sonst nur Probelauf mit Protokoll.
