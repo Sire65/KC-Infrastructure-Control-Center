@@ -5,7 +5,9 @@ Stand 30.10.2026 · Status: **Preisliste freigegeben (Gestaltung), Schilder 1–
 ## Ziel
 
 Alle Schilder am Stand sehen gleich aus: gleicher Kopf, gleiche Schrift, gleiche Farben. Gestaltung wie die
-vorhandenen Druckunterlagen des Köcheclubs (Kesselschil## Wo was liegt
+Club-CD der Club-App (Schilder-Druckerei, Briefbogen).
+
+## Wo was liegt
 
 - **Hinweisschilder (1–4)**: Club-App → Büro → 🪧 **Schilder-Druckerei** → Anlass 🎄 Weihnachtsmarkt
   (Repo KC-Clubapp, Version 2.765.0, KC-CLUB-SCHILDER-CD). Dort ändern, drucken, an Mitglieder senden, speichern.
@@ -35,9 +37,7 @@ vorhandenen Druckunterlagen des Köcheclubs (Kesselschil## Wo was liegt
 | 4 | Gebrauchtes Besteck | `wm_besteck` | Gabel + Messer | „bitte hier ablegen. Danke schön!“ |
 | 5 | Preisliste 2026 | dieser Ordner | – | siehe unten |
 
-e im Stand | Tabelle | – | siehe unten |
-
-## Preisliste im Stand (Nr. 5 – Probe liegt bei)
+## Preisliste im Stand (Nr. 5)
 
 - Links die Artikel, oben die Anzahl **1 bis 10**, darunter der Preis für diese Anzahl **inklusive Pfand**.
 - Reihenfolge der Warengruppen: **Getränke mit Alkohol → alkoholfreie Getränke → Speisen**; jede Gruppe mit
