@@ -1,6 +1,6 @@
 # Weihnachtsmarkt – Schilder und Preislisten (KC-Schilderfamilie)
 
-Stand 30.10.2026 · Status: **Preisliste freigegeben (Gestaltung), Schilder 1–4 gebaut** – CD nach Vorgabe Hansi: Weinrot, Beige, Gold.
+Stand 30.10.2026 · Status: **Preisliste freigegeben (Gestaltung), Schilder 1–6 gebaut und eingespielt (Club-App 2.766.0)** – CD nach Vorgabe Hansi: Weinrot, Beige, Gold.
 
 ## Ziel
 
@@ -10,11 +10,11 @@ Club-CD der Club-App (Schilder-Druckerei, Briefbogen).
 ## Wo was liegt
 
 - **Hinweisschilder (1–6)**: Club-App → Büro → 🪧 **Schilder-Druckerei** → Anlass 🎄 Weihnachtsmarkt
-  (Repo KC-Clubapp, Version 2.765.0, KC-CLUB-SCHILDER-CD). Dort ändern, drucken, an Mitglieder senden, speichern.
+  (Repo KC-Clubapp, Version 2.766.0, KC-CLUB-SCHILDER-CD). Dort ändern, drucken, an Mitglieder senden, speichern.
 - **Preisliste (5)**: dieser Ordner – wird aus dem Artikelstamm der Kasse erzeugt; das PDF kann über
   „📥 Einlesen“ im Büro-Ordner abgelegt werden.
 - Vorschau aller sechs Schilder: `ausgabe/Schilder_Vorschau.png`.
-- **Druckpaket** (Club-App 2.765.0): Schilder-Druckerei → „＋ Druckpaket zusammenstellen“ – Schilder, Vorlagen und PDFs aus dem Archiv
+- **Druckpaket** (Club-App 2.766.0): Schilder-Druckerei → „＋ Druckpaket zusammenstellen“ – Schilder, Vorlagen und PDFs aus dem Archiv
   (z. B. diese Preisliste) ankreuzen, Anzahl je Teil, Haken wegnehmbar, als „Druckpaket Weihnachtsmarkt“ speichern und jedes Jahr wieder drucken.
 
 ## Gestaltungsregeln (gelten für jedes Schild)
