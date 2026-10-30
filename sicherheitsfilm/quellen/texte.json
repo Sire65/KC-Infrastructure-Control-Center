@@ -1,0 +1,78 @@
+[
+ {
+  "id": "titel",
+  "t": "Wie sicher sind eigentlich deine Daten in der Club-App? Das erkläre ich dir jetzt – ganz einfach."
+ },
+ {
+  "id": "zugang",
+  "t": "Alles beginnt mit deinem persönlichen Zugang. Du kommst nur mit deinem eigenen Link oder einem sechsstelligen Code in die App. Gespeichert wird davon nur ein Fingerabdruck – nie der Schlüssel selbst."
+ },
+ {
+  "id": "link",
+  "t": "Darum gilt: Gib deinen Link nie weiter. Wer ihn hat, ist in der App als du angemeldet. Link verloren? Dann bekommst du einen neuen, und der alte gilt nicht mehr."
+ },
+ {
+  "id": "tuer",
+  "t": "Jede Anfrage aus der App geht über den Club-Server. Er ist wie ein Türsteher und prüft jedes Mal: Wer bist du? Und darfst du das sehen? Direkt an die Datenbank kommt von außen niemand."
+ },
+ {
+  "id": "tls",
+  "t": "Unterwegs ist alles verschlüsselt – so wie beim Online-Banking. Und auch gespeichert sind deine Daten verschlüsselt."
+ },
+ {
+  "id": "schalter",
+  "t": "Du bestimmst selbst, was andere Mitglieder von dir sehen: Telefonnummer, Adresse, Geburtstag, und ob du gerade online bist. Die heiklen Schalter stehen ab Werk auf aus."
+ },
+ {
+  "id": "chat",
+  "t": "Nachrichten sehen nur die Teilnehmer der Unterhaltung. Und bei einer geheimen Abstimmung wird deine Stimme ohne deinen Namen gespeichert. Niemand sieht, wie du abgestimmt hast."
+ },
+ {
+  "id": "pass",
+  "t": "Dein Notfallpass mit Allergien und Medikamenten bleibt nur auf deinem Handy. Er geht nie an den Server."
+ },
+ {
+  "id": "handy",
+  "t": "Du gibst dein Handy weiter? Dann melde dich vorher ab – dann sind alle Club-Daten auf dem Gerät gelöscht. Und öffnet jemand die App mit deinem Zugang auf einem neuen Gerät, bekommst du sofort Bescheid."
+ },
+ {
+  "id": "orte",
+  "t": "Und wenn einmal etwas kaputtgeht? Deine Daten liegen gut geschützt an fünf Orten: das Original, ein Spiegel, der alle sechs Stunden aufgefrischt wird, und drei getrennte Sicherungen – verschlüsselt und gegen Ändern gesperrt."
+ },
+ {
+  "id": "test",
+  "t": "Jeden Morgen wird geprüft, ob sich die Sicherung wirklich zurückholen lässt – Tabelle für Tabelle. Zuletzt waren alle zweihundertdreiundsiebzig Tabellen in Ordnung."
+ },
+ {
+  "id": "not",
+  "t": "Fällt der Server einmal aus, läuft die App im Notbetrieb weiter. Du kannst lesen, zusagen und schreiben. Alles wird später nachgetragen."
+ },
+ {
+  "id": "waechter",
+  "t": "Dazu passen Wächter rund um die Uhr auf – zum Beispiel auf fremde Geräte und Angriffsversuche."
+ },
+ {
+  "id": "ki",
+  "t": "Und noch etwas: Unser Admin lässt die gesamte App regelmäßig mit künstlicher Intelligenz überprüfen – mit Claude Code und ChatGPT."
+ },
+ {
+  "id": "ki2",
+  "t": "Geprüft werden Sicherheit und Sicherheitslücken, das Bedienkonzept und die Logik. Was gefunden wird, wird behoben und getestet – erst dann kommt das Update zu dir."
+ },
+ {
+  "id": "kichat",
+  "t": "Und ganz wichtig: Deine Chats liest die KI nie. Auch nicht, wenn sich jemand als Prüfer, als Behörde oder als Admin ausgibt. Solche Tricks blockt sie ab."
+ },
+ {
+  "id": "rechte",
+  "t": "Deine Rechte nach der Datenschutz-Grundverordnung findest du direkt in der App: Unter Meine Daten siehst du, was über dich gespeichert ist. Du kannst es ausdrucken und Änderungen melden."
+ },
+ {
+  "id": "tipps",
+  "t": "Und du selbst hilfst mit: Bildschirmsperre einschalten, deinen Link nie weitergeben, und vor dem Weitergeben des Handys abmelden."
+ },
+ {
+  "id": "ende",
+  "t": "Alles zum Nachlesen findest du in der App unter Technik: Sicherheit und Datenschutz. Köcheclub Werne – deine Daten in guten Händen."
+ }
+]

@@ -1,0 +1,119 @@
+{
+ "dauer": 176.961,
+ "plan": [
+  {
+   "id": "titel",
+   "start": 0,
+   "sprache": 0.6,
+   "ende": 6.736
+  },
+  {
+   "id": "zugang",
+   "start": 6.536,
+   "sprache": 7.136,
+   "ende": 17.51
+  },
+  {
+   "id": "link",
+   "start": 17.31,
+   "sprache": 17.91,
+   "ende": 27.401
+  },
+  {
+   "id": "tuer",
+   "start": 27.201,
+   "sprache": 27.801,
+   "ende": 38.651
+  },
+  {
+   "id": "tls",
+   "start": 38.451,
+   "sprache": 39.051,
+   "ende": 45.501
+  },
+  {
+   "id": "schalter",
+   "start": 45.301,
+   "sprache": 45.901,
+   "ende": 55.683
+  },
+  {
+   "id": "chat",
+   "start": 55.483,
+   "sprache": 56.083,
+   "ende": 65.377
+  },
+  {
+   "id": "pass",
+   "start": 65.177,
+   "sprache": 65.777,
+   "ende": 72.145
+  },
+  {
+   "id": "handy",
+   "start": 71.945,
+   "sprache": 72.545,
+   "ende": 83.244
+  },
+  {
+   "id": "orte",
+   "start": 83.044,
+   "sprache": 83.644,
+   "ende": 96.049
+  },
+  {
+   "id": "test",
+   "start": 95.849,
+   "sprache": 96.449,
+   "ende": 105.615
+  },
+  {
+   "id": "not",
+   "start": 105.415,
+   "sprache": 106.015,
+   "ende": 114.125
+  },
+  {
+   "id": "waechter",
+   "start": 113.925,
+   "sprache": 114.525,
+   "ende": 120.754
+  },
+  {
+   "id": "ki",
+   "start": 120.554,
+   "sprache": 121.154,
+   "ende": 129.148
+  },
+  {
+   "id": "ki2",
+   "start": 128.948,
+   "sprache": 129.548,
+   "ende": 139.155
+  },
+  {
+   "id": "kichat",
+   "start": 138.955,
+   "sprache": 139.555,
+   "ende": 149.197
+  },
+  {
+   "id": "rechte",
+   "start": 148.997,
+   "sprache": 149.597,
+   "ende": 159.657
+  },
+  {
+   "id": "tipps",
+   "start": 159.457,
+   "sprache": 160.057,
+   "ende": 167.644
+  },
+  {
+   "id": "ende",
+   "start": 167.444,
+   "sprache": 168.044,
+   "ende": 176.961
+  }
+ ]
+}
