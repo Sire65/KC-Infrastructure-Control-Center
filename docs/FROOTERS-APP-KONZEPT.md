@@ -298,6 +298,8 @@ Abwesenheiten sperren die Planung automatisch und erzeugen offene Schichten, wo 
 
 ### 6.8 🧼 Hygiene (FR-HYGIENE)
 
+> **Ausführliches Konzept:** `docs/FROOTERS-HYGIENE-KONZEPT.md` (FR-HYG-01 bis 12: Regeln zentral am PC, Zuteilung je Shop über Geräte, Matrix oder Übernahme durch die Shopleitung, Tagesliste mit Zuständigkeit nach Person oder Schicht, geführte Korrekturmaßnahmen).
+
 **Grundlage:** HACCP-Eigenkontrollen nach VO (EG) 852/2004, LMHV, Personalhygiene und Belehrung nach §§ 42, 43 IfSG, Allergeninformation nach LMIV. Die Inhalte prüft die QS-Rolle bzw. der Inhaber. Die App liefert **Vorlagen**, keine Rechtsberatung.
 
 **Aufbau:**
