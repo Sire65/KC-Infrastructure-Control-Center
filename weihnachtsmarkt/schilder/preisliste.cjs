@@ -91,23 +91,25 @@ const GRUPPEN = [
       .club small { display: block; font-size: 3.2mm; color: ${CD.grau}; font-weight: 400; font-style: italic; margin-top: 1.2mm; }
       .kopf h1 { margin-left: auto; font-size: 10.5mm; font-weight: 700; color: ${CD.weinrot}; line-height: 1; }
       .kopf h1 span { color: ${CD.gold}; }
-      table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 2.5mm; table-layout: fixed; background: #fff; }
+      /* Tabelle füllt die ganze freie Höhe bis zum Pfand-Hinweis – die Zeilen wachsen gleichmäßig mit (Wunsch Hansi: Platz unten nutzen) */
+      .tabelle { flex: 1 1 auto; min-height: 0; margin-top: 2.5mm; display: flex; }
+      table { width: 100%; height: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; background: #fff; }
       col.a { width: 78mm; }
       thead .skala th { background: ${CD.weinrot}; color: ${CD.gold}; font-size: 6.2mm; font-weight: 700; padding: 1mm 0 .9mm; text-align: center; border-bottom: 0.5mm solid ${CD.gold}; }
       thead .skala th:first-child { text-align: left; font-size: 4.2mm; padding-left: 3mm; color: ${CD.beige}; }
       thead .skala th small { display: block; font-size: 2.6mm; font-weight: 400; font-style: italic; margin-top: .4mm; }
-      .band th { background: var(--g); color: #fff; text-align: left; font-size: 4.2mm; font-weight: 700; padding: .8mm 3mm; letter-spacing: .1mm; }
+      .band th { height: 7mm; background: var(--g); color: #fff; text-align: left; font-size: 4.4mm; font-weight: 700; padding: .8mm 3mm; letter-spacing: .1mm; }
       tbody tr td, tbody tr .artikel { border-bottom: 0.25mm solid #e6dccd; }
       tbody tr.farbig td, tbody tr.farbig .artikel { background: var(--h); }
       .artikel { text-align: left; padding: .7mm 2mm .7mm 3mm; border-left: 1.6mm solid var(--g); }
-      .artikel .name { display: block; font-size: 4.5mm; font-weight: 700; color: ${CD.text}; line-height: 1.05; }
+      .artikel .name { display: block; font-size: 5mm; font-weight: 700; color: ${CD.text}; line-height: 1.05; }
       .artikel .unter { display: block; font-family: 'Liberation Sans', Arial, sans-serif; font-size: 2.5mm; font-weight: 700; color: var(--g); margin-top: .2mm; }
       .zuschlag .name { font-size: 4mm; color: #3a3330; }
-      td { text-align: center; font-size: 4.6mm; font-weight: 700; font-variant-numeric: tabular-nums lining-nums; padding: .6mm 0; border-left: 0.25mm solid #eee5d8; }
-      tr td:nth-child(2) { font-size: 5.4mm; color: var(--g); }
+      td { text-align: center; font-size: 5.1mm; font-weight: 700; font-variant-numeric: tabular-nums lining-nums; padding: .6mm 0; border-left: 0.25mm solid #eee5d8; }
+      tr td:nth-child(2) { font-size: 6mm; color: var(--g); }
       .zuschlag td { font-size: 4.2mm; color: #3a3330; } .zuschlag td:nth-child(2) { font-size: 4.6mm; }
       .fehlt { display: block; color: #b91c1c; font-weight: 800; font-size: 2.8mm; border: 0.3mm dashed #b91c1c; border-radius: .8mm; padding: 0 .6mm; margin-top: .4mm; }
-      .pfand { margin-top: auto; padding: 2mm 0 1.6mm; font-size: 3.3mm; line-height: 1.35; display: flex; align-items: flex-end; gap: 4mm; }
+      .pfand { padding: 2mm 0 1.6mm; font-size: 3.3mm; line-height: 1.35; display: flex; align-items: flex-end; gap: 4mm; }
       .pfand b { color: ${CD.weinrot}; }
       .stand { margin-left: auto; font-size: 2.3mm; color: #8a8076; font-style: italic; white-space: nowrap; }
       .fussband { margin: 0 -8.5mm; height: 13mm; background: ${CD.weinrot}; border-top: 0.6mm solid ${CD.gold}; display: flex; align-items: center; gap: 2.4mm; padding: 0 9mm 3.5mm; position: relative; z-index: 1; }
@@ -118,10 +120,10 @@ const GRUPPEN = [
       .bar svg { height: 4.6mm; }
     </style></head><body><div class="blatt">
       <div class="kopf"><div class="logo"><img src="${LOGO}" alt=""></div><div class="club">Köcheclub Werne<small>Gemeinsam kochen, gemeinsam helfen</small></div><h1>Preisliste <span>${esc(JAHR)}</span></h1></div>
-      <table><colgroup><col class="a">${spalten.map(() => '<col>').join('')}</colgroup>
+      <div class="tabelle"><table><colgroup><col class="a">${spalten.map(() => '<col>').join('')}</colgroup>
         <thead><tr class="skala"><th>Anzahl&nbsp;→<small>Preise in € · Getränke inkl. Pfand</small></th>${spalten.map((n) => `<th>${n}</th>`).join('')}</tr></thead>
         ${koerper}
-      </table>
+      </table></div>
       <div class="pfand"><div><b>Pfand</b> ist in den Getränkepreisen schon enthalten: ${pfandTexte.map((k) => `${esc(k.name)} ${euro(k.betrag)} €`).join(' · ')}.
         Pfand gibt es bei Rückgabe von Glas bzw. Feuerzange zurück.</div>
         <div class="stand">Stand ${stand} · Preise aus dem Artikelstamm der KC MarktKasse</div></div>
