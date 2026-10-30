@@ -9,11 +9,13 @@ Club-CD der Club-App (Schilder-Druckerei, Briefbogen).
 
 ## Wo was liegt
 
-- **Hinweisschilder (1–4)**: Club-App → Büro → 🪧 **Schilder-Druckerei** → Anlass 🎄 Weihnachtsmarkt
+- **Hinweisschilder (1–6)**: Club-App → Büro → 🪧 **Schilder-Druckerei** → Anlass 🎄 Weihnachtsmarkt
   (Repo KC-Clubapp, Version 2.765.0, KC-CLUB-SCHILDER-CD). Dort ändern, drucken, an Mitglieder senden, speichern.
 - **Preisliste (5)**: dieser Ordner – wird aus dem Artikelstamm der Kasse erzeugt; das PDF kann über
   „📥 Einlesen“ im Büro-Ordner abgelegt werden.
-- Vorschau aller vier Schilder: `ausgabe/Schilder_Vorschau.png`.
+- Vorschau aller sechs Schilder: `ausgabe/Schilder_Vorschau.png`.
+- **Druckpaket** (Club-App 2.765.0): Schilder-Druckerei → „＋ Druckpaket zusammenstellen“ – Schilder, Vorlagen und PDFs aus dem Archiv
+  (z. B. diese Preisliste) ankreuzen, Anzahl je Teil, Haken wegnehmbar, als „Druckpaket Weihnachtsmarkt“ speichern und jedes Jahr wieder drucken.
 
 ## Gestaltungsregeln (gelten für jedes Schild)
 
@@ -35,9 +37,11 @@ Club-CD der Club-App (Schilder-Druckerei, Briefbogen).
 | 2 | Vorsicht Stufe! | `wm_stufe` | Gelbes Warndreieck mit Stufe | „Bitte achten Sie auf Ihre Schritte.“ |
 | 3 | Hier kein Durchgang | `wm_kein_durchgang` | Verbotszeichen mit Person | „Bitte benutzen Sie den Weg vor dem Stand. Vielen Dank!“ |
 | 4 | Gebrauchtes Besteck | `wm_besteck` | Gabel + Messer | „bitte hier ablegen. Danke schön!“ |
-| 5 | Preisliste 2026 | dieser Ordner | – | siehe unten |
+| 5 | Jugendschutz | `wm_jugendschutz` | Plaketten 16 / 18 | Kurzfassung ab 16 / ab 18 + Wortlaut § 9 Abs. 1–2 JuSchG (Aushang nach § 3 Abs. 1 JuSchG, Stand 30.10.2026) |
+| 6 | Standschild | `wm_standschild` | – | Köcheclub Werne · Anschrift · Verantwortlich · Stand-Nr. (Pflicht laut Vertrag Werne Marketing; Angaben selbst eintragen) |
+| 7 | Preisliste 2026 | dieser Ordner | – | siehe unten |
 
-## Preisliste im Stand (Nr. 5)
+## Preisliste im Stand (Nr. 7)
 
 - Links die Artikel, oben die Anzahl **1 bis 10**, darunter der Preis für diese Anzahl **inklusive Pfand**.
 - Reihenfolge der Warengruppen: **Getränke mit Alkohol → alkoholfreie Getränke → Speisen**; jede Gruppe mit
@@ -62,4 +66,4 @@ Braucht Node + Playwright (Chromium) – wie die übrigen Werkzeuge. Keine koste
 ## Offen / zur Entscheidung
 
 - Anzahl-Spalten: 1–10 oder weniger (z. B. 1–8 für größere Zahlen)?
-- Optional: Jugendschutz-Hinweis auf der Preisliste bzw. als eigenes Schild.
+- Jugendschutz: § 9 Abs. 2 („begleitetes Trinken“) soll abgeschafft werden (Kabinettsbeschluss 12.08.2026, noch nicht in Kraft) – vor dem Druck prüfen.
