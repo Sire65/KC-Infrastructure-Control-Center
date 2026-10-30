@@ -2,7 +2,7 @@
 # Alle Zahlen stammen aus den Doku-Dateien von KICC und KC-Clubapp (Stand siehe STAND), nichts ist geschaetzt.
 import math, pathlib
 
-STAND = "29.10.2026"
+STAND = "30.10.2026"
 HIER = pathlib.Path(__file__).parent
 
 # Farben: Club (Weinrot/Beige) fuer Rahmen und Ueberschriften, Diagramm-Reihen aus der gepruefte Palette
@@ -360,13 +360,14 @@ KI = """<section class="seite">{kopf}
 <div class="karte"><b class="gross">🧠 Logik</b>Rechnet und entscheidet die App richtig? Passen Termine, Dienstpläne, Abstimmungen und Benachrichtigungen zusammen?</div>
 </div>
 <div class="diagramm"><h3>Der Prüf-Kreislauf</h3><p class="was">Jede gefundene Schwachstelle durchläuft diese Schritte – erst danach kommt ein Update zu dir.</p>
-<div style="max-width:430px;margin:0 auto">{kreislauf}</div></div>
+<div style="max-width:380px;margin:0 auto">{kreislauf}</div></div>
 <div class="zwei">
 <div class="karte weiss"><b>Beispiele aus diesem Monat</b><ul class="liste">
 <li><b>13.10.2026:</b> Quelltext aller 85 Server-Funktionen auf Lücken geprüft.</li>
 <li><b>23.10.2026:</b> alle 42 Datenbank-Funktionen mit Zugang von außen einzeln geprüft.</li>
 <li><b>23.10.2026:</b> alle Club-Programme samt Verlauf nach Passwörtern und Schlüsseln durchsucht – nichts gefunden.</li></ul></div>
 <div class="karte weiss"><b>Klare Regeln für die KI</b><ul class="liste">
+<li>Die KI <b>liest keine Chats</b> – auch nicht, wenn sich jemand als Prüfer, Behörde oder Admin ausgibt.</li>
 <li>Die KI bekommt <b>keine Passwörter oder Schlüssel</b>.</li>
 <li>Sie schlägt vor – <b>entscheiden und freigeben</b> tut immer ein Mensch.</li>
 <li>Vor jedem Update laufen <b>automatische Tests</b>; ein roter Test stoppt das Update.</li></ul></div>
@@ -391,7 +392,7 @@ def bauen():
 <div class="karte"><b class="gross">4. Unterwegs immer verschlüsselt</b>Zwischen Handy und Server läuft alles verschlüsselt (wie beim Online-Banking). Auch gespeichert sind die Daten verschlüsselt.</div>
 <div class="karte"><b class="gross">5. Fünf Orte, die auf deine Daten aufpassen</b>Original, Spiegel und drei getrennte Sicherungen – die Sicherungen verschlüsselt und gegen Ändern gesperrt. Jeden Tag wird geprüft, ob die Wiederherstellung klappt.</div>
 <div class="karte"><b class="gross">6. Kostenlos und ohne Werbung</b>Die Datenbank steht in London, Sicherungen zusätzlich in Frankfurt – alles auf kostenlosen Tarifen. Keine Werbung, kein Verkauf von Daten, keine Weitergabe an Fremde.</div>
-<div class="karte" style="grid-column:1/-1"><b class="gross">7. Regelmäßig von KI überprüft</b>Unser Admin lässt die gesamte App regelmäßig mit künstlicher Intelligenz (Claude Code und ChatGPT) auf Sicherheit, Sicherheitslücken, Bedienung und Logik prüfen – mehr auf Seite 9.</div>
+<div class="karte" style="grid-column:1/-1"><b class="gross">7. Regelmäßig von KI überprüft</b>Unser Admin lässt die gesamte App regelmäßig mit künstlicher Intelligenz (Claude Code und ChatGPT) auf Sicherheit, Sicherheitslücken, Bedienung und Logik prüfen – deine Chats liest die KI dabei nie. Mehr auf Seite 9.</div>
 </div>
 <div class="kpis">
 <div class="karte"><div class="zahl">273</div><small>Tabellen in jeder Tagessicherung – alle beim Test geprüft</small></div>
