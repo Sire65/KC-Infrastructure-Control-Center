@@ -1,0 +1,95 @@
+{
+ "dauer": 126.367,
+ "plan": [
+  {
+   "id": "titel",
+   "start": 0,
+   "sprache": 0.6,
+   "ende": 8.396
+  },
+  {
+   "id": "zehn",
+   "start": 8.196,
+   "sprache": 8.796,
+   "ende": 15.455
+  },
+  {
+   "id": "einfach",
+   "start": 15.255,
+   "sprache": 15.855,
+   "ende": 23.291
+  },
+  {
+   "id": "erweitert",
+   "start": 23.091,
+   "sprache": 23.691,
+   "ende": 33.879
+  },
+  {
+   "id": "lang",
+   "start": 33.679,
+   "sprache": 34.279,
+   "ende": 41.39
+  },
+  {
+   "id": "schieben",
+   "start": 41.19,
+   "sprache": 41.79,
+   "ende": 48.019
+  },
+  {
+   "id": "aus",
+   "start": 47.819,
+   "sprache": 48.419,
+   "ende": 57.492
+  },
+  {
+   "id": "nuraus",
+   "start": 57.292,
+   "sprache": 57.892,
+   "ende": 66.478
+  },
+  {
+   "id": "kopf",
+   "start": 66.278,
+   "sprache": 66.878,
+   "ende": 77.519
+  },
+  {
+   "id": "kopf2",
+   "start": 77.319,
+   "sprache": 77.919,
+   "ende": 83.637
+  },
+  {
+   "id": "start",
+   "start": 83.437,
+   "sprache": 84.037,
+   "ende": 95.061
+  },
+  {
+   "id": "rest",
+   "start": 94.861,
+   "sprache": 95.461,
+   "ende": 103.339
+  },
+  {
+   "id": "jederzeit",
+   "start": 103.139,
+   "sprache": 103.739,
+   "ende": 110.862
+  },
+  {
+   "id": "videos",
+   "start": 110.662,
+   "sprache": 111.262,
+   "ende": 120.347
+  },
+  {
+   "id": "ende",
+   "start": 120.147,
+   "sprache": 120.747,
+   "ende": 126.367
+  }
+ ]
+}

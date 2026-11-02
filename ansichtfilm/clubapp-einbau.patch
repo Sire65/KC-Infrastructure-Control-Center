@@ -1,0 +1,154 @@
+diff --git a/app.js b/app.js
+index b330233..fbd6bd8 100644
+--- a/app.js
++++ b/app.js
+@@ -12,7 +12,7 @@ const APP_STUFE = "RC";
+ // Pflege: gleiche Namen in sw.js (TEILE); nach jeder Änderung an teile/*.js: node tools/teile-pruefsumme.mjs (der Vertragstest prüft beides).
+ // Rückweg: docs/AUFTEILEN.md.
+ const TEILE_LISTE = {
+-  videos: { einstieg: ["erklaerVideos", "rgListeAbspielen", "rundgangStart", "stimmenWahl"], sri: "sha384-JV85WynizssiEIJc/uzM2HYkwWgUnQfiP1ALtrhuUYb1LuhsUuN0lktGEL9hnRNW" }, // Stufe 1: Erklär-Videos (Abspieler, Drehbücher, Stimmen)
++  videos: { einstieg: ["erklaerVideos", "rgListeAbspielen", "rundgangStart", "stimmenWahl"], sri: "sha384-yZtnisbesvyplWgO8s1bLgryJL9L/zhTJHIEPV9oYK1zbcGfeuyjek9/u7lzga+F" }, // Stufe 1: Erklär-Videos (Abspieler, Drehbücher, Stimmen)
+   szenen: { einstieg: ["jahreszeitVorschau"], sri: "sha384-VKuDWTsCn3BMKjQ1KkkZLGV5KseFaFgxiNyzWuoAB7+CwyVIabdRa3yEIe8TldAD" }, // Stufe 3b: Kopf-Szenen (Jahreszeiten, Sim-Jü, Themen) – kurz nach dem Start über szenenSpaeter
+   rueckseite: { einstieg: ["bwClubSong"], sri: "sha384-Hm4cr/B9rAqMppnCi0+/cg+1BmNcORoo1PjJIKYFHb0ZBry9W4Fsnx8+oyMkayNT" }, // Stufe 3: Rückseite (Rätsel, Spiegel, Diashow, Tafel, Flipchart, Bühne) – sonst über esTab
+   spiele: { einstieg: ["spStart", "spZeigen", "spLaden", "spNachsehen", "spOeffnen", "spTab", "spZurueck", "spArtWahl", "spArtSchalten", "spBereitSetzen", "spEinlSchalter", "spEinlAntwort", "spLiveAntwort", "spMitgliedKnopf"], sri: "sha384-5W0kb0UiubeZoFQOe4SvV/MjOowwyI1BEinpC1QJE0z5jC6ZMb2pHa7Fz77Y/b7U" }, // Stufe 2: Spiele (Schach, Doppelkopf, Bauernskat, MÄDN, Fang den Koch, Küchenterror)
+@@ -2036,13 +2036,19 @@ const FILME = [
+   // 2.756.0 KC-CLUB-SICHERHEITSKONZEPT: für alle Mitglieder über Technik → 🔐 Sicherheit & Datenschutz – kein Hinweis beim Start (fuer: false)
+   { id: "sicherheitsfilm", sym: "🔐", t: "Wie sicher sind deine Daten?", dauer: "3 Min. mit Ton", datei: "film/sicherheit-datenschutz.mp4?v=2", bild: "film/sicherheit-vorschau.jpg",
+     u: "Zugang, Türsteher, Verschlüsselung, Privatsphäre, Handy, Sicherungen, Prüfung durch KI (die keine Chats liest) und deine Rechte – einfach erklärt", wo: "unter Technik → 🔐 Sicherheit & Datenschutz", fuer: () => false },
++  // KC-CLUB-ANSICHTFILM (Anregung Clubsitzung „die App ist zu voll“, Wunsch Hansi 02.11.2026): für alle Mitglieder einmal beim Start angeboten,
++  // jederzeit oben in Technik → 🎬 Erklär-Videos (inVideos). Wer ihn gesehen hat: 👀 in der Film-Karte (nur Admin, Server „film_zuschauer“).
++  { id: "ansichtfilm", sym: "🧹", t: "Deine App – so, wie du sie willst", dauer: "2 Min. mit Ton", datei: "film/app-selbst-einrichten.mp4?v=1", bild: "film/app-einrichten-vorschau.jpg",
++    u: "Einfache und erweiterte Ansicht, Kacheln verschieben und ausblenden, nur ausgeblendete zeigen, Kopf einrollen, Startmeldungen aus – und wo es weitere Erklär-Videos gibt",
++    wo: "unter Technik → 🎬 Erklär-Videos", inVideos: true, fuer: () => true },
+ ];
+ const filmeFuerMich = () => (ICH ? FILME.filter((f) => f.fuer()) : []);
+-const filmeImBuero = () => (ICH ? FILME.filter((f) => f.fuer() || ICH.admin) : []); // Admin sieht alle Filme (zum Prüfen)
++const filmeImBuero = () => (ICH ? FILME.filter((f) => (f.fuer() && !f.wo) || ICH.admin) : []); // Admin sieht alle Filme (zum Prüfen)
+ const filmErledigt = (id) => !!INIT?.einstellungen?.filme?.[id]?.z;
+ const FILM_START = { versuche: 0 };
+ async function filmMerken(id, wie) {
+   if (!INIT || INIT.einstellungen?.filme?.[id]?.wie === wie) return; // schon so gemerkt – nicht bei jedem ▶ neu speichern
++  if (wie === "angesehen" && INIT.einstellungen?.filme?.[id]?.wie === "ende") return; // KC-CLUB-ANSICHTFILM: „bis zum Ende“ nicht durch erneutes ▶ überschreiben
+   const alt = INIT.einstellungen?.filme || {}, neu = { ...alt, [id]: { wie, z: new Date().toISOString() } };
+   INIT.einstellungen = { ...(INIT.einstellungen || {}), filme: neu };
+   try { await einstSpeichern("filme", neu); } catch (e) { console.warn("filme", e); } // Regel 11: bei Fehler fragt die App beim nächsten Start einfach noch einmal
+@@ -2059,8 +2065,8 @@ async function filmHinweisPruefen() {
+   });
+   spur("film_frage_" + (["an", "nein"].includes(wahl) ? wahl : "spaeter"), f.id); // KC-CLUB-SPUR-VOLL
+   if (wahl === "an") return filmZeigen(f.id);
+-  if (wahl === "nein") { filmMerken(f.id, "nein"); return melde("🎬 Alles klar – den Film findest du jederzeit im Büro unter 🎬 Anleitung."); }
+-  melde("🎬 Ich erinnere dich beim nächsten Öffnen – oder jederzeit im Büro unter 🎬 Anleitung.");
++  if (wahl === "nein") { filmMerken(f.id, "nein"); return melde(`🎬 Alles klar – den Film findest du jederzeit ${f.wo || "im Büro unter 🎬 Anleitung"}.`); }
++  melde(`🎬 Ich erinnere dich beim nächsten Öffnen – oder jederzeit ${f.wo || "im Büro unter 🎬 Anleitung"}.`);
+ }
+ // Film abspielen: eigene Schicht über allem, echtes Video mit Bedienleiste; Ton an, weil der Start ein Tipp ist
+ function filmZeigen(id) {
+@@ -2077,10 +2083,22 @@ function filmZeigen(id) {
+   spur("film_start", f.id);
+   s.querySelector("[data-zu]").onclick = () => { ende(false); zu(); };
+   v.onplay = () => filmMerken(f.id, "angesehen"); // einmal gestartet = nicht mehr beim Start anbieten
+-  v.onended = () => { ende(true); zu(); melde(`🎬 Film zu Ende – du findest ihn jederzeit ${f.wo || "im Büro unter 🎬 Anleitung"}.`); };
++  v.onended = () => { ende(true); filmMerken(f.id, "ende"); zu(); melde(`🎬 Film zu Ende – du findest ihn jederzeit ${f.wo || "im Büro unter 🎬 Anleitung"}.`); };
+   v.onerror = () => melde("⚠️ Der Film lässt sich gerade nicht laden – bitte Internet prüfen und nochmal versuchen.", true);
+   v.play?.()?.catch(() => {}); // falls das Handy Autoplay sperrt: Abspielen über ▶ in der Leiste
+ }
++// KC-CLUB-ANSICHTFILM-ZUSCHAUER (Wunsch Hansi 02.11.2026 „merken, wer ihn angesehen hat“): nur Admin. Quelle: Einstellung „filme“ je Mitglied
++// (dauerhaft, geräteübergreifend) – ✅ bis zum Ende · ▶ angefangen · 🙅 „Nein, danke“ · ⏳ noch nicht. Regel 11: Fehler → Meldung, keine leere „alle gesehen“-Liste.
++async function filmZuschauer(id) {
++  const f = FILME.find((x) => x.id === id); if (!f || !ICH?.admin) return;
++  let r; try { r = await api("film_zuschauer", { film: id }, { warten: true }); } catch (e) { return meldeFehler(e); }
++  const gruppe = (wie) => r.personen.filter((p) => (p.wie || null) === wie);
++  const block = (sym, titel, l) => `<h4 style="margin:12px 0 4px">${sym} ${titel} (${l.length})</h4>${l.length ? `<p class="hinweis" style="margin:0">${l.map((p) => `${esc(p.name)}${p.z ? ` <small>· ${esc(new Date(p.z).toLocaleDateString("de-DE"))}</small>` : ""}`).join(", ")}</p>` : `<p class="hinweis" style="margin:0">–</p>`}`;
++  const d = dlgOeffnen(`<button type="button" class="dlg-x" data-a="zu" aria-label="Schließen">✕</button><h3 class="dlg-kopf">👀 ${f.sym} ${esc(f.t)}</h3>
++    <p class="hinweis" style="margin:0">Wer den Film gesehen hat – ohne Inhalte, nur ob und wann.</p>
++    ${block("✅", "Bis zum Ende", gruppe("ende"))}${block("▶", "Angefangen", gruppe("angesehen"))}${block("🙅", "Nein, danke", gruppe("nein"))}${block("⏳", "Noch nicht", gruppe(null))}`, () => d.remove());
++  d.querySelector('[data-a="zu"]').onclick = () => d.remove();
++}
+ function filmWahl() { // Büro → 🎬 Anleitung: ein Film → sofort, mehrere → auswählen
+   const l = filmeImBuero(); if (l.length === 1) return filmZeigen(l[0].id);
+   const d = dlgOeffnen(`<button type="button" class="dlg-x" data-a="zu" aria-label="Schließen">✕</button><h3 class="dlg-kopf">🎬 Anleitungsfilme</h3>
+diff --git a/supabase/functions/kc-club/index.ts b/supabase/functions/kc-club/index.ts
+index e216b12..d8c19ff 100644
+--- a/supabase/functions/kc-club/index.ts
++++ b/supabase/functions/kc-club/index.ts
+@@ -1981,7 +1981,7 @@ const EINSTELLUNGEN: Record<string, (w: any) => unknown> = {
+     .map(([id, v]: [string, any]) => [id, { n: Math.max(0, Math.min(9999, Math.floor(Number(v?.n) || 0))), z: v?.z && !isNaN(Date.parse(String(v.z))) ? new Date(String(v.z)).toISOString() : null }])),
+   // KC-CLUB-FILM-HINWEIS (2.738.0, Wunsch Hansi): Anleitungsfilme beim Start – je Film angesehen/„Nein, danke“ und wann (höchstens 30 Filme)
+   filme: (w) => Object.fromEntries(Object.entries(w && typeof w === "object" && !Array.isArray(w) ? w : {}).filter(([id]) => /^[a-z]{2,24}$/.test(id)).slice(0, 30)
+-    .map(([id, v]: [string, any]) => [id, { wie: ["angesehen", "nein"].includes(String(v?.wie)) ? String(v.wie) : null, z: v?.z && !isNaN(Date.parse(String(v.z))) ? new Date(String(v.z)).toISOString() : null }])),
++    .map(([id, v]: [string, any]) => [id, { wie: ["angesehen", "ende", "nein"].includes(String(v?.wie)) ? String(v.wie) : null, // KC-CLUB-ANSICHTFILM: + „ende“ (bis zum Ende gesehen) z: v?.z && !isNaN(Date.parse(String(v.z))) ? new Date(String(v.z)).toISOString() : null }])),
+   rundgang: (w) => ({ erledigt: w?.erledigt && !isNaN(Date.parse(String(w.erledigt))) ? new Date(String(w.erledigt)).toISOString() : null, wie: ["angesehen", "nein"].includes(String(w?.wie)) ? String(w.wie) : null }),
+   einweisung: (w) => ({ an: w?.an !== false, gesehen: Object.fromEntries(Object.entries(w?.gesehen && typeof w.gesehen === "object" ? w.gesehen : {})
+     .filter(([id, d]) => KA_ID.test(id) && typeof d === "string" && !isNaN(Date.parse(d))).slice(0, 40).map(([id, d]) => [id, new Date(String(d)).toISOString()])) }),
+@@ -13934,6 +13934,16 @@ async function aktionAusfuehren(a: string, p: any, ich: Ich, req: Request, t0Anf
+         await protokoll(ich.person_id, "sprache_global", { satz, ziel, an });
+         return json({ ok: true });
+       }
++      case "film_zuschauer": {
++        // KC-CLUB-ANSICHTFILM-ZUSCHAUER (02.11.2026): je aktivem Mitglied nur ob/wann ein Film angesehen wurde – Einstellung „filme“, keine Inhalte
++        nurAdmin(ich);
++        const film = String(p.film || "");
++        if (!/^[a-z]{2,24}$/.test(film)) throw new Fehler("Unbekannter Film.", 400);
++        const [mg, { data, error }] = await Promise.all([aktiveMitglieder(), db.from("kc_club_person_einstellung").select("person_id,wert").eq("schluessel", "filme")]);
++        if (error) throw error;
++        const je = new Map((data || []).map((z: any) => [z.person_id as string, z.wert?.[film] || null]));
++        return json({ personen: (mg || []).map((m: any) => { const v: any = je.get(m.person_id); return { name: m.display_name, wie: v?.wie || null, z: v?.z || null }; }) });
++      }
+       case "spur_liste": {
+         nurAdmin(ich);
+         const tag = /^\d{4}-\d{2}-\d{2}$/.test(String(p.tag || "")) ? String(p.tag) : berlinTag(new Date());
+diff --git a/teile/videos.js b/teile/videos.js
+index fabf6cf..5bb738d 100644
+--- a/teile/videos.js
++++ b/teile/videos.js
+@@ -2557,7 +2557,10 @@ function rgListeZeigen() {
+       ${liste.length > 1 ? `<button type="button" class="knopf klein" onclick="rgWahlAlle(${alleAn ? "false" : "true"})">${alleAn ? "☐ Alle abwählen" : "☑️ Alle anhaken"}</button>` : ""}
+       <div class="rgl-liste">${liste.map(zeile).join("")}</div>`;
+   }
+-  z.innerHTML = `<h3 style="margin-top:0">🎬 Erklär-Videos – mit Ton</h3>${inhalt}
++  // KC-CLUB-ANSICHTFILM: fertige Filme (FILME mit inVideos) stehen oben über den Rundgängen
++  const filme = (typeof FILME !== "undefined" ? FILME : []).filter((f) => f.inVideos).map((f) => `<div class="film-karte" style="cursor:default"><img src="${esc(f.bild)}" alt=""><span><b>${f.sym} ${esc(f.t)}</b><small>${esc(f.u)}</small><small>⏱️ ${esc(f.dauer)}${filmErledigt(f.id) ? " · ✅ schon angesehen" : ""}</small>
++    <span style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button type="button" class="knopf klein haupt" onclick="filmZeigen('${esc(f.id)}')">▶ Film ansehen</button>${ICH?.admin ? `<button type="button" class="knopf klein" onclick="filmZuschauer('${esc(f.id)}')">👀 Wer hat ihn gesehen?</button>` : ""}</span></span></div>`).join("");
++  z.innerHTML = `<h3 style="margin-top:0">🎬 Erklär-Videos – mit Ton</h3>${filme}${inhalt}
+     <div class="rgl-fuss"><button type="button" class="knopf haupt" ${n ? "" : "disabled"} onclick="rgListeAbspielen()">▶ ${n ? `${n} angehakte${n === 1 ? "s Video" : " Videos"} nacheinander abspielen` : "Erst Videos anhaken"}</button>
+       ${n ? `<button type="button" class="knopf klein" onclick="RGL.wahl.clear();rgListeZeigen()">✕ Häkchen weg</button>` : ""}
+       ${ICH?.admin ? `<button type="button" class="knopf klein" onclick="$('rgListeBlatt').remove();rgAuswertung()">📊 Auswertung der Videos</button>` : ""}
+diff --git a/tests/film-hinweis.test.mjs b/tests/film-hinweis.test.mjs
+index d3838f0..d483d6d 100644
+--- a/tests/film-hinweis.test.mjs
++++ b/tests/film-hinweis.test.mjs
+@@ -14,7 +14,7 @@ for (const [, id, datei, bild, fuer] of filme) {
+   assert.ok(fs.existsSync(pfad) && fs.statSync(pfad).size > 1e6, `Film fehlt: ${datei}`);
+   assert.ok(fs.existsSync(bild), `Vorschaubild fehlt: ${bild}`);
+   assert.ok(datei.startsWith("film/") && bild.startsWith("film/"), `${id}: Film gehört nach film/ (Service Worker lässt film/ aus)`);
+-  assert.ok((/aemter/.test(fuer) || /^false \}/.test(fuer)) && !/person_id|vorname|name ===/.test(fuer), `${id}: Zielgruppe nach Amt (oder false = kein Start-Hinweis), nicht nach Person`); // 2.756.0
++  assert.ok((/aemter/.test(fuer) || /^(false|true) \}/.test(fuer)) && !/person_id|vorname|name ===/.test(fuer), `${id}: Zielgruppe nach Amt (oder false = kein Start-Hinweis, true = alle Mitglieder), nicht nach Person`); // 2.756.0; KC-CLUB-ANSICHTFILM: true = alle
+ }
+ assert.ok(sw.includes('url.pathname.includes("/film/")) return;'), "Service Worker muss film/ auslassen");
+ // Start-Fenster: nach den anderen Start-Fenstern, drei Wahlmöglichkeiten, direkter Start des Films
+@@ -32,7 +32,7 @@ assert.ok(/#filmSchicht \{ position: fixed/.test(html), "Abspiel-Schicht gestalt
+ assert.ok(/buIkon\("💼", "Tasche", "atStart\(\)", "Aktentasche"\) : "",\s+buFilmKnopf\(\),/.test(app) && /buKopfKnoepfe\(true, naechst\)/.test(app) && /buKopfKnoepfe\(false, null\)/.test(app), "🎬 Anleitung im Büro (Raum + Liste) – 2.768.0 als Icon-Knopf im gemeinsamen Kopf");
+ // Server: Einstellung „filme“ nur mit geprüften Werten
+ const e = server.slice(server.indexOf("  filme: (w) =>"), server.indexOf("  rundgang: (w) =>"));
+-assert.ok(/\^\[a-z\]\{2,24\}\$/.test(e) && /\["angesehen", "nein"\]/.test(e) && /slice\(0, 30\)/.test(e), "Server-Einstellung filme geprüft");
++assert.ok(/\^\[a-z\]\{2,24\}\$/.test(e) && /\["angesehen", "ende", "nein"\]/.test(e) && /slice\(0, 30\)/.test(e), "Server-Einstellung filme geprüft");
+ // 2.756.0 KC-CLUB-SICHERHEITSKONZEPT: Kachel unter Technik öffnet Film + PDF; das PDF liegt im Repo und steht nicht in „Meine Dokumente“
+ const technik = app.slice(app.indexOf("  programme: ["), app.indexOf("  admin: [],"));
+ assert.ok(/\{ id: "datenschutz", sym: "🔐", t: "Sicherheit & Datenschutz",[^\n]*aktion: "sdStart\(\)" \}/.test(technik), "Kachel 🔐 Sicherheit & Datenschutz unter Technik");
+@@ -47,4 +47,16 @@ const lb = app.slice(app.indexOf("function sdLaufbandAuf()"), app.indexOf("const
+ assert.ok(/register\("programme"\)/.test(lb) && /data-id="datenschutz"/.test(lb) && /classList\.add\("hervor"\)/.test(lb) && /einfach\(\)[^\n]*return sdStart\(\)/.test(lb) && /localStorage\.setItem\(SD_LB/.test(lb), "Antippen: Technik + Kachel zeigen, danach weg");
+ // KC-CHATS-PRIVAT (30.10.2026): die Regel steht in AGENTS.md und im Sicherheitskonzept
+ assert.ok(/## Chats sind privat – Agents lesen sie nie \(KC-CHATS-PRIVAT/.test(fs.readFileSync("AGENTS.md", "utf8")), "AGENTS.md: Regel KC-CHATS-PRIVAT fehlt");
++// KC-CLUB-ANSICHTFILM (02.11.2026, Anregung Clubsitzung „die App ist zu voll“): für alle beim Start, oben in den Erklär-Videos, Zuschauer nur für den Admin
++assert.ok(/\{ id: "ansichtfilm", sym: "🧹", [^\n]*datei: "film\/app-selbst-einrichten\.mp4/.test(reg) && /wo: "unter Technik → 🎬 Erklär-Videos", inVideos: true, fuer: \(\) => true \}/.test(reg), "Ansichtfilm in FILME (alle, in den Erklär-Videos)");
++assert.ok(/\(f\.fuer\(\) && !f\.wo\) \|\| ICH\.admin/.test(app), "Filme mit eigenem Ort stehen nicht im Büro");
++assert.ok(/\$\{f\.wo \|\| "im Büro unter 🎬 Anleitung"\}/.test(pr), "Meldung nennt den richtigen Ort des Films");
++assert.ok(/v\.onended = \(\) => \{ ende\(true\); filmMerken\(f\.id, "ende"\);/.test(zg), "bis zum Ende dauerhaft gemerkt");
++assert.ok(/wie === "angesehen" && INIT\.einstellungen\?\.filme\?\.\[id\]\?\.wie === "ende"\) return;/.test(app), "„ende“ wird durch erneutes ▶ nicht überschrieben");
++const zu = app.slice(app.indexOf("async function filmZuschauer"), app.indexOf("function filmWahl"));
++assert.ok(/!ICH\?\.admin\) return/.test(zu) && /api\("film_zuschauer"/.test(zu) && /meldeFehler\(e\)/.test(zu), "Zuschauer-Liste nur Admin, Fehler sichtbar (Regel 11)");
++const vi = fs.readFileSync("teile/videos.js", "utf8");
++assert.ok(/FILME : \[\]\)\.filter\(\(f\) => f\.inVideos\)/.test(vi) && /filmZeigen\(/.test(vi) && /ICH\?\.admin \? `<button[^`]*filmZuschauer\(/.test(vi), "Film oben in den Erklär-Videos, 👀 nur Admin");
++const fz = server.slice(server.indexOf('case "film_zuschauer"'), server.indexOf('case "spur_liste"'));
++assert.ok(/nurAdmin\(ich\)/.test(fz) && /\^\[a-z\]\{2,24\}\$/.test(fz) && /eq\("schluessel", "filme"\)/.test(fz) && !/nachricht|chat|inhalt/i.test(fz.replace(/keine Inhalte/, "")), "Server film_zuschauer: nur Admin, nur Einstellung „filme“ (Regel 19)");
+ console.log("film-hinweis: alle Prüfungen bestanden");

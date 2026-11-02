@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><title>Köcheclub Ansichtfilm</title>
+<style>
+:root { --rot: #741521; --rot2: #4a0c15; --beige: #f3e9dc; --beige2: #e8d9c4; --gold: #f5c542; --gruen: #1f8a3b; --blau: #2a78d6; --orange: #eb6834; --text: #2a1c14; --grau: #7a6a5a; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--beige); font-family: Inter, "Liberation Sans", "DejaVu Sans", "Noto Color Emoji", sans-serif; color: var(--text); }
+#kopf { position: absolute; left: 0; right: 0; top: 0; height: 170px; background: var(--rot); color: #fff; display: flex; align-items: center; gap: 26px; padding: 0 48px; z-index: 5; }
+#kopf img { width: 96px; height: 96px; border-radius: 50%; background: var(--rot2); padding: 12px; }
+#kopf b { font-size: 44px; display: block; } #kopf span { font-size: 30px; opacity: .85; }
+.sz { position: absolute; left: 0; right: 0; top: 200px; height: 1230px; opacity: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 34px; padding: 0 60px; }
+#unter { position: absolute; left: 50px; right: 50px; top: 1460px; height: 400px; background: #fff; border-radius: 44px; padding: 36px 44px; font-size: 41px; line-height: 1.32; font-weight: 600; box-shadow: 0 14px 40px rgba(60,20,10,.12); border-left: 16px solid var(--rot); display: flex; align-items: center; }
+.h { font-size: 74px; font-weight: 800; color: var(--rot); text-align: center; line-height: 1.12; }
+.u { font-size: 44px; color: var(--grau); text-align: center; line-height: 1.25; }
+.riesig { font-size: 260px; line-height: 1; }
+.karte { background: #fff; border-radius: 36px; padding: 30px 36px; box-shadow: 0 10px 30px rgba(60,20,10,.10); font-size: 44px; font-weight: 700; display: flex; align-items: center; gap: 26px; }
+.karte small { display: block; font-size: 32px; font-weight: 500; color: var(--grau); margin-top: 6px; }
+.karte .ic { font-size: 84px; flex: none; }
+.stempel { border: 10px solid #c0262d; color: #c0262d; font-size: 60px; font-weight: 900; padding: 10px 30px; border-radius: 22px; transform: rotate(-8deg); background: rgba(255,255,255,.85); }
+.chip { background: var(--rot); color: #fff; border-radius: 60px; padding: 18px 36px; font-size: 42px; font-weight: 700; }
+.chip.hell { background: #fff; color: var(--rot); border: 5px solid var(--rot); }
+.blase { background: #fff; border-radius: 40px; padding: 26px 34px; font-size: 44px; box-shadow: 0 8px 22px rgba(60,20,10,.08); max-width: 820px; font-weight: 600; }
+.liste { display: flex; flex-direction: column; gap: 24px; width: 900px; }
+.logo { width: 300px; height: 300px; border-radius: 50%; background: var(--rot); border: 12px solid #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+.logo img { width: 72%; }
+.uhr { width: 420px; height: 420px; border-radius: 50%; position: relative; display: flex; align-items: center; justify-content: center; }
+.uhr b { position: absolute; font-size: 120px; color: var(--rot); font-weight: 900; } .uhr small { position: absolute; top: 280px; font-size: 40px; color: var(--grau); font-weight: 700; }
+/* ---------- Handy-Attrappe der Club-App (Beispielinhalte, keine echten Mitgliederdaten) ---------- */
+.handy { position: relative; width: 740px; height: 1200px; border-radius: 70px; background: #1d1714; padding: 30px; box-shadow: 0 30px 70px rgba(40,10,5,.35); flex: none; }
+.schirm { position: relative; width: 680px; height: 1140px; border-radius: 46px; overflow: hidden; background: #f7f1e8; }
+.hero { position: absolute; left: 0; right: 0; top: 0; background: linear-gradient(160deg, #8a1c2b, #5a0f1a); color: #fff; overflow: hidden; }
+.kz { position: absolute; left: 0; right: 0; top: 0; height: 120px; display: flex; align-items: center; gap: 16px; padding: 30px 24px 0; }
+.kz .lg { width: 70px; height: 70px; border-radius: 50%; background: rgba(0,0,0,.25); padding: 9px; } .kz .lg img { width: 100%; }
+.kz .tx { flex: 1; } .kz .tx small { display: block; font-size: 19px; letter-spacing: 3px; opacity: .8; font-weight: 700; } .kz .tx b { font-size: 32px; }
+.kz .rk { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center; font-size: 28px; margin-left: 8px; }
+.sl { position: absolute; left: 0; right: 0; height: 60px; display: flex; align-items: center; gap: 14px; padding: 0 24px; font-size: 24px; }
+.sl .st { background: rgba(255,255,255,.18); border-radius: 30px; padding: 6px 18px; font-weight: 700; }
+.sl .leds { margin-left: auto; display: flex; gap: 8px; } .sl .leds i { width: 18px; height: 18px; border-radius: 50%; background: #3fd46b; box-shadow: 0 0 8px #3fd46b; }
+.info { position: absolute; left: 20px; right: 20px; height: 120px; background: rgba(255,255,255,.14); border-radius: 26px; padding: 18px 24px; }
+.info small { font-size: 22px; opacity: .85; font-weight: 700; letter-spacing: 1px; } .info b { display: block; font-size: 33px; margin-top: 4px; }
+.pfeile { position: absolute; top: 4px; left: 0; right: 0; display: flex; justify-content: center; gap: 60px; z-index: 3; }
+.pfeile span { width: 66px; height: 36px; border-radius: 0 0 18px 18px; background: rgba(255,255,255,.22); display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 900; line-height: 1; color: #fff; }
+.pfeile span.blink { background: var(--gold); color: var(--rot2); box-shadow: 0 0 22px var(--gold); }
+.rollo { position: absolute; left: 0; right: 0; height: 9px; background: linear-gradient(to bottom, #a8364a, #6d1424); box-shadow: 0 -1px 3px rgba(0,0,0,.4); }
+.leiste { position: absolute; left: 14px; right: 14px; height: 108px; background: #fff7d6; border: 3px solid #e7c75c; border-radius: 22px; padding: 12px 18px; font-size: 22px; line-height: 1.3; overflow: hidden; }
+.leiste .kn { display: flex; gap: 12px; margin-top: 8px; } .leiste .kn span { border-radius: 16px; padding: 5px 16px; font-weight: 800; font-size: 22px; background: #fff; border: 2px solid #c8b99f; }
+.leiste .kn span.haupt { background: var(--gruen); color: #fff; border-color: var(--gruen); }
+.reg { position: absolute; left: 14px; right: 14px; height: 56px; display: flex; gap: 10px; }
+.reg span { flex: 1; border-radius: 28px; background: #eadfcd; display: flex; align-items: center; justify-content: center; font-size: 25px; font-weight: 800; color: var(--grau); }
+.reg span.an { background: var(--rot); color: #fff; }
+.kachel { position: absolute; background: #fff; border-radius: 26px; box-shadow: 0 4px 12px rgba(60,20,10,.10); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-weight: 700; color: var(--text); }
+.kachel .s { line-height: 1; } .kachel .x, .kachel .auge { position: absolute; top: -12px; right: -10px; width: 46px; height: 46px; border-radius: 50%; background: #c0262d; color: #fff; font-size: 26px; display: flex; align-items: center; justify-content: center; font-weight: 900; opacity: 0; }
+.kachel .auge { background: var(--gruen); font-size: 24px; }
+.unten { position: absolute; left: 14px; right: 14px; height: 70px; border-radius: 22px; background: #fff; border: 3px solid #d8c9b2; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; }
+.unten.hinweis { background: #fdf3d8; border-color: #e7c75c; }
+.nav { position: absolute; left: 0; right: 0; bottom: 0; height: 104px; background: #fff; border-top: 2px solid #e5dccd; display: flex; z-index: 4; }
+.nav span { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: var(--grau); }
+.nav span i { font-style: normal; font-size: 36px; } .nav span.an { color: var(--rot); }
+.mehr { position: absolute; left: 0; right: 0; top: 0; bottom: 104px; background: #f7f1e8; padding: 26px 18px; z-index: 3; opacity: 0; }
+.mehr h4 { font-size: 34px; color: var(--rot); margin: 6px 6px 18px; }
+.zeile { background: #fff; border-radius: 22px; padding: 18px 20px; font-size: 25px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(60,20,10,.06); }
+.zeile.offen { border: 4px solid var(--rot); }
+.zeile small { display: block; font-size: 19px; font-weight: 500; color: var(--grau); margin-top: 3px; }
+.zeile .f { flex: 1; }
+.kn2 { width: 86px; height: 48px; border-radius: 24px; background: #c9c3b8; position: relative; flex: none; } .kn2 i { position: absolute; top: 5px; left: 5px; width: 38px; height: 38px; border-radius: 50%; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,.25); }
+.toast { position: absolute; left: 50%; bottom: 130px; transform: translateX(-50%); background: #2a1c14; color: #fff; border-radius: 30px; padding: 16px 28px; font-size: 25px; font-weight: 700; white-space: nowrap; opacity: 0; z-index: 6; }
+.finger { position: absolute; left: 0; top: 0; z-index: 8; pointer-events: none; opacity: 0; }
+.finger .hand { position: absolute; left: -26px; top: -6px; font-size: 104px; line-height: 1; filter: drop-shadow(0 6px 8px rgba(0,0,0,.35)); }
+.finger .ring { position: absolute; left: -45px; top: -45px; width: 90px; height: 90px; border-radius: 50%; border: 6px solid rgba(245,197,66,.95); opacity: 0; }
+.finger .druck { position: absolute; left: -54px; top: -54px; width: 108px; height: 108px; border-radius: 50%; opacity: 0; }
+.platz { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: center; opacity: 0; z-index: 5; }
+.platz b { background: var(--gold); color: var(--rot2); font-size: 30px; border-radius: 26px; padding: 8px 22px; box-shadow: 0 4px 14px rgba(0,0,0,.2); }
+.badge { position: absolute; top: 0; right: -10px; background: #c0262d; color: #fff; border-radius: 16px; font-size: 18px; padding: 2px 9px; font-weight: 800; }
+</style></head><body>
+<div id="kopf"><img src="kc-kochmuetze-weiss.webp" alt=""><div><b>Köcheclub Werne</b><span>Deine Club-App – so, wie du sie willst</span></div></div>
+
+<section class="sz" data-id="titel">
+  <div class="blase" data-bei="Anregung" style="align-self:flex-start;margin-left:40px">🗣️ „Die App ist zu voll!“</div>
+  <div class="blase" data-bei="Anregung" data-plus="0.8" style="align-self:flex-end;margin-right:40px;background:#f6dfe2">🤯 „Zu viel, was ich nicht brauche …“</div>
+  <div class="riesig" data-bei="Darum">🧹</div>
+  <div class="h" data-bei="Darum" data-plus="0.4">Deine App –<br>so, wie du sie willst</div>
+  <div class="u" data-bei="selbst">ganz einfach selbst einstellen</div>
+</section>
+
+<section class="sz" data-id="zehn">
+  <div class="uhr" id="uhr"><i style="position:absolute;inset:50px;border-radius:50%;background:var(--beige)"></i><b>10</b><small>Minuten</small></div>
+  <div class="karte" data-bei="Danach"><span class="ic">✅</span><div>Nur noch, was du nutzt<small>alles andere aus dem Blick</small></div></div>
+</section>
+
+<section class="sz" data-id="einfach"><div class="chip" data-bei="einfache" style="position:absolute;top:0;z-index:9">🟢 Einfache Ansicht</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="erweitert"><div class="chip" id="erwChip" style="position:absolute;top:0;z-index:9">🔧 Erweiterte Ansicht</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="lang"><div class="chip" data-bei="gedrückt" style="position:absolute;top:0;z-index:9">👆 lange gedrückt halten</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="schieben"><div class="chip" data-bei="Zieh" style="position:absolute;top:0;z-index:9">✥ ziehen und loslassen</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="aus"><div class="chip" data-bei="Kreuz" style="position:absolute;top:0;z-index:9">✕ ausblenden</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="nuraus"><div class="chip" data-bei="Nur" style="position:absolute;top:0;z-index:9">👀 nur ausgeblendete</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="kopf"><div class="chip" data-bei="Pfeile" style="position:absolute;top:0;z-index:9">⌃ und ⌃⌃ – Kopf einrollen</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="kopf2"><div class="chip" data-bei="blinkt" style="position:absolute;top:0;z-index:9">💬 Pfeil blinkt bei Neuem</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="start"><div class="chip" data-bei="stören" style="position:absolute;top:0;z-index:9">🔕 Startmeldungen aus</div><div class="handy" style="margin-top:60px"></div></section>
+
+<section class="sz" data-id="rest">
+  <div class="liste">
+    <div class="karte" data-bei="anderen"><span class="ic">👆</span><div>Nur antippen, was dich interessiert</div></div>
+    <div class="karte" data-bei="nicht an"><span class="ic">🤷</span><div>Den Rest einfach liegen lassen<small>kein Muss, keine Pflicht</small></div></div>
+  </div>
+  <div class="stempel" style="border-color:var(--gruen);color:var(--gruen)" data-bei="kaputt" data-art="pop">NICHTS GEHT VERLOREN</div>
+</section>
+
+<section class="sz" data-id="jederzeit">
+  <div class="riesig" id="kreis">🔄</div>
+  <div class="h" style="font-size:64px" data-bei="jederzeit">jederzeit änderbar</div>
+  <div class="liste" style="width:860px">
+    <div class="karte" data-bei="Vorlieben" style="font-size:40px"><span class="ic" style="font-size:64px">🟢</span>Ansicht · Kacheln · Kopf · Meldungen</div>
+  </div>
+</section>
+
+<section class="sz" data-id="videos">
+  <div class="h" style="font-size:62px" data-ab="0">🎬 Weitere Erklär-Videos</div>
+  <div class="liste">
+    <div class="karte" data-bei="Technik"><span class="ic">🔧</span><div>Technik → 🎬 Erklär-Videos<small>Rundgang, Einstellungen, Nachricht, Termin …</small></div></div>
+    <div class="karte" data-bei="Hilfe"><span class="ic">❓</span><div>Hilfe &amp; Tipps<small>ganz oben: 🎬 Erklär-Videos mit Ton</small></div></div>
+    <div class="karte" data-bei="diesen" style="border:6px solid var(--rot)"><span class="ic">🧹</span><div>Auch dieser Film<small>„Deine App – so, wie du sie willst“</small></div></div>
+  </div>
+</section>
+
+<section class="sz" data-id="ende">
+  <div class="logo" data-ab="0" data-art="pop"><img src="kc-kochmuetze-weiss.webp" alt=""></div>
+  <div class="h" style="font-size:66px" data-ab="0.6">Deine Club-App –<br>so, wie du sie möchtest</div>
+  <div class="u" data-bei="Viel">Viel Spaß dabei! 😊</div>
+</section>
+
+<div id="unter"></div>
+<script>
+// Zeitplan: PLAN = [{id, start, ende, sprache}], TEXTE, ZEITEN (von bild.mjs gesetzt); zeige(t) malt das Bild zur Sekunde t – deterministisch, ohne Zufall
+let PLAN = [], TEXTE = {}, ZEITEN = {};
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const sanft = (x) => { x = clamp(x); return x * x * (3 - 2 * x); };
+const mix = (a, b, k) => a + (b - a) * k;
+const SZ = {};
+document.querySelectorAll(".sz").forEach((s) => (SZ[s.dataset.id] = s));
+// Sekunde (ab Sprechbeginn der Szene), an der ein Wort ungefähr gesprochen wird – nach Anteil der Zeichen im Satz
+function W(id, wort, n = 0) {
+  const t = TEXTE[id] || ""; let i = -1; for (let k = 0; k <= n; k++) i = t.indexOf(wort, i + 1);
+  return i < 0 ? 0 : (ZEITEN[id] || 0) * i / t.length;
+}
+function einblenden(sz, lt) {
+  sz.querySelectorAll("[data-ab],[data-bei]").forEach((e) => {
+    const ab = e.dataset.bei ? W(sz.dataset.id, e.dataset.bei) + Number(e.dataset.plus || 0) : Number(e.dataset.ab);
+    const k = sanft((lt - ab) / 0.45);
+    e.style.opacity = k;
+    e.style.transform = e.dataset.art === "pop" ? `scale(${0.6 + 0.4 * k + 0.08 * Math.sin(Math.PI * k)})` + (e.classList.contains("stempel") ? " rotate(-8deg)" : "") : `translateY(${(1 - k) * 50}px)`;
+  });
+}
+
+// ---------- Handy: Aufbau einmal je Szene, Zustand je Bild ----------
+const CLUB = [["clubabend", "🍽️", "Clubabend Live"], ["clubjahr", "📖", "Unser Clubjahr"], ["termine", "📅", "Termine"], ["sos", "🆘", "SOS – Notfall"],
+  ["kommunikation", "💬", "Nachrichten"], ["mitglieder", "👥", "Mitglieder"], ["vorschlaege", "🗳️", "Vorschläge"], ["protokolle", "📄", "Protokolle"],
+  ["archiv", "🗄️", "Archiv"], ["aktionen", "🧳", "Aktionen"], ["fotos", "📷", "Fotoalbum"],
+  ["spiele", "🎲", "Spiele"]];
+const EINFACH = [["clubabend", "🍽️", "Clubabend Live"], ["termine", "📅", "Termine"], ["kommunikation", "💬", "Nachrichten"], ["pinnwand", "📌", "Pinnwand"],
+  ["meindienst", "🗓️", "Mein Dienstplan"], ["mitglieder", "👥", "Mitglieder"], ["fotos", "📷", "Fotoalbum"], ["spiele", "🎲", "Spiele"]];
+const H = {};
+function handyBauen(id) {
+  const el = SZ[id].querySelector(".handy"); if (!el) return;
+  const kach = (l, kl) => l.map(([k, s, t]) => `<div class="kachel ${kl}" data-k="${k}"><span class="s">${s}</span><span class="t">${t}</span><span class="x">✕</span><span class="auge">👁️</span></div>`).join("");
+  el.innerHTML = `<div class="schirm">
+    <div class="hero"><div class="pfeile"><span class="p1">⌃</span><span class="p2">⌃⌃</span></div>
+      <div class="kz"><span class="lg"><img src="kc-kochmuetze-weiss.webp" alt=""></span><span class="tx"><small>KÖCHECLUB WERNE</small><b>Hallo Klaus!</b></span><span class="rk">🌙</span><span class="rk">↻</span></div>
+      <div class="sl"><span class="st">🟢 Da ▾</span><span class="leds"><i></i><i></i><i></i></span></div>
+      <div class="info"><small>NÄCHSTES TREFFEN</small><b>Fr, 6.11. · 19 Uhr · Clubabend</b></div>
+      <div class="rollo"></div></div>
+    <div class="leiste">✏️ <b>Kacheln anordnen:</b> Kachel festhalten, an den neuen Platz ziehen. ✕ blendet aus, 👁️ wieder ein.<div class="kn"><span class="haupt">✅ Fertig</span><span>↺ Standard</span></div></div>
+    <div class="reg"><span class="r0">Club</span><span class="r1">Meins</span><span class="r2">Technik</span></div>
+    <div class="ras ein">${kach(EINFACH, "ke")}</div><div class="ras erw">${kach(CLUB, "kw")}</div>
+    <div class="unten u1">🔧 Erweiterte Ansicht</div><div class="unten u2 hinweis">👀 Nur ausgeblendete zeigen (2)</div>
+    <div class="platz"><b>⬆ mehr Platz</b></div>
+    <div class="mehr"><h4>⚙️ Mehr</h4>
+      <div class="zeile">🎨 Lieblingsfarbe</div><div class="zeile">🔠 Große Schrift</div><div class="zeile">⚡ Schnellstart</div><div class="zeile">🔔 Benachrichtigungen</div>
+      <div class="zeile z-ansage">🗣️ Ansagen, Töne &amp; Tipps</div>
+      <div class="auf" style="overflow:hidden">
+        <div class="zeile"><span class="f">💡 Tipp des Tages<small>beim Öffnen ein kleiner Tipp</small></span><span class="kn2 s1"><i></i></span></div>
+        <div class="zeile"><span class="f">👋 Beim Öffnen zeigen, was neu ist<small>gilt für dieses Gerät</small></span><span class="kn2 s2"><i></i></span></div>
+        <div class="zeile"><span class="f">🧑‍🍳 Twinkey hilft von selbst</span><span class="kn2 s3"><i></i></span></div>
+      </div></div>
+    <div class="nav"><span class="an n0"><i>🏠</i>Start</span><span><i>📅</i>Termine</span><span><i>💬</i>Nachrichten</span><span><i>👥</i>Mitglieder</span><span class="n4"><i>⚙️</i>Mehr</span></div>
+    <div class="toast"></div>
+    <div class="finger"><span class="ring"></span><span class="druck"></span><span class="hand">👆</span></div></div>`;
+  const q = (s) => el.querySelector(s), qa = (s) => [...el.querySelectorAll(s)];
+  H[id] = { el, q, qa, kw: Object.fromEntries(qa(".kw").map((k) => [k.dataset.k, k])), ke: qa(".ke") };
+}
+// Raster-Maße
+const EIN = { sp: 2, w: 310, h: 130, gx: 20, gy: 20, x0: 20 }, ERW = { sp: 3, w: 202, h: 120, gx: 15, gy: 14, x0: 18 };
+const platzVon = (m, i, y0) => ({ x: m.x0 + (i % m.sp) * (m.w + m.gx), y: y0 + Math.floor(i / m.sp) * (m.h + m.gy) });
+// Zustand st: { einfach (0..1 Überblendung: 1 = einfach), info (0..1 eingerollt), sl (0..1 eingerollt), anord (0..1), reg (0..2),
+//   folge0, folge1, k (Umordnen-Überblendung), drag {id,x,y,s}, blass {id:0..1}, weg {id:0..1}, nurAus (0..1), wieder {id:0..1},
+//   unten1, unten2 (0..1), mehr (0..1), ansageAuf (0..1), s1, s2 (0..1 = an), finger {x,y,o,druck,ring}, toast [text, o], pfeilBlink, platz }
+function malen(id, st) {
+  const h = H[id]; if (!h) return; const { q, qa } = h;
+  // Kopf: Kopfzeile 120, Statusleiste 60, Infofeld 140
+  const slH = 60 * (1 - st.sl), infH = 140 * (1 - Math.max(st.info, st.sl)), heroH = 120 + slH + infH + 6;
+  const sc = st.scroll || 0; // Seite nach oben geschoben (wie Scrollen)
+  q(".hero").style.height = heroH + "px"; q(".hero").style.top = -sc + "px";
+  q(".sl").style.top = (120 - 60 * st.sl) + "px"; q(".sl").style.opacity = 1 - st.sl;
+  q(".info").style.top = (120 + slH + 6 - 140 * Math.max(st.info, st.sl) * 0.6) + "px"; q(".info").style.opacity = 1 - Math.max(st.info, st.sl);
+  q(".rollo").style.top = (heroH - 9) + "px";
+  q(".p1").textContent = st.info > 0.5 && st.sl < 0.5 ? "⌄" : "⌃"; q(".p2").textContent = st.sl > 0.5 ? "⌄⌄" : "⌃⌃";
+  q(".p1").classList.toggle("blink", st.pfeilBlink === 1); q(".p2").classList.toggle("blink", st.pfeilBlink === 2);
+  let y = heroH + 16 - sc;
+  const le = q(".leiste"); le.style.top = y + "px"; le.style.opacity = st.anord; le.style.height = 108 * st.anord + "px"; y += 120 * st.anord;
+  const erwO = 1 - st.einfach, rg = q(".reg"); rg.style.top = y + "px"; rg.style.opacity = erwO;
+  qa(".reg span").forEach((s, i) => s.classList.toggle("an", Math.round(st.reg || 0) === i));
+  const yReg = y; y += 72 * erwO;
+  // einfache Ansicht
+  h.ke.forEach((k, i) => { const p = platzVon(EIN, i, heroH + 16); Object.assign(k.style, { left: p.x + "px", top: p.y + "px", width: EIN.w + "px", height: EIN.h + "px", opacity: st.einfach, fontSize: "27px", gap: "10px" }); k.querySelector(".s").style.fontSize = "56px"; });
+  // erweiterte Ansicht: sichtbare Reihenfolge, Umordnen als Überblendung zwischen folge0 und folge1
+  const nurAus = st.nurAus || 0, wegK = (k) => (st.weg?.[k] || 0) * (1 - (st.wieder?.[k] || 0));
+  const lauf = (folge) => { const pos = {}; let n = 0; folge.forEach((k) => { const sichtbar = nurAus > 0.5 ? (st.weg?.[k] || 0) > 0 : wegK(k) < 0.5; if (sichtbar) pos[k] = n++; }); return [pos, n]; };
+  const f0 = st.folge0 || CLUB.map((c) => c[0]), f1 = st.folge1 || f0, [p0, n0] = lauf(f0), [p1, n1] = lauf(f1), kk = sanft(st.k ?? 1);
+  Object.entries(h.kw).forEach(([k, el]) => {
+    const a = p0[k], b = p1[k]; let o;
+    let pa = a != null ? platzVon(ERW, a, y) : null, pb = b != null ? platzVon(ERW, b, y) : null;
+    if (!pa && !pb) { el.style.opacity = 0; return; }
+    if (!pa) { pa = pb; o = kk; } else if (!pb) { pb = pa; o = 1 - kk; } else o = 1;
+    let x = mix(pa.x, pb.x, kk), yy = mix(pa.y, pb.y, kk), s = 1, z = 1, sch = "";
+    if (st.drag?.id === k) { x = st.drag.x - ERW.w / 2; yy = st.drag.y - ERW.h / 2; s = st.drag.s; z = 7; sch = "0 18px 40px rgba(60,20,10,.35)"; }
+    const blass = Math.max(st.blass?.[k] || 0, nurAus > 0.5 ? 1 - (st.wieder?.[k] || 0) : 0);
+    Object.assign(el.style, { left: x + "px", top: yy + "px", width: ERW.w + "px", height: ERW.h + "px", fontSize: "22px", gap: "8px", zIndex: z, boxShadow: sch || "",
+      opacity: erwO * o * (1 - 0.6 * blass), transform: `scale(${s})`, outline: st.drag?.id === k ? "5px solid var(--gold)" : "none" });
+    el.querySelector(".s").style.fontSize = "44px";
+    el.querySelector(".x").style.opacity = st.anord * (1 - blass);
+    el.querySelector(".auge").style.opacity = Math.max(st.anord * blass, nurAus * (1 - (st.wieder?.[k] || 0)));
+    el.querySelector(".t").textContent = blass > 0.5 ? "🙈 " + CLUB.find((c) => c[0] === k)[2] : CLUB.find((c) => c[0] === k)[2];
+  });
+  const reihen = Math.ceil((nurAus > 0.5 ? n1 : Math.max(n0, n1)) / ERW.sp), yUnten = st.einfach > 0.5 ? heroH + 16 + 4 * (EIN.h + EIN.gy) + 4 : y + reihen * (ERW.h + ERW.gy) + 4;
+  const u1 = q(".u1"), u2 = q(".u2");
+  u1.style.top = yUnten + "px"; u1.style.opacity = st.unten1 ?? 1; u1.textContent = st.einfach > 0.5 ? "🔧 Erweiterte Ansicht" : "🟢 Einfache Ansicht";
+  u2.style.top = yUnten + "px"; u2.style.opacity = st.unten2 || 0; u2.textContent = nurAus > 0.5 ? "🙈 Ausgeblendete wieder verbergen" : "👀 Nur ausgeblendete zeigen (2)";
+  if ((st.unten2 || 0) > 0.5) u1.style.opacity = 0;
+  const pl = q(".platz"); pl.style.opacity = st.platz || 0; pl.style.top = (heroH + 4) + "px";
+  // Seite „Mehr“
+  q(".mehr").style.opacity = st.mehr || 0; q(".auf").style.height = 330 * (st.ansageAuf || 0) + "px"; q(".z-ansage").classList.toggle("offen", (st.ansageAuf || 0) > 0.1);
+  [["s1", st.s1], ["s2", st.s2], ["s3", 1]].forEach(([c, v]) => { const kn = q(".kn2." + c); v = v ?? 1; kn.style.background = v > 0.5 ? "var(--gruen)" : "#c9c3b8"; kn.querySelector("i").style.left = (5 + 38 * sanft(v)) + "px"; });
+  q(".n4").classList.toggle("an", (st.mehr || 0) > 0.5); q(".n0").classList.toggle("an", (st.mehr || 0) <= 0.5);
+  // Meldung unten
+  const to = q(".toast"); if (st.toast) { to.textContent = st.toast[0]; to.style.opacity = st.toast[1]; } else to.style.opacity = 0;
+  // Finger
+  const fi = q(".finger"), f = st.finger;
+  if (f && f.o > 0) { fi.style.opacity = f.o; fi.style.transform = `translate(${f.x}px, ${f.y}px)`;
+    fi.querySelector(".hand").style.transform = `scale(${1 - 0.12 * (f.druck || 0)})`;
+    const r = fi.querySelector(".ring"); r.style.opacity = f.ring ? 1 - f.ring : 0; r.style.transform = `scale(${0.6 + 1.2 * (f.ring || 0)})`;
+    const d = fi.querySelector(".druck"); d.style.opacity = f.halten ? 0.9 : 0; d.style.background = `conic-gradient(rgba(245,197,66,.9) ${360 * (f.halten || 0)}deg, transparent 0)`;
+  } else fi.style.opacity = 0;
+  return { heroH, yReg, y, yUnten };
+}
+// Fingerbahn: Liste von [Zeit, x, y] → Position; tippen(t, bei) → Druck und Ring
+function bahn(lt, pkt) {
+  if (lt <= pkt[0][0]) return { x: pkt[0][1], y: pkt[0][2] };
+  for (let i = 1; i < pkt.length; i++) if (lt <= pkt[i][0]) { const k = sanft((lt - pkt[i - 1][0]) / (pkt[i][0] - pkt[i - 1][0])); return { x: mix(pkt[i - 1][1], pkt[i][1], k), y: mix(pkt[i - 1][2], pkt[i][2], k) }; }
+  const l = pkt.at(-1); return { x: l[1], y: l[2] };
+}
+const tipp = (lt, bei) => { const d = lt - bei; return { druck: d > -0.15 && d < 0.2 ? 1 : 0, ring: d >= 0 && d < 0.5 ? d / 0.5 : 0 }; };
+const an = (lt, ab, d = 0.4) => sanft((lt - ab) / d);
+const toastBei = (lt, ab, text, dauer = 2.2) => (lt > ab && lt < ab + dauer ? [text, Math.min(an(lt, ab, 0.25), 1 - an(lt, ab + dauer - 0.3, 0.3))] : null);
+const kachelMitte = (id, fol, idx) => { const p = platzVon(ERW, idx, 0); return { x: p.x + ERW.w / 2, y: p.y + ERW.h / 2 }; };
+// Standard-Maße: Kopf offen = 120 + 60 + 140 + 6 = 326 → Raster erweitert ab 326 + 16 + 72 = 414
+const Y_ERW = 414, Y_ERW_ANORD = 534, SC_AUS = 190;
+const FOLGE = CLUB.map((c) => c[0]), FOLGE_NEU = ["fotos", ...FOLGE.filter((k) => k !== "fotos")];
+const mitte = (idx, y0) => { const p = platzVon(ERW, idx, y0); return [p.x + ERW.w / 2, p.y + ERW.h / 2]; };
+
+const EXTRA = {
+  zehn(lt) { const k = clamp(lt / (ZEITEN.zehn * 0.9)); document.getElementById("uhr").style.background = `conic-gradient(var(--rot) ${360 * k}deg, #e8d9c4 0)`;
+  },
+  einfach(lt) { malen("einfach", { einfach: 1, info: 0, sl: 0, anord: 0, unten1: an(lt, W("einfach", "große")), finger: null }); },
+  erweitert(lt) {
+    const t1 = W("erweitert", "tippst"), um = t1 + 0.9;
+    const reg = lt < W("erweitert", "Club") ? 0 : lt < W("erweitert", "Meins") ? 0 : lt < W("erweitert", "Technik") ? 1 : lt < W("erweitert", "Zurück") ? 2 : 0;
+    const e = 1 - an(lt, um, 0.5), r = malen("erweitert", { einfach: e, info: 0, sl: 0, anord: 0, reg, unten1: 1, finger: null });
+    const ziel = [340, r.yUnten + 35], fl = bahn(lt, [[t1 - 1.2, 560, 1000], [t1 - 0.1, ...ziel], [W("erweitert", "Zurück") - 0.6, ...ziel], [W("erweitert", "Zurück"), 340, r.yUnten + 35]]);
+    const z = W("erweitert", "Einfache"), tp = lt < z - 0.3 ? tipp(lt, t1) : tipp(lt, z);
+    malen("erweitert", { einfach: e, info: 0, sl: 0, anord: 0, reg, unten1: 1, finger: { ...fl, o: an(lt, t1 - 1.2) * (1 - an(lt, um + 0.5)) + an(lt, z - 0.8) * (1 - an(lt, z + 0.8)), ...tp } });
+    document.getElementById("erwChip").style.opacity = an(lt, um); document.getElementById("erwChip").textContent = lt > z ? "🟢 ↔ 🔧 jederzeit umschalten" : "🔧 Erweiterte Ansicht";
+  },
+  lang(lt) {
+    const t0 = W("lang", "Halte"), t1 = t0 + 1.4, i = FOLGE.indexOf("fotos"), [mx, my] = mitte(i, Y_ERW);
+    const halten = clamp((lt - t0) / 1.4), anord = an(lt, t1, 0.4), [mx2, my2] = mitte(i, Y_ERW_ANORD), yy = mix(my, my2, anord);
+    const brumm = lt > W("lang", "brummt") && lt < W("lang", "brummt") + 0.5 ? Math.sin(lt * 90) * 6 : 0;
+    const drag = lt > t1 ? { id: "fotos", x: mx2 + brumm, y: yy - 20 * anord, s: 1 + 0.1 * anord } : null;
+    malen("lang", { einfach: 0, info: 0, sl: 0, anord, unten1: 1, drag, toast: toastBei(lt, t1 + 0.2, "✏️ Anordnen – Kachel hängt am Finger", 3),
+      finger: { ...bahn(lt, [[t0 - 1.2, 560, 1050], [t0 - 0.1, mx, my + 20], [t1, mx, my + 20], [t1 + 0.4, mx2, my2 - 0]]), o: an(lt, t0 - 1.2), druck: lt > t0 ? 1 : 0, halten: lt > t0 && lt < t1 ? halten : 0 } });
+  },
+  schieben(lt) {
+    const i = FOLGE.indexOf("fotos"), [ax, ay] = mitte(i, Y_ERW_ANORD), [bx, by] = mitte(0, Y_ERW_ANORD);
+    const t0 = 0.3, t1 = W("schieben", "lass") - 0.2, los = t1 + 0.3, p = bahn(lt, [[t0, ax, ay - 20], [t1, bx, by]]);
+    // während des Ziehens rücken die anderen nach: Zwischenfolge je nach Position
+    const ziel = clamp(Math.round(((p.y - Y_ERW_ANORD - ERW.h / 2) / (ERW.h + ERW.gy)) * 3 + (p.x - ERW.x0 - ERW.w / 2) / (ERW.w + ERW.gx)), 0, i);
+    const folge = FOLGE.filter((k) => k !== "fotos"); folge.splice(ziel, 0, "fotos");
+    const drag = lt < los ? { id: "fotos", x: p.x, y: p.y, s: 1.1 } : null;
+    malen("schieben", { einfach: 0, info: 0, sl: 0, anord: 1, unten1: 1, folge0: folge, folge1: folge, k: 1, drag, toast: toastBei(lt, los + 0.2, "✅ Neuer Platz: ganz oben", 2.6),
+      finger: { ...p, o: 1 - an(lt, los + 0.3), druck: lt < los ? 1 : 0 } });
+  },
+  aus(lt) {
+    const tx = W("aus", "Kreuz") + 0.3, iS = FOLGE_NEU.indexOf("spiele"), iA = FOLGE_NEU.indexOf("archiv");
+    const tF0 = W("aus", "Fertig"), scroll = SC_AUS * (an(lt, 0.2, 0.8) - an(lt, tF0 + 0.4, 0.8)), Y0 = Y_ERW_ANORD - scroll;
+    const [sx, sy] = mitte(iS, Y0), xS = sx + ERW.w / 2 - 6, yS = sy - ERW.h / 2 + 10;
+    const [ax, ay] = mitte(iA, Y0), xA = ax + ERW.w / 2 - 6, yA = ay - ERW.h / 2 + 10;
+    const tA = tx + 1.6, tF = W("aus", "Fertig"), fertig = tF + 0.2;
+    const anord = 1 - an(lt, fertig, 0.4), fx = 70, fy = 326 + 16 + 84 - SC_AUS;
+    const blass = { spiele: an(lt, tx + 0.1, 0.3), archiv: an(lt, tA + 0.1, 0.3) };
+    const weg = lt > fertig ? { spiele: 1, archiv: 1 } : {};
+    const fp = bahn(lt, [[tx - 1.4, 560, 1050], [tx - 0.1, xS, yS], [tA - 0.6, xS, yS], [tA - 0.1, xA, yA], [tF - 1, xA, yA], [tF - 0.1, fx, fy]]);
+    const tp = lt < tA - 0.3 ? tipp(lt, tx) : lt < tF - 0.4 ? tipp(lt, tA) : tipp(lt, tF);
+    malen("aus", { scroll, einfach: 0, info: 0, sl: 0, anord, unten1: 1, folge0: FOLGE_NEU, folge1: FOLGE_NEU, k: 1, blass, weg,
+      toast: toastBei(lt, tx + 0.2, "🙈 Ausgeblendet – mit 👁️ jederzeit wieder einblenden", 2.4) || toastBei(lt, fertig + 0.2, "💾 Startseite gespeichert", 3),
+      finger: { ...fp, o: an(lt, tx - 1.4) * (1 - an(lt, fertig + 0.6)), ...tp } });
+  },
+  nuraus(lt) {
+    const tN = W("nuraus", "Tippe") + 0.6, tAuge = W("nuraus", "Auge") + 0.2, umschalt = tN + 0.2;
+    const nur = an(lt, umschalt, 0.4), wieder = { spiele: an(lt, tAuge + 0.1, 0.3) }, zurueck = tAuge + 1.2;
+    const nurAus = lt > zurueck ? 0 : nur;
+    const r = malen("nuraus", { einfach: 0, info: 0, sl: 0, anord: 0, unten1: 0, unten2: 1, folge0: FOLGE_NEU, folge1: FOLGE_NEU, k: 1, weg: { spiele: 1, archiv: 1 }, nurAus, wieder });
+    const [ex, ey] = mitte(0, r.y), auge = [ex + ERW.w / 2 - 6, ey - ERW.h / 2 + 10], knopf = [340, r.yUnten + 35];
+    const fp = bahn(lt, [[tN - 1.4, 560, 1050], [tN - 0.1, ...knopf], [tAuge - 0.7, ...knopf], [tAuge - 0.1, ...auge]]);
+    malen("nuraus", { einfach: 0, info: 0, sl: 0, anord: 0, unten1: 0, unten2: 1, folge0: FOLGE_NEU, folge1: FOLGE_NEU, k: 1, weg: { spiele: 1, archiv: 1 }, nurAus, wieder,
+      toast: toastBei(lt, tAuge + 0.2, "👁️ Spiele ist wieder auf der Startseite", 3),
+      finger: { ...fp, o: an(lt, tN - 1.4) * (1 - an(lt, tAuge + 0.8)), ...(lt < tAuge - 0.4 ? tipp(lt, tN) : tipp(lt, tAuge)) } });
+  },
+  kopf(lt) {
+    const t1 = W("kopf", "einfache") + 0.4, t2 = W("kopf", "Doppelpfeil") + 0.4;
+    const info = an(lt, t1 + 0.1, 1.0), sl = an(lt, t2 + 0.1, 1.0);
+    const p1 = [340 - 63, 22], p2 = [340 + 63, 22];
+    const fp = bahn(lt, [[t1 - 1.5, 560, 900], [t1 - 0.1, ...p1], [t2 - 0.8, ...p1], [t2 - 0.1, ...p2]]);
+    malen("kopf", { einfach: 0, info, sl, anord: 0, unten1: 1, folge0: FOLGE_NEU, folge1: FOLGE_NEU, k: 1, weg: { archiv: 1 }, platz: an(lt, W("kopf", "Platz") - 0.3) ,
+      finger: { x: fp.x, y: fp.y + 30, o: an(lt, t1 - 1.5) * (1 - an(lt, t2 + 1.0)), ...(lt < t2 - 0.4 ? tipp(lt, t1) : tipp(lt, t2)) } });
+  },
+  kopf2(lt) {
+    const tB = W("kopf2", "blinkt") - 0.6, tT = W("kopf2", "antippen") + 0.3, runter = an(lt, tT + 0.1, 1.0);
+    const blink = lt > tB && lt < tT + 0.1 && Math.floor((lt - tB) * 3) % 2 === 0 ? 2 : 0;
+    const p2 = [340 + 63, 22], fp = bahn(lt, [[tT - 1.3, 560, 900], [tT - 0.1, ...p2]]);
+    malen("kopf2", { einfach: 0, info: 1 - runter, sl: 1 - runter, anord: 0, unten1: 1, folge0: FOLGE_NEU, folge1: FOLGE_NEU, k: 1, weg: { archiv: 1 }, pfeilBlink: blink,
+      toast: toastBei(lt, tB, "💬 1 neue Nachricht", 2.4), finger: { x: fp.x, y: fp.y + 30, o: an(lt, tT - 1.3) * (1 - an(lt, tT + 0.9)), ...tipp(lt, tT) } });
+  },
+  start(lt) {
+    const tM = W("start", "Mehr") + 0.2, tA = W("start", "Ansagen") + 0.4, tS1 = W("start", "Tipp des") + 0.6, tS2 = W("start", "Beim") + 0.9;
+    const mehr = an(lt, tM + 0.1, 0.35), auf = an(lt, tA + 0.1, 0.5);
+    const yA = 26 + 70 + 4 * 75 + 30, pM = [612, 1140 - 52], pA = [300, yA], pS1 = [570, yA + 75], pS2 = [570, yA + 75 + 98];
+    const fp = bahn(lt, [[tM - 1.4, 420, 900], [tM - 0.1, ...pM], [tA - 0.8, ...pM], [tA - 0.1, ...pA], [tS1 - 0.8, ...pA], [tS1 - 0.1, ...pS1], [tS2 - 0.8, ...pS1], [tS2 - 0.1, ...pS2]]);
+    const tp = lt < tA - 0.4 ? tipp(lt, tM) : lt < tS1 - 0.4 ? tipp(lt, tA) : lt < tS2 - 0.4 ? tipp(lt, tS1) : tipp(lt, tS2);
+    malen("start", { einfach: 0, info: 0, sl: 0, anord: 0, unten1: 1, folge0: FOLGE_NEU, folge1: FOLGE_NEU, k: 1, weg: { archiv: 1 }, mehr, ansageAuf: auf,
+      s1: 1 - an(lt, tS1 + 0.05, 0.25), s2: 1 - an(lt, tS2 + 0.05, 0.25), toast: toastBei(lt, tS2 + 0.4, "🔕 Beim Öffnen ist jetzt Ruhe", 3),
+      finger: { ...fp, o: an(lt, tM - 1.4) * (1 - an(lt, tS2 + 0.9)), ...tp } });
+  },
+  jederzeit(lt) { document.getElementById("kreis").style.transform = `rotate(${lt * 60}deg)`; },
+};
+Object.keys(SZ).forEach(handyBauen);
+function zeige(t) {
+  let aktiv = null;
+  for (const s of PLAN) {
+    const el = SZ[s.id];
+    const rein = sanft((t - s.start) / 0.4), raus = 1 - sanft((t - s.ende + 0.4) / 0.4);
+    const o = Math.min(rein, raus);
+    el.style.opacity = o > 0.001 ? o : 0;
+    if (o > 0.001) { const lt = t - s.sprache; einblenden(el, lt); EXTRA[s.id]?.(lt); if (!aktiv || t >= s.start) aktiv = s; }
+  }
+  const u = document.getElementById("unter");
+  if (aktiv) { u.textContent = TEXTE[aktiv.id]; u.style.opacity = Math.min(sanft((t - aktiv.start) / 0.4), 1 - sanft((t - aktiv.ende + 0.4) / 0.4)); }
+  else u.style.opacity = 0;
+}
+</script></body></html>

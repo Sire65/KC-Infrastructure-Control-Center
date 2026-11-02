@@ -1,0 +1,50 @@
+# Drehbuch: „Deine App – so, wie du sie willst“
+
+**Anlass:** Auf der letzten Clubsitzung gab es Kritik: Die App sei zu voll, zu viel drin, was man nicht braucht.
+**Ziel:** Jedes Mitglied stellt sich die App in rund 10 Minuten selbst so ein, dass es nur noch sieht, was es nutzt.
+**Form:** Erklärfilm im Hochformat (1080×1920), ca. 2 Minuten, Sprecher (Thorsten-Stimme wie bei allen Club-Filmen) mit Untertiteln,
+nachgebautes Handy mit Finger, der vormacht, was man tippt. Alle Namen und Termine im Bild sind Beispiele.
+
+| # | Szene (Kennung) | Bild | Sprecher / Untertitel |
+|---|---|---|---|
+| 1 | Anlass (`titel`) | Sprechblasen „Die App ist zu voll!“ und „Zu viel, was ich nicht brauche …“, dann Besen 🧹 und Titel „Deine App – so, wie du sie willst“ | Auf der letzten Clubsitzung kam die Anregung: Die App ist zu voll. Darum zeige ich dir jetzt, wie du sie ganz einfach selbst änderst. |
+| 2 | 10 Minuten (`zehn`) | Uhr mit „10 Minuten“ füllt sich, Karte „✅ Nur noch, was du nutzt“ | Nimm dir zehn Minuten Zeit. Danach hast du nur noch die Funktionen im Blick, die du wirklich nutzen möchtest. |
+| 3 | Einfache Ansicht (`einfach`) | Handy: Kopf mit „Nächstes Treffen“, 8 große Kacheln, unten Knopf „🔧 Erweiterte Ansicht“ | Zuerst die zwei Ansichten. Die einfache Ansicht zeigt nur das Wichtigste: oben das nächste Treffen, darunter große Kacheln. |
+| 4 | Erweiterte Ansicht (`erweitert`) | Finger tippt „🔧 Erweiterte Ansicht“ → Register Club · Meins · Technik leuchten nacheinander auf → Finger zeigt „🟢 Einfache Ansicht“ | Ganz unten auf der Startseite tippst du auf „Erweiterte Ansicht“. Jetzt siehst du alle Kacheln, sortiert nach Club, Meins und Technik. Zurück geht es genauso, mit „Einfache Ansicht“. |
+| 5 | Lange drücken (`lang`) | Finger hält „📷 Fotoalbum“, Ring füllt sich, Handy brummt, Leiste „✏️ Kacheln anordnen“ erscheint, Kachel hebt sich | Jetzt räumst du auf. Halte eine Kachel einfach etwas länger gedrückt. Das Handy brummt kurz, und die Kachel hängt an deinem Finger. |
+| 6 | Verschieben (`schieben`) | Fotoalbum wandert nach oben links, die anderen rücken nach, Meldung „Neuer Platz: ganz oben“ | Zieh sie dorthin, wo du sie haben möchtest, und lass los. So kommen deine Lieblings-Kacheln nach oben. |
+| 7 | Ausblenden (`aus`) | Finger tippt ✕ bei „Spiele“ und „Archiv“ → blass mit 🙈; Meldung „Ausgeblendet – mit 👁️ jederzeit wieder einblenden“; „✅ Fertig“ → „💾 Startseite gespeichert“ | Brauchst du eine Kachel nicht? Dann tippe auf das kleine Kreuz. Die Kachel ist ausgeblendet. Deine Daten bleiben aber erhalten. Zum Schluss tippst du auf „Fertig“. |
+| 8 | Nur ausgeblendete (`nuraus`) | Finger tippt „👀 Nur ausgeblendete zeigen (2)“ → nur Archiv und Spiele, dann 👁️ bei Spiele → „Spiele ist wieder auf der Startseite“ | Du möchtest eine Kachel doch zurück? Tippe unten auf „Nur ausgeblendete zeigen“. Dann siehst du nur diese Kacheln. Mit dem Auge holst du eine wieder auf die Startseite. |
+| 9 | Kopf einrollen (`kopf`) | Finger tippt ⌃ (Infofeld rollt ein), dann ⌃⌃ (Statusleiste rollt ein, nur Kopfzeile bleibt), Kacheln rutschen hoch, „⬆ mehr Platz“ | Oben im Kopf sind zwei kleine Pfeile. Der einfache Pfeil rollt das Infofeld ein. Der Doppelpfeil rollt den Kopf ganz ein. Dann bleibt nur die Kopfzeile, und du hast viel mehr Platz. |
+| 10 | Pfeil blinkt (`kopf2`) | „💬 1 neue Nachricht“, Pfeil blinkt gelb, Finger tippt → Kopf rollt herunter | Kommt eine neue Nachricht, blinkt der Pfeil. Einmal antippen, und der Kopf rollt wieder herunter. |
+| 11 | Startmeldungen (`start`) | Finger: unten „⚙️ Mehr“ → „🗣️ Ansagen, Töne & Tipps“ → Schalter „💡 Tipp des Tages“ und „👋 Beim Öffnen zeigen, was neu ist“ auf aus → „🔕 Beim Öffnen ist jetzt Ruhe“ | Dich stören die Meldungen beim Öffnen der App? Tippe unten auf „Mehr“, dann auf „Ansagen, Töne und Tipps“. Dort schaltest du „Tipp des Tages“ und „Beim Öffnen zeigen, was neu ist“ einfach aus. |
+| 12 | Der Rest (`rest`) | Karten „👆 Nur antippen, was dich interessiert“, „🤷 Den Rest einfach liegen lassen“, Stempel „NICHTS GEHT VERLOREN“ | Und alle anderen Funktionen? Die tippst du einfach nicht an, wenn sie dich nicht interessieren. Dabei geht nichts kaputt und nichts verloren. |
+| 13 | Jederzeit (`jederzeit`) | 🔄 dreht sich, „jederzeit änderbar“, Karte „Ansicht · Kacheln · Kopf · Meldungen“ | Das Gute daran: Du kannst alles jederzeit wieder ändern, und die App immer wieder an deine Vorlieben und Bedürfnisse anpassen. |
+| 14 | Weitere Videos (`videos`) | Karten „🔧 Technik → 🎬 Erklär-Videos“, „❓ Hilfe & Tipps – ganz oben: 🎬 Erklär-Videos mit Ton“, „🧹 Auch dieser Film“ | Weitere Erklär-Videos findest du unter Technik, bei „Erklär-Videos“, und unter Hilfe und Tipps. Auch diesen Film kannst du dort jederzeit noch einmal ansehen. |
+| 15 | Schluss (`ende`) | Logo, „Deine Club-App – so, wie du sie möchtest“, „Viel Spaß dabei! 😊“ | So gestaltest du dir deine Club-App, wie du sie möchtest. Viel Spaß dabei! |
+
+Alle Knopfnamen sind mit der Club-App (Stand 2.803.0) abgeglichen: `ansichtKnopf`, `kachelLeiste` („✏️ Kacheln anordnen“, „✅ Fertig“),
+`kaAusHinweis` („👀 Nur ausgeblendete zeigen (n)“), `kopfPfeilHalb` ⌃ / `kopfPfeil` ⌃⌃, ⚙️ Mehr → „🗣️ Ansagen, Töne & Tipps“, Kachel Technik → „🎬 Erklär-Videos“.
+Hinweis: Ausblenden mit ✕ gibt es nur in der **erweiterten** Ansicht – deshalb kommt die Ansicht im Film zuerst.
+
+## Vorschläge, wie wir es gut und einfach rüberbringen
+
+1. **Kurz halten.** Der Film dauert gut 2 Minuten, eine Sache pro Szene, der Finger macht jeden Tipp vor. Die angekündigten „10 Minuten“
+   sind die Zeit zum Selbermachen, nicht die Filmlänge.
+2. **Beim Start anbieten, nicht aufdrängen.** Jedes Mitglied bekommt den Film **einmal** beim Öffnen angeboten („▶ Film jetzt ansehen“,
+   „⏰ Später“, „Nein, danke“). Danach liegt er in **Technik → 🎬 Erklär-Videos** ganz oben.
+3. **Auf der nächsten Clubsitzung zeigen.** 2 Minuten über Beamer/Fernseher, danach **10 Minuten Mitmach-Runde**: alle holen das Handy raus
+   und richten die App gemeinsam ein. Zwei, drei sichere Mitglieder als **Paten** gehen herum und helfen.
+4. **Ein Ausdruck zum Mitnehmen.** Ein DIN-A5-Zettel mit den 5 Schritten (Ansicht · lange drücken · ✕ · ⌃⌃ · Mehr → Ansagen) für alle,
+   die lieber nachlesen.
+5. **Ab Werk weniger zeigen.** Neue Mitglieder starten schon heute in der einfachen Ansicht – das ausdrücklich sagen: „Wer neu ist,
+   sieht erst mal nur das Wichtigste.“
+6. **Rückmeldung einsammeln.** Nach zwei Wochen nachfragen (💭 Feedback-Kachel): Ist es jetzt übersichtlicher? Was fehlt noch?
+7. **WhatsApp-Status / Gruppe.** Der Film ist im Hochformat und passt direkt in den Status oder die Club-Gruppe.
+
+## Wer hat den Film gesehen?
+
+Die Club-App merkt sich das schon heute pro Mitglied, geräteübergreifend und ohne Inhalte (Einstellung `filme`):
+▶ angefangen · ✅ bis zum Ende (neu) · 🙅 „Nein, danke“ · ⏳ noch nicht. Der Admin sieht die Liste in
+**Technik → 🎬 Erklär-Videos → Film-Karte → „👀 Wer hat ihn gesehen?“**. Zusätzlich steht jeder Start und jedes Ende 30 Tage lang in
+„👣 Wege der Mitglieder“. Einbau: siehe `README.md` und `clubapp-einbau.patch`.
