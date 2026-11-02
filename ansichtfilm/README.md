@@ -15,9 +15,10 @@ jederzeit änderbar → wo es weitere Erklär-Videos gibt → Ende.
 Im Handy ist die Club-App nachgebaut (keine Bildschirmfotos): nur Mitglieder-Kacheln, Namen und Termine sind Beispiele,
 keine echten Mitgliederdaten, keine Chat-Inhalte (Regel 19).
 
-## In der Club-App (`clubapp-einbau.patch`)
+## In der Club-App (eingebaut in 2.804.0)
 
-Der Einbau liegt als Patch für **Sire65/KC-Clubapp** bei (Stand 2.803.0), weil diese Sitzung nur in dieses Repository schreiben darf:
+Eingebaut in **Sire65/KC-Clubapp** auf dem Zweig `claude/club-app-tutorial-video-4f46mx` (Version 2.804.0, Server 2.804.0).
+`clubapp-einbau.patch` hier ist nur die Kopie des Code-Teils zum Nachlesen.
 
 - `FILME`-Eintrag `ansichtfilm` (`film/app-selbst-einrichten.mp4`, Vorschau `film/app-einrichten-vorschau.jpg`), `fuer: () => true`:
   **jedes Mitglied** bekommt den Film einmal beim Start angeboten (▶ ansehen / ⏰ später / Nein, danke).
@@ -26,17 +27,8 @@ Der Einbau liegt als Patch für **Sire65/KC-Clubapp** bei (Stand 2.803.0), weil 
   und geräteübergreifend. Der Admin sieht in der Film-Karte **„👀 Wer hat ihn gesehen?“** (neue Server-Aktion `film_zuschauer`, nur Admin,
   liest ausschließlich die Einstellung `filme`). Start/Ende/Abbruch stehen zusätzlich 30 Tage in „👣 Wege der Mitglieder“.
 - Filme mit eigenem Ort (`wo`) stehen nicht mehr zusätzlich im Büro unter 🎬 Anleitung; die Meldungen nennen den richtigen Ort.
-- SRI-Prüfsumme für `teile/videos.js` in `app.js` aktualisiert; Test `tests/film-hinweis.test.mjs` erweitert.
-
-Anwenden im Club-App-Checkout:
-
-```bash
-git apply /pfad/zu/ansichtfilm/clubapp-einbau.patch
-cp /pfad/zu/ansichtfilm/App-selbst-einrichten.mp4 film/app-selbst-einrichten.mp4
-cp /pfad/zu/ansichtfilm/vorschau.jpg film/app-einrichten-vorschau.jpg
-node tests/film-hinweis.test.mjs
-# dann Version gemäß Versionsvertrag erhöhen (APP_VERSION, sw.js, version.json, index.html ?v=, CHANGELOG) und Edge-Function kc-club ausrollen
-```
+- Tests: `tests/film-hinweis.test.mjs` erweitert; im Klick-Rundgang hat das Test-Mitglied den Film schon gesehen (sonst liegt das Angebot über der Startseite).
+  Alle 83 Tests aus `tests.yml` grün; Browser-Prüfung als Mitglied und Admin (Angebot, Abspielen, Merken, Karte, Zuschauer-Liste) ohne Fehler.
 
 ## Stimme, Lizenzen (Zero-Cost)
 - Sprecher: Piper `de_DE-thorsten-medium` (Datensatz CC0, Piper MIT) – dieselbe Stimme wie Werbefilm, Sicherheitsfilm und Erklär-Videos.

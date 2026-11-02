@@ -47,4 +47,4 @@ Hinweis: Ausblenden mit ✕ gibt es nur in der **erweiterten** Ansicht – desha
 Die Club-App merkt sich das schon heute pro Mitglied, geräteübergreifend und ohne Inhalte (Einstellung `filme`):
 ▶ angefangen · ✅ bis zum Ende (neu) · 🙅 „Nein, danke“ · ⏳ noch nicht. Der Admin sieht die Liste in
 **Technik → 🎬 Erklär-Videos → Film-Karte → „👀 Wer hat ihn gesehen?“**. Zusätzlich steht jeder Start und jedes Ende 30 Tage lang in
-„👣 Wege der Mitglieder“. Einbau: siehe `README.md` und `clubapp-einbau.patch`.
+„👣 Wege der Mitglieder“. Eingebaut in Club-App 2.804.0 (siehe `README.md`).
