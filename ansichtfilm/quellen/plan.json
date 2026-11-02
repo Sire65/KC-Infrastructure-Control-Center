@@ -1,101 +1,113 @@
 {
- "dauer": 140.819,
+ "dauer": 166.572,
  "plan": [
   {
    "id": "titel",
    "start": 0,
    "sprache": 0.6,
-   "ende": 8.094
+   "ende": 8.269
   },
   {
    "id": "zehn",
-   "start": 7.894,
-   "sprache": 8.494,
-   "ende": 14.804
+   "start": 8.069,
+   "sprache": 8.669,
+   "ende": 15.026
   },
   {
    "id": "einfach",
-   "start": 14.604,
-   "sprache": 15.204,
-   "ende": 22.524
+   "start": 14.826,
+   "sprache": 15.426,
+   "ende": 25.591
   },
   {
    "id": "erweitert",
-   "start": 22.324,
-   "sprache": 22.924,
-   "ende": 33.135
+   "start": 25.391,
+   "sprache": 25.991,
+   "ende": 36.713
+  },
+  {
+   "id": "reiter",
+   "start": 36.513,
+   "sprache": 37.113,
+   "ende": 50.494
+  },
+  {
+   "id": "reiter2",
+   "start": 50.294,
+   "sprache": 50.894,
+   "ende": 59.654
   },
   {
    "id": "lang",
-   "start": 32.935,
-   "sprache": 33.535,
-   "ende": 43.27
+   "start": 59.454,
+   "sprache": 60.054,
+   "ende": 69.882
   },
   {
    "id": "schieben",
-   "start": 43.07,
-   "sprache": 43.67,
-   "ende": 51.908
+   "start": 69.682,
+   "sprache": 70.282,
+   "ende": 78.566
   },
   {
    "id": "aus",
-   "start": 51.708,
-   "sprache": 52.308,
-   "ende": 61.439
+   "start": 78.366,
+   "sprache": 78.966,
+   "ende": 87.726
   },
   {
    "id": "nuraus",
-   "start": 61.239,
-   "sprache": 61.839,
-   "ende": 70.866
+   "start": 87.526,
+   "sprache": 88.126,
+   "ende": 97.002
   },
   {
    "id": "ergebnis",
-   "start": 70.666,
-   "sprache": 71.266,
-   "ende": 81.651
+   "start": 96.802,
+   "sprache": 97.402,
+   "ende": 107.485
   },
   {
    "id": "kopf",
-   "start": 81.451,
-   "sprache": 82.051,
-   "ende": 92.529
+   "start": 107.285,
+   "sprache": 107.885,
+   "ende": 118.398
   },
   {
    "id": "kopf2",
-   "start": 92.329,
-   "sprache": 92.929,
-   "ende": 98.845
+   "start": 118.198,
+   "sprache": 118.798,
+   "ende": 124.307
   },
   {
    "id": "start",
-   "start": 98.645,
-   "sprache": 99.245,
-   "ende": 109.99
+   "start": 124.107,
+   "sprache": 124.707,
+   "ende": 135.615
   },
   {
    "id": "rest",
-   "start": 109.79,
-   "sprache": 110.39,
-   "ende": 118.035
+   "start": 135.415,
+   "sprache": 136.015,
+   "ende": 144.067
   },
   {
    "id": "jederzeit",
-   "start": 117.835,
-   "sprache": 118.435,
-   "ende": 125.384
+   "start": 143.867,
+   "sprache": 144.467,
+   "ende": 151.52
   },
   {
    "id": "videos",
-   "start": 125.184,
-   "sprache": 125.784,
-   "ende": 134.881
+   "start": 151.32,
+   "sprache": 151.92,
+   "ende": 160.75
   },
   {
    "id": "ende",
-   "start": 134.681,
-   "sprache": 135.281,
-   "ende": 140.819
+   "start": 160.55,
+   "sprache": 161.15,
+   "ende": 166.572
   }
  ]
 }

@@ -1,13 +1,13 @@
 # Erklärfilm „Deine App – so, wie du sie willst“ – Club-App
 
-**Datei:** `App-selbst-einrichten.mp4` · 1080×1920 (Hochformat 9:16) · ca. 2 Min. · H.264/AAC · Sprecher mit Untertiteln
+**Datei:** `App-selbst-einrichten.mp4` · 1080×1920 (Hochformat 9:16) · ca. 2¾ Min. · H.264/AAC · Sprecher mit Untertiteln
 **Feature-ID:** KC-CLUB-ANSICHTFILM · **Anlass:** Kritik auf der Clubsitzung „die App ist zu voll“ (Wunsch Hansi 02.11.2026)
 
 Drehbuch, Szenen und Vorschläge zur Vermittlung: [`DREHBUCH.md`](DREHBUCH.md).
 
-## Ablauf (15 Szenen, Text in `quellen/texte.json`)
+## Ablauf (18 Szenen, Text in `quellen/texte.json`)
 
-Anlass → 10 Minuten investieren → einfache Ansicht → erweiterte Ansicht (Club · Meins · Technik) → Kachel lange drücken (Verschiebepfeile ◀ ▲ ▼ ▶) →
+Anlass → 10 Minuten investieren → einfache Ansicht (lange Knöpfe, schlichter Kopf) → erweiterte Ansicht → wofür Club · Meins · Technik da sind → Reiter selbst anordnen → Kachel lange drücken (Verschiebepfeile ◀ ▲ ▼ ▶) →
 verschieben → mit ✕ ausblenden + „Fertig“ → „Nur ausgeblendete zeigen“ und mit 👁️ zurückholen → Beispiel „nur noch 4 Kacheln“ → Kopf mit ⌃ / ⌃⌃ einrollen →
 Pfeil blinkt bei neuer Nachricht → ⚙️ Mehr → Ansagen, Töne & Tipps: Startmeldungen aus → den Rest einfach nicht antippen →
 jederzeit änderbar → wo es weitere Erklär-Videos gibt → Ende.

@@ -44,9 +44,13 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 .leiste { position: absolute; left: 14px; right: 14px; height: 108px; background: #fff7d6; border: 3px solid #e7c75c; border-radius: 22px; padding: 12px 18px; font-size: 22px; line-height: 1.3; overflow: hidden; }
 .leiste .kn { display: flex; gap: 12px; margin-top: 8px; } .leiste .kn span { border-radius: 16px; padding: 5px 16px; font-weight: 800; font-size: 22px; background: #fff; border: 2px solid #c8b99f; }
 .leiste .kn span.haupt { background: var(--gruen); color: #fff; border-color: var(--gruen); }
-.reg { position: absolute; left: 14px; right: 14px; height: 56px; display: flex; gap: 10px; }
-.reg span { flex: 1; border-radius: 28px; background: #eadfcd; display: flex; align-items: center; justify-content: center; font-size: 25px; font-weight: 800; color: var(--grau); }
+.reg { position: absolute; left: 0; right: 0; height: 56px; }
+.reg span { position: absolute; top: 0; height: 56px; width: 211px; gap: 8px; border-radius: 28px; background: #eadfcd; display: flex; align-items: center; justify-content: center; font-size: 25px; font-weight: 800; color: var(--grau); }
 .reg span.an { background: var(--rot); color: #fff; }
+.reg span small { font-size: 18px; background: rgba(0,0,0,.12); border-radius: 12px; padding: 1px 9px; }
+.reg span.zieht { outline: 5px solid var(--gold); box-shadow: 0 12px 26px rgba(60,20,10,.35); z-index: 3; }
+.kachel.ke { flex-direction: row; justify-content: flex-start; text-align: left; padding: 0 22px; gap: 20px; border-radius: 22px; }
+.kachel.ke .tt { display: flex; flex-direction: column; } .kachel.ke .tt b { font-size: 34px; } .kachel.ke .tt small { font-size: 22px; color: var(--grau); font-weight: 600; margin-top: 2px; }
 .kachel { position: absolute; background: #fff; border-radius: 26px; box-shadow: 0 4px 12px rgba(60,20,10,.10); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-weight: 700; color: var(--text); }
 .kachel .s { line-height: 1; } .kachel .x, .kachel .auge { position: absolute; top: -12px; right: -10px; width: 46px; height: 46px; border-radius: 50%; background: #c0262d; color: #fff; font-size: 26px; display: flex; align-items: center; justify-content: center; font-weight: 900; opacity: 0; }
 .kachel .auge { background: var(--gruen); font-size: 24px; }
@@ -96,6 +100,8 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 
 <section class="sz" data-id="einfach"><div class="chip" data-bei="einfache" style="position:absolute;top:0;z-index:9">🟢 Einfache Ansicht</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="erweitert"><div class="chip" id="erwChip" style="position:absolute;top:0;z-index:9">🔧 Erweiterte Ansicht</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="reiter" data-liste="reiter"><div class="chip" id="reiterChip" style="position:absolute;top:0;z-index:9">Club · Meins · Technik</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="reiter2"><div class="chip" data-bei="Reiter" style="position:absolute;top:0;z-index:9">↔️ Reiter selbst anordnen</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="lang"><div class="chip" data-bei="gedrückt" style="position:absolute;top:0;z-index:9">👆 lange gedrückt halten</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="schieben"><div class="chip" data-bei="Zieh" style="position:absolute;top:0;z-index:9">✥ ziehen und loslassen</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="aus"><div class="chip" data-bei="Kreuz" style="position:absolute;top:0;z-index:9">✕ ausblenden</div><div class="handy" style="margin-top:60px"></div></section>
@@ -164,12 +170,19 @@ const CLUB = [["clubabend", "🍽️", "Clubabend Live"], ["clubjahr", "📖", "
   ["kommunikation", "💬", "Nachrichten"], ["mitglieder", "👥", "Mitglieder"], ["vorschlaege", "🗳️", "Vorschläge"], ["protokolle", "📄", "Protokolle"],
   ["archiv", "🗄️", "Archiv"], ["aktionen", "🧳", "Aktionen"], ["fotos", "📷", "Fotoalbum"],
   ["spiele", "🎲", "Spiele"]];
+const EINFACH_LANG = [["termine", "📅", "Termine", "Termine · Zu- & Absagen"], ["kommunikation", "💬", "Nachrichten", "Chats, Gruppen & Anlagen"], ["meindienst", "🗓️", "Mein Dienst", "Wunsch · Plan · Zeiten"],
+  ["mitglieder", "👥", "Mitglieder", "Status · Ämter · Kontakt"], ["fotos", "📷", "Fotos", "Nach Thema & Datum"], ["vorschlaege", "🗳️", "Vorschläge", "Themen & Abstimmungen"]];
+const MEINS = [["m_dienst", "🗓️", "Mein Dienstplan"], ["m_wunsch", "📝", "Dienstwünsche"], ["m_dok", "📚", "Meine Dokumente"], ["m_erst", "💶", "Erstattung"], ["m_ausweis", "🪪", "Mein Ausweis-QR"],
+  ["m_daten", "🔐", "Meine Daten"], ["m_status", "🟢", "Mein Status"], ["m_bild", "🧑‍🍳", "Mein Bild"], ["m_einst", "⚙️", "Meine Einstellungen"]];
+const TECHNIK = [["t_hilfe", "❓", "Hilfe & Tipps"], ["t_videos", "🎬", "Erklär-Videos"], ["t_sicher", "🔐", "Sicherheit & Datenschutz"], ["t_twinkey", "🧑‍🍳", "Frag Twinkey"],
+  ["t_einst", "🧭", "Einstellungen erklärt"], ["t_update", "🔄", "Update prüfen"], ["t_check", "🛡️", "Sicherheits-Check"], ["t_prog", "💻", "Freigegebene Programme"]];
+const REG_NAMEN = [["Club", 14], ["Meins", 11], ["Technik", 8]];
 const EINFACH = [["clubabend", "🍽️", "Clubabend Live"], ["termine", "📅", "Termine"], ["kommunikation", "💬", "Nachrichten"], ["pinnwand", "📌", "Pinnwand"],
   ["meindienst", "🗓️", "Mein Dienstplan"], ["mitglieder", "👥", "Mitglieder"], ["fotos", "📷", "Fotoalbum"], ["spiele", "🎲", "Spiele"]];
 const ERGEBNIS = [["clubabend", "🍽️", "Clubabend Live"], ["clubjahr", "📖", "Unser Clubjahr"], ["termine", "📅", "Termine"], ["sos", "🆘", "SOS – Notfall"],
   ["kommunikation", "💬", "Nachrichten"], ["mitglieder", "👥", "Mitglieder"], ["vorschlaege", "🗳️", "Vorschläge"], ["protokolle", "📄", "Protokolle"],
   ["archiv", "🗄️", "Archiv"], ["dienste", "🗓️", "Dienstpläne"], ["fotos", "📷", "Fotoalbum"], ["spiele", "🎲", "Spiele"]];
-const LISTEN = { ergebnis: ERGEBNIS };
+const LISTEN = { ergebnis: ERGEBNIS, reiter: [...CLUB, ...MEINS, ...TECHNIK] };
 const H = {};
 function handyBauen(id) {
   const el = SZ[id].querySelector(".handy"); if (!el) return;
@@ -181,8 +194,8 @@ function handyBauen(id) {
       <div class="info"><small>NÄCHSTES TREFFEN</small><b>Fr, 6.11. · 19 Uhr · Clubabend</b></div>
       <div class="rollo"></div></div>
     <div class="leiste">✏️ <b>Kacheln anordnen:</b> Kachel festhalten, an den neuen Platz ziehen. ✕ blendet aus, 👁️ wieder ein.<div class="kn"><span class="haupt">✅ Fertig</span><span>↺ Standard</span></div></div>
-    <div class="reg"><span class="r0">Club</span><span class="r1">Meins</span><span class="r2">Technik</span></div>
-    <div class="ras ein">${kach(EINFACH, "ke")}</div><div class="ras erw">${kach(LISTEN[SZ[id].dataset.liste] || CLUB, "kw")}</div>
+    <div class="reg">${REG_NAMEN.map(([t, n], i) => `<span class="r${i}">${t} <small>${n}</small></span>`).join("")}</div>
+    <div class="ras ein">${EINFACH_LANG.map(([k, sy, t, u]) => `<div class="kachel ke" data-k="${k}"><span class="s">${sy}</span><span class="tt"><b>${t}</b><small>${u}</small></span></div>`).join("")}</div><div class="ras erw">${kach(LISTEN[SZ[id].dataset.liste] || CLUB, "kw")}</div>
     <div class="unten u1">🔧 Erweiterte Ansicht</div><div class="unten u2 hinweis">👀 Nur ausgeblendete zeigen (2)</div>
     <div class="platz"><b>⬆ mehr Platz</b></div>
     <div class="mehr"><h4>⚙️ Mehr</h4>
@@ -219,10 +232,16 @@ function malen(id, st) {
   let y = heroH + 16 - sc;
   const le = q(".leiste"); le.style.top = y + "px"; le.style.opacity = st.anord; le.style.height = 108 * st.anord + "px"; y += 120 * st.anord;
   const erwO = 1 - st.einfach, rg = q(".reg"); rg.style.top = y + "px"; rg.style.opacity = erwO;
-  qa(".reg span").forEach((s, i) => s.classList.toggle("an", Math.round(st.reg || 0) === i));
+  // Reiter: Reihenfolge (nach der Szene „reiter2“ steht Meins vorn – wie gerade vorgeführt), gezogener Reiter folgt dem Finger
+  const nachR2 = PLAN.findIndex((x) => x.id === id) > PLAN.findIndex((x) => x.id === "reiter2");
+  const rf = st.regFolge || (nachR2 ? [1, 0, 2] : [0, 1, 2]), RW = 211, slotX = (k) => 14 + k * (RW + 10);
+  qa(".reg span").forEach((sp, i) => { sp.classList.toggle("an", Math.round(st.reg || 0) === i); const zieht = st.regDrag?.i === i;
+    sp.classList.toggle("zieht", zieht); sp.style.left = (zieht ? st.regDrag.x - RW / 2 : slotX(rf.indexOf(i))) + "px"; sp.style.transform = zieht ? "scale(1.08)" : ""; sp.style.zIndex = zieht ? 3 : 1; });
+  // einfache Ansicht: schlichter Kopf (kein Tag/Nacht, kein Aktualisieren, keine Lämpchen)
+  qa(".kz .rk").forEach((x) => (x.style.opacity = 1 - st.einfach)); q(".sl .leds").style.opacity = 1 - st.einfach;
   const yReg = y; y += 72 * erwO;
   // einfache Ansicht
-  h.ke.forEach((k, i) => { const p = platzVon(EIN, i, heroH + 16); Object.assign(k.style, { left: p.x + "px", top: p.y + "px", width: EIN.w + "px", height: EIN.h + "px", opacity: st.einfach, fontSize: "27px", gap: "10px" }); k.querySelector(".s").style.fontSize = "56px"; });
+  h.ke.forEach((k, i) => { Object.assign(k.style, { left: "14px", top: (heroH + 16 + i * 96) + "px", width: "652px", height: "86px", opacity: st.einfach }); k.querySelector(".s").style.fontSize = "50px"; });
   // erweiterte Ansicht: sichtbare Reihenfolge, Umordnen als Überblendung zwischen folge0 und folge1
   const nurAus = st.nurAus || 0, wegK = (k) => (st.weg?.[k] || 0) * (1 - (st.wieder?.[k] || 0));
   const lauf = (folge, weg) => { const pos = {}; let n = 0; folge.forEach((k) => { const sichtbar = nurAus > 0.5 ? (st.weg?.[k] || 0) > 0 : (weg ? (weg[k] || 0) : wegK(k)) < 0.5; if (sichtbar) pos[k] = n++; }); return [pos, n]; };
@@ -247,7 +266,7 @@ function malen(id, st) {
     el.querySelectorAll(".kstrg i").forEach((x, j) => x.classList.toggle("an", st.pfeilAn?.[0] === k && st.pfeilAn?.[1] === j));
     el.querySelector(".p4").style.opacity = ziehe;
   });
-  const reihen = Math.ceil((nurAus > 0.5 ? n1 : Math.max(n0, n1)) / ERW.sp), yUnten = st.einfach > 0.5 ? heroH + 16 + 4 * (EIN.h + EIN.gy) + 4 : y + reihen * (ERW.h + ERW.gy) + 4;
+  const reihen = Math.ceil((nurAus > 0.5 ? n1 : Math.max(n0, n1)) / ERW.sp), yUnten = st.einfach > 0.5 ? heroH + 16 + 6 * 96 + 4 : y + reihen * (ERW.h + ERW.gy) + 4;
   const u1 = q(".u1"), u2 = q(".u2");
   u1.style.top = yUnten + "px"; u1.style.opacity = st.unten1 ?? 1; u1.textContent = st.einfach > 0.5 ? "🔧 Erweiterte Ansicht" : "🟢 Einfache Ansicht";
   u2.style.top = yUnten + "px"; u2.style.opacity = st.unten2 || 0; u2.textContent = nurAus > 0.5 ? "🙈 Ausgeblendete wieder verbergen" : "👀 Nur ausgeblendete zeigen (2)";
@@ -290,7 +309,7 @@ const mitte = (idx, y0) => { const p = platzVon(ERW, idx, y0); return [p.x + ERW
 const EXTRA = {
   zehn(lt) { const k = clamp(lt / (ZEITEN.zehn * 0.9)); document.getElementById("uhr").style.background = `conic-gradient(var(--rot) ${360 * k}deg, #e8d9c4 0)`;
   },
-  einfach(lt) { malen("einfach", { einfach: 1, info: 0, sl: 0, anord: 0, unten1: an(lt, W("einfach", "große")), finger: null }); },
+  einfach(lt) { malen("einfach", { einfach: 1, info: 0, sl: 0, anord: 0, unten1: an(lt, W("einfach", "lange")), finger: null }); },
   erweitert(lt) {
     const t1 = W("erweitert", "tippst"), um = t1 + 0.9;
     const reg = lt < W("erweitert", "Club") ? 0 : lt < W("erweitert", "Meins") ? 0 : lt < W("erweitert", "Technik") ? 1 : lt < W("erweitert", "Zurück") ? 2 : 0;
@@ -299,6 +318,25 @@ const EXTRA = {
     const z = W("erweitert", "Einfache"), tp = lt < z - 0.3 ? tipp(lt, t1) : tipp(lt, z);
     malen("erweitert", { einfach: e, info: 0, sl: 0, anord: 0, reg, unten1: 1, finger: { ...fl, o: an(lt, t1 - 1.2) * (1 - an(lt, um + 0.5)) + an(lt, z - 0.8) * (1 - an(lt, z + 0.8)), ...tp } });
     document.getElementById("erwChip").style.opacity = an(lt, um); document.getElementById("erwChip").textContent = lt > z ? "🟢 ↔ 🔧 jederzeit umschalten" : "🔧 Erweiterte Ansicht";
+  },
+  reiter(lt) {
+    const L = { 0: CLUB.map((c) => c[0]), 1: MEINS.map((c) => c[0]), 2: TECHNIK.map((c) => c[0]) };
+    const tM = W("reiter", "Meins:") + 0.1, tT = W("reiter", "Technik:") + 0.1;
+    const reg = lt < tM ? 0 : lt < tT ? 1 : 2, vor = reg === 0 ? 0 : reg - 1, seit = reg === 1 ? tM : reg === 2 ? tT : -9;
+    const RW = 211, tab = (k) => [14 + k * (RW + 10) + RW / 2, 326 + 16 + 28];
+    const fp = bahn(lt, [[tM - 1.2, 560, 900], [tM - 0.1, ...tab(1)], [tT - 0.8, ...tab(1)], [tT - 0.1, ...tab(2)]]);
+    malen("reiter", { einfach: 0, info: 0, sl: 0, anord: 0, unten1: 1, reg, regFolge: [0, 1, 2], folge0: L[vor], folge1: L[reg], k: an(lt, seit + 0.05, 0.35),
+      finger: { ...fp, o: an(lt, tM - 1.2) * (1 - an(lt, tT + 0.8)), ...(lt < tT - 0.4 ? tipp(lt, tM) : tipp(lt, tT)) } });
+    document.getElementById("reiterChip").textContent = ["👥 Club – rund um den Verein", "🙋 Meins – deine eigenen Sachen", "🔧 Technik – Hilfe, Videos, Sicherheit"][reg];
+  },
+  reiter2(lt) {
+    const t0 = W("reiter2", "Halte") + 0.3, t1 = t0 + 0.6, t2 = W("reiter2", "So steht") - 0.2, RW = 211, x = (k) => 14 + k * (RW + 10) + RW / 2, y = 326 + 16 + 28;
+    const fx = lt < t1 ? x(1) : mix(x(1), x(0), sanft((lt - t1) / Math.max(0.5, t2 - t1 - 0.3))), losgelassen = lt > t2;
+    const rf = losgelassen || fx < x(0) + RW / 2 ? [1, 0, 2] : [0, 1, 2];
+    const fp = lt < t0 ? bahn(lt, [[t0 - 1.3, 560, 900], [t0 - 0.1, x(1), y]]) : { x: fx, y };
+    malen("reiter2", { einfach: 0, info: 0, sl: 0, anord: 0, unten1: 1, reg: 0, regFolge: rf, regDrag: lt > t1 && !losgelassen ? { i: 1, x: fx } : null,
+      toast: toastBei(lt, t1, "↔️ Register verschieben: nach links oder rechts ziehen", Math.max(1, t2 - t1)) || toastBei(lt, t2 + 0.1, "💾 Reihenfolge der Register gespeichert", 3),
+      finger: { ...fp, o: an(lt, t0 - 1.3) * (1 - an(lt, t2 + 0.6)), druck: lt > t0 && !losgelassen ? 1 : 0, halten: lt > t0 && lt < t1 ? (lt - t0) / 0.6 : 0 } });
   },
   lang(lt) {
     const t0 = W("lang", "Halte"), t1 = t0 + 1.4, i = FOLGE.indexOf("fotos"), [mx, my] = mitte(i, Y_ERW);

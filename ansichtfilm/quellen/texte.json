@@ -9,11 +9,19 @@
  },
  {
   "id": "einfach",
-  "t": "Zuerst die zwei Ansichten. Die einfache Ansicht zeigt nur das Wichtigste: oben das nächste Treffen, darunter große Kacheln."
+  "t": "Zuerst die zwei Ansichten. Die einfache Ansicht ist ganz schlicht: oben im Kopf nur das Nötigste, darunter lange Knöpfe untereinander, zum Beispiel Termine, Nachrichten und dein Dienst."
  },
  {
   "id": "erweitert",
   "t": "Ganz unten auf der Startseite tippst du auf „Erweiterte Ansicht“. Jetzt siehst du alle Kacheln, sortiert nach Club, Meins und Technik. Zurück geht es genauso, mit „Einfache Ansicht“."
+ },
+ {
+  "id": "reiter",
+  "t": "Die Kacheln sind auf drei Reiter verteilt. Club: alles rund um den Verein, wie Termine, Protokolle und Fotos. Meins: deine eigenen Sachen, wie Dienstplan, Erstattung und Dokumente. Technik: Hilfe, Erklär-Videos und Sicherheit."
+ },
+ {
+  "id": "reiter2",
+  "t": "Auch die Reiter kannst du selbst anordnen. Halte einen Reiter kurz gedrückt, und zieh ihn nach links oder rechts. So steht zum Beispiel Meins ganz vorn."
  },
  {
   "id": "lang",
