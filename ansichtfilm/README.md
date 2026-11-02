@@ -7,8 +7,8 @@ Drehbuch, Szenen und Vorschläge zur Vermittlung: [`DREHBUCH.md`](DREHBUCH.md).
 
 ## Ablauf (15 Szenen, Text in `quellen/texte.json`)
 
-Anlass → 10 Minuten investieren → einfache Ansicht → erweiterte Ansicht (Club · Meins · Technik) → Kachel lange drücken →
-verschieben → mit ✕ ausblenden + „Fertig“ → „Nur ausgeblendete zeigen“ und mit 👁️ zurückholen → Kopf mit ⌃ / ⌃⌃ einrollen →
+Anlass → 10 Minuten investieren → einfache Ansicht → erweiterte Ansicht (Club · Meins · Technik) → Kachel lange drücken (Verschiebepfeile ◀ ▲ ▼ ▶) →
+verschieben → mit ✕ ausblenden + „Fertig“ → „Nur ausgeblendete zeigen“ und mit 👁️ zurückholen → Beispiel „nur noch 4 Kacheln“ → Kopf mit ⌃ / ⌃⌃ einrollen →
 Pfeil blinkt bei neuer Nachricht → ⚙️ Mehr → Ansagen, Töne & Tipps: Startmeldungen aus → den Rest einfach nicht antippen →
 jederzeit änderbar → wo es weitere Erklär-Videos gibt → Ende.
 

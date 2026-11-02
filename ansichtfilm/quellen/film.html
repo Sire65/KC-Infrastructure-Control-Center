@@ -50,6 +50,14 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 .kachel { position: absolute; background: #fff; border-radius: 26px; box-shadow: 0 4px 12px rgba(60,20,10,.10); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-weight: 700; color: var(--text); }
 .kachel .s { line-height: 1; } .kachel .x, .kachel .auge { position: absolute; top: -12px; right: -10px; width: 46px; height: 46px; border-radius: 50%; background: #c0262d; color: #fff; font-size: 26px; display: flex; align-items: center; justify-content: center; font-weight: 900; opacity: 0; }
 .kachel .auge { background: var(--gruen); font-size: 24px; }
+.kachel .kstrg { position: absolute; left: 6px; right: 6px; bottom: 6px; display: flex; gap: 4px; opacity: 0; }
+.kachel .kstrg i { flex: 1; height: 30px; border-radius: 9px; background: #f1e7d6; border: 2px solid #d8c9b2; font-style: normal; font-size: 17px; font-weight: 900; color: var(--rot); display: flex; align-items: center; justify-content: center; }
+.kachel .kstrg i.an { background: var(--gold); border-color: #c79a12; }
+.kachel .p4 { position: absolute; inset: 0; opacity: 0; }
+.kachel .p4 i { position: absolute; width: 38px; height: 38px; border-radius: 50%; background: var(--rot); color: #fff; font-style: normal; font-weight: 900; font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,.3); }
+.kachel .p4 i:nth-child(1) { top: -16px; left: 50%; margin-left: -19px; } .kachel .p4 i:nth-child(2) { left: -16px; top: 50%; margin-top: -19px; }
+.kachel .p4 i:nth-child(3) { right: -16px; top: 50%; margin-top: -19px; } .kachel .p4 i:nth-child(4) { bottom: -16px; left: 50%; margin-left: -19px; }
+.kachel .p4 b { position: absolute; left: 6px; top: 4px; font-size: 30px; color: var(--rot); }
 .unten { position: absolute; left: 14px; right: 14px; height: 70px; border-radius: 22px; background: #fff; border: 3px solid #d8c9b2; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; }
 .unten.hinweis { background: #fdf3d8; border-color: #e7c75c; }
 .nav { position: absolute; left: 0; right: 0; bottom: 0; height: 104px; background: #fff; border-top: 2px solid #e5dccd; display: flex; z-index: 4; }
@@ -92,6 +100,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 <section class="sz" data-id="schieben"><div class="chip" data-bei="Zieh" style="position:absolute;top:0;z-index:9">✥ ziehen und loslassen</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="aus"><div class="chip" data-bei="Kreuz" style="position:absolute;top:0;z-index:9">✕ ausblenden</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="nuraus"><div class="chip" data-bei="Nur" style="position:absolute;top:0;z-index:9">👀 nur ausgeblendete</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="ergebnis" data-liste="ergebnis"><div class="chip" id="ergChip" style="position:absolute;top:0;z-index:9">🧹 vorher: 12 Kacheln</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="kopf"><div class="chip" data-bei="Pfeile" style="position:absolute;top:0;z-index:9">⌃ und ⌃⌃ – Kopf einrollen</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="kopf2"><div class="chip" data-bei="blinkt" style="position:absolute;top:0;z-index:9">💬 Pfeil blinkt bei Neuem</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="start"><div class="chip" data-bei="stören" style="position:absolute;top:0;z-index:9">🔕 Startmeldungen aus</div><div class="handy" style="margin-top:60px"></div></section>
@@ -157,10 +166,14 @@ const CLUB = [["clubabend", "🍽️", "Clubabend Live"], ["clubjahr", "📖", "
   ["spiele", "🎲", "Spiele"]];
 const EINFACH = [["clubabend", "🍽️", "Clubabend Live"], ["termine", "📅", "Termine"], ["kommunikation", "💬", "Nachrichten"], ["pinnwand", "📌", "Pinnwand"],
   ["meindienst", "🗓️", "Mein Dienstplan"], ["mitglieder", "👥", "Mitglieder"], ["fotos", "📷", "Fotoalbum"], ["spiele", "🎲", "Spiele"]];
+const ERGEBNIS = [["clubabend", "🍽️", "Clubabend Live"], ["clubjahr", "📖", "Unser Clubjahr"], ["termine", "📅", "Termine"], ["sos", "🆘", "SOS – Notfall"],
+  ["kommunikation", "💬", "Nachrichten"], ["mitglieder", "👥", "Mitglieder"], ["vorschlaege", "🗳️", "Vorschläge"], ["protokolle", "📄", "Protokolle"],
+  ["archiv", "🗄️", "Archiv"], ["dienste", "🗓️", "Dienstpläne"], ["fotos", "📷", "Fotoalbum"], ["spiele", "🎲", "Spiele"]];
+const LISTEN = { ergebnis: ERGEBNIS };
 const H = {};
 function handyBauen(id) {
   const el = SZ[id].querySelector(".handy"); if (!el) return;
-  const kach = (l, kl) => l.map(([k, s, t]) => `<div class="kachel ${kl}" data-k="${k}"><span class="s">${s}</span><span class="t">${t}</span><span class="x">✕</span><span class="auge">👁️</span></div>`).join("");
+  const kach = (l, kl) => l.map(([k, s, t]) => `<div class="kachel ${kl}" data-k="${k}" data-t="${t}"><span class="s">${s}</span><span class="t">${t}</span><span class="x">✕</span><span class="auge">👁️</span><span class="kstrg"><i>◀</i><i>▲</i><i>▼</i><i>▶</i></span><span class="p4"><i>▲</i><i>◀</i><i>▶</i><i>▼</i><b>✥</b></span></div>`).join("");
   el.innerHTML = `<div class="schirm">
     <div class="hero"><div class="pfeile"><span class="p1">⌃</span><span class="p2">⌃⌃</span></div>
       <div class="kz"><span class="lg"><img src="kc-kochmuetze-weiss.webp" alt=""></span><span class="tx"><small>KÖCHECLUB WERNE</small><b>Hallo Klaus!</b></span><span class="rk">🌙</span><span class="rk">↻</span></div>
@@ -169,7 +182,7 @@ function handyBauen(id) {
       <div class="rollo"></div></div>
     <div class="leiste">✏️ <b>Kacheln anordnen:</b> Kachel festhalten, an den neuen Platz ziehen. ✕ blendet aus, 👁️ wieder ein.<div class="kn"><span class="haupt">✅ Fertig</span><span>↺ Standard</span></div></div>
     <div class="reg"><span class="r0">Club</span><span class="r1">Meins</span><span class="r2">Technik</span></div>
-    <div class="ras ein">${kach(EINFACH, "ke")}</div><div class="ras erw">${kach(CLUB, "kw")}</div>
+    <div class="ras ein">${kach(EINFACH, "ke")}</div><div class="ras erw">${kach(LISTEN[SZ[id].dataset.liste] || CLUB, "kw")}</div>
     <div class="unten u1">🔧 Erweiterte Ansicht</div><div class="unten u2 hinweis">👀 Nur ausgeblendete zeigen (2)</div>
     <div class="platz"><b>⬆ mehr Platz</b></div>
     <div class="mehr"><h4>⚙️ Mehr</h4>
@@ -212,8 +225,8 @@ function malen(id, st) {
   h.ke.forEach((k, i) => { const p = platzVon(EIN, i, heroH + 16); Object.assign(k.style, { left: p.x + "px", top: p.y + "px", width: EIN.w + "px", height: EIN.h + "px", opacity: st.einfach, fontSize: "27px", gap: "10px" }); k.querySelector(".s").style.fontSize = "56px"; });
   // erweiterte Ansicht: sichtbare Reihenfolge, Umordnen als Überblendung zwischen folge0 und folge1
   const nurAus = st.nurAus || 0, wegK = (k) => (st.weg?.[k] || 0) * (1 - (st.wieder?.[k] || 0));
-  const lauf = (folge) => { const pos = {}; let n = 0; folge.forEach((k) => { const sichtbar = nurAus > 0.5 ? (st.weg?.[k] || 0) > 0 : wegK(k) < 0.5; if (sichtbar) pos[k] = n++; }); return [pos, n]; };
-  const f0 = st.folge0 || CLUB.map((c) => c[0]), f1 = st.folge1 || f0, [p0, n0] = lauf(f0), [p1, n1] = lauf(f1), kk = sanft(st.k ?? 1);
+  const lauf = (folge, weg) => { const pos = {}; let n = 0; folge.forEach((k) => { const sichtbar = nurAus > 0.5 ? (st.weg?.[k] || 0) > 0 : (weg ? (weg[k] || 0) : wegK(k)) < 0.5; if (sichtbar) pos[k] = n++; }); return [pos, n]; };
+  const f0 = st.folge0 || Object.keys(h.kw), f1 = st.folge1 || f0, [p0, n0] = lauf(f0, st.weg0), [p1, n1] = lauf(f1), kk = sanft(st.k ?? 1);
   Object.entries(h.kw).forEach(([k, el]) => {
     const a = p0[k], b = p1[k]; let o;
     let pa = a != null ? platzVon(ERW, a, y) : null, pb = b != null ? platzVon(ERW, b, y) : null;
@@ -224,10 +237,15 @@ function malen(id, st) {
     const blass = Math.max(st.blass?.[k] || 0, nurAus > 0.5 ? 1 - (st.wieder?.[k] || 0) : 0);
     Object.assign(el.style, { left: x + "px", top: yy + "px", width: ERW.w + "px", height: ERW.h + "px", fontSize: "22px", gap: "8px", zIndex: z, boxShadow: sch || "",
       opacity: erwO * o * (1 - 0.6 * blass), transform: `scale(${s})`, outline: st.drag?.id === k ? "5px solid var(--gold)" : "none" });
-    el.querySelector(".s").style.fontSize = "44px";
-    el.querySelector(".x").style.opacity = st.anord * (1 - blass);
+        el.querySelector(".x").style.opacity = st.anord * (1 - blass);
     el.querySelector(".auge").style.opacity = Math.max(st.anord * blass, nurAus * (1 - (st.wieder?.[k] || 0)));
-    el.querySelector(".t").textContent = blass > 0.5 ? "🙈 " + CLUB.find((c) => c[0] === k)[2] : CLUB.find((c) => c[0] === k)[2];
+    el.querySelector(".t").textContent = (blass > 0.5 ? "🙈 " : "") + el.dataset.t;
+    // Anordnen: unten ◀ ▲ ▼ ▶ (wie in der App); beim Ziehen rote Pfeile rundum mit ✥; Inhalt rückt nach oben
+    const ziehe = st.drag?.id === k ? 1 : 0, leiste = st.anord * (1 - blass) * (1 - ziehe);
+    el.querySelector(".kstrg").style.opacity = leiste; el.style.justifyContent = leiste > 0.3 ? "flex-start" : "center"; el.style.paddingTop = leiste > 0.3 ? "8px" : "0";
+    el.querySelector(".s").style.fontSize = leiste > 0.3 ? "34px" : "44px"; el.style.gap = leiste > 0.3 ? "2px" : "8px";
+    el.querySelectorAll(".kstrg i").forEach((x, j) => x.classList.toggle("an", st.pfeilAn?.[0] === k && st.pfeilAn?.[1] === j));
+    el.querySelector(".p4").style.opacity = ziehe;
   });
   const reihen = Math.ceil((nurAus > 0.5 ? n1 : Math.max(n0, n1)) / ERW.sp), yUnten = st.einfach > 0.5 ? heroH + 16 + 4 * (EIN.h + EIN.gy) + 4 : y + reihen * (ERW.h + ERW.gy) + 4;
   const u1 = q(".u1"), u2 = q(".u2");
@@ -262,7 +280,11 @@ const toastBei = (lt, ab, text, dauer = 2.2) => (lt > ab && lt < ab + dauer ? [t
 const kachelMitte = (id, fol, idx) => { const p = platzVon(ERW, idx, 0); return { x: p.x + ERW.w / 2, y: p.y + ERW.h / 2 }; };
 // Standard-Maße: Kopf offen = 120 + 60 + 140 + 6 = 326 → Raster erweitert ab 326 + 16 + 72 = 414
 const Y_ERW = 414, Y_ERW_ANORD = 534, SC_AUS = 190;
-const FOLGE = CLUB.map((c) => c[0]), FOLGE_NEU = ["fotos", ...FOLGE.filter((k) => k !== "fotos")];
+const FOLGE = CLUB.map((c) => c[0]), FOLGE_GEZOGEN = ["fotos", ...FOLGE.filter((k) => k !== "fotos")];
+// danach ▲ bei „Nachrichten“: tauscht mit der Kachel eine Reihe darüber (wie kaSchieben in der App)
+const FOLGE_NEU = (() => { const f = [...FOLGE_GEZOGEN], i = f.indexOf("kommunikation"); [f[i], f[i - 3]] = [f[i - 3], f[i]]; return f; })();
+// Mitte des Pfeil-Knopfs j (0 ◀, 1 ▲, 2 ▼, 3 ▶) in der Kachel an Platz idx
+const pfeilKnopf = (idx, j, y0) => { const p = platzVon(ERW, idx, y0), w = (ERW.w - 12 - 12) / 4; return [p.x + 6 + j * (w + 4) + w / 2, p.y + ERW.h - 6 - 15]; };
 const mitte = (idx, y0) => { const p = platzVon(ERW, idx, y0); return [p.x + ERW.w / 2, p.y + ERW.h / 2]; };
 
 const EXTRA = {
@@ -283,7 +305,9 @@ const EXTRA = {
     const halten = clamp((lt - t0) / 1.4), anord = an(lt, t1, 0.4), [mx2, my2] = mitte(i, Y_ERW_ANORD), yy = mix(my, my2, anord);
     const brumm = lt > W("lang", "brummt") && lt < W("lang", "brummt") + 0.5 ? Math.sin(lt * 90) * 6 : 0;
     const drag = lt > t1 ? { id: "fotos", x: mx2 + brumm, y: yy - 20 * anord, s: 1 + 0.1 * anord } : null;
-    malen("lang", { einfach: 0, info: 0, sl: 0, anord, unten1: 1, drag, toast: toastBei(lt, t1 + 0.2, "✏️ Anordnen – Kachel hängt am Finger", 3),
+    const pf = W("lang", "Pfeile") - 0.3, zeigPf = lt > pf - 0.1 && lt < pf + 2.2;
+    malen("lang", { einfach: 0, info: 0, sl: 0, anord, unten1: 1, drag, pfeilAn: zeigPf ? ["termine", Math.floor((lt - pf) * 2) % 4] : null,
+      toast: toastBei(lt, t1 + 0.2, "✏️ Anordnen – ◀ ▲ ▼ ▶ an jeder Kachel", 3.4),
       finger: { ...bahn(lt, [[t0 - 1.2, 560, 1050], [t0 - 0.1, mx, my + 20], [t1, mx, my + 20], [t1 + 0.4, mx2, my2 - 0]]), o: an(lt, t0 - 1.2), druck: lt > t0 ? 1 : 0, halten: lt > t0 && lt < t1 ? halten : 0 } });
   },
   schieben(lt) {
@@ -293,8 +317,14 @@ const EXTRA = {
     const ziel = clamp(Math.round(((p.y - Y_ERW_ANORD - ERW.h / 2) / (ERW.h + ERW.gy)) * 3 + (p.x - ERW.x0 - ERW.w / 2) / (ERW.w + ERW.gx)), 0, i);
     const folge = FOLGE.filter((k) => k !== "fotos"); folge.splice(ziel, 0, "fotos");
     const drag = lt < los ? { id: "fotos", x: p.x, y: p.y, s: 1.1 } : null;
-    malen("schieben", { einfach: 0, info: 0, sl: 0, anord: 1, unten1: 1, folge0: folge, folge1: folge, k: 1, drag, toast: toastBei(lt, los + 0.2, "✅ Neuer Platz: ganz oben", 2.6),
-      finger: { ...p, o: 1 - an(lt, los + 0.3), druck: lt < los ? 1 : 0 } });
+    // „Oder tippe auf die Pfeile“: Finger tippt ▲ bei Nachrichten → eine Reihe höher
+    const tP = W("schieben", "Pfeile") + 0.2, ziel2 = pfeilKnopf(FOLGE_GEZOGEN.indexOf("kommunikation"), 1, Y_ERW_ANORD);
+    const nach = lt < tP ? null : [FOLGE_GEZOGEN, FOLGE_NEU, an(lt, tP + 0.1, 0.5)];
+    const fp = lt < los + 0.2 ? { ...p, druck: lt < los ? 1 : 0 } : { ...bahn(lt, [[los + 0.2, p.x, p.y], [tP - 0.1, ...ziel2]]), ...tipp(lt, tP) };
+    malen("schieben", { einfach: 0, info: 0, sl: 0, anord: 1, unten1: 1, folge0: nach ? nach[0] : folge, folge1: nach ? nach[1] : folge, k: nach ? nach[2] : 1, drag,
+      pfeilAn: lt > tP - 0.1 && lt < tP + 0.4 ? ["kommunikation", 1] : null,
+      toast: toastBei(lt, los + 0.2, "✅ Neuer Platz: ganz oben", 2.0) || toastBei(lt, tP + 0.3, "▲ Nachrichten eine Reihe höher", 2.4),
+      finger: { ...fp, o: 1 - an(lt, tP + 0.9) } });
   },
   aus(lt) {
     const tx = W("aus", "Kreuz") + 0.3, iS = FOLGE_NEU.indexOf("spiele"), iA = FOLGE_NEU.indexOf("archiv");
@@ -321,6 +351,19 @@ const EXTRA = {
     malen("nuraus", { einfach: 0, info: 0, sl: 0, anord: 0, unten1: 0, unten2: 1, folge0: FOLGE_NEU, folge1: FOLGE_NEU, k: 1, weg: { spiele: 1, archiv: 1 }, nurAus, wieder,
       toast: toastBei(lt, tAuge + 0.2, "👁️ Spiele ist wieder auf der Startseite", 3),
       finger: { ...fp, o: an(lt, tN - 1.4) * (1 - an(lt, tAuge + 0.8)), ...(lt < tAuge - 0.4 ? tipp(lt, tN) : tipp(lt, tAuge)) } });
+  },
+  ergebnis(lt) {
+    // alle bis auf vier Kacheln verschwinden nacheinander, dann rücken die vier zusammen
+    const BLEIBT = ["kommunikation", "termine", "protokolle", "dienste"], alle = ERGEBNIS.map((c) => c[0]), gehen = alle.filter((k) => !BLEIBT.includes(k));
+    const t0 = 0.6, schritt = 0.22, tRuck = t0 + gehen.length * schritt + 0.4, ziel = [...BLEIBT, ...gehen];
+    const blass = Object.fromEntries(gehen.map((k, i) => [k, an(lt, t0 + i * schritt, 0.3)]));
+    const fertig = lt > tRuck, weg = fertig ? Object.fromEntries(gehen.map((k) => [k, 1])) : {};
+    malen("ergebnis", { einfach: 0, info: 0, sl: 0, anord: 0, unten1: 1, folge0: alle, folge1: fertig ? ziel : alle, weg0: {}, weg, k: fertig ? an(lt, tRuck, 0.8) : 1,
+      blass: fertig ? {} : Object.fromEntries(Object.entries(blass).map(([k, v]) => [k, v * 1.0])), toast: toastBei(lt, W("ergebnis", "Alles"), "👀 Ausgeblendete jederzeit wieder holen", 3.4) });
+    // bis zum Zusammenrücken: verschwindende Kacheln ausblenden statt nur blass
+    gehen.forEach((k) => { const el = H.ergebnis.kw[k]; el.style.opacity = 1 - blass[k]; el.querySelector(".t").textContent = el.dataset.t; });
+    const c = document.getElementById("ergChip"); c.textContent = lt > tRuck ? "✨ nachher: nur noch 4 Kacheln" : "🧹 vorher: 12 Kacheln";
+    c.style.background = lt > tRuck ? "var(--gruen)" : "";
   },
   kopf(lt) {
     const t1 = W("kopf", "einfache") + 0.4, t2 = W("kopf", "Doppelpfeil") + 0.4;
