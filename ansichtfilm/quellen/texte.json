@@ -44,6 +44,10 @@
   "t": "So kann deine Startseite danach aussehen: nur noch vier Kacheln. Nachrichten, Termine, Protokolle und Dienstpläne. Alles andere ist ausgeblendet, aber jederzeit wieder da."
  },
  {
+  "id": "groesse",
+  "t": "Auch die Kachelgröße wählst du selbst: unter „Mehr“, bei „Startseite und Ansicht“. Normal heißt zwei nebeneinander, klein drei, sehr klein vier. Je kleiner, desto mehr siehst du auf einen Blick."
+ },
+ {
   "id": "kopf",
   "t": "Oben im Kopf sind zwei kleine Pfeile. Der einfache Pfeil rollt das Infofeld ein. Der Doppelpfeil rollt den Kopf ganz ein. Dann bleibt nur die Kopfzeile, und du hast viel mehr Platz."
  },

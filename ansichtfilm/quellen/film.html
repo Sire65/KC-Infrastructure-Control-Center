@@ -71,6 +71,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 .mehr h4 { font-size: 34px; color: var(--rot); margin: 6px 6px 18px; }
 .zeile { background: #fff; border-radius: 22px; padding: 18px 20px; font-size: 25px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(60,20,10,.06); }
 .zeile.offen { border: 4px solid var(--rot); }
+.zeile.gw.an { background: var(--gold); color: var(--rot2); }
 .zeile small { display: block; font-size: 19px; font-weight: 500; color: var(--grau); margin-top: 3px; }
 .zeile .f { flex: 1; }
 .kn2 { width: 86px; height: 48px; border-radius: 24px; background: #c9c3b8; position: relative; flex: none; } .kn2 i { position: absolute; top: 5px; left: 5px; width: 38px; height: 38px; border-radius: 50%; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,.25); }
@@ -107,6 +108,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 <section class="sz" data-id="aus"><div class="chip" data-bei="Kreuz" style="position:absolute;top:0;z-index:9">✕ ausblenden</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="nuraus"><div class="chip" data-bei="Nur" style="position:absolute;top:0;z-index:9">👀 nur ausgeblendete</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="ergebnis" data-liste="ergebnis"><div class="chip" id="ergChip" style="position:absolute;top:0;z-index:9">🧹 vorher: 12 Kacheln</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="groesse"><div class="chip" id="grChip" style="position:absolute;top:0;z-index:9">🔲 Kachelgröße wählen</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="kopf"><div class="chip" data-bei="Pfeile" style="position:absolute;top:0;z-index:9">⌃ und ⌃⌃ – Kopf einrollen</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="kopf2"><div class="chip" data-bei="blinkt" style="position:absolute;top:0;z-index:9">💬 Pfeil blinkt bei Neuem</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="start"><div class="chip" data-bei="stören" style="position:absolute;top:0;z-index:9">🔕 Startmeldungen aus</div><div class="handy" style="margin-top:60px"></div></section>
@@ -206,6 +208,10 @@ function handyBauen(id) {
         <div class="zeile"><span class="f">👋 Beim Öffnen zeigen, was neu ist<small>gilt für dieses Gerät</small></span><span class="kn2 s2"><i></i></span></div>
         <div class="zeile"><span class="f">🧑‍🍳 Twinkey hilft von selbst</span><span class="kn2 s3"><i></i></span></div>
       </div></div>
+    <div class="mehr mehr2"><h4>⚙️ Mehr</h4><div class="zeile">🎨 Lieblingsfarbe</div><div class="zeile">🔠 Große Schrift</div><div class="zeile z-start">🧩 Startseite &amp; Ansicht</div>
+      <div class="auf2" style="overflow:hidden"><div style="font-size:24px;font-weight:800;margin:6px 6px 10px">🔲 Kacheln auf der Startseite <small style="font-weight:500;color:var(--grau)">(erweiterte Ansicht)</small></div>
+        <div class="zeile gw" data-sp="2">▣ Normal – 2 nebeneinander</div><div class="zeile gw" data-sp="3">▦ Klein – 3 nebeneinander</div><div class="zeile gw" data-sp="4">▪ Sehr klein – 4 nebeneinander</div></div>
+      <div class="zeile">🔔 Benachrichtigungen</div></div>
     <div class="nav"><span class="an n0"><i>🏠</i>Start</span><span><i>📅</i>Termine</span><span><i>💬</i>Nachrichten</span><span><i>👥</i>Mitglieder</span><span class="n4"><i>⚙️</i>Mehr</span></div>
     <div class="toast"></div>
     <div class="finger"><span class="ring"></span><span class="druck"></span><span class="hand">👆</span></div></div>`;
@@ -213,6 +219,7 @@ function handyBauen(id) {
   H[id] = { el, q, qa, kw: Object.fromEntries(qa(".kw").map((k) => [k.dataset.k, k])), ke: qa(".ke") };
 }
 // Raster-Maße
+const GRID = { 2: { sp: 2, w: 318, h: 150, gx: 16, gy: 14, x0: 14, fs: 26, sy: 54 }, 3: { sp: 3, w: 202, h: 120, gx: 15, gy: 14, x0: 18, fs: 22, sy: 44 }, 4: { sp: 4, w: 150, h: 104, gx: 11, gy: 12, x0: 14, fs: 17, sy: 36 } };
 const EIN = { sp: 2, w: 310, h: 130, gx: 20, gy: 20, x0: 20 }, ERW = { sp: 3, w: 202, h: 120, gx: 15, gy: 14, x0: 18 };
 const platzVon = (m, i, y0) => ({ x: m.x0 + (i % m.sp) * (m.w + m.gx), y: y0 + Math.floor(i / m.sp) * (m.h + m.gy) });
 // Zustand st: { einfach (0..1 Überblendung: 1 = einfach), info (0..1 eingerollt), sl (0..1 eingerollt), anord (0..1), reg (0..2),
@@ -246,15 +253,17 @@ function malen(id, st) {
   const nurAus = st.nurAus || 0, wegK = (k) => (st.weg?.[k] || 0) * (1 - (st.wieder?.[k] || 0));
   const lauf = (folge, weg) => { const pos = {}; let n = 0; folge.forEach((k) => { const sichtbar = nurAus > 0.5 ? (st.weg?.[k] || 0) > 0 : (weg ? (weg[k] || 0) : wegK(k)) < 0.5; if (sichtbar) pos[k] = n++; }); return [pos, n]; };
   const f0 = st.folge0 || Object.keys(h.kw), f1 = st.folge1 || f0, [p0, n0] = lauf(f0, st.weg0), [p1, n1] = lauf(f1), kk = sanft(st.k ?? 1);
+  // Kachelgröße (⚙️ Mehr → Startseite & Ansicht): 2, 3 oder 4 nebeneinander; der Film nutzt sonst 3
+  const M = GRID[st.sp || 3];
   Object.entries(h.kw).forEach(([k, el]) => {
     const a = p0[k], b = p1[k]; let o;
-    let pa = a != null ? platzVon(ERW, a, y) : null, pb = b != null ? platzVon(ERW, b, y) : null;
+    let pa = a != null ? platzVon(M, a, y) : null, pb = b != null ? platzVon(M, b, y) : null;
     if (!pa && !pb) { el.style.opacity = 0; return; }
     if (!pa) { pa = pb; o = kk; } else if (!pb) { pb = pa; o = 1 - kk; } else o = 1;
     let x = mix(pa.x, pb.x, kk), yy = mix(pa.y, pb.y, kk), s = 1, z = 1, sch = "";
-    if (st.drag?.id === k) { x = st.drag.x - ERW.w / 2; yy = st.drag.y - ERW.h / 2; s = st.drag.s; z = 7; sch = "0 18px 40px rgba(60,20,10,.35)"; }
+    if (st.drag?.id === k) { x = st.drag.x - M.w / 2; yy = st.drag.y - M.h / 2; s = st.drag.s; z = 7; sch = "0 18px 40px rgba(60,20,10,.35)"; }
     const blass = Math.max(st.blass?.[k] || 0, nurAus > 0.5 ? 1 - (st.wieder?.[k] || 0) : 0);
-    Object.assign(el.style, { left: x + "px", top: yy + "px", width: ERW.w + "px", height: ERW.h + "px", fontSize: "22px", gap: "8px", zIndex: z, boxShadow: sch || "",
+    Object.assign(el.style, { left: x + "px", top: yy + "px", width: M.w + "px", height: M.h + "px", fontSize: M.fs + "px", gap: "8px", zIndex: z, boxShadow: sch || "",
       opacity: erwO * o * (1 - 0.6 * blass), transform: `scale(${s})`, outline: st.drag?.id === k ? "5px solid var(--gold)" : "none" });
         el.querySelector(".x").style.opacity = st.anord * (1 - blass);
     el.querySelector(".auge").style.opacity = Math.max(st.anord * blass, nurAus * (1 - (st.wieder?.[k] || 0)));
@@ -262,20 +271,21 @@ function malen(id, st) {
     // Anordnen: unten ◀ ▲ ▼ ▶ (wie in der App); beim Ziehen rote Pfeile rundum mit ✥; Inhalt rückt nach oben
     const ziehe = st.drag?.id === k ? 1 : 0, leiste = st.anord * (1 - blass) * (1 - ziehe);
     el.querySelector(".kstrg").style.opacity = leiste; el.style.justifyContent = leiste > 0.3 ? "flex-start" : "center"; el.style.paddingTop = leiste > 0.3 ? "8px" : "0";
-    el.querySelector(".s").style.fontSize = leiste > 0.3 ? "34px" : "44px"; el.style.gap = leiste > 0.3 ? "2px" : "8px";
+    el.querySelector(".s").style.fontSize = leiste > 0.3 ? "34px" : M.sy + "px"; el.style.gap = leiste > 0.3 ? "2px" : "8px";
     el.querySelectorAll(".kstrg i").forEach((x, j) => x.classList.toggle("an", st.pfeilAn?.[0] === k && st.pfeilAn?.[1] === j));
     el.querySelector(".p4").style.opacity = ziehe;
   });
-  const reihen = Math.ceil((nurAus > 0.5 ? n1 : Math.max(n0, n1)) / ERW.sp), yUnten = st.einfach > 0.5 ? heroH + 16 + 6 * 96 + 4 : y + reihen * (ERW.h + ERW.gy) + 4;
+  const reihen = Math.ceil((nurAus > 0.5 ? n1 : Math.max(n0, n1)) / M.sp), yUnten = st.einfach > 0.5 ? heroH + 16 + 6 * 96 + 4 : y + reihen * (M.h + M.gy) + 4;
   const u1 = q(".u1"), u2 = q(".u2");
   u1.style.top = yUnten + "px"; u1.style.opacity = st.unten1 ?? 1; u1.textContent = st.einfach > 0.5 ? "🔧 Erweiterte Ansicht" : "🟢 Einfache Ansicht";
   u2.style.top = yUnten + "px"; u2.style.opacity = st.unten2 || 0; u2.textContent = nurAus > 0.5 ? "🙈 Ausgeblendete wieder verbergen" : "👀 Nur ausgeblendete zeigen (2)";
   if ((st.unten2 || 0) > 0.5) u1.style.opacity = 0;
   const pl = q(".platz"); pl.style.opacity = st.platz || 0; pl.style.top = (heroH + 4) + "px";
   // Seite „Mehr“
-  q(".mehr").style.opacity = st.mehr || 0; q(".auf").style.height = 330 * (st.ansageAuf || 0) + "px"; q(".z-ansage").classList.toggle("offen", (st.ansageAuf || 0) > 0.1);
+  q(".mehr").style.opacity = st.mehr || 0; q(".mehr2").style.opacity = st.mehr2 || 0; q(".auf2").style.height = 300 * (st.auf2 || 0) + "px";
+  q(".z-start").classList.toggle("offen", (st.auf2 || 0) > 0.1); qa(".gw").forEach((g) => g.classList.toggle("an", Number(g.dataset.sp) === st.gwahl)); q(".auf").style.height = 330 * (st.ansageAuf || 0) + "px"; q(".z-ansage").classList.toggle("offen", (st.ansageAuf || 0) > 0.1);
   [["s1", st.s1], ["s2", st.s2], ["s3", 1]].forEach(([c, v]) => { const kn = q(".kn2." + c); v = v ?? 1; kn.style.background = v > 0.5 ? "var(--gruen)" : "#c9c3b8"; kn.querySelector("i").style.left = (5 + 38 * sanft(v)) + "px"; });
-  q(".n4").classList.toggle("an", (st.mehr || 0) > 0.5); q(".n0").classList.toggle("an", (st.mehr || 0) <= 0.5);
+  const mehrAn = Math.max(st.mehr || 0, st.mehr2 || 0); q(".n4").classList.toggle("an", mehrAn > 0.5); q(".n0").classList.toggle("an", mehrAn <= 0.5);
   // Meldung unten
   const to = q(".toast"); if (st.toast) { to.textContent = st.toast[0]; to.style.opacity = st.toast[1]; } else to.style.opacity = 0;
   // Finger
@@ -402,6 +412,19 @@ const EXTRA = {
     gehen.forEach((k) => { const el = H.ergebnis.kw[k]; el.style.opacity = 1 - blass[k]; el.querySelector(".t").textContent = el.dataset.t; });
     const c = document.getElementById("ergChip"); c.textContent = lt > tRuck ? "✨ nachher: nur noch 4 Kacheln" : "🧹 vorher: 12 Kacheln";
     c.style.background = lt > tRuck ? "var(--gruen)" : "";
+  },
+  groesse(lt) {
+    // ⚙️ Mehr → 🧩 Startseite & Ansicht → 🔲 Kacheln auf der Startseite; danach Startseite mit 2, 3 und 4 nebeneinander
+    const tM = W("groesse", "Mehr") + 0.2, tS = W("groesse", "Startseite") + 0.4, t2 = W("groesse", "Normal"), t3 = W("groesse", "klein drei"), t4 = W("groesse", "sehr klein");
+    const zu = t2 + 0.5, sp = lt < t3 ? (lt < zu ? 3 : 2) : lt < t4 ? 3 : 4;
+    const pM = [612, 1140 - 52], pS = [300, 266], g = (n) => [300, 309 + 44 + 30 + (n - 2) * 73];
+    const fp = bahn(lt, [[tM - 1.3, 420, 900], [tM - 0.1, ...pM], [tS - 0.8, ...pM], [tS - 0.1, ...pS], [t2 - 0.7, ...pS], [t2 - 0.1, ...g(2)]]);
+    const tp = lt < tS - 0.4 ? tipp(lt, tM) : lt < t2 - 0.4 ? tipp(lt, tS) : tipp(lt, t2);
+    malen("groesse", { einfach: 0, info: 0, sl: 0, anord: 0, unten1: 1, folge0: FOLGE_NEU, folge1: FOLGE_NEU, k: 1, weg: { archiv: 1 }, sp,
+      mehr2: an(lt, tM + 0.1, 0.35) * (1 - an(lt, zu, 0.35)), auf2: an(lt, tS + 0.1, 0.5), gwahl: lt > t2 ? 2 : 3,
+      finger: { ...fp, o: an(lt, tM - 1.3) * (1 - an(lt, zu, 0.3)), ...tp } });
+    const c = document.getElementById("grChip");
+    c.textContent = lt < zu ? "🔲 Kachelgröße wählen" : ["", "", "▣ Normal – 2 nebeneinander", "▦ Klein – 3 nebeneinander", "▪ Sehr klein – 4 nebeneinander"][sp];
   },
   kopf(lt) {
     const t1 = W("kopf", "einfache") + 0.4, t2 = W("kopf", "Doppelpfeil") + 0.4;
