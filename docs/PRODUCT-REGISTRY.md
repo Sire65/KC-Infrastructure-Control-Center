@@ -15,7 +15,7 @@ This document is the initial inventory contract. Discovery does not authorize mu
 - `KC-Kuechen-Detektiv`: KC game/module candidate.
 - `WM-Pr-sentation` and `WM-Pr-s.`: relationship/current status unresolved; no automatic cleanup.
 - `K-chenleiter`: KC Küchenleiter candidate.
-- `frooters-app` (planned, no repository yet): frooters Team-App + PC-Zentrale, derived from KC-Clubapp. Concept only: `docs/FROOTERS-APP-KONZEPT.md`. Own Supabase/Neon projects in Frankfurt; not registered as installation until DEV starts.
+- `frooters-app` (DEV 0.1.0, folder `frooters-app/` in this repository until an own repository exists): frooters Team-App, derived from KC-Clubapp. Demo adapter only (browser storage, sample data), no server yet. Concept: `docs/FROOTERS-APP-KONZEPT.md`, `docs/FROOTERS-HYGIENE-KONZEPT.md`. Own Supabase/Neon projects in Frankfurt planned; not registered as installation until a server exists.
 
 ## Required fields per registered product
 Stable product ID; display name; lifecycle status; repositories and roles; current version/build/channel; schema version; core versions; installations; devices; providers/data stores; declared data flows; update mechanism; last test/security/TÜV status.
