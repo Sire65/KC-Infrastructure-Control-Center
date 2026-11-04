@@ -1,0 +1,113 @@
+{
+ "dauer": 167.117,
+ "plan": [
+  {
+   "id": "titel",
+   "start": 0,
+   "sprache": 0.6,
+   "ende": 10.881
+  },
+  {
+   "id": "ueberblick",
+   "start": 10.681,
+   "sprache": 11.281,
+   "ende": 18.358
+  },
+  {
+   "id": "kopfzeile",
+   "start": 18.158,
+   "sprache": 18.758,
+   "ende": 28.098
+  },
+  {
+   "id": "status",
+   "start": 27.898,
+   "sprache": 28.498,
+   "ende": 38.465
+  },
+  {
+   "id": "pfeile",
+   "start": 38.265,
+   "sprache": 38.865,
+   "ende": 45.825
+  },
+  {
+   "id": "karte1",
+   "start": 45.625,
+   "sprache": 46.225,
+   "ende": 58.108
+  },
+  {
+   "id": "blaettern",
+   "start": 57.908,
+   "sprache": 58.508,
+   "ende": 66.954
+  },
+  {
+   "id": "punkte",
+   "start": 66.754,
+   "sprache": 67.354,
+   "ende": 73.943
+  },
+  {
+   "id": "schnell",
+   "start": 73.743,
+   "sprache": 74.343,
+   "ende": 84.183
+  },
+  {
+   "id": "wetter",
+   "start": 83.983,
+   "sprache": 84.583,
+   "ende": 93.459
+  },
+  {
+   "id": "fuerdich",
+   "start": 93.259,
+   "sprache": 93.859,
+   "ende": 102.654
+  },
+  {
+   "id": "demnaechst",
+   "start": 102.454,
+   "sprache": 103.054,
+   "ende": 108.412
+  },
+  {
+   "id": "fotos",
+   "start": 108.212,
+   "sprache": 108.812,
+   "ende": 116.69
+  },
+  {
+   "id": "zentrale",
+   "start": 116.49,
+   "sprache": 117.09,
+   "ende": 132.003
+  },
+  {
+   "id": "startkarte",
+   "start": 131.803,
+   "sprache": 132.403,
+   "ende": 138.388
+  },
+  {
+   "id": "szenen",
+   "start": 138.188,
+   "sprache": 138.788,
+   "ende": 150.358
+  },
+  {
+   "id": "eselsohr",
+   "start": 150.158,
+   "sprache": 150.758,
+   "ende": 158.45
+  },
+  {
+   "id": "ende",
+   "start": 158.25,
+   "sprache": 158.85,
+   "ende": 167.117
+  }
+ ]
+}

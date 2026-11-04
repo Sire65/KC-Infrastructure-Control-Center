@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><title>Köcheclub Kopffilm</title>
+<style>
+:root { --rot: #741521; --rot2: #4a0c15; --beige: #f3e9dc; --beige2: #e8d9c4; --gold: #f5c542; --gruen: #1f8a3b; --text: #2a1c14; --grau: #7a6a5a; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--beige); font-family: Inter, "Liberation Sans", "DejaVu Sans", "Noto Color Emoji", sans-serif; color: var(--text); }
+#kopf { position: absolute; left: 0; right: 0; top: 0; height: 170px; background: var(--rot); color: #fff; display: flex; align-items: center; gap: 26px; padding: 0 48px; z-index: 5; }
+#kopf img { width: 96px; height: 96px; border-radius: 50%; background: var(--rot2); padding: 12px; }
+#kopf b { font-size: 44px; display: block; } #kopf span { font-size: 30px; opacity: .85; }
+.sz { position: absolute; left: 0; right: 0; top: 200px; height: 1230px; opacity: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 34px; padding: 0 60px; }
+#unter { position: absolute; left: 50px; right: 50px; top: 1460px; height: 400px; background: #fff; border-radius: 44px; padding: 36px 44px; font-size: 41px; line-height: 1.32; font-weight: 600; box-shadow: 0 14px 40px rgba(60,20,10,.12); border-left: 16px solid var(--rot); display: flex; align-items: center; }
+.h { font-size: 74px; font-weight: 800; color: var(--rot); text-align: center; line-height: 1.12; }
+.u { font-size: 44px; color: var(--grau); text-align: center; line-height: 1.25; }
+.chip { background: var(--rot); color: #fff; border-radius: 60px; padding: 18px 36px; font-size: 42px; font-weight: 700; }
+.chip.hell { background: #fff; color: var(--rot); border: 5px solid var(--rot); }
+.oben { position: absolute; top: 0; z-index: 9; }
+.logo { width: 300px; height: 300px; border-radius: 50%; background: var(--rot); border: 12px solid #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+.logo img { width: 72%; }
+/* ---------- Handy mit dem Kopf der Club-App (Beispieldaten) ---------- */
+.handy { position: relative; width: 740px; height: 1200px; border-radius: 70px; background: #1d1714; padding: 30px; box-shadow: 0 30px 70px rgba(40,10,5,.35); flex: none; margin-top: 60px; }
+.schirm { position: relative; width: 680px; height: 1140px; border-radius: 46px; overflow: hidden; background: #f7f1e8; }
+.schirm.nacht { background: #1b1512; }
+.hero { position: absolute; left: 0; right: 0; top: 0; height: 680px; overflow: hidden; color: #fff; background: radial-gradient(120% 90% at 30% 0%, #9a2235, #6a1220 60%, #4a0c15); border-radius: 0 0 30px 30px; }
+.nacht .hero { background: radial-gradient(120% 90% at 30% 0%, #3b1018, #22080d 70%); }
+.flip { position: absolute; inset: 0; }
+.kz { position: absolute; left: 0; right: 0; top: 0; height: 128px; }
+.kz .lg { position: absolute; left: 22px; top: 26px; width: 80px; height: 80px; border-radius: 22px; background: rgba(255,255,255,.14); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.kz .lg img { width: 52px; } .kz .lg small { font-size: 12px; font-style: italic; opacity: .85; }
+.kz .ver { position: absolute; left: 22px; top: 108px; font-size: 15px; opacity: .8; font-weight: 700; }
+.kz .tx { position: absolute; left: 122px; top: 38px; } .kz .tx small { display: block; font-size: 18px; letter-spacing: 2px; font-weight: 800; opacity: .9; } .kz .tx b { font-size: 34px; }
+.kz .rk { position: absolute; top: 34px; width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,.16); display: flex; align-items: center; justify-content: center; font-size: 30px; }
+.kz .rk i { position: absolute; right: -4px; bottom: -4px; width: 26px; height: 26px; border-radius: 50%; background: #fff; color: var(--rot); font-size: 15px; font-weight: 900; font-style: normal; display: flex; align-items: center; justify-content: center; }
+.pfeile { position: absolute; top: 0; left: 0; right: 0; height: 36px; z-index: 4; }
+.pfeile span { position: absolute; top: 0; width: 64px; height: 34px; border-radius: 0 0 16px 16px; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; }
+.pfeile span.blink { background: var(--gold); color: var(--rot2); box-shadow: 0 0 22px var(--gold); }
+.sl { position: absolute; left: 0; right: 0; top: 132px; height: 56px; }
+.sl .st { position: absolute; left: 22px; top: 6px; height: 46px; padding: 0 20px; border-radius: 24px; background: rgba(255,255,255,.92); color: #1d5e2c; font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+.sl .leds { position: absolute; right: 22px; top: 6px; height: 46px; padding: 0 16px; border-radius: 24px; background: rgba(0,0,0,.22); display: flex; align-items: center; gap: 10px; }
+.sl .leds i { width: 16px; height: 16px; border-radius: 50%; background: #3fd46b; box-shadow: 0 0 10px #3fd46b; } .sl .leds b { width: 2px; height: 18px; background: rgba(255,255,255,.5); }
+.lampen { position: absolute; left: 30px; right: 30px; top: 196px; height: 14px; display: flex; justify-content: space-between; }
+.lampen i { width: 14px; height: 14px; border-radius: 50%; background: #f0a33a; box-shadow: 0 0 8px #f0a33a; }
+.feld { position: absolute; left: 30px; right: 30px; top: 222px; height: 368px; border-radius: 30px; background: rgba(255,255,255,.12); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); overflow: hidden; }
+.feld .lage { position: absolute; inset: 0; padding: 20px 22px; }
+.feld h2 { font-size: 30px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.bl { position: absolute; width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,.9); color: var(--rot); font-size: 30px; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,.25); z-index: 3; }
+.punkte { position: absolute; left: 0; right: 0; top: 606px; height: 18px; display: flex; justify-content: center; align-items: center; gap: 16px; }
+.punkte i { width: 14px; height: 14px; border-radius: 9px; background: rgba(255,255,255,.45); transition: none; }
+.punkte i.an { width: 44px; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+.esel { position: absolute; right: 0; bottom: 0; width: 56px; height: 56px; background: linear-gradient(135deg, transparent 50%, #f7efe2 50%); border-radius: 0 0 30px 0; box-shadow: -3px -3px 6px rgba(0,0,0,.15); }
+.deko { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.deko span { position: absolute; font-size: 30px; }
+.rueck { position: absolute; inset: 0; display: none; padding: 40px 30px; }
+.rueck .tabs { display: flex; gap: 10px; flex-wrap: wrap; } .rueck .tabs span { background: rgba(255,255,255,.18); border-radius: 20px; padding: 8px 16px; font-size: 22px; font-weight: 700; }
+.rueck .tabs span.an { background: var(--gold); color: var(--rot2); }
+.rueck .uhr { margin: 60px auto 0; width: 260px; height: 260px; border-radius: 50%; border: 10px solid rgba(255,255,255,.8); display: flex; align-items: center; justify-content: center; font-size: 60px; font-weight: 800; }
+/* Inhalte der Karten */
+.lb { border-radius: 20px; background: rgba(255,255,255,.95); color: var(--text); padding: 12px 16px; font-size: 21px; }
+.lb .z1 { display: flex; align-items: center; gap: 8px; } .lb .z2 { display: flex; gap: 10px; margin-top: 10px; align-items: center; }
+.lb .z2 span { border-radius: 14px; padding: 6px 14px; font-weight: 800; font-size: 19px; } .lb .ja { background: #f2c94c; color: #5a3c00; } .lb .nein { background: #eee; }
+.lbp { display: flex; gap: 6px; justify-content: center; margin: 8px 0; } .lbp i { width: 8px; height: 8px; border-radius: 4px; background: rgba(255,255,255,.5); } .lbp i.an { width: 20px; background: #f06; }
+.minis { display: flex; gap: 12px; }
+.mini { flex: 1; height: 180px; border-radius: 22px; background: rgba(255,255,255,.14); padding: 16px; position: relative; }
+.mini b { font-size: 46px; display: block; } .mini small { font-size: 18px; font-weight: 800; letter-spacing: 1px; opacity: .9; }
+.mini.ameise { outline: 4px dashed #f5a623; outline-offset: -4px; }
+.mini .gt { position: absolute; right: 10px; bottom: 10px; font-size: 26px; color: var(--gold); font-weight: 900; }
+.ss { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.ss div { height: 116px; border-radius: 18px; background: rgba(255,255,255,.14); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-size: 15px; font-weight: 800; letter-spacing: 1px; }
+.ss div b { font-size: 44px; }
+.stift { margin-left: auto; width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.wjetzt { display: flex; align-items: center; gap: 18px; margin-bottom: 14px; } .wjetzt b { font-size: 70px; } .wjetzt div { font-size: 22px; line-height: 1.35; } .wjetzt div strong { font-size: 30px; }
+.wtage { display: flex; gap: 6px; }
+.wtag { flex: 1; height: 140px; border-radius: 16px; background: rgba(255,255,255,.12); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 16px; font-weight: 700; }
+.wtag b { font-size: 34px; } .wtag small { font-size: 14px; opacity: .85; } .wtag.an { background: rgba(255,255,255,.95); color: var(--text); }
+.ifz { display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,.12); border-radius: 16px; padding: 12px 16px; font-size: 21px; margin-bottom: 9px; }
+.ifz span:last-child { margin-left: auto; font-size: 26px; } .ifz.an { background: rgba(245,197,66,.35); outline: 3px solid var(--gold); }
+.fotos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.foto { height: 140px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 60px; }
+.wlink { display: inline-block; margin-top: 14px; background: rgba(255,255,255,.18); border-radius: 18px; padding: 10px 18px; font-size: 21px; font-weight: 700; }
+.zdisp { background: #0f1f15; border-radius: 16px; padding: 10px 14px; font-family: "DejaVu Sans Mono", monospace; color: #6fe08f; font-size: 17px; line-height: 1.5; }
+.zdisp .zz { display: flex; justify-content: space-between; } .zdisp b { color: #f5c542; }
+.zchips { display: flex; gap: 8px; margin: 10px 0 6px; } .zchips span { background: rgba(255,255,255,.18); border-radius: 18px; padding: 6px 12px; font-size: 18px; font-weight: 700; } .zchips span.an { background: #fff; color: var(--rot); }
+.zan { font-size: 18px; margin-bottom: 8px; }
+.zkn { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; } .zkn div { height: 74px; border-radius: 14px; background: rgba(255,255,255,.16); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; } .zkn div b { font-size: 28px; }
+.zkn div.an { background: var(--gold); color: var(--rot2); }
+.zweg { display: flex; gap: 8px; margin-top: 8px; font-size: 16px; align-items: center; } .zweg span { background: rgba(255,255,255,.14); border-radius: 14px; padding: 4px 10px; font-weight: 700; } .zweg span.an { background: #fff; color: var(--rot); }
+/* unter dem Kopf: Reiter und Kacheln (nur angedeutet) */
+.rest { position: absolute; left: 0; right: 0; top: 700px; bottom: 104px; opacity: .55; }
+.rest .tabs { display: flex; gap: 10px; padding: 0 14px; } .rest .tabs span { flex: 1; height: 50px; border-radius: 26px; background: #eadfcd; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 22px; color: var(--grau); } .rest .tabs span.an { background: var(--rot); color: #fff; }
+.rest .ks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 16px 18px; } .rest .ks div { height: 116px; border-radius: 22px; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 19px; font-weight: 700; } .rest .ks b { font-size: 40px; }
+.nacht .rest .ks div { background: #2b221d; color: #eee; }
+.nav { position: absolute; left: 0; right: 0; bottom: 0; height: 104px; background: #fff; border-top: 2px solid #e5dccd; display: flex; z-index: 6; }
+.nacht .nav { background: #241c18; border-color: #3a2e27; color: #ccc; }
+.nav span { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: var(--grau); }
+.nav span i { font-style: normal; font-size: 36px; } .nav span.an { color: var(--rot); }
+.blatt { position: absolute; left: 0; right: 0; bottom: 104px; background: #fff; border-radius: 34px 34px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,.25); padding: 26px 26px 30px; z-index: 7; color: var(--text); opacity: 0; }
+.blatt h3 { font-size: 32px; margin-bottom: 16px; color: var(--rot); }
+.blatt .zl { background: #f6efe4; border-radius: 18px; padding: 14px 18px; font-size: 24px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+.blatt .zl.an { background: var(--rot); color: #fff; } .blatt .zl.gold { background: var(--gold); color: var(--rot2); }
+.blatt .zl small { margin-left: auto; font-weight: 500; color: var(--grau); }
+.blatt .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; } .blatt .chips span { background: #f1e7d6; border-radius: 20px; padding: 8px 16px; font-size: 21px; font-weight: 700; } .blatt .chips span.an { background: var(--gold); }
+.blatt .wd { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } .blatt .wd div { background: #f6efe4; border-radius: 16px; padding: 12px 16px; font-size: 21px; } .blatt .wd b { display: block; font-size: 28px; }
+.grossfoto { position: absolute; inset: 0; background: rgba(10,8,6,.92); z-index: 8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; opacity: 0; color: #fff; font-size: 26px; }
+.grossfoto div { width: 560px; height: 560px; border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 220px; }
+.rahmen { position: absolute; border: 6px solid var(--gold); border-radius: 22px; box-shadow: 0 0 0 9999px rgba(0,0,0,.0); opacity: 0; z-index: 5; }
+.rahmen b { position: absolute; left: 50%; top: -24px; transform: translateX(-50%); background: var(--gold); color: var(--rot2); font-size: 22px; border-radius: 16px; padding: 4px 16px; white-space: nowrap; }
+.toast { position: absolute; left: 50%; bottom: 130px; transform: translateX(-50%); background: #2a1c14; color: #fff; border-radius: 30px; padding: 16px 28px; font-size: 25px; font-weight: 700; white-space: nowrap; opacity: 0; z-index: 9; }
+.finger { position: absolute; left: 0; top: 0; z-index: 10; pointer-events: none; opacity: 0; }
+.finger .hand { position: absolute; left: -26px; top: -6px; font-size: 104px; line-height: 1; filter: drop-shadow(0 6px 8px rgba(0,0,0,.35)); }
+.finger .ring { position: absolute; left: -45px; top: -45px; width: 90px; height: 90px; border-radius: 50%; border: 6px solid rgba(245,197,66,.95); opacity: 0; }
+.finger .druck { position: absolute; left: -54px; top: -54px; width: 108px; height: 108px; border-radius: 50%; opacity: 0; }
+</style></head><body>
+<div id="kopf"><img src="kc-kochmuetze-weiss.webp" alt=""><div><b>Köcheclub Werne</b><span>Der Kopf der Club-App</span></div></div>
+
+<section class="sz" data-id="titel">
+  <div class="logo" data-ab="0" data-art="pop"><img src="kc-kochmuetze-weiss.webp" alt=""></div>
+  <div class="h" data-ab="0.4">Der Kopf<br>der Club-App</div>
+  <div class="chip hell" data-bei="drei Minuten">⏱️ ca. 3 Minuten</div>
+  <div class="u" data-bei="Infozentrale">🧭 deine erste Infozentrale</div>
+  <div class="u" data-bei="steuern">🎛️ … und du steuerst eine Menge</div>
+</section>
+<section class="sz" data-id="ueberblick"><div class="chip oben" id="c_ueberblick">Vier Teile</div><div class="handy"></div></section>
+<section class="sz" data-id="kopfzeile"><div class="chip oben" id="c_kopfzeile">Kopfzeile</div><div class="handy"></div></section>
+<section class="sz" data-id="status"><div class="chip oben" id="c_status">Status &amp; Verbindung</div><div class="handy"></div></section>
+<section class="sz" data-id="pfeile"><div class="chip oben">⌃ ⌃⌃ Kopf einrollen</div><div class="handy"></div></section>
+<section class="sz" data-id="karte1"><div class="chip oben">1 · Treffen und drei Felder</div><div class="handy"></div></section>
+<section class="sz" data-id="blaettern"><div class="chip oben" id="c_blaettern">‹ › blättern · « » Anfang/Ende</div><div class="handy"></div></section>
+<section class="sz" data-id="punkte"><div class="chip oben">🟡 Punkte zeigen, wo du bist</div><div class="handy"></div></section>
+<section class="sz" data-id="schnell"><div class="chip oben">⚡ Schnellstart</div><div class="handy"></div></section>
+<section class="sz" data-id="wetter"><div class="chip oben" id="c_wetter">🌦️ Wetter</div><div class="handy"></div></section>
+<section class="sz" data-id="fuerdich"><div class="chip oben">🔔 Für dich – zu erledigen</div><div class="handy"></div></section>
+<section class="sz" data-id="demnaechst"><div class="chip oben">🗓️ Demnächst</div><div class="handy"></div></section>
+<section class="sz" data-id="fotos"><div class="chip oben">📷 Neueste Fotos</div><div class="handy"></div></section>
+<section class="sz" data-id="zentrale"><div class="chip oben">📡 Kommunikationszentrale</div><div class="handy"></div></section>
+<section class="sz" data-id="startkarte"><div class="chip oben">🪧 Startkarte wählen</div><div class="handy"></div></section>
+<section class="sz" data-id="szenen"><div class="chip oben" id="c_szenen">🍂 Szenen im Kopf</div><div class="handy"></div></section>
+<section class="sz" data-id="eselsohr"><div class="chip oben" id="c_esel">📄 Eselsohr</div><div class="handy"></div></section>
+<section class="sz" data-id="ende"><div class="chip oben" id="c_ende">🟢 Einfache Ansicht: nur die erste Karte</div><div class="handy"></div></section>
+
+<div id="unter"></div>
+<script>
+let PLAN = [], TEXTE = {}, ZEITEN = {};
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const sanft = (x) => { x = clamp(x); return x * x * (3 - 2 * x); };
+const mix = (a, b, k) => a + (b - a) * k;
+const SZ = {}; document.querySelectorAll(".sz").forEach((s) => (SZ[s.dataset.id] = s));
+function W(id, wort, n = 0) { const t = TEXTE[id] || ""; let i = -1; for (let k = 0; k <= n; k++) i = t.indexOf(wort, i + 1); return i < 0 ? 0 : (ZEITEN[id] || 0) * i / t.length; }
+function einblenden(sz, lt) {
+  sz.querySelectorAll("[data-ab],[data-bei]").forEach((e) => {
+    const ab = e.dataset.bei ? W(sz.dataset.id, e.dataset.bei) : Number(e.dataset.ab), k = sanft((lt - ab) / 0.45);
+    e.style.opacity = k; e.style.transform = e.dataset.art === "pop" ? `scale(${0.6 + 0.4 * k + 0.08 * Math.sin(Math.PI * k)})` : `translateY(${(1 - k) * 50}px)`;
+  });
+}
+const an = (lt, ab, d = 0.4) => sanft((lt - ab) / d);
+const tipp = (lt, bei) => { const d = lt - bei; return { druck: d > -0.15 && d < 0.2 ? 1 : 0, ring: d >= 0 && d < 0.5 ? d / 0.5 : 0 }; };
+const toastBei = (lt, ab, text, dauer = 2.4) => (lt > ab && lt < ab + dauer ? [text, Math.min(an(lt, ab, 0.25), 1 - an(lt, ab + dauer - 0.3, 0.3))] : null);
+function bahn(lt, pkt) {
+  if (lt <= pkt[0][0]) return { x: pkt[0][1], y: pkt[0][2] };
+  for (let i = 1; i < pkt.length; i++) if (lt <= pkt[i][0]) { const k = sanft((lt - pkt[i - 1][0]) / (pkt[i][0] - pkt[i - 1][0])); return { x: mix(pkt[i - 1][1], pkt[i][1], k), y: mix(pkt[i - 1][2], pkt[i][2], k) }; }
+  const l = pkt.at(-1); return { x: l[1], y: l[2] };
+}
+// Tipp-Folge: [[zeit, x, y], …] → Finger fährt hin und tippt jeweils zur Zeit
+function tippfolge(lt, ziele, start = [560, 1000]) {
+  const pkt = [[ziele[0][0] - 1.2, ...start]]; ziele.forEach(([t, x, y], i) => { if (i) pkt.push([t - 0.15 - Math.min(0.7, (t - ziele[i - 1][0]) * 0.6), ziele[i - 1][1], ziele[i - 1][2]]); pkt.push([t - 0.1, x, y]); });
+  const p = bahn(lt, pkt); let tp = { druck: 0, ring: 0 }; for (const [t] of ziele) { const q = tipp(lt, t); if (q.druck || q.ring) tp = q; }
+  return { ...p, ...tp, o: an(lt, ziele[0][0] - 1.2) * (1 - an(lt, ziele.at(-1)[0] + 0.7)) };
+}
+
+// ---------- Inhalt der Karten (Beispieldaten, keine echten Mitgliederdaten) ----------
+const KARTEN = ["treffen", "schnell", "wetter", "fuerdich", "demnaechst", "fotos", "zentrale"];
+const TAGE = [["Heute", "☁️", "11°/4°", 20], ["Morgen", "🌧️", "9°/5°", 80], ["Fr", "⛅", "12°/6°", 10], ["Sa", "🌤️", "13°/5°", 5], ["So", "🌦️", "10°/4°", 60], ["Mo", "☁️", "9°/3°", 30], ["Di", "☀️", "8°/1°", 0]];
+const JETZT = [["☁️", "9°", "bewölkt", "gefühlt 7° · Wind 14 km/h"], ["🌧️", "9°", "Regen", "gefühlt 6° · Wind 25 km/h"], ["⛅", "12°", "heiter bis wolkig", "gefühlt 11° · Wind 10 km/h"]];
+const FOTOS = [["🍲", "#c96b3b,#7a2e14"], ["🥂", "#d9a441,#7c4b10"], ["🎄", "#3e8e57,#16452a"], ["🧑‍🍳", "#c44a5a,#5c1420"]];
+function karteHtml(id, st) {
+  const ifz = (rows, an) => rows.map(([s, t], i) => `<div class="ifz${an === i ? " an" : ""}"><span>${s}</span><span>${t}</span><span>›</span></div>`).join("");
+  if (id === "treffen") return `<div class="lb"><div class="z1">📅 <b>Clubabend</b> · Fr, 6.11. · 19 Uhr · Clubraum</div><div class="z2"><span class="ja">✔ Zusagen</span><span class="nein">✖</span><span style="margin-left:auto;color:var(--grau)">👥 12/18</span></div></div>
+    <div class="lbp"><i class="an"></i><i></i><i></i><i></i><i></i></div>
+    <div class="minis"><div class="mini ameise"><b>3</b><small>NEUE<br>NACHR.</small><span class="gt">›</span></div><div class="mini"><b>18</b><small>MITGLIEDER</small><span class="gt">›</span></div><div class="mini ameise" style="outline-color:#f5c542"><small>📅 CLUB-<br>TREFFEN</small><b style="font-size:34px">2 Tage</b><span class="gt">›</span></div></div>`;
+  if (id === "schnell") return `<h2>⚡ Schnellstart <span class="stift">✏️</span></h2><div class="ss">${[["✉️", "SCHREIBEN"], ["📅", "TERMIN"], ["📌", "ZETTEL"], ["📷", "FOTO"], ["📍", "STANDORT"], ["🔍", "SUCHEN"], ["🆘", "SOS"]].map(([s, t]) => `<div><b>${s}</b>${t}</div>`).join("")}</div>`;
+  if (id === "wetter") { const w = st.wtag || 0, j = JETZT[w] || JETZT[0];
+    return `<div class="wjetzt"><b>${j[0]}</b><div><strong>${j[1]} · ${j[2]}</strong><br>${TAGE[w][0]} in Werne · ${j[3]}</div></div><div class="wtage">${TAGE.map(([t, s, g, r], i) => `<div class="wtag${i === w ? " an" : ""}"><span>${t}${i === 2 ? " 📅" : ""}</span><b>${s}</b><span>${g}</span><small>☔ ${r} %</small></div>`).join("")}</div>`; }
+  if (id === "fuerdich") return `<h2>🔔 Für dich</h2>${ifz([["💬", "<b>3</b> neue Nachrichten"], ["📅", "Bitte für <b>Clubabend</b> zu- oder absagen"], ["🗳️", "<b>1</b> Abstimmung wartet auf dich"], ["🗓️", "Nächster Dienst: <b>Sa, 28.11., 14 Uhr</b>"]], st.zeile)}`;
+  if (id === "demnaechst") return `<h2>🗓️ Demnächst</h2>${ifz([["📅", "<b>Fr, 6.11., 19 Uhr</b> · Clubabend"], ["🎂", "<b>So, 8.11.</b> · Geburtstag Anna"], ["🎄", "<b>Sa, 28.11.</b> · Weihnachtsmarkt Aufbau"], ["📄", "<b>Do, 3.12.</b> · Clubsitzung"]], st.zeile)}`;
+  if (id === "fotos") return `<h2>📷 Neueste Fotos</h2><div style="font-size:20px;opacity:.85;margin:-6px 0 12px">Clubabend</div><div class="fotos">${FOTOS.map(([e, g], i) => `<div class="foto" style="background:linear-gradient(135deg,${g});${st.foto === i ? "outline:5px solid var(--gold)" : ""}">${e}</div>`).join("")}</div><span class="wlink">Alle 42 Fotos ansehen ›</span>`;
+  if (id === "zentrale") { const e = st.empf ?? 0;
+    return `<div class="zdisp"><div class="zz"><span>📡 KOMMUNIKATIONSZENTRALE</span><b>19:40</b></div><div>🟢 5 online · 💬 3 neu · 🔔 Push an</div></div>
+    <div class="zchips">${["👥 Alle", "🟢 Online", "✖ Keiner", "☰ Auswahl …"].map((t, i) => `<span class="${i === e ? "an" : ""}">${t}</span>`).join("")}</div><div class="zan">An: <b>${["alle (18)", "wer online ist (5)", "niemand", "Anna, Klaus, Ruth"][e]}</b></div>
+    <div class="zkn">${[["📞", "Anrufen"], ["🎥", "Video"], ["✊", "Anklopfen"], ["🎤", "Sprache"], ["💬", "Chat"], ["📍", "Standort"], ["📨", "Termin"]].map(([s, t], i) => `<div class="${st.zknopf === i ? "an" : ""}"><b>${s}</b>${t}</div>`).join("")}</div>
+    <div class="zweg">zusätzlich: ${["🔔 Push", "✉️ E-Mail", "🟢 WhatsApp"].map((t, i) => `<span class="${(st.zweg || []).includes(i) ? "an" : ""}">${t}</span>`).join("")}</div>`; }
+  return "";
+}
+// ---------- Handy aufbauen ----------
+const H = {};
+function handyBauen(id) {
+  const el = SZ[id].querySelector(".handy"); if (!el) return;
+  el.innerHTML = `<div class="schirm">
+    <div class="hero"><div class="flip">
+      <div class="pfeile"><span class="p1" style="left:246px">⌃</span><span class="p2" style="left:370px">⌃⌃</span></div>
+      <div class="kz"><div class="lg"><img src="kc-kochmuetze-weiss.webp" alt=""><small>since 1991</small></div><div class="ver">v2.856.0</div>
+        <div class="tx"><small>KÖCHECLUB WERNE</small><b>Hallo Klaus!</b></div><div class="rk mond" style="left:514px">🌙<i>A</i></div><div class="rk neu" style="left:594px">↻</div></div>
+      <div class="sl"><div class="st">🟢 verfügbar ▾</div><div class="leds"><i></i><b></b><i></i></div></div>
+      <div class="lampen">${"<i></i>".repeat(11)}</div>
+      <div class="feld"><div class="lage a"></div><div class="lage b"></div></div>
+      <div class="bl b1" style="left:6px;top:350px">‹</div><div class="bl b2" style="left:620px;top:350px">›</div>
+      <div class="bl b3" style="left:6px;top:420px">«</div><div class="bl b4" style="left:620px;top:420px">»</div>
+      <div class="punkte">${KARTEN.map(() => "<i></i>").join("")}</div>
+      <div class="esel"></div><div class="deko"></div>
+      <div class="rueck"><div class="tabs"><span class="an">🕰️ Uhr</span><span>🖼️ Diashow</span><span>📝 Tafel</span><span>📋 Flipchart</span><span>🎤 Bühne</span></div><div class="uhr">19:40</div></div>
+    </div></div>
+    <div class="rest"><div class="tabs"><span class="an">Club 12</span><span>Meins 9</span><span>Technik 8</span></div>
+      <div class="ks"><div><b>📅</b>Termine</div><div><b>💬</b>Nachrichten</div><div><b>👥</b>Mitglieder</div><div><b>📄</b>Protokolle</div><div><b>📷</b>Fotoalbum</div><div><b>🗳️</b>Vorschläge</div></div></div>
+    <div class="nav"><span class="an n0"><i>🏠</i>Start</span><span><i>📅</i>Termine</span><span><i>💬</i>Nachrichten</span><span><i>👥</i>Mitglieder</span><span class="n4"><i>⚙️</i>Mehr</span></div>
+    <div class="blatt"></div><div class="grossfoto"></div>
+    ${[["Kopfzeile", 10, 20, 660, 110], ["Statusleiste", 10, 134, 660, 54], ["Info-Feld", 22, 214, 636, 384], ["Punkte", 180, 594, 320, 42]].map(([t, x, y, w, h], i) => `<div class="rahmen r${i}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px"><b>${t}</b></div>`).join("")}
+    <div class="toast"></div><div class="finger"><span class="ring"></span><span class="druck"></span><span class="hand">👆</span></div></div>`;
+  const q = (s) => el.querySelector(s), qa = (s) => [...el.querySelectorAll(s)];
+  H[id] = { el, q, qa, letzt: {} };
+}
+// Zustand st: { karte, vor, k (0..1 Wechsel), richtung, einroll (0..1), blink, nacht, rahmen (Index), blatt [html, o], foto, gross [html,o], deko [art, lt], dreh (0..1), einfach,
+//   finger {x,y,o,druck,ring,halten}, toast [text,o], hl {mond, neu, st, leds, b1..b4, punkt, esel, logo} }
+function malen(id, st) {
+  const h = H[id]; if (!h) return; const { q, qa } = h;
+  const sch = q(".schirm"); sch.classList.toggle("nacht", !!st.nacht);
+  q(".mond i").textContent = st.nacht ? "N" : "A";
+  // einrollen: Kopf bis auf die Kopfzeile
+  const er = st.einroll || 0, hh = mix(680, 140, er);
+  q(".hero").style.height = hh + "px"; ["sl", "lampen", "feld", "punkte", "b1", "b2", "b3", "b4"].forEach((c) => (q("." + c).style.opacity = 1 - er));
+  q(".rest").style.top = (hh + 20) + "px";
+  q(".p2").textContent = er > 0.5 ? "⌄⌄" : "⌃⌃"; q(".p2").classList.toggle("blink", !!st.blink);
+  // Karten mit Wechsel (wischen/blättern)
+  const a = q(".lage.a"), b = q(".lage.b"), k = sanft(st.k ?? 1), r = st.richtung || 1;
+  const ka = karteHtml(KARTEN[st.karte || 0], st), kb = st.vor != null && k < 1 ? karteHtml(KARTEN[st.vor], st) : "";
+  if (h.letzt.a !== ka) { a.innerHTML = ka; h.letzt.a = ka; } if (h.letzt.b !== kb) { b.innerHTML = kb; h.letzt.b = kb; }
+  a.style.transform = `translateX(${(1 - k) * r * 640}px)`; b.style.transform = `translateX(${-k * r * 640}px)`; b.style.display = kb ? "block" : "none";
+  qa(".punkte i").forEach((p, i) => p.classList.toggle("an", i === (st.karte || 0)));
+  const ein = !!st.einfach; ["b1", "b2", "b3", "b4", "punkte"].forEach((c) => (q("." + c).style.display = ein ? "none" : ""));
+  // Hervorhebungen (gelber Rand)
+  const hl = st.hl || {}, ring = (sel, an) => { const e = q(sel); e.style.outline = an ? "5px solid var(--gold)" : "none"; e.style.outlineOffset = "3px"; };
+  ring(".kz .lg", hl.logo); ring(".mond", hl.mond); ring(".neu", hl.neu); ring(".sl .st", hl.st); ring(".sl .leds", hl.leds); ["b1", "b2", "b3", "b4"].forEach((c) => ring("." + c, hl[c]));
+  q(".neu").style.transform = `rotate(${(st.dreh_neu || 0) * 360}deg)`;
+  qa(".rahmen").forEach((e, i) => (e.style.opacity = st.rahmen?.[i] || 0));
+  // Rückseite (Eselsohr)
+  const dr = st.dreh || 0, fl = q(".flip");
+  fl.style.transform = dr > 0 ? `scaleX(${Math.abs(1 - 2 * Math.min(dr, 1))})` : ""; q(".rueck").style.display = dr > 0.5 ? "block" : "none";
+  qa(".flip > :not(.rueck)").forEach((e) => (e.style.visibility = dr > 0.5 ? "hidden" : ""));
+  q(".esel").style.outline = hl.esel ? "5px solid var(--gold)" : "none";
+  // Deko (Jahreszeiten-Szenen)
+  dekoMalen(q(".deko"), st.deko);
+  // Blatt von unten, großes Foto
+  const bl = q(".blatt"); if (st.blatt) { if (h.letzt.bl !== st.blatt[0]) { bl.innerHTML = st.blatt[0]; h.letzt.bl = st.blatt[0]; } bl.style.opacity = st.blatt[1]; bl.style.transform = `translateY(${(1 - st.blatt[1]) * 120}px)`; } else bl.style.opacity = 0;
+  const gf = q(".grossfoto"); if (st.gross) { if (h.letzt.gf !== st.gross[0]) { gf.innerHTML = st.gross[0]; h.letzt.gf = st.gross[0]; } gf.style.opacity = st.gross[1]; } else gf.style.opacity = 0;
+  q(".n4").classList.toggle("an", !!st.mehr); q(".n0").classList.toggle("an", !st.mehr);
+  const to = q(".toast"); if (st.toast) { to.textContent = st.toast[0]; to.style.opacity = st.toast[1]; } else to.style.opacity = 0;
+  const fi = q(".finger"), f = st.finger;
+  if (f && f.o > 0) { fi.style.opacity = f.o; fi.style.transform = `translate(${f.x}px, ${f.y}px)`; fi.querySelector(".hand").style.transform = `scale(${1 - 0.12 * (f.druck || 0)})`;
+    const rg = fi.querySelector(".ring"); rg.style.opacity = f.ring ? 1 - f.ring : 0; rg.style.transform = `scale(${0.6 + 1.2 * (f.ring || 0)})`;
+    const d = fi.querySelector(".druck"); d.style.opacity = f.halten ? 0.9 : 0; d.style.background = `conic-gradient(rgba(245,197,66,.9) ${360 * (f.halten || 0)}deg, transparent 0)`;
+  } else fi.style.opacity = 0;
+}
+// Deko: deterministisch aus Zeit, je Art eigene Bewegung
+const DEKO = {
+  herbst: { e: ["🍂", "🍁", "🍂"], fall: 1 }, winter: { e: ["❄️", "❄️", "❅"], fall: 1, boden: "⛄" }, fruehling: { e: ["🌷", "🌼", "🌱"], boden: 1 }, sommer: { e: ["🌻", "☀️"], boden: 1 },
+  karibik: { e: ["🌴", "🐚", "🦜"], boden: 1 }, halloween: { e: ["🎃", "🦇", "👻"], fall: 0.5 }, weltraum: { e: ["🚀", "⭐", "🪐"], flug: 1 }, disco: { e: ["🪩", "✨", "🎶"], flug: 1 },
+};
+function dekoMalen(el, d) {
+  const art = d?.[0], t = d?.[1] || 0, o = d?.[2] ?? 1, key = art || "";
+  if (el.dataset.art !== key) { el.dataset.art = key; el.innerHTML = art ? Array.from({ length: 12 }, (_, i) => `<span>${DEKO[art].e[i % DEKO[art].e.length]}</span>`).join("") + (DEKO[art].boden && typeof DEKO[art].boden === "string" ? `<span>${DEKO[art].boden}</span>` : "") : ""; }
+  if (!art) return; const D = DEKO[art]; el.style.opacity = o;
+  [...el.children].forEach((s, i) => {
+    if (i === 12) { Object.assign(s.style, { left: "500px", top: "610px", fontSize: "60px" }); return; }
+    const sx = (i * 53 + 17) % 640, ph = (i * 0.37) % 1;
+    if (D.fall) { const y = ((t * 70 * D.fall + ph * 680) % 700) - 20; Object.assign(s.style, { left: (sx + Math.sin(t * 2 + i) * 20) + "px", top: y + "px", fontSize: "30px", transform: `rotate(${t * 90 + i * 30}deg)` }); }
+    else if (D.boden) Object.assign(s.style, { left: (i * 55 + 4) + "px", top: (628 - (i % 3) * 8 + Math.sin(t * 3 + i) * 3) + "px", fontSize: "34px", transform: "" });
+    else Object.assign(s.style, { left: ((sx + t * 80 * (i % 2 ? 1 : -1)) % 680 + 680) % 680 + "px", top: (200 + (i * 41) % 380 + Math.sin(t * 2 + i) * 20) + "px", fontSize: "34px", transform: `rotate(${Math.sin(t + i) * 20}deg)` });
+  });
+}
+const blatt = (titel, zeilen) => `<h3>${titel}</h3>${zeilen}`;
+const zl = (t, kl = "", rechts = "") => `<div class="zl ${kl}">${t}${rechts ? `<small>${rechts}</small>` : ""}</div>`;
+// Koordinaten (im Bildschirm des Handys)
+const P = { logo: [62, 66], mond: [546, 66], neu: [626, 66], st: [130, 162], leds: [600, 162], p1: [278, 18], p2: [402, 18], b1: [33, 377], b2: [647, 377], b3: [33, 447], b4: [647, 447], esel: [652, 652],
+  punkt: (i) => [340 + (i - 3) * 30, 615], mini: (i) => [52 + 30 + i * 204 + 90, 222 + 20 + 150 + 70], lbJa: [130, 316], wtag: (i) => [52 + i * 82 + 38, 222 + 20 + 100 + 70], ifz: (i) => [330, 222 + 20 + 54 + i * 66 + 24],
+  foto: (i) => [52 + i * 149 + 70, 222 + 20 + 52 + 70], zchip: (i) => [100 + i * 118, 222 + 20 + 86 + 26], zknopf: (i) => [52 + 32 + i * 87, 222 + 20 + 160 + 37], stift: [604, 270], ss: (i) => [52 + 70 + (i % 4) * 152, 222 + 80 + Math.floor(i / 4) * 126 + 58], mehr: [612, 1088] };
+const BASIS = (x = {}) => ({ karte: 0, ...x });
+
+const EXTRA = {
+  ueberblick(lt) {
+    const t = ["Kopfzeile", "Statusleiste", "Info-Feld", "gelben Punkte"].map((w) => W("ueberblick", w));
+    const rahmen = t.map((a, i) => an(lt, a - 0.2) * (1 - an(lt, (t[i + 1] ?? a + 2.2) - 0.2)));
+    malen("ueberblick", BASIS({ rahmen }));
+    const n = t.findIndex((a, i) => lt < (t[i + 1] ?? 99)); document.getElementById("c_ueberblick").textContent = lt < t[0] - 0.2 ? "Vier Teile" : ["1 · Kopfzeile", "2 · Statusleiste", "3 · Info-Feld", "4 · gelbe Punkte"][n];
+  },
+  kopfzeile(lt) {
+    const tL = W("kopfzeile", "Logo") + 0.3, tM = W("kopfzeile", "Mond") + 0.3, tM2 = tM + 1.6, tN = W("kopfzeile", "Kreispfeil") + 0.4;
+    const nacht = lt > tM + 0.1 && lt < tM2 + 0.1;
+    malen("kopfzeile", BASIS({ nacht, hl: { logo: lt > tL - 0.6 && lt < tL + 1.2, mond: lt > tM - 0.6 && lt < tM2 + 0.8, neu: lt > tN - 0.6 && lt < tN + 1.3 }, dreh_neu: sanft((lt - tN) / 1),
+      toast: toastBei(lt, tL + 0.2, "🌐 Internetseite des Köcheclubs öffnet sich", 1.8) || toastBei(lt, tM + 0.2, "🌙 Nacht", 1.3) || toastBei(lt, tM2 + 0.2, "🅰️ Automatik – Tag oder Nacht nach Uhrzeit", 1.8) || toastBei(lt, tN + 0.9, "↻ Alles neu geladen", 1.6),
+      finger: tippfolge(lt, [[tL, ...P.logo], [tM, ...P.mond], [tM2, ...P.mond], [tN, ...P.neu]]) }));
+    document.getElementById("c_kopfzeile").textContent = lt < tM - 0.4 ? "Logo → Internetseite" : lt < tN - 0.4 ? "🌙 Tag · Nacht · Automatik" : "↻ neu laden";
+  },
+  status(lt) {
+    const tS = W("status", "Statusknopf") + 0.2, tW = W("status", "beschäftigt") , tL = W("status", "Lämpchen") + 0.3, tG = W("status", "Grün");
+    const liste = blatt("Dein Status", ["🟢 verfügbar", "🟠 beschäftigt", "🏖️ im Urlaub", "🤒 krank", "🔴 nicht erreichbar"].map((t, i) => zl(t, i === (lt > tW ? 1 : 0) ? "an" : "")).join("") + `<div style="font-size:20px;color:var(--grau);margin-top:6px">Auf Wunsch mit „bis“-Datum und kurzem Hinweis</div>`);
+    const vb = blatt("Verbindung", zl("✅ Verbindung in Ordnung", "gold") + `<div style="font-size:21px;color:var(--grau)">Grün: alles in Ordnung · Rot: gerade Störung</div>`);
+    const b1 = an(lt, tS + 0.1, 0.35) * (1 - an(lt, tL - 0.6, 0.3)), b2 = an(lt, tL + 0.1, 0.35);
+    malen("status", BASIS({ hl: { st: lt > tS - 0.6 && lt < tL - 0.6, leds: lt > tL - 0.6 }, blatt: b2 > 0 ? [vb, b2] : b1 > 0 ? [liste, b1] : null,
+      finger: tippfolge(lt, [[tS, ...P.st], [tW + 0.2, 300, 1036 - 520 + 92], [tL, ...P.leds]]) }));
+    document.getElementById("c_status").textContent = lt < tL - 0.5 ? "🟢 Status-Knopf" : "💡 Lämpchen = Verbindung";
+  },
+  pfeile(lt) {
+    const t1 = W("pfeile", "rollen") + 0.2, tN = W("pfeile", "blinkt") - 0.4, tA = tN + 1.6;
+    const er = an(lt, t1 + 0.1, 0.9) * (1 - an(lt, tA + 0.1, 0.9));
+    malen("pfeile", BASIS({ einroll: er, blink: lt > tN && lt < tA && Math.floor((lt - tN) * 3) % 2 === 0, toast: toastBei(lt, tN, "💬 1 neue Nachricht", 1.8), finger: tippfolge(lt, [[t1, ...P.p2], [tA, ...P.p2]]) }));
+  },
+  karte1(lt) {
+    const tZ = W("karte1", "Zusagen") + 0.2, tF = W("karte1", "neue Nachrichten"), tM = W("karte1", "die Mitglieder"), tC = W("karte1", "Tage bis"), tA = W("karte1", "Antippen") + 0.4;
+    const hlMini = lt > tF - 0.2 && lt < tM - 0.1 ? 0 : lt > tM - 0.1 && lt < tC - 0.1 ? 1 : lt > tC - 0.1 && lt < tA - 0.3 ? 2 : -1;
+    malen("karte1", BASIS({ finger: tippfolge(lt, [[tZ, ...P.lbJa], [tF, ...P.mini(0)], [tM, ...P.mini(1)], [tC, ...P.mini(2)], [tA, ...P.mini(0)]]),
+      toast: toastBei(lt, tZ + 0.2, "✔ Zugesagt – schön, dass du kommst!", 1.6) || toastBei(lt, tA + 0.2, "💬 Nachrichten öffnen sich", 1.8) }));
+    H.karte1.qa(".mini").forEach((m, i) => (m.style.background = i === hlMini ? "rgba(245,197,66,.35)" : ""));
+  },
+  blaettern(lt) {
+    const t1 = W("blaettern", "weiter") + 0.1, t2 = W("blaettern", "Doppelpfeil") + 0.5, t3 = t2 + 1.4, tW = W("blaettern", "Wischen") + 0.2;
+    let karte = 0, vor = null, k = 1, r = 1;
+    const wechsel = (t, von, nach, rr) => { if (lt > t) { karte = nach; vor = von; k = an(lt, t + 0.05, 0.4); r = rr; } };
+    wechsel(t1, 0, 1, 1); wechsel(t2, 1, 6, 1); wechsel(t3, 6, 0, -1); wechsel(tW + 0.3, 0, 1, 1);
+    const sw = lt > tW - 0.2 && lt < tW + 0.5 ? { x: mix(560, 160, sanft((lt - tW + 0.2) / 0.7)), y: 400, druck: 1, ring: 0, o: 1 } : null;
+    malen("blaettern", BASIS({ karte, vor, k, richtung: r, hl: { b2: lt > t1 - 0.5 && lt < t1 + 0.8, b4: lt > t2 - 0.5 && lt < t2 + 0.8, b3: lt > t3 - 0.5 && lt < t3 + 0.8 },
+      finger: sw || tippfolge(lt, [[t1, ...P.b2], [t2, ...P.b4], [t3, ...P.b3]]) }));
+    document.getElementById("c_blaettern").textContent = lt < t2 - 0.4 ? "› eine Karte weiter" : lt < t3 - 0.4 ? "» zur letzten Karte" : lt < tW - 0.3 ? "« zur ersten Karte" : "👆 wischen geht auch";
+  },
+  punkte(lt) {
+    const t1 = W("punkte", "Tippst") + 0.6, t2 = t1 + 1.6;
+    let karte = 1, vor = null, k = 1; if (lt > t1) { vor = 1; karte = 3; k = an(lt, t1 + 0.05, 0.4); } if (lt > t2) { vor = 3; karte = 0; k = an(lt, t2 + 0.05, 0.4); }
+    malen("punkte", BASIS({ karte, vor, k, richtung: lt > t2 ? -1 : 1, finger: tippfolge(lt, [[t1, ...P.punkt(3)], [t2, ...P.punkt(0)]]) }));
+  },
+  schnell(lt) {
+    const t0 = 0.3, tS = W("schnell", "Stift") + 0.3, tT = W("schnell", "Schreiben") + 0.2;
+    malen("schnell", BASIS({ karte: 1, vor: 0, k: an(lt, t0 + 0.05, 0.4), finger: tippfolge(lt, [[t0, ...P.b2], [tT, ...P.ss(0)], [tS, ...P.stift]], [560, 900]),
+      toast: toastBei(lt, tT + 0.2, "✉️ Neue Nachricht schreiben", 1.6) || toastBei(lt, tS + 0.2, "✏️ Symbole auswählen", 1.8) }));
+  },
+  wetter(lt) {
+    const t0 = 0.3, tT = W("wetter", "Tippst") + 0.8, tH = W("wetter", "Hältst") + 0.5, hDauer = 0.7;
+    const wtag = lt > tT ? 1 : 0, det = an(lt, tH + hDauer + 0.05, 0.35);
+    const wd = blatt("🌧️ Morgen, Donnerstag", `<div class="wd"><div>Höchstwert<b>9°</b></div><div>Tiefstwert<b>5°</b></div><div>Regen<b>☔ 80 % · 6 mm</b></div><div>Wind<b>25 km/h</b></div><div>Böen<b>48 km/h</b></div><div>UV-Index<b>1 (niedrig)</b></div></div>`);
+    const f = tippfolge(lt, [[t0, ...P.b2], [tT, ...P.wtag(1)], [tH, ...P.wtag(1)]], [560, 900]);
+    if (lt > tH - 0.1 && lt < tH + hDauer + 0.6) { f.druck = 1; f.halten = clamp((lt - tH) / hDauer); f.ring = 0; }
+    malen("wetter", BASIS({ karte: 2, vor: 1, k: an(lt, t0 + 0.05, 0.4), wtag, blatt: det > 0 ? [wd, det] : null, finger: f }));
+    document.getElementById("c_wetter").textContent = lt < tH - 0.3 ? "🌦️ Tag antippen" : "👆 Tag lange festhalten = Einzelheiten";
+  },
+  fuerdich(lt) {
+    const t0 = 0.3, tZ = W("fuerdich", "Eine Zeile") + 0.6;
+    malen("fuerdich", BASIS({ karte: 3, vor: 2, k: an(lt, t0 + 0.05, 0.4), zeile: lt > tZ - 0.1 && lt < tZ + 1 ? 1 : -1, finger: tippfolge(lt, [[t0, ...P.b2], [tZ, ...P.ifz(1)]], [560, 900]),
+      toast: toastBei(lt, tZ + 0.2, "📅 Zu- oder absagen – direkt beim Termin", 2) }));
+  },
+  demnaechst(lt) {
+    const t0 = 0.3, tA = W("demnaechst", "Antippen") + 0.4;
+    malen("demnaechst", BASIS({ karte: 4, vor: 3, k: an(lt, t0 + 0.05, 0.4), zeile: lt > tA - 0.1 && lt < tA + 1 ? 2 : -1, finger: tippfolge(lt, [[t0, ...P.b2], [tA, ...P.ifz(2)]], [560, 900]),
+      toast: toastBei(lt, tA + 0.2, "📅 Kalender: Sa, 28.11.", 1.8) }));
+  },
+  fotos(lt) {
+    const t0 = 0.3, tA = W("fotos", "Antippen") + 0.4, tZ = W("fotos", "Darunter") - 0.2, gross = an(lt, tA + 0.15, 0.35) * (1 - an(lt, tZ, 0.35));
+    const [e, g] = FOTOS[1], gh = `<div style="background:linear-gradient(135deg,${g})">${e}</div><span>Clubabend · 23.10.2026</span>`;
+    malen("fotos", BASIS({ karte: 5, vor: 4, k: an(lt, t0 + 0.05, 0.4), foto: lt > tA - 0.1 && lt < tZ ? 1 : -1, gross: gross > 0 ? [gh, gross] : null, finger: tippfolge(lt, [[t0, ...P.b2], [tA, ...P.foto(1)]], [560, 900]) }));
+  },
+  zentrale(lt) {
+    const t0 = 0.3, tAl = W("zentrale", "Alle") + 0.2, tOn = W("zentrale", "online") + 0.2, tAu = W("zentrale", "Auswahl") + 0.2, tK = W("zentrale", "Dann") + 0.3, tZ = W("zentrale", "Zusätzlich") + 0.5;
+    const empf = lt < tAl ? 2 : lt < tOn ? 0 : lt < tAu ? 1 : 3;
+    const zk = lt > tK ? Math.min(6, Math.floor((lt - tK) / ((tZ - tK - 0.3) / 7))) : -1;
+    malen("zentrale", BASIS({ karte: 6, vor: 5, k: an(lt, t0 + 0.05, 0.4), empf, zknopf: lt < tZ - 0.2 ? zk : -1, zweg: lt > tZ ? [0, 1, 2].filter((i) => lt > tZ + i * 0.5) : [],
+      finger: tippfolge(lt, [[t0, ...P.b4], [tAl, ...P.zchip(0)], [tOn, ...P.zchip(1)], [tAu, ...P.zchip(3)]], [560, 900]) }));
+  },
+  startkarte(lt) {
+    const tM = W("startkarte", "Mehr") + 0.3, tI = W("startkarte", "Info-Feld") + 0.3;
+    const sel = lt > tI + 0.6 ? 2 : 0;
+    const bl = blatt("⚙️ Mehr · 🎨 Darstellung", zl("🪧 Info-Feld oben beim Start", "gold") + ["1 · Nächster Termin", "2 · Schnellstart", "3 · Wetter", "4 · Für dich", "7 · Kommunikationszentrale", "🔁 die zuletzt gezeigte"].map((t, i) => zl(t, i === sel ? "an" : "")).join(""));
+    malen("startkarte", BASIS({ karte: 0, mehr: lt > tM, blatt: lt > tM ? [bl, an(lt, tM + 0.1, 0.35)] : null, finger: tippfolge(lt, [[tM, ...P.mehr], [tI + 0.6, 300, 1036 - 470 + 50 + 3 * 66]], [420, 900]) }));
+  },
+  szenen(lt) {
+    const tH = W("szenen", "Herbstlaub"), tS = W("szenen", "Schnee"), tB = W("szenen", "Blumen"), tV = W("szenen", "vieles"), tM = W("szenen", "Du stellst"), tA = W("szenen", "Automatik");
+    const fun = ["karibik", "halloween", "weltraum", "disco"], art = lt < tS ? "herbst" : lt < tB ? "winter" : lt < tV ? "fruehling" : lt < tM ? fun[Math.min(3, Math.floor((lt - tV) / Math.max(0.4, (tM - tV) / 4)))] : "herbst";
+    const NAMEN = { herbst: "🍂 Herbst", winter: "⛄ Winter", fruehling: "🌱 Frühling", karibik: "🌴 Karibik", halloween: "🎃 Halloween", weltraum: "🚀 Weltraum", disco: "🪩 Disco" };
+    const bl = blatt("⚙️ Mehr · ✨ Effekte", zl("🍂 Szenen: Jahreszeit wählen &amp; Vorschau", "gold") + `<div style="font-size:24px;font-weight:800;margin:6px 0">📅 Welche Jahreszeit?</div>
+      <div class="chips">${["🔄 Automatik", "🌱 Frühling", "🌻 Sommer", "🍂 Herbst", "⛄ Winter"].map((t, i) => `<span class="${(lt > tA ? 0 : 3) === i ? "an" : ""}">${t}</span>`).join("")}</div>
+      <div style="font-size:21px;color:var(--grau);margin-top:12px">Vorschau: 🌴 Karibik · 🎃 Halloween · 🚀 Weltraum · 🪩 Disco · 🐠 Unterwasserwelt · 🤠 Wilder Westen …</div>`);
+    malen("szenen", BASIS({ deko: [art, lt], mehr: lt > tM, blatt: lt > tM ? [bl, an(lt, tM + 0.1, 0.35)] : null,
+      finger: tippfolge(lt, [[tM, ...P.mehr], [tA + 0.2, 110, 1036 - 380 + 120]], [420, 900]) }));
+    document.getElementById("c_szenen").textContent = lt < tM ? NAMEN[art] : lt < tA ? "⚙️ Mehr → ✨ Effekte" : "🔄 Automatik: wechselt von selbst";
+  },
+  eselsohr(lt) {
+    const tD = W("eselsohr", "Doppelt") + 0.5, tV = W("eselsohr", "eigenes"), dreh = an(lt, tD + 0.25, 0.6) * (1 - an(lt, tV + 1.2, 0.6));
+    const f = tippfolge(lt, [[tD - 0.14, ...P.esel], [tD + 0.14, ...P.esel]], [560, 900]);
+    malen("eselsohr", BASIS({ hl: { esel: lt > tD - 1 && lt < tD + 0.3 }, dreh, deko: ["herbst", lt, 0.6], finger: f }));
+    document.getElementById("c_esel").textContent = lt < tV ? "📄 Eselsohr: doppelt tippen" : "🎬 eigenes Video: „Die Rückseite“";
+  },
+  ende(lt) {
+    const tV = W("ende", "Alle Erklär"), tS = W("ende", "Viel Spaß");
+    malen("ende", BASIS({ einfach: lt < tV, deko: ["herbst", lt, 0.5] }));
+    document.getElementById("c_ende").textContent = lt < tV ? "🟢 Einfache Ansicht: nur die erste Karte" : lt < tS ? "🎬 Technik → Erklär-Videos" : "Viel Spaß! 😊";
+  },
+};
+EXTRA.titel = () => {};
+Object.keys(SZ).forEach(handyBauen);
+// leichtes Herbstlaub als Grundstimmung (November), wo keine andere Deko gesetzt ist
+const _malen = malen; malen = (id, st) => _malen(id, { deko: ["herbst", PLAN_T, 0.45], ...st });
+let PLAN_T = 0;
+function zeige(t) {
+  PLAN_T = t; let aktiv = null;
+  for (const s of PLAN) {
+    const el = SZ[s.id], rein = sanft((t - s.start) / 0.4), raus = 1 - sanft((t - s.ende + 0.4) / 0.4), o = Math.min(rein, raus);
+    el.style.opacity = o > 0.001 ? o : 0;
+    if (o > 0.001) { const lt = t - s.sprache; einblenden(el, lt); EXTRA[s.id]?.(lt); if (!aktiv || t >= s.start) aktiv = s; }
+  }
+  const u = document.getElementById("unter");
+  if (aktiv) { u.textContent = TEXTE[aktiv.id]; u.style.opacity = Math.min(sanft((t - aktiv.start) / 0.4), 1 - sanft((t - aktiv.ende + 0.4) / 0.4)); } else u.style.opacity = 0;
+}
+</script></body></html>

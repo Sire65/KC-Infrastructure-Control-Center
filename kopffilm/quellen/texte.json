@@ -1,0 +1,20 @@
+[
+ {"id": "titel", "t": "Der Kopf der Club-App, erklärt in etwa drei Minuten. Der Kopfbereich ist deine erste Infozentrale, wenn du die App aufrufst. Und steuern kannst du darüber auch eine Menge."},
+ {"id": "ueberblick", "t": "Er besteht aus vier Teilen: der Kopfzeile, der Statusleiste, dem Info-Feld zum Blättern und den gelben Punkten darunter."},
+ {"id": "kopfzeile", "t": "Tippst du auf das Logo, kommst du zur Internetseite des Clubs. Mit dem Mond schaltest du zwischen Tag, Nacht und Automatik. Der Kreispfeil daneben lädt alles neu."},
+ {"id": "status", "t": "Mit dem Statusknopf zeigst du den anderen, ob du verfügbar, beschäftigt oder im Urlaub bist. Die Lämpchen rechts zeigen die Verbindung. Grün heißt: alles in Ordnung."},
+ {"id": "pfeile", "t": "Die zwei Pfeile ganz oben rollen den Kopf ein, wenn du mehr Platz brauchst. Kommt etwas Neues, blinkt der Pfeil."},
+ {"id": "karte1", "t": "In der ersten Karte läuft oben dein nächstes Treffen, mit Zusagen und Absagen. Darunter drei Felder: neue Nachrichten, die Mitglieder und die Tage bis zum Clubtreffen. Antippen führt dich direkt hin."},
+ {"id": "blaettern", "t": "Mit den Pfeilen links und rechts blätterst du eine Karte weiter. Der Doppelpfeil springt sofort zur ersten oder zur letzten Karte. Wischen geht auch."},
+ {"id": "punkte", "t": "Die gelben Punkte darunter zeigen, auf welcher Karte du bist. Tippst du einen Punkt an, springst du direkt dorthin."},
+ {"id": "schnell", "t": "Im Schnellstart erreichst du das Wichtigste mit einem Tipp: Schreiben, Termin, Zettel, Foto, Standort, Suchen und SOS. Mit dem Stift wählst du deine Symbole aus."},
+ {"id": "wetter", "t": "Das Wetter für Werne. Tippst du einen Tag an, siehst du diesen Tag. Hältst du einen Tag länger fest, kommen die Einzelheiten: Wind, Böen und Regen."},
+ {"id": "fuerdich", "t": "„Für dich“ zeigt, was zu erledigen ist: neue Nachrichten, Zusagen, Abstimmungen oder dein nächster Dienst. Eine Zeile antippen, und du bist da."},
+ {"id": "demnaechst", "t": "Bei „Demnächst“ stehen die Termine der nächsten Wochen. Antippen öffnet den Tag im Kalender."},
+ {"id": "fotos", "t": "Hier siehst du die neuesten Fotos aus dem Album. Antippen, und das Foto öffnet sich groß. Darunter kommst du zu allen Fotos."},
+ {"id": "zentrale", "t": "Die Kommunikationszentrale: Oben wählst du, an wen. Alle, wer online ist, oder eine Auswahl. Dann anrufen, Video, anklopfen, Sprache, Chat, Standort oder Termin. Zusätzlich auch per Push, E-Mail oder WhatsApp."},
+ {"id": "startkarte", "t": "Welche Karte beim Start zuerst kommt, stellst du unter „Mehr“ ein, bei „Info-Feld oben beim Start“."},
+ {"id": "szenen", "t": "Zum Auflockern gibt es lustige Szenen im Kopf: Herbstlaub, Schnee mit Schneemann, Blumen im Frühling und vieles mehr. Du stellst sie unter „Mehr“ bei „Effekte“ ein. Mit Automatik wechseln sie von selbst."},
+ {"id": "eselsohr", "t": "Unten rechts ist ein Eselsohr. Doppelt tippen, und der Kopf dreht sich um. Dazu gibt es ein eigenes Video: „Die Rückseite“."},
+ {"id": "ende", "t": "In der einfachen Ansicht siehst du nur die erste Karte. Alle Erklär-Videos findest du unter Technik. Viel Spaß mit deiner Club-App!"}
+]
