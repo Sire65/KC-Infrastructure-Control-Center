@@ -8,7 +8,7 @@ Drehbuch, Szenen und Vorschläge zur Vermittlung: [`DREHBUCH.md`](DREHBUCH.md).
 ## Ablauf (21 Szenen, Text in `quellen/texte.json`)
 
 Anlass → 10 Minuten investieren → einfache Ansicht (lange Knöpfe, schlichter Kopf) → erweiterte Ansicht → wofür Club · Meins · Technik da sind → Reiter selbst anordnen → Kachel lange drücken (Verschiebepfeile ◀ ▲ ▼ ▶) →
-verschieben → mit ✕ ausblenden + „Fertig“ → „Nur ausgeblendete zeigen“ und mit 👁️ zurückholen → Beispiel „nur noch 4 Kacheln“ → Zahl am Reiter (4/12) → Kachelgröße 2/3/4 nebeneinander (⚙️ Mehr → Startseite & Ansicht) → Kachel umdrehen (doppelt tippen, eigenes Video „Oberfläche nach Wunsch“) → Kopf mit ⌃ / ⌃⌃ einrollen →
+verschieben → mit ✕ ausblenden + „Fertig“ → „Nur ausgeblendete zeigen“ und mit 👁️ zurückholen → Beispiel „nur noch 4 Kacheln“ → Zahl am Reiter (4/12) → Kachelgröße 2/3/4 nebeneinander (⚙️ Mehr → Startseite & Ansicht) → Kachel umdrehen (🔄 antippen oder doppelt tippen, eigenes Video „Oberfläche nach Wunsch“) → Kopf mit ⌃ / ⌃⌃ einrollen →
 Pfeil blinkt bei neuer Nachricht → ⚙️ Mehr → Ansagen, Töne & Tipps: Startmeldungen aus → den Rest einfach nicht antippen →
 jederzeit änderbar → wo es weitere Erklär-Videos gibt → Ende.
 

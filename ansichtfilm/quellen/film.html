@@ -61,7 +61,9 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 .kachel .p4 { position: absolute; inset: 0; opacity: 0; }
 .kachel .rueck { position: absolute; inset: 0; border-radius: 26px; background: #fdf3d8; border: 4px solid #e7c75c; display: none; flex-direction: column; justify-content: center; gap: 5px; padding: 6px 8px; }
 .kachel .rueck i { font-style: normal; font-size: 17px; font-weight: 800; background: #fff; border-radius: 10px; padding: 3px 8px; text-align: left; }
-.kachel .rueck u { position: absolute; right: 6px; top: 4px; text-decoration: none; font-size: 18px; }
+.kachel .rueck u { position: absolute; right: 6px; top: 6px; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 17px; background: rgba(116,21,33,.10); box-shadow: inset 0 0 0 1px rgba(116,21,33,.22); }
+.kachel .krz { position: absolute; top: 7px; right: 7px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; background: rgba(116,21,33,.10); box-shadow: inset 0 0 0 1px rgba(116,21,33,.22); }
+.kachel .krz.an { background: var(--gold); box-shadow: 0 0 0 6px rgba(245,197,66,.45); }
 .kachel .p4 i { position: absolute; width: 38px; height: 38px; border-radius: 50%; background: var(--rot); color: #fff; font-style: normal; font-weight: 900; font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,.3); }
 .kachel .p4 i:nth-child(1) { top: -16px; left: 50%; margin-left: -19px; } .kachel .p4 i:nth-child(2) { left: -16px; top: 50%; margin-top: -19px; }
 .kachel .p4 i:nth-child(3) { right: -16px; top: 50%; margin-top: -19px; } .kachel .p4 i:nth-child(4) { bottom: -16px; left: 50%; margin-left: -19px; }
@@ -114,7 +116,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 <section class="sz" data-id="ergebnis" data-liste="ergebnis"><div class="chip" id="ergChip" style="position:absolute;top:0;z-index:9">🧹 vorher: 12 Kacheln</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="zahl" data-liste="ergebnis"><div class="chip" id="zahlChip" style="position:absolute;top:0;z-index:9">Club 4/12 = 4 eingeblendet von 12</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="groesse"><div class="chip" id="grChip" style="position:absolute;top:0;z-index:9">🔲 Kachelgröße wählen</div><div class="handy" style="margin-top:60px"></div></section>
-<section class="sz" data-id="umdrehen"><div class="chip" id="drehChip" style="position:absolute;top:0;z-index:9">👆👆 doppelt tippen = umdrehen</div><div class="handy" style="margin-top:60px"></div></section>
+<section class="sz" data-id="umdrehen"><div class="chip" id="drehChip" style="position:absolute;top:0;z-index:9">🔄 antippen oder doppelt tippen = umdrehen</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="kopf"><div class="chip" data-bei="Pfeile" style="position:absolute;top:0;z-index:9">⌃ und ⌃⌃ – Kopf einrollen</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="kopf2"><div class="chip" data-bei="blinkt" style="position:absolute;top:0;z-index:9">💬 Pfeil blinkt bei Neuem</div><div class="handy" style="margin-top:60px"></div></section>
 <section class="sz" data-id="start"><div class="chip" data-bei="stören" style="position:absolute;top:0;z-index:9">🔕 Startmeldungen aus</div><div class="handy" style="margin-top:60px"></div></section>
@@ -191,10 +193,12 @@ const ERGEBNIS = [["clubabend", "🍽️", "Clubabend Live"], ["clubjahr", "📖
   ["kommunikation", "💬", "Nachrichten"], ["mitglieder", "👥", "Mitglieder"], ["vorschlaege", "🗳️", "Vorschläge"], ["protokolle", "📄", "Protokolle"],
   ["archiv", "🗄️", "Archiv"], ["dienste", "🗓️", "Dienstpläne"], ["fotos", "📷", "Fotoalbum"], ["spiele", "🎲", "Spiele"]];
 const LISTEN = { ergebnis: ERGEBNIS, reiter: [...CLUB, ...MEINS, ...TECHNIK] };
+// Kacheln mit Rückseite (KACHEL_RUECK in der App) zeigen oben rechts ein kleines 🔄
+const DREH = new Set(["termine", "kommunikation", "mitglieder", "vorschlaege", "fotos", "spiele", "dienste", "m_erst", "m_bild", "m_einst", "t_hilfe"]);
 const H = {};
 function handyBauen(id) {
   const el = SZ[id].querySelector(".handy"); if (!el) return;
-  const kach = (l, kl) => l.map(([k, s, t]) => `<div class="kachel ${kl}" data-k="${k}" data-t="${t}"><span class="s">${s}</span><span class="t">${t}</span><span class="x">✕</span><span class="auge">👁️</span><span class="kstrg"><i>◀</i><i>▲</i><i>▼</i><i>▶</i></span><span class="p4"><i>▲</i><i>◀</i><i>▶</i><i>▼</i><b>✥</b></span>${k === "kommunikation" ? '<span class="rueck"><i>✉️ Neue Nachricht</i><i>👥 Neue Gruppe</i><i>⭐ Gemerkte</i><u>↩</u></span>' : ""}</div>`).join("");
+  const kach = (l, kl) => l.map(([k, s, t]) => `<div class="kachel ${kl}" data-k="${k}" data-t="${t}"><span class="s">${s}</span><span class="t">${t}</span><span class="x">✕</span><span class="auge">👁️</span><span class="kstrg"><i>◀</i><i>▲</i><i>▼</i><i>▶</i></span><span class="p4"><i>▲</i><i>◀</i><i>▶</i><i>▼</i><b>✥</b></span>${DREH.has(k) ? '<span class="krz">🔄</span>' : ""}${k === "kommunikation" ? '<span class="rueck"><i>✉️ Neue Nachricht</i><i>👥 Neue Gruppe</i><i>⭐ Gemerkte</i><u>🔄</u></span>' : ""}</div>`).join("");
   el.innerHTML = `<div class="schirm">
     <div class="hero"><div class="pfeile"><span class="p1">⌃</span><span class="p2">⌃⌃</span></div>
       <div class="kz"><span class="lg"><img src="kc-kochmuetze-weiss.webp" alt=""></span><span class="tx"><small>KÖCHECLUB WERNE</small><b>Hallo Klaus!</b></span><span class="rk">🌙</span><span class="rk">↻</span></div>
@@ -281,7 +285,8 @@ function malen(id, st) {
     el.querySelectorAll(".kstrg i").forEach((x, j) => x.classList.toggle("an", st.pfeilAn?.[0] === k && st.pfeilAn?.[1] === j));
     el.querySelector(".p4").style.opacity = ziehe;
     // Kachel umdrehen (doppelt tippen): erste Hälfte schmaler werden, dann Rückseite
-    const dk = st.dreh?.id === k ? st.dreh.k : 0, rk = el.querySelector(".rueck");
+    const dk = st.dreh?.id === k ? st.dreh.k : 0, rk = el.querySelector(".rueck"), kz = el.querySelector(".krz");
+    if (kz) { kz.style.opacity = (1 - st.anord) * (dk > 0.5 ? 0 : 1); kz.style.transform = M.sp === 4 ? "scale(.75)" : M.sp === 3 ? "scale(.85)" : ""; kz.classList.toggle("an", st.drehAn === k); }
     if (dk > 0) { el.style.transform = `scale(${s}) scaleX(${Math.abs(1 - 2 * dk)})`; if (rk) rk.style.display = dk > 0.5 ? "flex" : "none"; } else if (rk) rk.style.display = "none";
   });
   const CLUBK = new Set([...CLUB, ...ERGEBNIS].map((c) => c[0])), nAus = Object.keys(h.kw).filter((k) => CLUBK.has(k) && wegK(k) >= 0.5).length;
@@ -432,13 +437,14 @@ const EXTRA = {
     document.getElementById("zahlChip").textContent = lupe ? "Meins 9 = nichts ausgeblendet" : "Club 4/12 = 4 eingeblendet von 12";
   },
   umdrehen(lt) {
-    const i = FOLGE_NEU.indexOf("kommunikation"), [mx, my] = mitte(i, Y_ERW), t0 = W("umdrehen", "zweimal") + 0.4, tV = W("umdrehen", "eigenes");
-    const dk = clamp((lt - t0 - 0.25) / 0.6);
-    const fp = bahn(lt, [[t0 - 1.3, 560, 1000], [t0 - 0.1, mx, my + 20]]);
-    const tp = lt < t0 + 0.12 ? tipp(lt, t0 - 0.12) : tipp(lt, t0 + 0.12);
+    const i = FOLGE_NEU.indexOf("kommunikation"), p = platzVon(ERW, i, Y_ERW), zx = p.x + ERW.w - 23, zy = p.y + 23;
+    const tZ = W("umdrehen", "Drehzeichen"), t0 = W("umdrehen", "Antippen") + 0.4, tV = W("umdrehen", "eigenes");
+    const dk = clamp((lt - t0 - 0.15) / 0.6);
+    const fp = bahn(lt, [[tZ - 0.6, 560, 1000], [t0 - 0.1, zx, zy]]);
+    const tp = tipp(lt, t0);
     malen("umdrehen", { einfach: 0, info: 0, sl: 0, anord: 0, unten1: 1, folge0: FOLGE_NEU, folge1: FOLGE_NEU, k: 1, weg: { archiv: 1 }, dreh: { id: "kommunikation", k: dk },
-      finger: { ...fp, o: an(lt, t0 - 1.3) * (1 - an(lt, t0 + 0.8)), ...tp } });
-    document.getElementById("drehChip").textContent = lt > tV ? "🎬 eigenes Video: „Oberfläche nach Wunsch“" : "👆👆 doppelt tippen = umdrehen";
+      drehAn: lt > tZ && lt < t0 + 0.2 ? "kommunikation" : null, finger: { ...fp, o: an(lt, tZ - 0.6) * (1 - an(lt, t0 + 0.8)), ...tp } });
+    document.getElementById("drehChip").textContent = lt > tV ? "🎬 eigenes Video: „Oberfläche nach Wunsch“" : "🔄 antippen oder doppelt tippen = umdrehen";
   },
   groesse(lt) {
     // ⚙️ Mehr → 🧩 Startseite & Ansicht → 🔲 Kacheln auf der Startseite; danach Startseite mit 2, 3 und 4 nebeneinander
