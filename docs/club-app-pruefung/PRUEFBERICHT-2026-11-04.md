@@ -42,13 +42,19 @@ und die Mitglieder sehen bei Updates nur „Kleine Systemanpassung“.
 1. **RC-Phase nicht eingehalten.** Laut `FREIGABE_3_0.md` startete RC am 10.10. mit 2.209.0 – „nur Fehlerbehebungen, keine neuen Funktionen“.
    Seitdem kamen 638 Versionen mit vielen neuen Funktionen (Runder Tisch, Büro, Magazin, Anbieter-Neues …). Was neu ist, ist selbst nicht
    7 Tage getestet. → **Funktionsstopp festlegen**, ab dann 7 Tage nur Fehlerbehebung, dann 3.0.0.
-2. **„Was ist neu“ fehlt.** Alle 40 Einträge in `version.json` und der ganze `verlauf.json` lauten „Kleine Systemanpassung“, obwohl
-   `CHANGELOG.md` echte Titel hat. Checklistenpunkt 4.5 verlangt einen Mitgliedertext für 3.0.
+2. **„Was ist neu“ für 3.0 schreiben.** Der Update-Hinweis lautet bei jeder Version bewusst nur „Kleine Systemanpassung“
+   (Regel Hansi 14.10.2026, vom Vertragstest erzwungen – bleibt so). Für die FINAL 3.0 verlangt Checklistenpunkt 4.5 aber einmalig einen
+   Mitgliedertext „Was ist neu in 3.0“ (z. B. als Pinnwand-Zettel/Ankündigung).
 3. **Zu viele Einspielungen.** Am 03.11. allein 24 Versionen (2.824–2.847). Jede startet alle offenen Apps neu (~71 DB-Abfragen je Gerät)
    und lädt app.js + alle Teile neu (~5,8 MB unkomprimiert). Widerspricht KC-DB-SPARSAM (gebündelt 12/20 Uhr).
 4. **Visual-TÜV auf echten Geräten** (4.2) und Endpunkt-Check „ohne Anmeldung → 401“ (4.3) sind Menschen-/Live-Prüfungen – offen.
 
-### Fehler (klein, vor FINAL beheben)
+### Fehler – ✅ behoben in Club-App 2.848.0 (Zweig `ccr-6c837ab8-uwthpa`, Test `tests/pruefung-1104.test.mjs`)
+
+Bei der Behebung kam ein schwererer Fall dazu: Der **Mitglieder-Tipp** (`tippZeigen`) öffnete sein Fenster unter `tippBlatt` – der Kennung
+des festen Einstiegs-Fensters aus `index.html`. `blattAuf` entfernt ein gleichnamiges Element, danach brach `einstiegHinweis()` ab
+(„Cannot set properties of null“, im Browser auf 2.847.0 nachgestellt, auf 2.848.0 behoben). Jetzt `mtBlatt`/`mtText`. Der neue Test
+verbietet allgemein `blattAuf()` mit der Kennung eines festen Fensters und doppelte Schlüssel in `FENSTER_NAMEN`.
 
 5. **Fenster-ID doppelt: `nuBlatt`.** `teile/nutzung.js:13` („So nutzen wir die App“) und `app.js:11068` (Bühnen-Vorschlag) öffnen beide
    `blattAuf("nuBlatt", …)`. Ist eines offen, blockiert `app.js:11058` das andere; in `FENSTER_NAMEN` (`app.js:33851` und `:33879`)
@@ -90,7 +96,7 @@ Ziel aus der Checkliste (Median ≤ 3 s) wird erreicht. Aber: `app.js` = 3,9 MB 
 
 ## 4. Empfohlene Reihenfolge
 
-1. Funde 5–7 beheben (eine Version), Fund 2 (Was-ist-neu-Text) schreiben.
+1. ✅ Funde 5–7 behoben (2.848.0) – zum nächsten Termin (12/20 Uhr, Ruhe-Prüfung) einspielen. Fund 2 (Text „Was ist neu in 3.0“) vor FINAL schreiben.
 2. **Funktionsstopp** ausrufen, RC-Woche neu starten; nur noch Fehlerbehebung, gebündelt 12/20 Uhr.
 3. Visual-TÜV auf echten Geräten (Liste in `FREIGABE_3_0.md` 4.2), 401-Check, `tools/db-test` auf lokaler PostgreSQL.
 4. Nach 7 ruhigen Tagen: 3.0.0 FINAL, Tag `v3.0.0`, Ankündigung.
