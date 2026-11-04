@@ -118,3 +118,14 @@ Ziel aus der Checkliste (Median ≤ 3 s) wird erreicht. Aber: `app.js` = 3,9 MB 
 - **Weiter offen für 3.0:** Funktionsstopp mit Testwoche, Durchsicht auf echten Geräten, 401-Check, `tools/db-test`, Text „Was ist neu in 3.0“.
   Hinweis: Am 04.11. haben drei Sitzungen gleichzeitig eingespielt (2.849.0–2.856.0) – ein weiteres Argument für den Funktionsstopp.
 - **Für 3.1:** Größe von app.js, Teile nur bei Änderung neu laden, CSP ohne `unsafe-inline`, `kc_dp_report_error` ohne Token, Schutz gegen geleakte Passwörter in Supabase.
+
+## 6. Merker: Passwort-Schutz (Entscheidung Hansi 04.11.2026: „Behalte im Merker. Irgendwann stellen wir vielleicht um“)
+
+- **Schutz gegen geleakte Passwörter (HaveIBeenPwned) wird nicht eingeschaltet.** Supabase bietet ihn nur ab dem Pro-Tarif an, er ist also kostenpflichtig und verstößt gegen Regel 6 (Zero-Cost).
+- **Betroffen sind nur Konten mit Passwort** (KC Verwaltung: operator/manager/admin, ggf. Dienstplan/Manager). Club-App-Mitglieder melden sich per persönlichem Link an.
+- **Kostenlose Möglichkeiten für später**, in Supabase → Authentication → E-Mail-Anmeldung:
+  1. Mindestlänge für Passwörter, z. B. 12 Zeichen.
+  2. Vorgeschriebene Zeichen: Ziffern, Groß- und Kleinbuchstaben, Sonderzeichen.
+  3. Bei Passwort-Änderung das aktuelle Passwort verlangen.
+  4. Zwei-Faktor-Anmeldung (MFA) für Admin-Konten.
+- **Vor dem Umstellen:** Strengere Regeln gelten sofort auch für bestehende Konten. Wer ein schwächeres Passwort hat, bekommt beim nächsten Anmelden den Fehler „WeakPasswordError“ und muss das Passwort ändern. Darum erst ankündigen, dann umstellen – nur mit Freigabe Hansi.
