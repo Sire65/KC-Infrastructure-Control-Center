@@ -138,12 +138,17 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--
 
 <div id="unter"></div>
 <script>
-let PLAN = [], TEXTE = {}, ZEITEN = {};
+let PLAN = [], TEXTE = {}, ZEITEN = {}, MARKEN = {};
 const clamp = (x) => Math.max(0, Math.min(1, x));
 const sanft = (x) => { x = clamp(x); return x * x * (3 - 2 * x); };
 const mix = (a, b, k) => a + (b - a) * k;
 const SZ = {}; document.querySelectorAll(".sz").forEach((s) => (SZ[s.dataset.id] = s));
-function W(id, wort, n = 0) { const t = TEXTE[id] || ""; let i = -1; for (let k = 0; k <= n; k++) i = t.indexOf(wort, i + 1); return i < 0 ? 0 : (ZEITEN[id] || 0) * i / t.length; }
+// Sekunde (ab Sprechbeginn), an der ein Wort gesprochen wird: innerhalb des gemessenen Satzabschnitts (marken.json) nach Textanteil, sonst über den ganzen Text
+function W(id, wort, n = 0) {
+  const t = TEXTE[id] || ""; let i = -1; for (let k = 0; k <= n; k++) i = t.indexOf(wort, i + 1); if (i < 0) return 0;
+  const m = (MARKEN[id] || []).find(([von, bis]) => i >= von && i < bis);
+  return m ? m[2] + (m[3] - m[2]) * (i - m[0]) / Math.max(1, m[1] - m[0]) : (ZEITEN[id] || 0) * i / t.length;
+}
 function einblenden(sz, lt) {
   sz.querySelectorAll("[data-ab],[data-bei]").forEach((e) => {
     const ab = e.dataset.bei ? W(sz.dataset.id, e.dataset.bei) : Number(e.dataset.ab), k = sanft((lt - ab) / 0.45);
@@ -318,54 +323,55 @@ const EXTRA = {
     H.karte1.qa(".mini").forEach((m, i) => (m.style.background = i === hlMini ? "rgba(245,197,66,.35)" : ""));
   },
   blaettern(lt) {
-    const t1 = W("blaettern", "weiter") + 0.1, t2 = W("blaettern", "Doppelpfeil") + 0.5, t3 = t2 + 1.4, tW = W("blaettern", "Wischen") + 0.2;
+    // „… links und rechts“ → › · „eine Karte weiter“ → › · „zur ersten“ → « · „zur letzten“ → » · „Wischen“ → nach rechts wischen (eine zurück)
+    const t1 = W("blaettern", "rechts") + 0.2, t2 = W("blaettern", "eine Karte") + 0.2, t3 = W("blaettern", "zur ersten") + 0.2, t4 = W("blaettern", "zur letzten") + 0.2, tW = W("blaettern", "Wischen");
     let karte = 0, vor = null, k = 1, r = 1;
-    const wechsel = (t, von, nach, rr) => { if (lt > t) { karte = nach; vor = von; k = an(lt, t + 0.05, 0.4); r = rr; } };
-    wechsel(t1, 0, 1, 1); wechsel(t2, 1, 6, 1); wechsel(t3, 6, 0, -1); wechsel(tW + 0.3, 0, 1, 1);
-    const sw = lt > tW - 0.2 && lt < tW + 0.5 ? { x: mix(560, 160, sanft((lt - tW + 0.2) / 0.7)), y: 400, druck: 1, ring: 0, o: 1 } : null;
-    malen("blaettern", BASIS({ karte, vor, k, richtung: r, hl: { b2: lt > t1 - 0.5 && lt < t1 + 0.8, b4: lt > t2 - 0.5 && lt < t2 + 0.8, b3: lt > t3 - 0.5 && lt < t3 + 0.8 },
-      finger: sw || tippfolge(lt, [[t1, ...P.b2], [t2, ...P.b4], [t3, ...P.b3]]) }));
-    document.getElementById("c_blaettern").textContent = lt < t2 - 0.4 ? "› eine Karte weiter" : lt < t3 - 0.4 ? "» zur letzten Karte" : lt < tW - 0.3 ? "« zur ersten Karte" : "👆 wischen geht auch";
+    const wechsel = (t, von, nach, rr) => { if (lt > t) { karte = nach; vor = von; k = an(lt, t + 0.05, 0.7); r = rr; } };
+    wechsel(t1, 0, 1, 1); wechsel(t2, 1, 2, 1); wechsel(t3, 2, 0, -1); wechsel(t4, 0, 6, 1); wechsel(tW + 0.5, 6, 5, -1);
+    const sw = lt > tW - 0.2 && lt < tW + 0.9 ? { x: mix(160, 560, sanft((lt - tW + 0.1) / 0.8)), y: 400, druck: 1, ring: 0, o: 1 } : null;
+    malen("blaettern", BASIS({ karte, vor, k, richtung: r, hl: { b2: lt > t1 - 0.5 && lt < t2 + 0.8, b3: lt > t3 - 0.5 && lt < t3 + 0.8, b4: lt > t4 - 0.5 && lt < t4 + 0.8 },
+      finger: sw || tippfolge(lt, [[t1, ...P.b2], [t2, ...P.b2], [t3, ...P.b3], [t4, ...P.b4]]) }));
+    document.getElementById("c_blaettern").textContent = lt < t1 - 0.3 ? "‹ › blättern · « » Anfang/Ende" : lt < t3 - 0.3 ? "› eine Karte weiter" : lt < t4 - 0.3 ? "« zur ersten Karte" : lt < tW - 0.2 ? "» zur letzten Karte" : "👆 wischen geht auch";
   },
   punkte(lt) {
-    const t1 = W("punkte", "Tippst") + 0.6, t2 = t1 + 1.6;
-    let karte = 1, vor = null, k = 1; if (lt > t1) { vor = 1; karte = 3; k = an(lt, t1 + 0.05, 0.4); } if (lt > t2) { vor = 3; karte = 0; k = an(lt, t2 + 0.05, 0.4); }
+    const t1 = W("punkte", "einen Punkt") + 0.2, t2 = W("punkte", "springst") + 0.3;
+    let karte = 5, vor = null, k = 1; if (lt > t1) { vor = 5; karte = 3; k = an(lt, t1 + 0.05, 0.7); } if (lt > t2) { vor = 3; karte = 0; k = an(lt, t2 + 0.05, 0.7); }
     malen("punkte", BASIS({ karte, vor, k, richtung: lt > t2 ? -1 : 1, finger: tippfolge(lt, [[t1, ...P.punkt(3)], [t2, ...P.punkt(0)]]) }));
   },
   schnell(lt) {
-    const t0 = 0.3, tS = W("schnell", "Stift") + 0.3, tT = W("schnell", "Schreiben") + 0.2;
-    malen("schnell", BASIS({ karte: 1, vor: 0, k: an(lt, t0 + 0.05, 0.4), finger: tippfolge(lt, [[t0, ...P.b2], [tT, ...P.ss(0)], [tS, ...P.stift]], [560, 900]),
+    const t0 = -0.55, tS = W("schnell", "Stift") + 0.3, tT = W("schnell", "Schreiben") + 0.2;
+    malen("schnell", BASIS({ karte: 1, vor: 0, k: an(lt, t0 + 0.05, 0.55), finger: tippfolge(lt, [[t0, ...P.b2], [tT, ...P.ss(0)], [tS, ...P.stift]], [560, 900]),
       toast: toastBei(lt, tT + 0.2, "✉️ Neue Nachricht schreiben", 1.6) || toastBei(lt, tS + 0.2, "✏️ Symbole auswählen", 1.8) }));
   },
   wetter(lt) {
-    const t0 = 0.3, tT = W("wetter", "Tippst") + 0.8, tH = W("wetter", "Hältst") + 0.5, hDauer = 0.7;
+    const t0 = -0.55, tT = W("wetter", "Tippst") + 0.8, tH = W("wetter", "Hältst") + 0.5, hDauer = 0.7;
     const wtag = lt > tT ? 1 : 0, det = an(lt, tH + hDauer + 0.05, 0.35);
     const wd = blatt("🌧️ Morgen, Donnerstag", `<div class="wd"><div>Höchstwert<b>9°</b></div><div>Tiefstwert<b>5°</b></div><div>Regen<b>☔ 80 % · 6 mm</b></div><div>Wind<b>25 km/h</b></div><div>Böen<b>48 km/h</b></div><div>UV-Index<b>1 (niedrig)</b></div></div>`);
     const f = tippfolge(lt, [[t0, ...P.b2], [tT, ...P.wtag(1)], [tH, ...P.wtag(1)]], [560, 900]);
     if (lt > tH - 0.1 && lt < tH + hDauer + 0.6) { f.druck = 1; f.halten = clamp((lt - tH) / hDauer); f.ring = 0; }
-    malen("wetter", BASIS({ karte: 2, vor: 1, k: an(lt, t0 + 0.05, 0.4), wtag, blatt: det > 0 ? [wd, det] : null, finger: f }));
+    malen("wetter", BASIS({ karte: 2, vor: 1, k: an(lt, t0 + 0.05, 0.55), wtag, blatt: det > 0 ? [wd, det] : null, finger: f }));
     document.getElementById("c_wetter").textContent = lt < tH - 0.3 ? "🌦️ Tag antippen" : "👆 Tag lange festhalten = Einzelheiten";
   },
   fuerdich(lt) {
-    const t0 = 0.3, tZ = W("fuerdich", "Eine Zeile") + 0.6;
-    malen("fuerdich", BASIS({ karte: 3, vor: 2, k: an(lt, t0 + 0.05, 0.4), zeile: lt > tZ - 0.1 && lt < tZ + 1 ? 1 : -1, finger: tippfolge(lt, [[t0, ...P.b2], [tZ, ...P.ifz(1)]], [560, 900]),
+    const t0 = -0.55, tZ = W("fuerdich", "Eine Zeile") + 0.6;
+    malen("fuerdich", BASIS({ karte: 3, vor: 2, k: an(lt, t0 + 0.05, 0.55), zeile: lt > tZ - 0.1 && lt < tZ + 1 ? 1 : -1, finger: tippfolge(lt, [[t0, ...P.b2], [tZ, ...P.ifz(1)]], [560, 900]),
       toast: toastBei(lt, tZ + 0.2, "📅 Zu- oder absagen – direkt beim Termin", 2) }));
   },
   demnaechst(lt) {
-    const t0 = 0.3, tA = W("demnaechst", "Antippen") + 0.4;
-    malen("demnaechst", BASIS({ karte: 4, vor: 3, k: an(lt, t0 + 0.05, 0.4), zeile: lt > tA - 0.1 && lt < tA + 1 ? 2 : -1, finger: tippfolge(lt, [[t0, ...P.b2], [tA, ...P.ifz(2)]], [560, 900]),
+    const t0 = -0.55, tA = W("demnaechst", "Antippen") + 0.4;
+    malen("demnaechst", BASIS({ karte: 4, vor: 3, k: an(lt, t0 + 0.05, 0.55), zeile: lt > tA - 0.1 && lt < tA + 1 ? 2 : -1, finger: tippfolge(lt, [[t0, ...P.b2], [tA, ...P.ifz(2)]], [560, 900]),
       toast: toastBei(lt, tA + 0.2, "📅 Kalender: Sa, 28.11.", 1.8) }));
   },
   fotos(lt) {
-    const t0 = 0.3, tA = W("fotos", "Antippen") + 0.4, tZ = W("fotos", "Darunter") - 0.2, gross = an(lt, tA + 0.15, 0.35) * (1 - an(lt, tZ, 0.35));
+    const t0 = -0.55, tA = W("fotos", "Antippen") + 0.4, tZ = W("fotos", "Darunter") - 0.2, gross = an(lt, tA + 0.15, 0.35) * (1 - an(lt, tZ, 0.35));
     const [e, g] = FOTOS[1], gh = `<div style="background:linear-gradient(135deg,${g})">${e}</div><span>Clubabend · 23.10.2026</span>`;
-    malen("fotos", BASIS({ karte: 5, vor: 4, k: an(lt, t0 + 0.05, 0.4), foto: lt > tA - 0.1 && lt < tZ ? 1 : -1, gross: gross > 0 ? [gh, gross] : null, finger: tippfolge(lt, [[t0, ...P.b2], [tA, ...P.foto(1)]], [560, 900]) }));
+    malen("fotos", BASIS({ karte: 5, vor: 4, k: an(lt, t0 + 0.05, 0.55), foto: lt > tA - 0.1 && lt < tZ ? 1 : -1, gross: gross > 0 ? [gh, gross] : null, finger: tippfolge(lt, [[t0, ...P.b2], [tA, ...P.foto(1)]], [560, 900]) }));
   },
   zentrale(lt) {
-    const t0 = 0.3, tAl = W("zentrale", "Alle") + 0.2, tOn = W("zentrale", "online") + 0.2, tAu = W("zentrale", "Auswahl") + 0.2, tK = W("zentrale", "Dann") + 0.3, tZ = W("zentrale", "Zusätzlich") + 0.5;
+    const t0 = -0.55, tAl = W("zentrale", "Alle") + 0.2, tOn = W("zentrale", "online") + 0.2, tAu = W("zentrale", "Auswahl") + 0.2, tK = W("zentrale", "Dann") + 0.3, tZ = W("zentrale", "Zusätzlich") + 0.5;
     const empf = lt < tAl ? 2 : lt < tOn ? 0 : lt < tAu ? 1 : 3;
     const zk = lt > tK ? Math.min(6, Math.floor((lt - tK) / ((tZ - tK - 0.3) / 7))) : -1;
-    malen("zentrale", BASIS({ karte: 6, vor: 5, k: an(lt, t0 + 0.05, 0.4), empf, zknopf: lt < tZ - 0.2 ? zk : -1, zweg: lt > tZ ? [0, 1, 2].filter((i) => lt > tZ + i * 0.5) : [],
+    malen("zentrale", BASIS({ karte: 6, vor: 5, k: an(lt, t0 + 0.05, 0.55), empf, zknopf: lt < tZ - 0.2 ? zk : -1, zweg: lt > tZ ? [0, 1, 2].filter((i) => lt > tZ + i * 0.5) : [],
       finger: tippfolge(lt, [[t0, ...P.b4], [tAl, ...P.zchip(0)], [tOn, ...P.zchip(1)], [tAu, ...P.zchip(3)]], [560, 900]) }));
   },
   startkarte(lt) {

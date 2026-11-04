@@ -11,7 +11,8 @@ fs.writeFileSync("plan.json", JSON.stringify({ dauer: DAUER, plan }, null, 1));
 const mode = process.argv[2];
 const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
 await p.goto("file://" + process.cwd() + "/film.html");
-await p.evaluate(([pl, tx, ze]) => { PLAN = pl; TEXTE = tx; ZEITEN = ze; }, [plan, Object.fromEntries(texte.map((s) => [s.id, s.t])), zeiten]);
+const marken = fs.existsSync("marken.json") ? JSON.parse(fs.readFileSync("marken.json", "utf8")) : {};
+await p.evaluate(([pl, tx, ze, ma]) => { PLAN = pl; TEXTE = tx; ZEITEN = ze; MARKEN = ma; }, [plan, Object.fromEntries(texte.map((s) => [s.id, s.t])), zeiten, marken]);
 await p.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map((i) => i.decode().catch(() => {}))); });
 if (mode === "probe") {
   fs.mkdirSync("probe", { recursive: true });

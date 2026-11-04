@@ -1,113 +1,113 @@
 {
- "dauer": 167.117,
+ "dauer": 168.395,
  "plan": [
   {
    "id": "titel",
    "start": 0,
    "sprache": 0.6,
-   "ende": 10.881
+   "ende": 10.486
   },
   {
    "id": "ueberblick",
-   "start": 10.681,
-   "sprache": 11.281,
-   "ende": 18.358
+   "start": 10.286,
+   "sprache": 10.886,
+   "ende": 18.253
   },
   {
    "id": "kopfzeile",
-   "start": 18.158,
-   "sprache": 18.758,
+   "start": 18.053,
+   "sprache": 18.653,
    "ende": 28.098
   },
   {
    "id": "status",
    "start": 27.898,
    "sprache": 28.498,
-   "ende": 38.465
+   "ende": 38.5
   },
   {
    "id": "pfeile",
-   "start": 38.265,
-   "sprache": 38.865,
-   "ende": 45.825
+   "start": 38.3,
+   "sprache": 38.9,
+   "ende": 45.756
   },
   {
    "id": "karte1",
-   "start": 45.625,
-   "sprache": 46.225,
-   "ende": 58.108
+   "start": 45.556,
+   "sprache": 46.156,
+   "ende": 58.027
   },
   {
    "id": "blaettern",
-   "start": 57.908,
-   "sprache": 58.508,
-   "ende": 66.954
+   "start": 57.827,
+   "sprache": 58.427,
+   "ende": 67.268
   },
   {
    "id": "punkte",
-   "start": 66.754,
-   "sprache": 67.354,
-   "ende": 73.943
+   "start": 67.068,
+   "sprache": 67.668,
+   "ende": 74.118
   },
   {
    "id": "schnell",
-   "start": 73.743,
-   "sprache": 74.343,
-   "ende": 84.183
+   "start": 73.918,
+   "sprache": 74.518,
+   "ende": 84.451
   },
   {
    "id": "wetter",
-   "start": 83.983,
-   "sprache": 84.583,
-   "ende": 93.459
+   "start": 84.251,
+   "sprache": 84.851,
+   "ende": 93.762
   },
   {
    "id": "fuerdich",
-   "start": 93.259,
-   "sprache": 93.859,
-   "ende": 102.654
+   "start": 93.562,
+   "sprache": 94.162,
+   "ende": 102.957
   },
   {
    "id": "demnaechst",
-   "start": 102.454,
-   "sprache": 103.054,
-   "ende": 108.412
+   "start": 102.757,
+   "sprache": 103.357,
+   "ende": 108.762
   },
   {
    "id": "fotos",
-   "start": 108.212,
-   "sprache": 108.812,
-   "ende": 116.69
+   "start": 108.562,
+   "sprache": 109.162,
+   "ende": 117.539
   },
   {
    "id": "zentrale",
-   "start": 116.49,
-   "sprache": 117.09,
-   "ende": 132.003
+   "start": 117.339,
+   "sprache": 117.939,
+   "ende": 132.458
   },
   {
    "id": "startkarte",
-   "start": 131.803,
-   "sprache": 132.403,
-   "ende": 138.388
+   "start": 132.258,
+   "sprache": 132.858,
+   "ende": 138.843
   },
   {
    "id": "szenen",
-   "start": 138.188,
-   "sprache": 138.788,
-   "ende": 150.358
+   "start": 138.643,
+   "sprache": 139.243,
+   "ende": 151.114
   },
   {
    "id": "eselsohr",
-   "start": 150.158,
-   "sprache": 150.758,
-   "ende": 158.45
+   "start": 150.914,
+   "sprache": 151.514,
+   "ende": 159.647
   },
   {
    "id": "ende",
-   "start": 158.25,
-   "sprache": 158.85,
-   "ende": 167.117
+   "start": 159.447,
+   "sprache": 160.047,
+   "ende": 168.395
   }
  ]
 }
