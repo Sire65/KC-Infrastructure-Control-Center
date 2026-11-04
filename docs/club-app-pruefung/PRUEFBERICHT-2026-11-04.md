@@ -101,3 +101,20 @@ Ziel aus der Checkliste (Median ≤ 3 s) wird erreicht. Aber: `app.js` = 3,9 MB 
 3. Visual-TÜV auf echten Geräten (Liste in `FREIGABE_3_0.md` 4.2), 401-Check, `tools/db-test` auf lokaler PostgreSQL.
 4. Nach 7 ruhigen Tagen: 3.0.0 FINAL, Tag `v3.0.0`, Ankündigung.
 5. Funde 8–17 in die Liste für 3.1.
+
+## 5. Nachtrag 04.11.2026 – Stand nach Club-App 2.852.0
+
+- **Fehler 5–7 und der Absturz beim Mitglieder-Tipp:** behoben in 2.848.0 (live 05:28 UTC).
+- **Bedienung, Funde 8–13:** erledigt in 2.852.0 (live 11:12 UTC, eingespielt auf main als 2.852.0, weil 2.849.0–2.851.0 von anderen Sitzungen vergeben waren).
+  - Nachrichten-Leiste: Wörter 12 px und nie gekürzt; auf schmalen Handys eine zweite, gemittelte Reihe.
+  - Hilfe & Tipps: „💭 Feedback“ größer antippbar; Suchen-Knopf unter 400 px nur 🔍.
+  - Fotos/Videos-Umschalter mit `aria-pressed`, Kamera-Auslöser benannt.
+  - Einheitlich „Wird geladen …“.
+  - Runder Tisch: Doppeltippen auf „Nächstes“ schickt nichts doppelt; der wackelige Tisch-Live-Test ist behoben.
+- **Fund 8 (Startseite):** Nachmessung ergab bereits ≥ 24 px Trefffläche (unsichtbar vergrößert seit 2.481.0). Mein erster Befund war ein Messfehler.
+- **Kontrast:** 0 Funde in allen Designs, bei Tag und Nacht.
+- **Bewusst nicht geändert:** das Schloss 🔓 in den Klapp-Zeilen und die LED-Punkte im Verbindungsknopf (Kern-Bausteine, Umbau riskanter als der Nutzen).
+- **KC-TESTS-OHNE-ECHTSERVER:** Lokale Prüfläufe lösten 6 abgelehnte Anmeldeversuche am echten Server aus. Rundgang und Tisch-Live sperren die echten Server-Adressen jetzt zusätzlich per `--host-resolver-rules`. Hansis Regel und der Wächter-Test `tests/browser-abgeschirmt.test.mjs` stehen in der Club-App.
+- **Weiter offen für 3.0:** Funktionsstopp mit Testwoche, Durchsicht auf echten Geräten, 401-Check, `tools/db-test`, Text „Was ist neu in 3.0“.
+  Hinweis: Am 04.11. haben drei Sitzungen gleichzeitig eingespielt (2.849.0–2.856.0) – ein weiteres Argument für den Funktionsstopp.
+- **Für 3.1:** Größe von app.js, Teile nur bei Änderung neu laden, CSP ohne `unsafe-inline`, `kc_dp_report_error` ohne Token, Schutz gegen geleakte Passwörter in Supabase.
