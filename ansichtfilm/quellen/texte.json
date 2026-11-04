@@ -44,8 +44,16 @@
   "t": "So kann deine Startseite danach aussehen: nur noch vier Kacheln. Nachrichten, Termine, Protokolle und Dienstpläne. Alles andere ist ausgeblendet, aber jederzeit wieder da."
  },
  {
+  "id": "zahl",
+  "t": "Siehst du die Zahl am Reiter? Vier von zwölf heißt: vier Kacheln sind eingeblendet, insgesamt gibt es zwölf. Steht nur eine Zahl da, ist nichts ausgeblendet."
+ },
+ {
   "id": "groesse",
   "t": "Auch die Kachelgröße wählst du selbst: unter „Mehr“, bei „Startseite und Ansicht“. Normal heißt zwei nebeneinander, klein drei, sehr klein vier. Je kleiner, desto mehr siehst du auf einen Blick."
+ },
+ {
+  "id": "umdrehen",
+  "t": "Noch ein Tipp: Tippst du zweimal schnell auf eine Kachel, dreht sie sich um. Hinten stehen Abkürzungen, zum Beispiel „Neue Nachricht“. Dazu gibt es ein eigenes Erklär-Video: „Oberfläche nach Wunsch“."
  },
  {
   "id": "kopf",
