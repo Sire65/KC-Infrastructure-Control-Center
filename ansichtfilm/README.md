@@ -15,10 +15,11 @@ jederzeit änderbar → wo es weitere Erklär-Videos gibt → Ende.
 Im Handy ist die Club-App nachgebaut (keine Bildschirmfotos): nur Mitglieder-Kacheln, Namen und Termine sind Beispiele,
 keine echten Mitgliederdaten, keine Chat-Inhalte (Regel 19).
 
-## In der Club-App (eingebaut in 2.804.0)
+## In der Club-App (eingebaut ab 2.804.0, aktuell 2.850.0)
 
-Eingebaut in **Sire65/KC-Clubapp** auf dem Zweig `claude/club-app-tutorial-video-4f46mx` (Version 2.804.0, Server 2.804.0).
-`clubapp-einbau.patch` hier ist nur die Kopie des Code-Teils zum Nachlesen.
+Eingebaut in **Sire65/KC-Clubapp** mit 2.804.0 (Server 2.809.0 nach Korrektur). Neue Filmfassungen: 2.816.0 (Verschiebepfeile, 4 Kacheln),
+2.821.0 (Reiter, einfache Ansicht wie echt), 2.828.0 (Kachelgröße), 2.850.0 (Zahl am Reiter, Kacheln umdrehen mit 🔄) – jeweils
+`film/app-selbst-einrichten.mp4?v=…`, gleiche Kennung `ansichtfilm`. `clubapp-einbau.patch` hier ist nur die Kopie des Code-Teils von 2.804.0 zum Nachlesen.
 
 - `FILME`-Eintrag `ansichtfilm` (`film/app-selbst-einrichten.mp4`, Vorschau `film/app-einrichten-vorschau.jpg`), `fuer: () => true`:
   **jedes Mitglied** bekommt den Film einmal beim Start angeboten (▶ ansehen / ⏰ später / Nein, danke).
