@@ -1,7 +1,7 @@
 # Konzept: Neuer Adventskalender in der Club-App (Advent 2026)
 
 Stand 06.11.2026 · Kennzeichen **KC-CLUB-ADVENT-2026** · baut auf **KC-CLUB-ADVENTSKALENDER** (Club-App 2.468.0 / 2.476.0) auf ·
-Status: **Konzept – Fragen 1, 2 und 6 beantwortet (06.11.2026), Rest offen (Abschnitt 10)** · nur Text und Entwurfsbild, noch keine Funktion
+Status: **Konzept – alle Fragen beantwortet (06.11.2026), bereit zur Umsetzung** · nur Text und Entwurfsbild, noch keine Funktion
 
 Wunsch Hansi (06.11.2026): „Entwickle ein neues Konzept zum Adventskalender in der Club-App. Als Hintergrund soll das Rathaus-Bild aus der
 TV-Präsentation sein. In den Türchen sind bisher nur Bastelanleitungen. Baue auch abwechselnd ein: weihnachtliche Bastelanleitung,
@@ -24,9 +24,10 @@ Türchen wechseln sich jetzt **vier Sorten** ab – Nascherei, Basteln, Deko und
 | 24 Türchen, gemischte Anordnung `AK_REIHE` | Weinrot/Beige, heutiges leuchtet golden | **bleibt** (gleiche Anordnung, Mitglieder finden sich zurecht) |
 | Inhalt `AK_TUERCHEN` | 23 Nasch-Bastelanleitungen + „Frohe Weihnachten“ | Registry wird um **Sorte** erweitert (Abschnitt 4) |
 | Frühere Türchen nachholen, spätere gesperrt | ja | **bleibt** |
-| Geöffnete Türchen merkt sich das Gerät (`kc_club_advent_<Jahr>`) | ja, kein Server | **bleibt** – nur Kinderriegel und Einladung brauchen den Club-Server (Abschnitt 6/7) |
+| Geöffnete Türchen merkt sich das Gerät (`kc_club_advent_<Jahr>`) | ja, kein Server | **bleibt** – nur die Antwort auf die Einladung geht über den vorhandenen Abstimmungs-Baustein (Abschnitt 7); **keine neue Tabelle** |
 | Erinnerung im Info-Laufband | „🎄 Türchen … wartet auf dich“ | **bleibt**; an Sonntagen „🍫 Heute wartet eine Überraschung“ |
 | Überraschung bis 30.11. (nur Admin sieht ihn) | 2.482.0 | **bleibt** |
+| Wer sieht ihn? | alle Konten | **nur Mitglieder** – **kein Kalender für Gäste und Kinder-Konten** (Antwort Hansi 06.11.2026); Admins wie bisher |
 | An/aus unter ⚙️ → ✨ Effekte | ja | **bleibt** |
 
 **Keine Anleitung geht verloren:** Die 16 Nasch-Anleitungen, die nicht mehr hinter einem Türchen stehen, kommen in ein neues Fach
@@ -56,7 +57,7 @@ Türchen wechseln sich jetzt **vier Sorten** ab – Nascherei, Basteln, Deko und
 | **Nascherei** | 🍬 | Bastelanleitung für eine kleine süße Nascherei (wie bisher) | 7 |
 | **Weihnachtliches Basteln** | ✂️ | Bastelanleitung ohne Essen: Sterne, Karten, Anhänger, Baumschmuck | 7 |
 | **Weihnachts-Deko** | 🕯️ | Anleitung für Deko fürs Zuhause und die Festtafel | 6 |
-| **Überraschung: Kinderriegel** | 🍫 | ein echter Kinderriegel als Gutschein (Abschnitt 6) | 3 |
+| **Überraschung: Kinderriegel** | 🍫 | Gutschein für einen echten Kinderriegel – gibt's beim Weihnachtsessen im Januar (Abschnitt 6) | 3 |
 | **Einladung** | ☕ | Frühstück bei Hansi im Januar/Februar (Abschnitt 7) | 1 |
 
 **Rhythmus:** Nascherei → Basteln → Deko, immer reihum; an den **drei Adventssonntagen im Dezember** (6., 13., 20.12.2026) der Kinderriegel.
@@ -68,6 +69,7 @@ Registry-Erweiterung (Beispiel – nur `AK_TUERCHEN` ändern, wie es der Komment
 ```js
 { art: "basteln", sym: "⭐", t: "Sterne aus Butterbrottüten", z: [...], s: [...], tipp: "..." }
 { art: "riegel",  sym: "🍫", t: "Ein Kinderriegel für dich!", gutschein: 1 }
+{ art: "basteln", ..., link: "https://…" }   // Link zur echten Anleitung (Abschnitt 5.1)
 { art: "einladung", sym: "☕", t: "Einladung zum Frühstück", termine: [...] }
 // art fehlt = "naschen" (alte Einträge laufen unverändert weiter)
 ```
@@ -114,7 +116,13 @@ für wenige Euro bekommt) · **✂️ So geht's** (4 Schritte, je ein Satz) · *
 - **⏱️ Dauer** (z. B. „ca. 20 Minuten“) und **👧 Mit Kindern?** (✅ gut geeignet / ⚠️ mit Hilfe – Schere, Backofen, Kerze).
 - **Sicherheitshinweis** bei Kerzen und Backofen (wie beim Mandarinen-Licht: „nie unbeaufsichtigt brennen lassen“).
 - Der Kleber-Hinweis (Zuckerguss) erscheint nur noch bei Naschereien.
-- Keine Fotos aus dem Netz: Symbol groß, optional eine selbst gezeichnete SVG-Skizze je Schritt (Stufe 2, Frage 5).
+- **Kleine Symbole + Link zur echten Anleitung** (Antwort Hansi 06.11.2026): In der Karte stehen das Symbol, die Kurzfassung (Material, 4 Schritte,
+  Tipp) und darunter der Knopf **„🔗 Zur ausführlichen Anleitung (mit Bildern)“**. Er öffnet eine echte Bastel-/Deko-Anleitung im Internet in einem
+  neuen Fenster (`target="_blank" rel="noopener"`). Keine Bilder aus dem Netz in der App selbst, keine eigenen Skizzen.
+- **Auswahl der Links:** beim Einbau je Anleitung eine frei zugängliche Seite (ohne Anmeldung, ohne Bezahlschranke, möglichst wenig Werbung, deutsch),
+  bevorzugt mit Schritt-Fotos oder Video. Hansi bekommt die Liste vorher zum Absegnen. Die Links stehen in der Registry (`link`) und lassen sich ohne
+  Programmänderung austauschen. Zusätzlich bekommen auch die Naschereien einen Link, wo es eine gute Anleitung gibt (sonst bleibt der Knopf weg).
+- Kurz vor dem 1.12. prüft ein Werkzeug (`tools/advent-links.mjs`), ob alle Links noch erreichbar sind – ein toter Link wird vorher ersetzt.
 - 🔊 **Vorlesen** wie überall in der App (vorhandene Vorlese-Funktion).
 
 Beispiel Türchen 2 – **Sterne aus Butterbrottüten** ✂️ · ca. 20 Min. · 👧 mit Kindern gut geeignet
@@ -124,25 +132,24 @@ Beispiel Türchen 2 – **Sterne aus Butterbrottüten** ✂️ · ca. 20 Min. ·
   3. Die oberste und die unterste Tüte zusammenkleben – der Stern klappt auf.
   4. Faden durchziehen und ans Fenster hängen.
 - 💡 Mit Lichterkette dahinter leuchtet der Stern wie eine Laterne.
+- 🔗 Zur ausführlichen Anleitung (mit Bildern)
 
 ## 6. Kinderriegel an den Adventssonntagen
 
-Ein Adventskalender ohne Schokolade? Nicht im Köcheclub. An den drei Sonntagen gibt es **einen echten Kinderriegel** – digital als Gutschein:
+Ein Adventskalender ohne Schokolade? Nicht im Köcheclub. An den drei Sonntagen gibt es **einen echten Kinderriegel** – im Türchen als Gutschein,
+den Riegel selbst gibt es **beim Weihnachtsessen im Januar** (Antwort Hansi 06.11.2026):
 
 1. **Türchen öffnen:** Ein Kinderriegel rutscht aus dem Türchen (kleine Animation, selbst gezeichnet – **kein Markenlogo**, nur der Schriftzug wie im
    Entwurf), Text „Ein Kinderriegel für dich!“, an Nikolaus „Der Nikolaus war da …“.
-2. **Gutschein:** „🎟️ Gutschein Nr. 1 von 3 – zeig diese Karte am **Weihnachtsmarktstand** oder beim **nächsten Clubtreffen**, dort wartet dein Kinderriegel.
-   Gültig bis 6. Januar, nur einmal einlösbar.“ Darunter der Name des Mitglieds (aus dem Profil, nur auf dem eigenen Gerät angezeigt).
-3. **Einlösen:** Wer den Riegel ausgibt (Hansi oder Standdienst), tippt auf „✅ Eingelöst“. Der Club-Server vermerkt nur
-   *Mitglied · Gutschein-Nr. · Zeitpunkt* (Vorschlag: neue kleine Tabelle `kc_club_advent_gutschein` – mit `enable row level security`,
-   `revoke all … from public, anon, authenticated` und `grant … to service_role` nach KC-SUPABASE-GRANTS). Danach zeigt die Karte „🍫 Eingelöst am …“
-   – auch auf einem zweiten Gerät des Mitglieds. **Ohne Netz** merkt sich die App den Haken und schickt ihn nach.
-4. **Mehrere Gutscheine auf einmal:** Wer erst am 20.12. reinschaut, hat drei Gutscheine – die Karte zeigt „3 Kinderriegel warten auf dich“.
-5. **Übersicht für Hansi** (nur Admin, im Kalender unten): „🍫 Ausgegeben: 37 · offen: 52“ – nur Zahlen, damit Hansi weiß, wie viele Riegel er mitnehmen muss.
-6. **Einfache Variante ohne Server (Frage 3):** nur Vertrauen – Haken „Eingelöst“ bleibt auf dem Gerät. Kein Datenbankaufwand, aber doppeltes Einlösen
-   auf zwei Geräten wäre möglich.
+2. **Gutschein:** „🎟️ Gutschein Nr. 1 von 3 – dein Kinderriegel wartet beim **Weihnachtsessen im Januar** auf dich.“
+3. **Kein Abhaken** (Antwort Hansi 06.11.2026): kein „Eingelöst“-Knopf, keine Liste, **keine neue Tabelle, kein Server**. Der Gutschein ist nur eine
+   schöne Karte; ausgegeben wird beim Weihnachtsessen einfach an alle, die da sind.
+4. **Mehrere Gutscheine:** Wer erst am 20.12. reinschaut, sieht „🍫 3 Kinderriegel warten beim Weihnachtsessen auf dich“.
+5. **Erinnerung:** Kurz vor dem Weihnachtsessen – sobald der Termin im 📅 Kalender steht – zeigt die App einmal im Info-Laufband
+   „🍫 Denk an deine Kinderriegel – heute beim Weihnachtsessen!“ (nur bei Mitgliedern, die mindestens ein Riegel-Türchen geöffnet haben;
+   Erkennung über den Termin, keine Freitext-Eingabe).
 
-Kosten: Die Riegel bezahlt der Club (Packung mit 10 Riegeln ca. 2,50 €). Für die App selbst entstehen **keine Kosten** (kein neuer Dienst).
+Kosten: Die Riegel bezahlt der Club (3 Riegel je Mitglied; Packung mit 10 Riegeln ca. 2,50 €). Für die App entstehen **keine Kosten** (kein neuer Dienst).
 
 ## 7. Türchen 24: Einladung zum Frühstück bei Hansi
 
@@ -151,6 +158,7 @@ Am Heiligabend öffnet sich das goldene Türchen 24 (im Kalender schon vorher mi
 1. **Weihnachtsgruß** (bleibt aus dem bisherigen Türchen 24): „Der Köcheclub Werne wünscht dir und deiner Familie frohe Weihnachten und gesegnete Festtage!“
 2. **Einladungskarte** im Stil einer Briefkarte auf beigem Grund, das Rathaus groß im Hintergrund, kleiner Goldglanz beim Öffnen:
    „☕🥐🍳 **Einladung zum Frühstück** – Als Dankeschön für ein tolles Clubjahr lade ich dich im neuen Jahr zum Frühstück ein. Herzlich, euer Hansi 🧑‍🍳“
+   Die Einladung gilt **nur für das Mitglied** (keine Partner, Antwort Hansi 06.11.2026) – deshalb auch kein „Wir kommen zu zweit“.
 3. **📅 Termin:** „Im **Januar oder Februar** – der genaue Termin wird noch bekannt gegeben.“ (Antwort Hansi 06.11.2026: „Termin wird noch bekannt
    gegeben“ – deshalb **keine Terminauswahl** im Türchen.)
 4. **🙋 Ich bin dabei!** / **Leider nicht** – nur „Hast du Lust?“, ohne Datum. Damit weiß Hansi früh, mit wie vielen er rechnen kann. Dafür wird der
@@ -175,7 +183,7 @@ Am Heiligabend öffnet sich das goldene Türchen 24 (im Kalender schon vorher mi
 ## 9. Umsetzung, Tests, Definition of Done
 
 - **Wo:** Club-App (`KC-Clubapp`): `app.js` (Registry `AK_TUERCHEN`, `akZeigen`, `akTuer`), `index.html` (CSS `.ak-*`), neues Bild `advent/rathaus.webp`,
-  Club-Server (`supabase/functions/kc-club`) nur für den Gutschein-Haken (falls Frage 3 = Server). Hilfe-Eintrag „adventskalender“ anpassen
+  **keine Änderung am Club-Server und keine neue Tabelle**; Sichtbarkeit `akSichtbar` um „kein Gast, kein Kinder-Konto“ erweitern. Hilfe-Eintrag „adventskalender“ anpassen
   („jeden Tag ein Türchen – Naschereien, Basteln, Deko, sonntags eine Überraschung, am 24. eine Einladung“).
 - **Einspielen:** gebündelt zum 12- oder 20-Uhr-Termin (KC-DB-SPARSAM), spätestens im Bündel **Ende November**; vorher Vorschau für Admin (gibt es schon).
 - **Tests** (neu `tests/advent-2026.test.mjs`):
@@ -183,22 +191,27 @@ Am Heiligabend öffnet sich das goldene Türchen 24 (im Kalender schon vorher mi
   - jede Anleitung hat 3–5 Zutaten/Materialien, 4 Schritte, Tipp; Basteln/Deko haben Dauer und Kinder-Hinweis;
   - alle 23 bisherigen Nasch-Anleitungen sind noch vorhanden (Kalender oder Fach „Alle Naschereien“);
   - Hintergrundbild ≤ 150 KB, im Service-Worker-Zwischenspeicher, Quellenzeile vorhanden;
-  - Gutschein-Migration enthält RLS, `revoke` und `grant … to service_role` (läuft schon über `tests/migration-rechte.test.mjs`);
+  - jede Bastel-/Deko-Anleitung hat einen `link` mit `https://`; Knopf öffnet in neuem Fenster mit `rel="noopener"`;
+  - Gäste und Kinder-Konten sehen den Kalender nicht (weder Laufband noch Hilfe noch ⚙️ Effekte);
+  - Riegel-Türchen haben keinen „Eingelöst“-Knopf und rufen keinen Server auf;
   - Browser-Prüfung Handy hochkant und Tablet quer: Rathaus sichtbar, Text lesbar (Kontrast ≥ 4,5 : 1), große Schrift → 3 Spalten.
 - **Fertig, wenn:** alle Tests grün · Hansi hat die Vorschau am Handy abgenommen · Bildquelle vermerkt · Frühstücks-Abfrage „Hast du Lust?“ angelegt ·
   CHANGELOG-Eintrag · Hilfe-Text aktualisiert · Rückweg = vorherige App-Version.
 
-## 10. Fragen an Hansi
+## 10. Entscheidungen von Hansi (06.11.2026)
 
-1. ~~Rathaus-Bild: Woher stammt es?~~ ✅ **Beantwortet 06.11.:** von Hansi selbst gemacht – darf verwendet werden.
-2. ~~„Kinderriegel“ oder „Kinderrätsel“?~~ ✅ **Beantwortet 06.11.:** **echter Riegel** (Gutschein wie in Abschnitt 6).
-3. **Einlösen:** Haken auf dem Club-Server (sicher, Übersicht für Hansi) oder nur auf dem Gerät (einfacher)?
-4. **Wo einlösen:** Weihnachtsmarktstand, Clubtreffen – oder auch per Post/Besuch für Mitglieder, die nicht kommen können?
-5. **Skizzen:** Reichen große Symbole, oder sollen die neuen Bastel- und Deko-Anleitungen kleine selbst gezeichnete Schritt-Bilder bekommen?
-6. ~~Frühstückstermine zur Auswahl?~~ ✅ **Beantwortet 06.11.:** Termin wird **noch bekannt gegeben** – Türchen 24 ohne Terminauswahl (Abschnitt 7).
-7. **Partner:** Sollen beim Frühstück Partner/Partnerinnen Partner/Partnerinnen mit eingeladen sein (dann zusätzlich „Wir kommen zu zweit“ als Antwort)?
-8. **Wer bekommt den Kalender:** alle Mitglieder wie bisher – auch Gäste und Kinder-Konten (Eltern-Handy)? Bei Kinder-Konten würde Türchen 24
-   statt der Frühstückseinladung „Frohe Weihnachten“ zeigen.
+| # | Frage | Antwort |
+|---|---|---|
+| 1 | Rathaus-Bild – Herkunft? | **Von Hansi selbst gemacht** – darf verwendet werden |
+| 2 | Kinderriegel oder Kinderrätsel? | **Echter Riegel** |
+| 3 | Gutschein abhaken? | **Kein Abhaken** – Riegel gibt es beim **Weihnachtsessen im Januar** |
+| 4 | Wo gibt es den Riegel? | **Beim Weihnachtsessen im Januar** |
+| 5 | Bilder in den Anleitungen? | **Kleine Symbole + Link zur echten Anleitung** |
+| 6 | Frühstückstermine zur Auswahl? | **Termin wird noch bekannt gegeben** – keine Auswahl im Türchen |
+| 7 | Partner beim Frühstück? | **Nein** – Einladung nur für das Mitglied |
+| 8 | Kalender für Gäste/Kinder? | **Nein** – nur Mitglieder |
+
+Noch zu tun vor dem Einbau: Linkliste für die Anleitungen zusammenstellen und von Hansi absegnen lassen (Abschnitt 5.1).
 
 ---
 Dateien in diesem Ordner: `KONZEPT_ADVENTSKALENDER_2026.md` (dieses Konzept), `entwurf.html` + `entwurf.webp` (Entwurfsbild, keine Funktion),
