@@ -80,27 +80,27 @@ Registry-Erweiterung (Beispiel – nur `AK_TUERCHEN` ändern, wie es der Komment
 |---|---|---|---|---|
 | 1 | Di | 🍬 Nascherei | Lokomotive aus Dominosteinen | bisher Türchen 1 |
 | 2 | Mi | ✂️ Basteln | Sterne aus Butterbrottüten | neu |
-| 3 | Do | 🕯️ Deko | Winter-Windlicht im Einmachglas (Salz-Schnee, Tannengrün, Kordel) | neu |
+| 3 | Do | 🕯️ Deko | Frost-Windlicht mit Salzkristallen (Glas, grobes Salz, Tannengrün – Kristalle wachsen in ein paar Tagen) | neu |
 | 4 | Fr | 🍬 Nascherei | Nikolaus aus Schokokuss – „schon mal für Sonntag“ | bisher Türchen 6 |
 | 5 | Sa | ✂️ Basteln | Nikolausstiefel aus Filz zum Aufhängen – rechtzeitig für heute Abend | neu |
 | 6 | **So · 2. Advent · Nikolaus** | 🍫 Überraschung | **Kinderriegel-Gutschein 1/3** | neu |
 | 7 | Mo | 🕯️ Deko | Girlande aus getrockneten Orangenscheiben (Backofen, 80 °C) | neu |
 | 8 | Di | 🍬 Nascherei | Rentier aus Marshmallow | bisher Türchen 7 |
 | 9 | Mi | ✂️ Basteln | Schneeflocken aus Papier falten und schneiden | neu |
-| 10 | Do | 🕯️ Deko | Tannenzapfen-Wichtel mit Filzmütze | neu |
+| 10 | Do | 🕯️ Deko | Zapfenwichtel mit Filzmütze und Bart | neu |
 | 11 | Fr | 🍬 Nascherei | Schneeflocke aus Brezeln | bisher Türchen 15 |
 | 12 | Sa | ✂️ Basteln | Engel aus Nudeln (Baumschmuck) | bisher Türchen 5 – war schon keine Nascherei |
 | 13 | **So · 3. Advent · Lucia** | 🍫 Überraschung | **Kinderriegel-Gutschein 2/3** (+ Hinweis auf das Mandarinen-Licht im Fach „Alle Naschereien“) | neu |
-| 14 | Mo | 🕯️ Deko | Duft-Orangen mit Nelken (Pomander) | neu |
+| 14 | Mo | 🕯️ Deko | Duft-Orange mit Nelken (Nelkenorange) | neu |
 | 15 | Di | 🍬 Nascherei | Schokolöffel für heiße Milch | bisher Türchen 12 |
-| 16 | Mi | ✂️ Basteln | Weihnachtskarte mit Pop-up-Tannenbaum | neu |
-| 17 | Do | 🕯️ Deko | Tannenzweige mit Lichterkette in der Bodenvase | neu |
+| 16 | Mi | ✂️ Basteln | Weihnachtskarte mit Stehauf-Tannenbäumen (springen beim Aufklappen hoch) | neu |
+| 17 | Do | 🕯️ Deko | Leuchtende Doppelvase: Tannenzweige, Lichterkette und Kugeln | neu |
 | 18 | Fr | 🍬 Nascherei | Hexenhaus aus Butterkeksen | bisher Türchen 4 |
 | 19 | Sa | ✂️ Basteln | Geschenkpapier mit Kartoffelstempel bedrucken | neu |
 | 20 | **So · 4. Advent** | 🍫 Überraschung | **Kinderriegel-Gutschein 3/3** | neu |
 | 21 | Mo | 🕯️ Deko | Servietten als Tannenbaum falten (für die Festtafel) | neu |
 | 22 | Di | 🍬 Nascherei | Tannenbaum aus Eiswaffel | bisher Türchen 8 |
-| 23 | Mi | ✂️ Basteln | Geschenkanhänger aus Pappe und Zimtstange – last minute | neu |
+| 23 | Mi | ✂️ Basteln | Geschenke natürlich verpacken – mit Zimtstange und Rinden-Anhänger (last minute) | neu |
 | 24 | **Do · Heiligabend** | ☕ Einladung | **Frohe Weihnachten + Einladung zum Frühstück bei Hansi** | neu (ersetzt „Frohe Weihnachten!“, der Gruß bleibt drin) |
 
 **Ins Fach „📖 Alle Naschereien“** (unverändert): Schneemann aus Pfeffernüssen, Lebkuchen-Kerze, Pinguin, Zauberstäbe, Mandarinen-Licht, Päckchen aus
@@ -122,6 +122,7 @@ für wenige Euro bekommt) · **✂️ So geht's** (4 Schritte, je ein Satz) · *
 - **Auswahl der Links:** beim Einbau je Anleitung eine frei zugängliche Seite (ohne Anmeldung, ohne Bezahlschranke, möglichst wenig Werbung, deutsch),
   bevorzugt mit Schritt-Fotos oder Video. Hansi bekommt die Liste vorher zum Absegnen. Die Links stehen in der Registry (`link`) und lassen sich ohne
   Programmänderung austauschen. Zusätzlich bekommen auch die Naschereien einen Link, wo es eine gute Anleitung gibt (sonst bleibt der Knopf weg).
+- Liste der Links: Abschnitt 5.2.
 - Kurz vor dem 1.12. prüft ein Werkzeug (`tools/advent-links.mjs`), ob alle Links noch erreichbar sind – ein toter Link wird vorher ersetzt.
 - 🔊 **Vorlesen** wie überall in der App (vorhandene Vorlese-Funktion).
 
@@ -133,6 +134,38 @@ Beispiel Türchen 2 – **Sterne aus Butterbrottüten** ✂️ · ca. 20 Min. ·
   4. Faden durchziehen und ans Fenster hängen.
 - 💡 Mit Lichterkette dahinter leuchtet der Stern wie eine Laterne.
 - 🔗 Zur ausführlichen Anleitung (mit Bildern)
+
+### 5.2 Linkliste (gesucht und geprüft 06.11.2026 – wartet auf Hansis OK)
+
+Jeder Link wurde im Browser geöffnet: Seite lädt, Anleitung ist ohne Anmeldung und ohne Bezahlschranke lesbar, Inhalt passt zum Türchen.
+**Nicht genommen:** selbst.de und wunderweib.de (leiten auf eine Bezahl-/Einwilligungsseite um), rossmann.de und lusini.com (Seite sperrt mit
+„Einen Moment …“-Prüfung), tutkit.com (lädt nicht). Wo die ursprüngliche Idee keine gute Anleitung hatte, wurde der Titel an die gefundene
+Anleitung angepasst (Türchen 3, 16, 17, 23).
+
+| Tag | Sorte | Anleitung | Link | Was man dort findet |
+|---|---|---|---|---|
+| 2 | ✂️ | Sterne aus Butterbrottüten | [dm.de](https://www.dm.de/tipps-und-trends/bastelideen/bastelideen-weihnachten/himmlische-papiersterne-aus-butterbrottueten-475304) | Material, Schritte mit Bildern |
+| 5 | ✂️ | Nikolausstiefel aus Filz | [dm.de](https://www.dm.de/tipps-und-trends/bastelideen/bastelideen-kinder/nikolausstiefel-andere-weihnachtsdeko-aus-filz-58928) | Filz, Locher, Pfeifenputzer, von Hand nähen |
+| 9 | ✂️ | Schneeflocken aus Papier | [WDR – Die Maus (PDF)](https://www.wdrmaus.de/elefantenseite/elternseiten/selbermachen/pdfs/Bastelanleitung-Papier-Schneeflocke.pdf) | 1 Seite, kindgerecht: dreimal falten, schneiden, auffalten |
+| 12 | ✂️ | Engel aus Nudeln | [TU Chemnitz, Adventskalender (17)](https://www.tu-chemnitz.de/advent/2010/17/) | „Hartweizenengel“, 6 Schritte mit Fotos |
+| 16 | ✂️ | Karte mit Stehauf-Tannenbäumen | [fuersie.de](https://www.fuersie.de/lifestyle/weihnachten/galerie/weihnachtskarten-selbermachen) | Bildergalerie, Abschnitt „Stehauf-Tannenbäume“ |
+| 19 | ✂️ | Geschenkpapier mit Kartoffeldruck | [utopia.de](https://utopia.de/ratgeber/geschenkpapier-selber-machen-gestalten-einfach_36918/) | Stempel schnitzen, drucken, trocknen – mit Fotos |
+| 23 | ✂️ | Geschenke natürlich verpacken (Zimt, Rinden-Anhänger) | [VBS Hobby, Anleitung Nr. 3411 (PDF)](https://www.vbs-hobby.at/natuerliche-geschenkverpackung-zu-weihnachten-t6007/?format=pdf) | 3 Schritte, ca. 30 Min., Einsteiger |
+| 3 | 🕯️ | Frost-Windlicht mit Salzkristallen | [Helene-Weber-Haus (PDF)](https://www.heleneweberhaus.de/wp-content/uploads/2022/11/Upcycling-Schneelichter-aus-Salzkristallen.pdf) | 1 Seite mit Foto: Salz, Wasser, Wärme, Tannengrün |
+| 7 | 🕯️ | Girlande aus Orangenscheiben | [nau.ch](https://www.nau.ch/lifestyle/wohnen/orangegirlande-simple-weihnachtsdeko-zum-selbermachen-65826299) | 100 °C, ca. 1 Std., auffädeln – mit Fotos |
+| 10 | 🕯️ | Zapfenwichtel | [VBS Hobby, Anleitung Nr. 3406 (PDF)](https://www.vbs-hobby.at/zapfenwichtel-basteln-t6004/?format=pdf) | Mütze, Bart, Nase – Einsteiger |
+| 14 | 🕯️ | Duft-Orange mit Nelken | [utopia.de](https://utopia.de/ratgeber/weihnachtsduefte-die-klassiker-ohne-chemie-einfach-selbstgemacht_272916/) | Abschnitt Nelkenorange (schwedischer Brauch mit 24 Nelken) |
+| 17 | 🕯️ | Leuchtende Doppelvase | [desired.de](https://www.desired.de/artikel/kreativer-weihnachtszauber-selbstgemachte-deko-die-deinen-tisch-zum-strahlen-bringt--g34f84g8rx) | 2 Vasen, Lichterkette, Kugeln, Zweige – 5 Schritte |
+| 21 | 🕯️ | Servietten-Tannenbaum | [dm.de](https://www.dm.de/tipps-und-trends/bastelideen/bastelideen-weihnachten/weihnachtsbaum-serviette-2570968) | Falt-Anleitung mit Bildern |
+| 8 | 🍬 | Rentier aus Marshmallow | [ORF Kids, „Weihnachtliche Jause“ (PDF)](https://tv.orf.at/program/kids/box-weihnachtliche-jause100.pdf) | genau dieses Rentier (Marshmallow, Schoko, Brezel-Geweih) |
+| 15 | 🍬 | Schokolöffel | [dm.at](https://www.dm.at/inspiration-und-beratung/ernaehrung/rezepte-kochtipps/schokoloeffel-rezept-491614) | Rezept mit Varianten |
+| 18 | 🍬 | Hexenhaus aus Butterkeksen | [lecker.de](https://www.lecker.de/buntes-hexenhaus-26290.html) | Rezept mit Butterkeksen und Guss |
+
+**Ohne Link** (keine passende Anleitung gefunden – die Kurzanleitung in der App reicht): 🍬 Lokomotive aus Dominosteinen (1), Nikolaus aus Schokokuss (4),
+Schneeflocke aus Brezeln (11), Tannenbaum aus Eiswaffel (22). Die 🍫 Kinderriegel-Türchen und Türchen 24 brauchen keinen Link.
+
+Hinweis für die App: VBS-Hobby ist ein Bastelladen – die Anleitungen sind kostenlos, nennen aber Produkte aus dem Shop. Die Kurzfassung in der
+App nennt nur Dinge aus dem Haushalt bzw. dem normalen Bastelbedarf.
 
 ## 6. Kinderriegel an den Adventssonntagen
 
@@ -211,8 +244,8 @@ Am Heiligabend öffnet sich das goldene Türchen 24 (im Kalender schon vorher mi
 | 7 | Partner beim Frühstück? | **Nein** – Einladung nur für das Mitglied |
 | 8 | Kalender für Gäste/Kinder? | **Nein** – nur Mitglieder |
 
-Noch zu tun vor dem Einbau: Linkliste für die Anleitungen zusammenstellen und von Hansi absegnen lassen (Abschnitt 5.1).
+Noch zu tun vor dem Einbau: Hansi segnet die Linkliste ab (Abschnitt 5.2).
 
 ---
 Dateien in diesem Ordner: `KONZEPT_ADVENTSKALENDER_2026.md` (dieses Konzept), `entwurf.html` + `entwurf.webp` (Entwurfsbild, keine Funktion),
-`advent-rathaus.webp` (Rathaus-Bild für die App vorbereitet, 1280 × 720, 110 KB). Zum Umsetzen in das Club-App-Repo unter `docs/` übernehmen.
+`advent-rathaus.webp` (Rathaus-Bild für die App vorbereitet, 1280 × 720, 110 KB). Kopie im Club-App-Repo: `docs/adventskalender-2026/`.
