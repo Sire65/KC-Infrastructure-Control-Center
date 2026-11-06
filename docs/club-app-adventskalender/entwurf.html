@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<title>Adventskalender – Entwurf</title>
+<!-- Nur Entwurfsbild zum Konzept KC-CLUB-ADVENT-2026 (KONZEPT_ADVENTSKALENDER_2026.md). Keine Funktion, keine echten Mitgliederdaten. -->
+<style>
+  :root { --wein: #741521; --beige: #f3e9dc; --rand: #e0cfb9; --gold: #f1c40f; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 28px; background: #2a201b; font: 15px/1.35 system-ui, "DejaVu Sans", sans-serif; color: #1d1a17; display: flex; gap: 28px; align-items: flex-start; }
+  .handy { width: 390px; height: 844px; border-radius: 34px; border: 10px solid #111; overflow: hidden; position: relative; background: #1b1815; flex: none; }
+  .bg { position: absolute; inset: 0; background: url(advent-rathaus.webp) 24% center / cover no-repeat; }
+  .bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,10,8,.35) 0%, rgba(20,10,8,.05) 30%, rgba(20,10,8,.55) 100%); }
+  .inhalt { position: relative; height: 100%; padding: 18px 14px; display: flex; flex-direction: column; color: var(--beige); }
+  .kopf { display: flex; justify-content: space-between; align-items: center; }
+  h3 { margin: 0; font-size: 1.25rem; text-shadow: 0 2px 6px rgba(0,0,0,.7); }
+  .x { background: rgba(243,233,220,.9); color: var(--wein); border: 0; border-radius: 10px; padding: 4px 10px; font-weight: 800; }
+  .hinw { margin: 6px 0 10px; font-size: .92rem; text-shadow: 0 1px 4px rgba(0,0,0,.8); }
+  .raster { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: auto; }
+  .tuer { position: relative; aspect-ratio: 1; border-radius: 10px; border: 2px solid rgba(224,207,185,.85); background: rgba(116,21,33,.72); backdrop-filter: blur(1.5px); display: grid; place-items: center; font: 900 1.35rem/1 system-ui, sans-serif; color: var(--beige); box-shadow: 0 3px 8px rgba(0,0,0,.35); }
+  .tuer.auf { background: rgba(243,233,220,.92); color: var(--wein); font-size: 1.7rem; }
+  .tuer.auf small { position: absolute; top: 3px; left: 5px; font-size: .62rem; font-weight: 800; }
+  .tuer.heute { border-color: var(--gold); box-shadow: 0 0 0 5px rgba(241,196,15,.55); }
+  .tuer.zu { color: rgba(243,233,220,.75); }
+  .tuer.t24 { background: rgba(116,21,33,.85); border-color: #d4a017; }
+  .tuer.t24::after { content: "★"; position: absolute; top: 2px; right: 5px; font-size: .7rem; color: #d4a017; }
+  .legende { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: .78rem; text-shadow: 0 1px 3px #000; }
+  .karte { margin-top: auto; background: var(--beige); color: #1d1a17; border-radius: 14px; padding: 14px; border: 1px solid var(--rand); box-shadow: 0 6px 18px rgba(0,0,0,.45); }
+  .karte b.t { color: var(--wein); font-size: 1.05rem; }
+  .art { display: inline-block; font-size: .72rem; font-weight: 800; background: var(--wein); color: var(--beige); border-radius: 99px; padding: 2px 8px; margin-bottom: 6px; }
+  .riegel { margin: 10px auto 6px; width: 230px; height: 54px; border-radius: 8px; background: linear-gradient(180deg,#5a3418,#3d220f); position: relative; box-shadow: 0 4px 10px rgba(0,0,0,.35); transform: rotate(-4deg); }
+  .riegel::before { content: ""; position: absolute; left: 0; right: 0; top: 15px; height: 24px; background: #fff; }
+  .riegel span { position: absolute; inset: 15px 0 auto; height: 24px; display: grid; place-items: center; font: 900 .9rem system-ui; color: var(--wein); letter-spacing: .04em; }
+  .gutschein { border: 2px dashed var(--wein); border-radius: 10px; padding: 8px 10px; margin-top: 8px; font-size: .9rem; }
+  .knopf { display: block; width: 100%; margin-top: 8px; border: 0; border-radius: 12px; padding: 11px; font: 800 .98rem system-ui; background: var(--wein); color: var(--beige); }
+  .knopf.hell { background: #fff; color: var(--wein); border: 2px solid var(--wein); }
+  .wahl { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+  .wahl div { border: 2px solid var(--rand); border-radius: 10px; padding: 6px; text-align: center; font-size: .85rem; background: #fff; }
+  .wahl div.an { border-color: var(--wein); background: #fbeeee; font-weight: 800; }
+  .einl { text-align: center; }
+  .einl .gross { font-size: 2.6rem; }
+  .einl h4 { margin: 2px 0 6px; color: var(--wein); font-size: 1.3rem; font-family: Georgia, "DejaVu Serif", serif; }
+  .unterschr { font-family: "Comic Sans MS", "DejaVu Sans", cursive; color: var(--wein); margin-top: 6px; }
+  .schnee { position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(2px 2px at 20% 30%, #fff8, transparent), radial-gradient(2px 2px at 70% 12%, #fff8, transparent), radial-gradient(1.5px 1.5px at 45% 55%, #fff7, transparent), radial-gradient(2px 2px at 85% 45%, #fff6, transparent), radial-gradient(1.5px 1.5px at 10% 70%, #fff7, transparent); }
+  .unter { color: #f3e9dc; font-size: .82rem; margin-top: 8px; text-align: center; width: 390px; }
+</style></head><body>
+
+<!-- 1: Kalender am 9. Dezember -->
+<div><div class="handy"><div class="bg"></div><div class="schnee"></div><div class="inhalt">
+  <div class="kopf"><h3>🎄 Adventskalender</h3><button class="x">✕</button></div>
+  <div class="hinw">Heute darfst du Türchen <b>9</b> öffnen!</div>
+  <div class="raster" id="raster"></div>
+  <div class="legende"><span>🍬 Nascherei</span><span>✂️ Basteln</span><span>🕯️ Deko</span><span>🍫 Überraschung</span><span>☕ 24</span></div>
+</div></div><div class="unter">① Kalender am 9.12. – Rathaus von Werne als Hintergrund, Türchen halbdurchsichtig</div></div>
+
+<!-- 2: Türchen 6 – Kinderriegel -->
+<div><div class="handy"><div class="bg"></div><div class="schnee"></div><div class="inhalt">
+  <div class="kopf"><h3>🎄 Türchen 6</h3><button class="x">✕</button></div>
+  <div class="karte">
+    <span class="art">🍫 Überraschung · 2. Advent &amp; Nikolaus</span><br>
+    <b class="t">Ein Kinderriegel für dich!</b>
+    <div class="riegel"><span>KINDERRIEGEL</span></div>
+    <p style="margin:6px 0">Der Nikolaus war da – und hat im Köcheclub etwas Süßes dagelassen.</p>
+    <div class="gutschein">🎟️ <b>Gutschein Nr. 1 von 3</b><br>Zeig diese Karte am <b>Weihnachtsmarktstand</b> oder beim <b>nächsten Clubtreffen</b> – dort wartet dein Kinderriegel.<br><small>gültig bis 6. Januar · nur einmal einlösbar</small></div>
+    <button class="knopf">✅ Eingelöst (antippen lassen)</button>
+  </div>
+</div></div><div class="unter">② Sonntags-Überraschung (6., 13., 20.12.): Kinderriegel-Gutschein</div></div>
+
+<!-- 3: Türchen 24 – Einladung -->
+<div><div class="handy"><div class="bg" style="background-position: 18% center"></div><div class="schnee"></div><div class="inhalt">
+  <div class="kopf"><h3>🎄 Türchen 24</h3><button class="x">✕</button></div>
+  <div class="karte einl">
+    <div class="gross">☕🥐🍳</div>
+    <h4>Einladung zum Frühstück</h4>
+    <p style="margin:0 0 6px">Frohe Weihnachten! Als Dankeschön für ein tolles Clubjahr lade ich dich im neuen Jahr zum <b>Frühstück</b> ein.</p>
+    <div style="text-align:left; font-size:.88rem"><b>Wann passt es dir?</b> (mehrere möglich)</div>
+    <div class="wahl"><div class="an">Sa 16.01.</div><div>So 24.01.</div><div class="an">Sa 06.02.</div><div>So 21.02.</div></div>
+    <button class="knopf">🙋 Ich bin dabei!</button>
+    <button class="knopf hell">Leider nicht</button>
+    <div class="unterschr">Herzlich, euer Hansi 🧑‍🍳</div>
+  </div>
+</div></div><div class="unter">③ Türchen 24: Einladung zum Frühstück bei Hansi (Januar/Februar) – Termine nur Beispiele</div></div>
+
+<script>
+  const REIHE = [7, 15, 1, 22, 10, 3, 18, 12, 24, 5, 20, 9, 2, 14, 17, 6, 11, 23, 4, 19, 13, 8, 16, 21]; // = AK_REIHE der Club-App
+  const ART = { N: "🍬", B: "✂️", D: "🕯️", K: "🍫", E: "☕" };
+  const PLAN = "NBDNBKDNBDNBKDNBDNBKDNBE"; // Tag 1..24
+  const SYM = { 1: "🚂", 2: "⭐", 3: "🫙", 4: "🎅", 5: "🥾", 6: "🍫", 7: "🍊", 8: "🦌" };
+  const heute = 9;
+  document.getElementById("raster").innerHTML = REIHE.map((n) => {
+    const a = PLAN[n - 1], auf = n < heute;
+    return `<div class="tuer${auf ? " auf" : ""}${n === heute ? " heute" : ""}${n > heute ? " zu" : ""}${n === 24 ? " t24" : ""}">${auf ? `<small>${n}</small>${SYM[n]}` : n}</div>`;
+  }).join("");
+</script>
+</body></html>
