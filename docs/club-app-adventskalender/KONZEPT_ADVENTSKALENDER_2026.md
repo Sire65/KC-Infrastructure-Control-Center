@@ -1,7 +1,7 @@
 # Konzept: Neuer Adventskalender in der Club-App (Advent 2026)
 
 Stand 06.11.2026 · Kennzeichen **KC-CLUB-ADVENT-2026** · baut auf **KC-CLUB-ADVENTSKALENDER** (Club-App 2.468.0 / 2.476.0) auf ·
-Status: **Konzept – wartet auf Hansis Antworten (Abschnitt 10)** · nur Text und Entwurfsbild, noch keine Funktion
+Status: **Konzept – Fragen 1, 2 und 6 beantwortet (06.11.2026), Rest offen (Abschnitt 10)** · nur Text und Entwurfsbild, noch keine Funktion
 
 Wunsch Hansi (06.11.2026): „Entwickle ein neues Konzept zum Adventskalender in der Club-App. Als Hintergrund soll das Rathaus-Bild aus der
 TV-Präsentation sein. In den Türchen sind bisher nur Bastelanleitungen. Baue auch abwechselnd ein: weihnachtliche Bastelanleitung,
@@ -9,7 +9,7 @@ Weihnachts-Deko-Anleitung, einen Kinderriegel – 24. Türchen Einladung zum Fr�
 
 ![Entwurf: Kalender, Kinderriegel-Türchen, Türchen 24](entwurf.webp)
 
-*Entwurf (`entwurf.html`): ① Kalender am 9. Dezember · ② Sonntags-Überraschung Kinderriegel · ③ Türchen 24 mit Einladung. Termine sind Beispiele.*
+*Entwurf (`entwurf.html`): ① Kalender am 9. Dezember · ② Sonntags-Überraschung Kinderriegel · ③ Türchen 24 mit Einladung (Termin wird noch bekannt gegeben).*
 
 ## 1. Idee in einem Satz
 
@@ -46,8 +46,8 @@ Türchen wechseln sich jetzt **vier Sorten** ab – Nascherei, Basteln, Deko und
 - **Schnee:** leiser Schneefall über dem Bild mit dem vorhandenen Jahreszeiten-Effekt der App (kein neuer Effekt). Wer unter ⚙️ „Bewegung
   verringern“ eingestellt hat, bekommt ein ruhiges Bild ohne Schnee.
 - **Nachtmodus / große Schrift:** Die Türchenkarten bleiben beige mit dunkler Schrift (gut lesbar); bei großer Schrift 3 statt 4 Türchen je Reihe.
-- **Herkunft klären (Frage 1):** Das Bild sieht KI-erzeugt aus (Framework-Studio-Hintergrund). Vor dem Einbau wird die Herkunft in `raetsel/QUELLEN.md`
-  bzw. einer neuen Quellenzeile vermerkt – wie bei allen Bildern der App.
+- **Herkunft geklärt (Antwort Hansi 06.11.2026: „Rathaus-Bild habe ich gemacht“):** Das Bild ist von Hansi selbst erstellt, die Club-App darf es
+  verwenden. Beim Einbau bekommt es eine Quellenzeile („Rathaus Werne im Advent – Bild: Hansi, Köcheclub Werne“) – wie alle Bilder der App.
 
 ## 4. Abwechselnd: die vier Sorten
 
@@ -151,16 +151,18 @@ Am Heiligabend öffnet sich das goldene Türchen 24 (im Kalender schon vorher mi
 1. **Weihnachtsgruß** (bleibt aus dem bisherigen Türchen 24): „Der Köcheclub Werne wünscht dir und deiner Familie frohe Weihnachten und gesegnete Festtage!“
 2. **Einladungskarte** im Stil einer Briefkarte auf beigem Grund, das Rathaus groß im Hintergrund, kleiner Goldglanz beim Öffnen:
    „☕🥐🍳 **Einladung zum Frühstück** – Als Dankeschön für ein tolles Clubjahr lade ich dich im neuen Jahr zum Frühstück ein. Herzlich, euer Hansi 🧑‍🍳“
-3. **Wann passt es dir?** 3–4 Terminvorschläge im Januar und Februar zum Antippen (mehrere möglich). Die Vorschläge trägt Hansi vorher ein (Frage 6),
-   z. B. Sa 16.01., So 24.01., Sa 06.02., So 21.02.2027.
-4. **🙋 Ich bin dabei!** / **Leider nicht** – Antwort kommt bei Hansi an. Dafür wird der **vorhandene Abstimmungs-Baustein** genutzt
-   (Vorschläge → 🗳️ Abstimmung, „📋 Mehrere Fragen mit Überschrift“): Hansi legt die Abstimmung „Frühstück im neuen Jahr“ vorher **versteckt** an,
-   Türchen 24 zeigt sie an und schaltet sie für das Mitglied frei. Kein Parallel-Baustein (Entwicklervertrag Regel 3).
-5. **Danach:** Sobald Hansi den Termin festlegt, macht er daraus einen normalen **Termin** im 📅 Kalender – mit Zusage, Mitfahrt und Erinnerung wie gewohnt.
-   In Türchen 24 steht dann „📅 Termin steht: Sa 06.02.2027, 10 Uhr – Ort …“ mit Knopf „Im Kalender ansehen“.
-6. **Wer das Türchen erst später öffnet** (bis 31.12. – danach ist der Kalender wie bisher vorbei), kann trotzdem antworten. Ab 1.1. erinnert ein
-   Hinweis im Info-Laufband einmalig: „☕ Die Frühstückseinladung von Hansi wartet noch auf deine Antwort“ (nur wer nicht geantwortet hat).
-7. **Ort** (Frage 7): bei Hansi zu Hause, im Clubraum oder in einem Café in Werne – steht in der Karte, sobald festgelegt.
+3. **📅 Termin:** „Im **Januar oder Februar** – der genaue Termin wird noch bekannt gegeben.“ (Antwort Hansi 06.11.2026: „Termin wird noch bekannt
+   gegeben“ – deshalb **keine Terminauswahl** im Türchen.)
+4. **🙋 Ich bin dabei!** / **Leider nicht** – nur „Hast du Lust?“, ohne Datum. Damit weiß Hansi früh, mit wie vielen er rechnen kann. Dafür wird der
+   **vorhandene Abstimmungs-Baustein** genutzt (Vorschläge → 🗳️ Abstimmung, „❓ Eine Frage“): Hansi legt die Abstimmung „Frühstück im neuen Jahr“
+   vorher **versteckt** an, Türchen 24 zeigt sie an. Kein Parallel-Baustein (Entwicklervertrag Regel 3).
+5. **Bekanntgabe:** Sobald Hansi Tag, Uhrzeit und Ort festlegt, trägt er einen normalen **Termin** im 📅 Kalender ein – mit Zusage, Mitfahrt und
+   Erinnerung wie gewohnt; die übliche Termin-Benachrichtigung geht an alle. Türchen 24 (und das Fach im Kalender bis Ende Februar) zeigt dann
+   „📅 Jetzt steht's fest: … – Ort …“ mit Knopf „Im Kalender ansehen / zusagen“. Wer vorher „Ich bin dabei“ getippt hat, bekommt den Hinweis im
+   Info-Laufband zuerst: „☕ Das Frühstück bei Hansi steht fest – sagst du zu?“
+6. **Wer das Türchen erst später öffnet** (bis 31.12. – danach ist der Kalender wie bisher vorbei), kann trotzdem antworten. Ab 1.1. bleibt die
+   Einladung über einen Hinweis im Info-Laufband erreichbar, bis der Termin vorbei ist.
+7. **Ort und Uhrzeit** stehen in der Karte, sobald Hansi sie bekannt gibt.
 
 ## 8. Ablauf im Dezember (was das Mitglied sieht)
 
@@ -183,19 +185,18 @@ Am Heiligabend öffnet sich das goldene Türchen 24 (im Kalender schon vorher mi
   - Hintergrundbild ≤ 150 KB, im Service-Worker-Zwischenspeicher, Quellenzeile vorhanden;
   - Gutschein-Migration enthält RLS, `revoke` und `grant … to service_role` (läuft schon über `tests/migration-rechte.test.mjs`);
   - Browser-Prüfung Handy hochkant und Tablet quer: Rathaus sichtbar, Text lesbar (Kontrast ≥ 4,5 : 1), große Schrift → 3 Spalten.
-- **Fertig, wenn:** alle Tests grün · Hansi hat die Vorschau am Handy abgenommen · Bildquelle vermerkt · Frühstücks-Abstimmung angelegt ·
+- **Fertig, wenn:** alle Tests grün · Hansi hat die Vorschau am Handy abgenommen · Bildquelle vermerkt · Frühstücks-Abfrage „Hast du Lust?“ angelegt ·
   CHANGELOG-Eintrag · Hilfe-Text aktualisiert · Rückweg = vorherige App-Version.
 
 ## 10. Fragen an Hansi
 
-1. **Rathaus-Bild:** Woher stammt das Bild in der Präsentation (selbst mit KI erzeugt, gekauft, Foto)? Darf es in der Club-App verwendet werden?
-2. **„Kinderriegel“:** Ist ein **echter Kinderriegel** als Gutschein gemeint (so im Konzept) – oder war **Kinderrätsel** gemeint (ein Rätsel für Kinder/Enkel)?
-   Beides lässt sich im selben Rhythmus einbauen.
+1. ~~Rathaus-Bild: Woher stammt es?~~ ✅ **Beantwortet 06.11.:** von Hansi selbst gemacht – darf verwendet werden.
+2. ~~„Kinderriegel“ oder „Kinderrätsel“?~~ ✅ **Beantwortet 06.11.:** **echter Riegel** (Gutschein wie in Abschnitt 6).
 3. **Einlösen:** Haken auf dem Club-Server (sicher, Übersicht für Hansi) oder nur auf dem Gerät (einfacher)?
 4. **Wo einlösen:** Weihnachtsmarktstand, Clubtreffen – oder auch per Post/Besuch für Mitglieder, die nicht kommen können?
 5. **Skizzen:** Reichen große Symbole, oder sollen die neuen Bastel- und Deko-Anleitungen kleine selbst gezeichnete Schritt-Bilder bekommen?
-6. **Frühstückstermine:** Welche Tage im Januar/Februar 2027 sollen zur Auswahl stehen (Vorschlag: zwei Samstage, zwei Sonntage)?
-7. **Ort und Uhrzeit** des Frühstücks; sollen Partner/Partnerinnen mit eingeladen sein (dann „Wir kommen zu zweit“ als Antwort)?
+6. ~~Frühstückstermine zur Auswahl?~~ ✅ **Beantwortet 06.11.:** Termin wird **noch bekannt gegeben** – Türchen 24 ohne Terminauswahl (Abschnitt 7).
+7. **Partner:** Sollen beim Frühstück Partner/Partnerinnen Partner/Partnerinnen mit eingeladen sein (dann zusätzlich „Wir kommen zu zweit“ als Antwort)?
 8. **Wer bekommt den Kalender:** alle Mitglieder wie bisher – auch Gäste und Kinder-Konten (Eltern-Handy)? Bei Kinder-Konten würde Türchen 24
    statt der Frühstückseinladung „Frohe Weihnachten“ zeigen.
 
