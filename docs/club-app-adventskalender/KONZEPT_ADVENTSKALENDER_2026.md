@@ -186,11 +186,11 @@ Kosten: Die Riegel bezahlt der Club (3 Riegel je Mitglied; Packung mit 10 Riegel
 
 ## 7. Türchen 24: Einladung zum Frühstück bei Hansi
 
-Am Heiligabend öffnet sich das goldene Türchen 24 (im Kalender schon vorher mit kleinem ★ erkennbar):
+Am Heiligabend öffnet sich das goldene Türchen 24. Es ist im Kalender **immer doppelt so groß** (2 × 2 Felder, mit ★; Hansi 06.11.2026) – die freie Ecke im Raster füllt die Kochmütze:
 
 1. **Weihnachtsgruß** (bleibt aus dem bisherigen Türchen 24): „Der Köcheclub Werne wünscht dir und deiner Familie frohe Weihnachten und gesegnete Festtage!“
 2. **Einladungskarte** im Stil einer Briefkarte auf beigem Grund, das Rathaus groß im Hintergrund, kleiner Goldglanz beim Öffnen:
-   „☕🥐🍳 **Einladung zum Frühstück** – Als Dankeschön für ein tolles Clubjahr lade ich dich im neuen Jahr zum Frühstück ein. Herzlich, euer Hansi 🧑‍🍳“
+   „☕🥐🍳 **Einladung zum Frühstück** – Weil das Grillen im August bei mir leider ausgefallen ist, lade ich dich im neuen Jahr zum Frühstück ein. Herzlich, euer Hansi 🧑‍🍳“ (Text: Hansi 06.11.2026)
    Die Einladung gilt **nur für das Mitglied** (keine Partner, Antwort Hansi 06.11.2026) – deshalb auch kein „Wir kommen zu zweit“.
 3. **📅 Termin:** „Im **Januar oder Februar** – der genaue Termin wird noch bekannt gegeben.“ (Antwort Hansi 06.11.2026: „Termin wird noch bekannt
    gegeben“ – deshalb **keine Terminauswahl** im Türchen.)
