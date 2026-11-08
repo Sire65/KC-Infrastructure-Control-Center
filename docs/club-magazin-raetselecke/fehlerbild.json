@@ -1,0 +1,82 @@
+[
+ {
+  "nr": 1,
+  "id": "uhr",
+  "text": "Die Uhr zeigt eine andere Zeit",
+  "x": 55,
+  "y": 42,
+  "r": 26
+ },
+ {
+  "nr": 2,
+  "id": "vorhang",
+  "text": "Der linke Vorhang hat eine andere Farbe",
+  "x": 160,
+  "y": 66,
+  "r": 22
+ },
+ {
+  "nr": 3,
+  "id": "glas",
+  "text": "Auf dem Regal fehlt ein Vorratsglas",
+  "x": 356,
+  "y": 42,
+  "r": 20
+ },
+ {
+  "nr": 4,
+  "id": "deckelknauf",
+  "text": "Der Griff auf dem Topfdeckel fehlt",
+  "x": 200,
+  "y": 151,
+  "r": 14
+ },
+ {
+  "nr": 5,
+  "id": "dampf",
+  "text": "Eine Dampfwolke fehlt",
+  "x": 218,
+  "y": 128,
+  "r": 16
+ },
+ {
+  "nr": 6,
+  "id": "utensil",
+  "text": "Statt der Kelle hängt ein Schneebesen",
+  "x": 335,
+  "y": 128,
+  "r": 22
+ },
+ {
+  "nr": 7,
+  "id": "moehrengruen",
+  "text": "Die Möhre hat kein Grün mehr",
+  "x": 352,
+  "y": 182,
+  "r": 16
+ },
+ {
+  "nr": 8,
+  "id": "herdknopf",
+  "text": "Am Herd fehlt ein Drehknopf",
+  "x": 240,
+  "y": 222,
+  "r": 14
+ },
+ {
+  "nr": 9,
+  "id": "bluete",
+  "text": "Die Blume auf der Fensterbank blüht in anderer Farbe",
+  "x": 233,
+  "y": 88,
+  "r": 14
+ },
+ {
+  "nr": 10,
+  "id": "magnet",
+  "text": "Am Kühlschrank: Stern statt Herz",
+  "x": 55,
+  "y": 132,
+  "r": 16
+ }
+]

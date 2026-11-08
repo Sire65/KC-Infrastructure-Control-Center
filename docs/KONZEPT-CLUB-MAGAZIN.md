@@ -1,6 +1,6 @@
 # Konzept: Club-Magazin „Club-Küche“ für die Club-App
 
-Feature-ID: **wird bei Aufnahme in der Club-App vergeben** · Status: **KONZEPT** (nicht freigegeben, nicht veröffentlicht, nichts umgesetzt) · Stand: 2026-10-28
+Feature-ID: **wird bei Aufnahme in der Club-App vergeben** · Status: **KONZEPT** (nicht freigegeben, nicht veröffentlicht, nichts umgesetzt) · Stand: 2026-11-08 (Profi-Check und Rätsel-Ecke ergänzt, Abschnitte 10–12)
 
 Betrifft: Club-App (`KC-Clubapp`). Dieses Dokument liegt im KICC-Repository nur als Ideenablage.
 
@@ -34,6 +34,7 @@ Grundsatz: **von Mitgliedern für Mitglieder.** Ein Magazin, das veraltet aussie
 | 🙋 Mitglied im Porträt | Kurzes Interview | Redaktion |
 | 🧶 Hobbyecke | Garten, Heimwerken, Handarbeit | Einreichung (nur wenn vorhanden) |
 | 🔗 Linktipps | Ausgesuchte Links nach außen | Redaktion |
+| 🧩 Rätsel-Ecke | Fehlerbild, Kreuzworträtsel mit Lösungswort (siehe Abschnitt 11) | Redaktion, Vorrat |
 
 Artikelfelder (Auswahl statt Freitext, wo möglich): Rubrik, Titel, Bild, Text **oder** externer Link, Autor (Mitglied), bei Rezepten zusätzlich Zutaten, Schritte, Zeit (Auswahl), Schwierigkeit (Auswahl), Portionen.
 
@@ -69,3 +70,64 @@ Rezept des Monats, Backstube, Saisonkalender, klickbare Infozeile. Nach zwei bis
 - Wer übernimmt die Redaktionsrolle?
 - Erscheinungstag der Ausgabe (z. B. jeweils am 1. des Monats)?
 - Sollen Schlagzeilen/Wetter überhaupt angeboten werden?
+
+## 10. Profi-Check: Kann das Magazin mit Kiosk-Zeitschriften mithalten? (2026-11-08)
+Geprüft wurde dieses Konzept. Die bereits gebaute Club-App (`KC-Clubapp`) war in der Prüfsitzung nicht zugänglich – ob dort schon etwas umgesetzt ist, ist **nicht geprüft (UNKNOWN)**.
+
+**Gesamturteil:** Inhaltlich eine gute Grundlage (klare Rubriken, Redaktionsablauf, Archiv, monatlicher Rhythmus, Urheberrecht geregelt). Damit es sich wie eine *Zeitschrift* anfühlt und nicht wie eine Linksammlung, fehlen vor allem **Heftdramaturgie, ein Schwerpunktthema je Ausgabe, feste Gestaltungsregeln und Unterhaltung**. Mit den Punkten unten erreicht es das Niveau eines guten Kunden- oder Verbandsmagazins; bei Fotoqualität (Mitgliederfotos statt Food-Studio) bleibt der Abstand zu Kiosktiteln – das gleicht ein Foto-Leitfaden zum Teil aus.
+
+| Bereich | Bewertung | Was Profi-Magazine haben | Empfehlung |
+|---|---|---|---|
+| Aufbau | ausbaufähig | feste Reihenfolge: Titel → Inhalt/Editorial → Aktuelles → Titelgeschichte → Rubriken → Service → Unterhaltung → Vorschau/Impressum | Heftaufbau unten verbindlich machen |
+| Sortierung | ausbaufähig | Rubriken stehen jede Ausgabe an derselben Stelle, Leser „blättern blind“ | feste Reihenfolge, Rubrikfarbe/-symbol als Leitsystem |
+| Titelseite | fehlt im Detail | Logo, Ausgabe/Monat, ein starkes Bild, 3–4 Titelzeilen | Titel-Vorlage mit festen Feldern (Auswahl statt Freitext) |
+| Editorial | fehlt | persönliches Vorwort mit Foto und Unterschrift | „Liebe Clubmitglieder …“ vom Vorstand/Redaktion, max. 1200 Zeichen |
+| Schwerpunkt | fehlt | jede Ausgabe hat ein Titelthema | Monatsthema (z. B. Dezember „Weihnachtsbäckerei“, Januar „Suppen“), Rubriken greifen es auf |
+| Themenvielfalt | gut für Stufe 1 | Mischung aus Service, Menschen, Wissen, Unterhaltung | ergänzen: Warenkunde „Produkt des Monats“, Fachbegriff erklärt, Resteküche/Nachhaltigkeit, Getränk/Wein zum Rezept, Erzeuger aus der Region, Clubgeschichte(n), Termine |
+| Rezeptstandard | gut, unvollständig | einheitliche Rezeptkarte | Zutaten in Reihenfolge der Verwendung, Mengen in g/ml, **14 Hauptallergene** per Auswahl, Siegel „Im Club nachgekocht“ |
+| Aufmachung | fehlt | Gestaltungsraster, 2 Schriften, feste Farbwelt, Bildsprache | Club-CD (Weinrot, Beige, Gold), Serifenschrift für Überschriften, serifenlos für Text, Lesezeit-Angabe, Zitat-Kästen, Foto-Leitfaden (Tageslicht, von oben/45°, ruhiger Hintergrund) |
+| Unterhaltung | fehlt | Rätsel, Gewinnspiel, Leserpost | **Rätsel-Ecke** (Abschnitt 11) + Leserecho/„Nachgekocht“-Fotos |
+| Bindung | schwach | Vorschau „Im nächsten Heft“, Gewinnspiel, Leserbriefe | Vorschau-Kasten, Lösungswort-Verlosung beim Clubabend |
+| Impressum | fehlt | V. i. S. d. P., Redaktion, Erscheinungsweise | Impressum-Seite (Verantwortliche/r, Redaktion, Bildnachweise) |
+| Druck/PDF | fehlt | Print-Ausgabe | Druckansicht/PDF je Ausgabe für Mitglieder ohne Smartphone (Browser-Druck, zero-cost) |
+| Barrierefreiheit | gut | – | große Schrift, Vorlesen, Kontraste beibehalten |
+
+**Empfohlener Heftaufbau (feste Reihenfolge):**
+1. Titelseite · 2. Inhalt + Editorial · 3. Clubleben (Rückblick, Termine, Kurzmeldungen) · 4. Titelthema des Monats · 5. Rezept des Monats · 6. Backstube · 7. Saisonkalender + Produkt des Monats · 8. Küchentipp + Fachbegriff erklärt · 9. Mitglied im Porträt · 10. Hobbyecke (nur wenn vorhanden) · 11. **Rätsel-Ecke** · 12. Linktipps · 13. Vorschau „Im nächsten Heft“ + Impressum.
+
+## 11. Rätsel-Ecke
+Arbeits-ID: **KC-CLUB-MAGAZIN-RAETSEL** (endgültige Feature-ID bei Aufnahme in der Club-App). Spielbarer Prototyp: [`club-magazin-raetselecke/index.html`](club-magazin-raetselecke/index.html).
+
+**Stufe 1 (Prototyp vorhanden):**
+- **Fehlerbild „Finde die 10 Fehler“:** eigene Zeichnung einer Clubküche (Bild A/B), Fehler antippen, Zähler, Tipp, Auflösen, Lösungsbild. Beide Bilder werden aus *einer* Szenenbeschreibung erzeugt; das Bauskript prüft, dass genau 10 Abweichungen wirken.
+- **Kreuzworträtsel „Küche & Backstube“:** 20 Fachbegriffe und Geräte (z. B. Julienne, Tranchieren, Legieren, Ganache, Mürbeteig, Schneebesen, Mörser), Lösungswort aus gelben Feldern (KÖCHECLUB). Gitter wird automatisch gelegt und geprüft (keine ungewollten Buchstabenfolgen). Umlaute wie im Kreuzworträtsel üblich als AE/OE/UE; Eingabe von „ü“ wird automatisch zu „UE“. Prüfen, Wort aufdecken, Auflösen, Drucken; Fortschritt bleibt auf dem Gerät gespeichert.
+- **Gewinnspiel:** Lösungswort in der App einsenden, Verlosung beim Clubabend, Auflösung in der nächsten Ausgabe.
+
+**Weitere Ideen (Vorrat für spätere Ausgaben):**
+| Idee | Kurzbeschreibung | Aufwand |
+|---|---|---|
+| Rezept-Puzzle | Arbeitsschritte eines Rezepts in die richtige Reihenfolge ziehen | gering |
+| Küchen-Quiz | 10 Fragen mit Auswahlantworten („Bei wie viel Grad gerinnt Eigelb?“) | gering |
+| Buchstabensalat | Gewürze/Zutaten im Buchstabengitter finden | gering, automatisch erzeugbar |
+| Silbenrätsel | Aus Silben Küchenbegriffe bilden, Anfangsbuchstaben ergeben Lösungssatz | gering |
+| Küchen-Sudoku | Sudoku mit 4×4 bzw. 6×6 Küchensymbolen statt Zahlen (seniorenfreundlich) | gering |
+| Was ist das? | Nahaufnahme eines Küchengeräts/Gemüses erraten | gering, eigenes Foto |
+| Schätzfrage | „Wie viele Linsen sind im Glas?“ – Auflösung beim Clubabend | sehr gering |
+| Rebus | Bilderrätsel, das ein Gericht ergibt (z. B. Bild „Kohl“ + „Rouladen“) | mittel |
+| Wer kocht hier? | Kinderfoto eines Mitglieds am Herd erraten (nur mit Einwilligung) | gering |
+| Gewürz-Detektiv | Beim Clubabend: Gewürze blind riechen, Ergebnis in der App eintragen | gering |
+
+Schwierigkeit je Ausgabe wechseln (leicht/mittel), im Dezember eine Weihnachts-Ausgabe. Rätsel immer mit Druckansicht.
+
+**Regeln:** nur eigene Zeichnungen, Fotos und Rätseltexte (keine Rätsel aus Zeitschriften kopieren); Einsendungen nur Lösungswort + Mitglied, kein Freitext nötig; Verlosung ohne Kosten (Sachpreis des Clubs).
+
+**Definition of Done (Rätsel-Ecke in der Club-App):**
+- Fehlerbild und Kreuzwort laufen in der App, auch mit großer Schrift und auf dem Handy; Druckansicht vorhanden.
+- Rätsel einer Ausgabe werden mit der Ausgabe veröffentlicht, Auflösung erscheint automatisch in der Folgeausgabe.
+- Lösungswort-Einsendung (eine je Mitglied und Ausgabe) mit Auslosung durch die Redaktionsrolle.
+- Tests: Treffer-/Fehlklick-Erkennung, Kreuzwort-Prüfung inkl. Umlaut-Eingabe, Gitterprüfung im Bauskript; Zero-Cost-Check bestanden.
+
+## 12. Offene Fragen (Ergänzung)
+- Wer schreibt das Editorial (Vorstand oder Redaktion)?
+- Welche Sachpreise für die Verlosung?
+- Sollen Mitglieder eigene Rätsel einreichen dürfen (gleicher Freigabeablauf wie Artikel)?

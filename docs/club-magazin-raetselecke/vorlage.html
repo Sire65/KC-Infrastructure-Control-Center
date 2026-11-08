@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rätsel-Ecke · Club-Küche</title>
+<!-- PROTOTYP (Status KONZEPT) der Rätsel-Ecke für das Club-Magazin „Club-Küche“.
+     Wird mit bauen.py aus vorlage.html erzeugt – index.html nicht von Hand bearbeiten. -->
+<style>
+:root{--weinrot:#7a1f2b;--weinrot-hell:#f4e3e5;--beige:#f6efe2;--gold:#b8923a;--text:#2a1d17;--leise:#6b5a4e;--linie:#d8c9ae;--ok:#2e7d4f;--falsch:#c62828;--feld:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--beige);color:var(--text);font:18px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.seite{max-width:980px;margin:0 auto;padding:16px}
+header.kopf{border-bottom:3px double var(--gold);padding-bottom:10px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px}
+.marke{font:700 15px/1 Georgia,serif;letter-spacing:.18em;text-transform:uppercase;color:var(--weinrot)}
+h1{font:700 2.2rem/1.1 Georgia,"Times New Roman",serif;margin:.15em 0 0;color:var(--weinrot)}
+.ausgabe{color:var(--leise);font-size:.9rem}
+.vorspann{font-size:1.05rem;color:var(--leise);margin:0 0 20px;max-width:46em}
+section.raetsel{background:#fff;border:1px solid var(--linie);border-radius:10px;padding:18px;margin-bottom:22px}
+.rubrik{font:700 .75rem/1 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+h2{font:700 1.6rem/1.2 Georgia,serif;margin:.2em 0 .4em;color:var(--text)}
+.knoepfe{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+button{font:inherit;font-size:1rem;min-height:44px;padding:8px 16px;border-radius:22px;border:2px solid var(--weinrot);background:#fff;color:var(--weinrot);cursor:pointer}
+button.haupt{background:var(--weinrot);color:#fff}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.meldung{min-height:1.5em;font-weight:600}
+.meldung.ok{color:var(--ok)}.meldung.falsch{color:var(--falsch)}
+/* Fehlerbild */
+.bilder{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bilder figure{margin:0}
+.bilder figcaption{font:700 .85rem/1.6 system-ui,sans-serif;color:var(--leise)}
+.bilder svg{width:100%;height:auto;display:block;border-radius:6px;border:1px solid var(--linie);cursor:crosshair;touch-action:manipulation}
+.zaehler{font:700 1.3rem/1 Georgia,serif;color:var(--weinrot)}
+.liste{columns:2;font-size:.95rem;color:var(--leise);padding-left:1.3em}
+@keyframes puls{0%,100%{opacity:1}50%{opacity:.2}}
+.tipp{animation:puls .5s 3}
+@keyframes weg{to{opacity:0}}
+.daneben{animation:weg .9s forwards}
+/* Kreuzwort */
+.kw{display:grid;grid-template-columns:auto minmax(260px,1fr);gap:20px;align-items:start}
+.gitter{display:grid;gap:0;width:max-content;max-width:100%;border:2px solid var(--text);background:var(--text)}
+.zelle{position:relative;width:32px;height:32px;background:var(--beige)}
+.zelle.voll{background:var(--feld);outline:1px solid #8a7a6a}
+.zelle input{width:100%;height:100%;border:0;padding:0;text-align:center;font:700 18px/1 system-ui,sans-serif;text-transform:uppercase;background:transparent;color:var(--text);caret-color:transparent}
+.zelle .nr{position:absolute;left:2px;top:0;font-size:9px;line-height:1;color:var(--leise);pointer-events:none}
+.zelle .lw{position:absolute;right:1px;bottom:1px;font-size:8px;line-height:1;color:#fff;background:var(--gold);border-radius:6px;padding:1px 2px;pointer-events:none}
+.zelle.loesung{background:#fbf1d6}
+.zelle.wort{background:var(--weinrot-hell)}
+.zelle.aktiv{background:#f2c9cf}
+.zelle.falsch input{color:var(--falsch)}
+.fragen h3{font:700 1.05rem/1.2 Georgia,serif;margin:.6em 0 .3em;color:var(--weinrot)}
+.fragen ol{list-style:none;padding:0;margin:0;font-size:.95rem}
+.fragen li{padding:3px 6px;border-radius:4px;cursor:pointer}
+.fragen li b{display:inline-block;min-width:1.8em;color:var(--weinrot)}
+.fragen li.aktiv{background:var(--weinrot-hell)}
+.fragen li .len{color:var(--leise);font-size:.85em}
+.lw-zeile{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+.lw-zeile span{width:34px;height:40px;border:2px solid var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;font:700 20px/1 system-ui;position:relative;background:#fffaf0}
+.lw-zeile span i{position:absolute;left:2px;top:1px;font:400 9px/1 system-ui;color:var(--leise);font-style:normal}
+.hinweis{font-size:.9rem;color:var(--leise)}
+footer{font-size:.85rem;color:var(--leise);border-top:1px solid var(--linie);padding-top:10px}
+@media (max-width:760px){
+  h1{font-size:1.7rem}
+  .bilder{grid-template-columns:1fr}
+  .kw{grid-template-columns:1fr}
+  .gitter{overflow:auto}
+  .zelle{width:min(32px,calc((100vw - 40px)/16));height:min(32px,calc((100vw - 40px)/16))}
+  .zelle input{font-size:14px}
+  .liste{columns:1}
+  .lw-zeile{gap:3px}
+  .lw-zeile span{width:calc((100vw - 90px)/10);height:36px;font-size:17px}
+}
+@media print{
+  body{background:#fff;font-size:12pt}
+  .knoepfe,.meldung,.nicht-drucken{display:none!important}
+  section.raetsel{border:0;padding:0;break-inside:avoid}
+  .zelle.aktiv,.zelle.wort{background:var(--feld)}
+}
+</style>
+</head>
+<body>
+<div class="seite">
+<header class="kopf">
+  <div>
+    <div class="marke">Club-Küche · Das Magazin des Köcheclubs</div>
+    <h1>Rätsel-Ecke</h1>
+  </div>
+  <div class="ausgabe">Ausgabe Dezember 2026 · Prototyp</div>
+</header>
+<p class="vorspann">Kaffee aufsetzen, Brille zurechtrücken – und los: Wer findet alle zehn Fehler in unserer Clubküche? Und wer kennt die Fachbegriffe aus Küche und Backstube? Das Lösungswort verrät, für wen dieses Magazin gemacht ist.</p>
+
+<section class="raetsel" id="fehlerbild" aria-labelledby="fb-titel">
+  <div class="rubrik">Bilderrätsel</div>
+  <h2 id="fb-titel">Finde die 10 Fehler</h2>
+  <p>Bild B unterscheidet sich an genau zehn Stellen von Bild A. Tippe die Fehler in einem der beiden Bilder an.</p>
+  <div class="bilder">
+    <figure><figcaption>Bild A</figcaption><svg id="bildA" viewBox="0 0 400 300" role="img" aria-label="Küchenszene, Bild A"><!--BILD_A--><g class="marken"></g></svg></figure>
+    <figure><figcaption>Bild B</figcaption><svg id="bildB" viewBox="0 0 400 300" role="img" aria-label="Küchenszene, Bild B"><!--BILD_B--><g class="marken"></g></svg></figure>
+  </div>
+  <div class="knoepfe">
+    <span class="zaehler" id="fb-zaehler" aria-live="polite">0 von 10 gefunden</span>
+  </div>
+  <div class="knoepfe">
+    <button type="button" id="fb-tipp">Tipp</button>
+    <button type="button" id="fb-aufloesen">Auflösen</button>
+    <button type="button" id="fb-neu">Von vorn</button>
+  </div>
+  <div class="meldung" id="fb-meldung" aria-live="polite"></div>
+  <ol class="liste" id="fb-liste" hidden></ol>
+</section>
+
+<section class="raetsel" id="kreuzwort" aria-labelledby="kw-titel">
+  <div class="rubrik">Kreuzworträtsel</div>
+  <h2 id="kw-titel">Küche &amp; Backstube</h2>
+  <p class="hinweis">Umlaute als zwei Buchstaben: Ä = AE, Ö = OE, Ü = UE (wer „ü“ tippt, bekommt automatisch „UE“). Antippen wählt ein Feld, nochmal antippen wechselt zwischen waagerecht und senkrecht.</p>
+  <div class="kw">
+    <div>
+      <div class="gitter" id="gitter" role="grid" aria-label="Kreuzworträtsel-Gitter"></div>
+      <div class="hinweis" style="margin-top:10px">Lösungswort (gelbe Felder):</div>
+      <div class="lw-zeile" id="lw-zeile" aria-live="polite"></div>
+    </div>
+    <div class="fragen">
+      <h3>Waagerecht</h3><ol id="fragen-A"></ol>
+      <h3>Senkrecht</h3><ol id="fragen-D"></ol>
+    </div>
+  </div>
+  <div class="knoepfe">
+    <button type="button" class="haupt" id="kw-pruefen">Prüfen</button>
+    <button type="button" id="kw-wort">Wort aufdecken</button>
+    <button type="button" id="kw-aufloesen">Alles auflösen</button>
+    <button type="button" id="kw-leeren">Leeren</button>
+    <button type="button" id="drucken">Drucken</button>
+  </div>
+  <div class="meldung" id="kw-meldung" aria-live="polite"></div>
+</section>
+
+<footer>
+  <p><b>Mitmachen:</b> Lösungswort bis zum 20. des Monats in der App einsenden – unter allen richtigen Einsendungen wird beim Clubabend ein kleiner Preis verlost. Die Auflösung steht in der nächsten Ausgabe.</p>
+  <p class="nicht-drucken">Prototyp der Rätsel-Ecke · Status KONZEPT · eigene Zeichnung und eigene Rätseltexte, keine fremden Inhalte, keine externen Dienste.</p>
+</footer>
+</div>
+
+<script>
+'use strict';
+const KW = /*KREUZWORT*/null;
+const FEHLER = /*FEHLER*/null;
+const SPEICHER = 'kc-raetselecke-2026-12';
+const NS = 'http://www.w3.org/2000/svg';
+
+function laden(){ try{ return JSON.parse(localStorage.getItem(SPEICHER)) || {}; }catch(e){ return {}; } }
+function speichern(){ try{ localStorage.setItem(SPEICHER, JSON.stringify(stand)); }catch(e){ /* privat/blockiert: ohne Speichern weiter */ } }
+const stand = Object.assign({gefunden:[], felder:{}}, laden());
+
+/* ---------- Fehlerbild ---------- */
+const bilder = [document.getElementById('bildA'), document.getElementById('bildB')];
+const zaehler = document.getElementById('fb-zaehler');
+const fbMeldung = document.getElementById('fb-meldung');
+
+function kreis(svg, f, klasse){
+  const g = svg.querySelector('.marken');
+  const c = document.createElementNS(NS, 'circle');
+  c.setAttribute('cx', f.x); c.setAttribute('cy', f.y); c.setAttribute('r', f.r);
+  c.setAttribute('fill', 'none'); c.setAttribute('stroke', klasse === 'tipp' ? '#b8923a' : '#2e7d4f');
+  c.setAttribute('stroke-width', '3');
+  if (klasse === 'tipp'){ c.setAttribute('stroke-dasharray', '5 4'); c.setAttribute('class', 'tipp'); }
+  c.dataset.nr = f.nr;
+  g.appendChild(c);
+  return c;
+}
+function fbZeichnen(){
+  bilder.forEach(svg => { svg.querySelector('.marken').textContent = ''; });
+  stand.gefunden.forEach(nr => { const f = FEHLER.find(x => x.nr === nr); bilder.forEach(svg => kreis(svg, f)); });
+  const n = stand.gefunden.length;
+  zaehler.textContent = n + ' von 10 gefunden';
+  if (n === 10){ fbMeldung.textContent = 'Bravo – alle zehn Fehler gefunden! 👨‍🍳'; fbMeldung.className = 'meldung ok'; }
+}
+function svgPunkt(svg, ev){
+  const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY;
+  return p.matrixTransform(svg.getScreenCTM().inverse());
+}
+bilder.forEach(svg => svg.addEventListener('click', ev => {
+  const p = svgPunkt(svg, ev);
+  const treffer = FEHLER
+    .filter(f => !stand.gefunden.includes(f.nr))
+    .map(f => ({f, d: Math.hypot(f.x - p.x, f.y - p.y)}))
+    .filter(t => t.d <= t.f.r + 8)
+    .sort((a, b) => a.d - b.d)[0];
+  if (treffer){
+    stand.gefunden.push(treffer.f.nr); speichern(); fbZeichnen();
+    if (stand.gefunden.length < 10){ fbMeldung.textContent = 'Gefunden: ' + treffer.f.text + '.'; fbMeldung.className = 'meldung ok'; }
+  } else {
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', p.x - 5); t.setAttribute('y', p.y + 6); t.setAttribute('font-size', '18');
+    t.setAttribute('fill', '#c62828'); t.setAttribute('class', 'daneben'); t.textContent = '✕';
+    svg.querySelector('.marken').appendChild(t);
+    setTimeout(() => t.remove(), 1000);
+  }
+}));
+document.getElementById('fb-tipp').addEventListener('click', () => {
+  const offen = FEHLER.filter(f => !stand.gefunden.includes(f.nr));
+  if (!offen.length) return;
+  const f = offen[Math.floor(Math.random() * offen.length)];
+  const c = kreis(bilder[1], {...f, r: f.r + 22}, 'tipp');
+  fbMeldung.textContent = 'Schau mal in den gelben Kreis …'; fbMeldung.className = 'meldung';
+  setTimeout(() => c.remove(), 1600);
+});
+document.getElementById('fb-aufloesen').addEventListener('click', () => {
+  stand.gefunden = FEHLER.map(f => f.nr); speichern(); fbZeichnen();
+  const liste = document.getElementById('fb-liste'); liste.textContent = '';
+  FEHLER.forEach(f => { const li = document.createElement('li'); li.textContent = f.text; liste.appendChild(li); });
+  liste.hidden = false;
+});
+document.getElementById('fb-neu').addEventListener('click', () => {
+  stand.gefunden = []; speichern(); fbMeldung.textContent = ''; document.getElementById('fb-liste').hidden = true; fbZeichnen();
+});
+
+/* ---------- Kreuzwort ---------- */
+const gitter = document.getElementById('gitter');
+const zellen = {};           // "r,c" -> {el, input, loesung}
+const key = (r, c) => r + ',' + c;
+let aktiv = null, richtung = 'A';
+
+function zellenVon(e){
+  const out = [];
+  for (let i = 0; i < e.answer.length; i++) out.push(e.dir === 'A' ? [e.row, e.col + i] : [e.row + i, e.col]);
+  return out;
+}
+function eintragAn(r, c, dir){
+  return KW.entries.find(e => e.dir === dir && zellenVon(e).some(([a, b]) => a === r && b === c));
+}
+
+gitter.style.gridTemplateColumns = 'repeat(' + KW.cols + ', auto)';
+const nummern = {};
+KW.entries.forEach(e => { nummern[key(e.row, e.col)] = e.n; });
+const lwIndex = {};
+KW.solution.cells.forEach(([r, c], i) => { lwIndex[key(r, c)] = i + 1; });
+
+for (let r = 0; r < KW.rows; r++){
+  for (let c = 0; c < KW.cols; c++){
+    const div = document.createElement('div');
+    div.className = 'zelle';
+    if (KW.grid[r][c]){
+      div.classList.add('voll');
+      if (nummern[key(r, c)]){ const n = document.createElement('span'); n.className = 'nr'; n.textContent = nummern[key(r, c)]; div.appendChild(n); }
+      if (lwIndex[key(r, c)]){ div.classList.add('loesung'); const l = document.createElement('span'); l.className = 'lw'; l.textContent = lwIndex[key(r, c)]; div.appendChild(l); }
+      const inp = document.createElement('input');
+      inp.setAttribute('aria-label', 'Zeile ' + (r + 1) + ', Spalte ' + (c + 1));
+      inp.autocomplete = 'off'; inp.setAttribute('autocapitalize', 'characters'); inp.spellcheck = false;
+      inp.value = stand.felder[key(r, c)] || '';
+      inp.addEventListener('focus', () => waehle(r, c, false));
+      inp.addEventListener('mousedown', ev => { if (aktiv && aktiv[0] === r && aktiv[1] === c){ ev.preventDefault(); waehle(r, c, true); } });
+      inp.addEventListener('input', () => eingabe(r, c, inp));
+      inp.addEventListener('keydown', ev => taste(ev, r, c));
+      div.appendChild(inp);
+      zellen[key(r, c)] = {el: div, input: inp};
+    }
+    gitter.appendChild(div);
+  }
+}
+
+['A', 'D'].forEach(dir => {
+  const ol = document.getElementById('fragen-' + dir);
+  KW.entries.filter(e => e.dir === dir).sort((a, b) => a.n - b.n).forEach(e => {
+    const li = document.createElement('li');
+    li.dataset.id = e.dir + e.n;
+    li.innerHTML = '<b>' + e.n + '</b>';
+    li.appendChild(document.createTextNode(e.clue + ' '));
+    const len = document.createElement('span'); len.className = 'len'; len.textContent = '(' + e.answer.length + ')';
+    li.appendChild(len);
+    li.addEventListener('click', () => { richtung = e.dir; zellen[key(e.row, e.col)].input.focus(); waehle(e.row, e.col, false); });
+    ol.appendChild(li);
+  });
+});
+
+function waehle(r, c, wechseln){
+  if (wechseln) richtung = richtung === 'A' ? 'D' : 'A';
+  if (!eintragAn(r, c, richtung)) richtung = richtung === 'A' ? 'D' : 'A';
+  aktiv = [r, c];
+  markieren();
+}
+function markieren(){
+  Object.values(zellen).forEach(z => z.el.classList.remove('wort', 'aktiv'));
+  document.querySelectorAll('.fragen li').forEach(li => li.classList.remove('aktiv'));
+  if (!aktiv) return;
+  const e = eintragAn(aktiv[0], aktiv[1], richtung);
+  if (e){
+    zellenVon(e).forEach(([a, b]) => zellen[key(a, b)].el.classList.add('wort'));
+    const li = document.querySelector('.fragen li[data-id="' + e.dir + e.n + '"]');
+    if (li) li.classList.add('aktiv');
+  }
+  zellen[key(aktiv[0], aktiv[1])].el.classList.add('aktiv');
+}
+function nachbar(r, c, schritt){
+  const e = eintragAn(r, c, richtung); if (!e) return null;
+  const z = zellenVon(e); const i = z.findIndex(([a, b]) => a === r && b === c) + schritt;
+  return z[i] || null;
+}
+function setze(r, c, ch){
+  const z = zellen[key(r, c)]; z.input.value = ch; z.el.classList.remove('falsch');
+  stand.felder[key(r, c)] = ch;
+}
+function eingabe(r, c, inp){
+  let v = inp.value.toUpperCase().replace(/Ä/g, 'AE').replace(/Ö/g, 'OE').replace(/Ü/g, 'UE').replace(/ß/g, 'SS').replace(/[^A-Z]/g, '');
+  const alt = stand.felder[key(r, c)] || '';
+  if (v.length > 1 && alt && v.startsWith(alt)) v = v.slice(alt.length);  // in volles Feld getippt
+  if (!v){ setze(r, c, ''); speichern(); lwZeichnen(); return; }
+  let pos = [r, c];
+  for (let i = 0; i < v.length && pos; i++){
+    setze(pos[0], pos[1], v[i]);
+    const n = nachbar(pos[0], pos[1], 1);
+    if (n) pos = n; else { pos = null; }
+  }
+  speichern(); lwZeichnen();
+  if (pos){ aktiv = pos; zellen[key(pos[0], pos[1])].input.focus(); markieren(); }
+}
+function taste(ev, r, c){
+  const pfeile = {ArrowLeft: [0, -1, 'A'], ArrowRight: [0, 1, 'A'], ArrowUp: [-1, 0, 'D'], ArrowDown: [1, 0, 'D']};
+  if (ev.key === 'Backspace' && !zellen[key(r, c)].input.value){
+    ev.preventDefault();
+    const v = nachbar(r, c, -1);
+    if (v){ setze(v[0], v[1], ''); speichern(); lwZeichnen(); zellen[key(v[0], v[1])].input.focus(); }
+  } else if (pfeile[ev.key]){
+    ev.preventDefault();
+    const [dr, dc, dir] = pfeile[ev.key]; richtung = dir;
+    let rr = r + dr, cc = c + dc;
+    while (rr >= 0 && cc >= 0 && rr < KW.rows && cc < KW.cols && !zellen[key(rr, cc)]){ rr += dr; cc += dc; }
+    if (zellen[key(rr, cc)]) zellen[key(rr, cc)].input.focus(); else markieren();
+  }
+}
+function lwZeichnen(){
+  const zeile = document.getElementById('lw-zeile'); zeile.textContent = '';
+  KW.solution.cells.forEach(([r, c], i) => {
+    const s = document.createElement('span');
+    const nr = document.createElement('i'); nr.textContent = i + 1; s.appendChild(nr);
+    s.appendChild(document.createTextNode(stand.felder[key(r, c)] || ''));
+    zeile.appendChild(s);
+  });
+}
+const kwMeldung = document.getElementById('kw-meldung');
+document.getElementById('kw-pruefen').addEventListener('click', () => {
+  let leer = 0, falsch = 0;
+  for (const [k, z] of Object.entries(zellen)){
+    const [r, c] = k.split(',').map(Number);
+    const v = stand.felder[k] || '';
+    z.el.classList.toggle('falsch', !!v && v !== KW.grid[r][c]);
+    if (!v) leer++; else if (v !== KW.grid[r][c]) falsch++;
+  }
+  if (!leer && !falsch){ kwMeldung.textContent = 'Alles richtig! Das Lösungswort lautet ' + KW.solution.word.replace('OE', 'Ö') + '. 🎉'; kwMeldung.className = 'meldung ok'; }
+  else { kwMeldung.textContent = (falsch ? (falsch === 1 ? '1 Buchstabe stimmt' : falsch + ' Buchstaben stimmen') + ' noch nicht (rot). ' : 'Bisher alles richtig. ') + (leer ? (leer === 1 ? '1 Feld ist' : leer + ' Felder sind') + ' noch leer.' : ''); kwMeldung.className = 'meldung' + (falsch ? ' falsch' : ''); }
+});
+document.getElementById('kw-wort').addEventListener('click', () => {
+  if (!aktiv){ kwMeldung.textContent = 'Erst ein Feld oder eine Frage antippen.'; kwMeldung.className = 'meldung'; return; }
+  const e = eintragAn(aktiv[0], aktiv[1], richtung);
+  zellenVon(e).forEach(([r, c], i) => setze(r, c, e.answer[i]));
+  speichern(); lwZeichnen();
+});
+document.getElementById('kw-aufloesen').addEventListener('click', () => {
+  Object.keys(zellen).forEach(k => { const [r, c] = k.split(',').map(Number); setze(r, c, KW.grid[r][c]); });
+  speichern(); lwZeichnen();
+});
+document.getElementById('kw-leeren').addEventListener('click', () => {
+  Object.keys(zellen).forEach(k => { const [r, c] = k.split(',').map(Number); setze(r, c, ''); });
+  speichern(); lwZeichnen(); kwMeldung.textContent = '';
+});
+document.getElementById('drucken').addEventListener('click', () => window.print());
+
+fbZeichnen();
+lwZeichnen();
+</script>
+</body>
+</html>
