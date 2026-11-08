@@ -95,6 +95,8 @@ Geprüft wurde dieses Konzept. Die bereits gebaute Club-App (`KC-Clubapp`) war i
 **Empfohlener Heftaufbau (feste Reihenfolge):**
 1. Titelseite · 2. Inhalt + Editorial · 3. Clubleben (Rückblick, Termine, Kurzmeldungen) · 4. Titelthema des Monats · 5. Rezept des Monats · 6. Backstube · 7. Saisonkalender + Produkt des Monats · 8. Küchentipp + Fachbegriff erklärt · 9. Mitglied im Porträt · 10. Hobbyecke (nur wenn vorhanden) · 11. **Rätsel-Ecke** · 12. Linktipps · 13. Vorschau „Im nächsten Heft“ + Impressum.
 
+**Nachtrag 2026-11-08 (Abgleich mit der Club-App 2.888.0):** Die Club-App hatte bereits Titelblatt mit Schlagzeilen, Vorwort, Inhaltsverzeichnis mit Sprüngen, feste Rubriken-Reihenfolge, Impressum, Archiv aller Ausgaben, Druck/PDF, Einsendungen an die Redaktion und den Fortsetzungsroman – die Tabelle oben bewertete nur dieses Konzept. Umgesetzt in Club-App **2.889.0** (Arbeitszweig `claude/club-kueche-profi-raetsel`, noch nicht eingespielt): Rätsel-Ecke mit Auflösung im nächsten Heft, Küchenlatein, Seite „Im nächsten Heft“, Lesezeit im Roman. Offen (Entscheidung der Redaktion): Titelthema je Ausgabe, Allergene in der Rezeptkarte, Produkt des Monats, Gewinnspiel.
+
 ## 11. Rätsel-Ecke
 Arbeits-ID: **KC-CLUB-MAGAZIN-RAETSEL** (endgültige Feature-ID bei Aufnahme in der Club-App). Spielbarer Prototyp: [`club-magazin-raetselecke/index.html`](club-magazin-raetselecke/index.html).
 
