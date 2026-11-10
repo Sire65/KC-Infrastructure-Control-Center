@@ -4,7 +4,8 @@
 # Gelöscht wird ein Zweig nur, wenn ALLES zutrifft:
 #   - nicht der Hauptzweig, kein offener Pull-Request,
 #   - letzter Stand älter als 2 Tage (laufende Arbeit bleibt),
-#   - sein Inhalt ist im Hauptzweig (Vorfahre von main) ODER ein übernommener Pull-Request hat genau diesen Stand.
+#   - sein Inhalt ist im Hauptzweig (Vorfahre von main) ODER ein übernommener Pull-Request hat genau diesen Stand
+#     ODER er steht in ARCHIVIERT (Endstand geprüft gesichert in Sire65/KC-Film-Archiv) und ist seitdem unverändert.
 # Nichts geht verloren: übernommene Inhalte stehen im Hauptzweig, die Pull-Requests behalten ihre Commits.
 # Ablauf wiederverwendbar (identisch in KC-Clubapp). Kein fremder Baustein (kein „uses:“).
 name: Zweige aufräumen
@@ -36,6 +37,12 @@ jobs:
       MODUS: ${{ inputs.modus }}
       TAGE: ${{ inputs.tage }}
       HAUPT: ${{ github.event.repository.default_branch }}
+      # 10.11.2026: Film-Zweige, deren Endstand in Sire65/KC-Film-Archiv liegt (Baum verglichen: gleich). Zweig + Commit.
+      ARCHIVIERT: >-
+        ccr-fb21cac2-ak5cus:e2f1d30b94bc1e43abe875d08669528249d47170
+        claude/club-app-tutorial-video-4f46mx:225ab83557070b8f305a715331298028d48272c6
+        claude/clubsitzung-vorbereitung-video-fsa7rt:9f274007e6c10f52a4423b28b21d7f8d2e80683c
+        claude/invitation-email-tablet-notice-kyd4m8:0658be417ed3e5fa992a4efebf84b7678f5e727d
     steps:
       - name: Zweige prüfen und aufräumen
         run: |
@@ -58,6 +65,7 @@ jobs:
             elif [ "$ts" -gt "$grenze" ]; then grund="jünger als ${TAGE} Tage"; ent=bleibt
             elif git merge-base --is-ancestor "$ref" "origin/$HAUPT"; then grund="im Hauptzweig"; ent=weg
             elif awk -F'\t' -v b="$b" -v s="$sha" '$1==b && $2==s && $3=="uebernommen"{f=1} END{exit !f}' ../prs.tsv; then grund="Pull-Request übernommen"; ent=weg
+            elif [[ " ${ARCHIVIERT} " == *" ${b}:${sha} "* ]]; then grund="im Film-Archiv gesichert"; ent=weg
             else grund="nicht übernommen"; ent=bleibt; fi
             if [ "$ent" = weg ]; then
               if [ "$MODUS" = loeschen ]; then
