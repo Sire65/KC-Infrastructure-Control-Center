@@ -41,7 +41,7 @@ Neon-Projekte, zuletzt geprueft am 2026-10-20 (Organisation `org-fragrant-hall-5
 Offene Verbindungen im KC Core Mirror (`pg_stat_activity`, 2026-10-20): nur Neons interne Verbindungen (`compute_ctl`, `pgbouncer`); keine haengenden Client-Verbindungen.
 
 ## Speicherbelegung KC Core Mirror (Stand 2026-10-20)
-Die Free-Grenze liegt bei 1 GiB pro Branch. Fast der gesamte Zuwachs stammt aus den Backup-Saetzen:
+Die Free-Grenze liegt bei 1 GB **pro Projekt** (alle Branches zusammen; korrigiert 2026-11-10, vorher hier „pro Branch“, siehe `docs/ANBIETER-NEUERUNGEN-2026-11.md`, Abschnitt 4). Fast der gesamte Zuwachs stammt aus den Backup-Saetzen:
 
 | Tabelle | Groesse | Anteil |
 |---|---|---|

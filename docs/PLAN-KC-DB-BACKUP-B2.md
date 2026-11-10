@@ -44,6 +44,7 @@ kicc-backup-telemetry ──► KICC: Ressource storage-b2-kc-backup (PREPARED �
 - **Bestehende Kerne nutzen (Regel 3):** Der vorhandene Backup-Worker bekommt ein zweites Ziel ueber einen Storage-Adapter; kein paralleler Backup-Dienst.
 - **Adapter statt hart codiert (Regel 4/18):** Ziel `s3-compatible` mit Endpoint, Bucket und Key aus Secrets. B2 ist der erste Anbieter; spaeter ist auch Cloudflare R2 oder ein NAS-S3 moeglich.
 - **Verschluesselung:** Der Backup-Satz wird bereits clientseitig mit AES-256-GCM verschluesselt (`kc_db_backup_key_v1` im Vault). Auf B2 landet nur Chiffretext. Der Schluessel liegt nie bei B2.
+- **Serverseitig (Nachtrag 2026-11-10):** Neue B2-Buckets werden seit 2026-09-14 automatisch mit SSE-B2 (AES-256) verschluesselt, ohne Aufpreis und nicht abschaltbar. Das ist eine zusaetzliche Schicht; die eigene Verschluesselung bleibt massgeblich. Siehe `docs/ANBIETER-NEUERUNGEN-2026-11.md`.
 - **Unveraenderlich:** B2 Object Lock im Modus *Governance*, Aufbewahrung 30 Tage. Auch ein gestohlener App-Key kann Backups dann nicht loeschen.
 - **Getrennte Zugaenge:** eigener App-Key nur fuer den KC-Bucket mit den Rechten `writeFiles`, `readFiles`, `listFiles`, ohne `deleteFiles`. Er wird nie mit dem PRIVATEN Bucket geteilt.
 
@@ -84,6 +85,7 @@ kicc-backup-telemetry ──► KICC: Ressource storage-b2-kc-backup (PREPARED �
 ## 7. Tests und Definition of Done
 - Ein taeglicher Satz liegt auf B2, das Manifest stimmt mit dem Neon-Satz ueberein.
 - Loeschversuch mit dem App-Key schlaegt fehl (Object Lock und fehlende Rechte).
+- Bucket mit Object Lock und SSE-B2: Upload, Sperrfrist und Download funktionieren zusammen (das Zusammenspiel ist bei Backblaze nicht beschrieben).
 - B2 nicht erreichbar → Neon-Backup laeuft trotzdem, Waechter meldet Warnung.
 - Falscher Schluessel → Verify meldet Fehler, nicht OK.
 - Restore aus B2 in einen temporaeren Branch: alle Tabellen des Satzes identisch (2026-10-08: 240, 2026-10-20: 273).
