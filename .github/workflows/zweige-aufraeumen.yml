@@ -1,0 +1,72 @@
+# KICC-ZWEIGE-AUFRAEUMEN (10.11.2026, Wunsch Hansi „Ja lösche die Zweige“): alte Arbeitszweige auf GitHub löschen.
+# Claude-Sitzungen dürfen auf GitHub nichts löschen – darum startet Hansi diesen Ablauf selbst:
+#   Actions → „Zweige aufräumen“ → Run workflow → modus „anzeigen“ (nur Liste) oder „loeschen“.
+# Gelöscht wird ein Zweig nur, wenn ALLES zutrifft:
+#   - nicht der Hauptzweig, kein offener Pull-Request,
+#   - letzter Stand älter als 2 Tage (laufende Arbeit bleibt),
+#   - sein Inhalt ist im Hauptzweig (Vorfahre von main) ODER ein übernommener Pull-Request hat genau diesen Stand.
+# Nichts geht verloren: übernommene Inhalte stehen im Hauptzweig, die Pull-Requests behalten ihre Commits.
+# Ablauf wiederverwendbar (identisch in KC-Clubapp). Kein fremder Baustein (kein „uses:“).
+name: Zweige aufräumen
+on:
+  workflow_dispatch:
+    inputs:
+      modus:
+        description: "anzeigen = nur Liste, loeschen = wirklich löschen"
+        type: choice
+        options: [anzeigen, loeschen]
+        default: anzeigen
+      tage:
+        description: "Mindestalter in Tagen (jüngere Zweige bleiben)"
+        type: string
+        default: "2"
+permissions:
+  contents: write
+  pull-requests: read
+concurrency:
+  group: zweige-aufraeumen
+  cancel-in-progress: false
+jobs:
+  aufraeumen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      MODUS: ${{ inputs.modus }}
+      TAGE: ${{ inputs.tage }}
+      HAUPT: ${{ github.event.repository.default_branch }}
+    steps:
+      - name: Zweige prüfen und aufräumen
+        run: |
+          set -euo pipefail
+          case "$TAGE" in ''|*[!0-9]*) echo "::error::tage muss eine Zahl sein"; exit 1;; esac
+          git init -q r && cd r
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+          git fetch -q --filter=blob:none origin '+refs/heads/*:refs/remotes/origin/*'
+          gh api --paginate "repos/${REPO}/pulls?state=all&per_page=100" \
+            --jq '.[] | [.head.ref, .head.sha, (if .state=="open" then "offen" elif .merged_at then "uebernommen" else "geschlossen" end)] | @tsv' > ../prs.tsv
+          grenze=$(( $(date +%s) - TAGE * 86400 ))
+          weg=0; bleibt=0; fehler=0
+          echo "| Zweig | Entscheidung | Grund |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin); do
+            b="${ref#origin/}"
+            [ "$b" = "HEAD" ] || [ "$b" = "origin" ] || [ "$b" = "$HAUPT" ] && continue
+            sha=$(git rev-parse "$ref"); ts=$(git log -1 --format=%ct "$ref")
+            if awk -F'\t' -v b="$b" '$1==b && $3=="offen"{f=1} END{exit !f}' ../prs.tsv; then grund="offener Pull-Request"; ent=bleibt
+            elif [ "$ts" -gt "$grenze" ]; then grund="jünger als ${TAGE} Tage"; ent=bleibt
+            elif git merge-base --is-ancestor "$ref" "origin/$HAUPT"; then grund="im Hauptzweig"; ent=weg
+            elif awk -F'\t' -v b="$b" -v s="$sha" '$1==b && $2==s && $3=="uebernommen"{f=1} END{exit !f}' ../prs.tsv; then grund="Pull-Request übernommen"; ent=weg
+            else grund="nicht übernommen"; ent=bleibt; fi
+            if [ "$ent" = weg ]; then
+              if [ "$MODUS" = loeschen ]; then
+                # nur löschen, wenn der Zweig seit der Prüfung unverändert ist
+                if git push -q --force-with-lease="refs/heads/$b:$sha" origin ":refs/heads/$b"; then weg=$((weg+1)); echo "| \`$b\` | 🗑️ gelöscht | $grund |" >> "$GITHUB_STEP_SUMMARY"
+                else fehler=$((fehler+1)); echo "| \`$b\` | ⚠️ nicht gelöscht | geändert oder Fehler |" >> "$GITHUB_STEP_SUMMARY"; fi
+              else weg=$((weg+1)); echo "| \`$b\` | würde gelöscht | $grund |" >> "$GITHUB_STEP_SUMMARY"; fi
+            else bleibt=$((bleibt+1)); echo "| \`$b\` | ✅ bleibt | $grund |" >> "$GITHUB_STEP_SUMMARY"; fi
+          done
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Modus ${MODUS}: ${weg} weg, ${bleibt} bleiben, ${fehler} Fehler.**" >> "$GITHUB_STEP_SUMMARY"
+          echo "Modus ${MODUS}: ${weg} weg, ${bleibt} bleiben, ${fehler} Fehler."
