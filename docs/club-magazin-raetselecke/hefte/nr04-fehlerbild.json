@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "osterfruehstueck",
+ "fehler": [
+  [
+   112,
+   43,
+   23,
+   "Vor dem Fenster fehlt die Wolke"
+  ],
+  [
+   87,
+   148,
+   19,
+   "Die Kaffeekanne hat keine Tülle"
+  ],
+  [
+   234,
+   82,
+   13,
+   "Am Osterstrauß fehlt ein Ei"
+  ],
+  [
+   165,
+   116,
+   12,
+   "Ein Ei am Osterstrauß ist blau statt rot"
+  ],
+  [
+   305,
+   72,
+   12,
+   "Am Osterkranz ist ein Ei anders gefärbt"
+  ],
+  [
+   348,
+   97,
+   13,
+   "Eine Tulpe ist gelb statt rot"
+  ],
+  [
+   281,
+   191,
+   21,
+   "Eine Tasse ist blau statt rot"
+  ],
+  [
+   216,
+   208,
+   13,
+   "Im Brotkorb fehlt ein Brötchen"
+  ],
+  [
+   122,
+   212,
+   13,
+   "Dem Teighasen fehlt ein Ohr"
+  ],
+  [
+   320,
+   224,
+   15,
+   "Ein Frühstücksei trägt eine Mütze"
+  ]
+ ]
+}

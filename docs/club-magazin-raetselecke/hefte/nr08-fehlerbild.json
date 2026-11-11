@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "grillabend",
+ "fehler": [
+  [
+   55,
+   38,
+   21,
+   "Vollmond statt Mondsichel"
+  ],
+  [
+   225,
+   20,
+   11,
+   "Am Himmel fehlt ein Stern"
+  ],
+  [
+   320,
+   92,
+   13,
+   "Eine Glühbirne leuchtet blau"
+  ],
+  [
+   188,
+   158,
+   28,
+   "Im Zaun fehlt eine Latte"
+  ],
+  [
+   90,
+   187,
+   12,
+   "Am Spieß: gelbe statt rote Paprika"
+  ],
+  [
+   166,
+   213,
+   23,
+   "Die Grillzange fehlt"
+  ],
+  [
+   148,
+   262,
+   12,
+   "Am Grill fehlt ein Rad"
+  ],
+  [
+   279,
+   186,
+   13,
+   "Auf dem Teller fehlt eine Aubergine"
+  ],
+  [
+   325,
+   181,
+   13,
+   "Ein Weinglas ist leer"
+  ],
+  [
+   360,
+   182,
+   11,
+   "Im Windlicht brennt keine Kerze"
+  ]
+ ]
+}

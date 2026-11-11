@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "herbstkueche",
+ "fehler": [
+  [
+   200,
+   43,
+   22,
+   "Der Lampenschirm hat eine andere Farbe"
+  ],
+  [
+   120,
+   78,
+   20,
+   "Am Baum vor dem Fenster ist ein Teil noch grün"
+  ],
+  [
+   45,
+   112,
+   13,
+   "Die Kerze auf der Fensterbank brennt nicht"
+  ],
+  [
+   320,
+   57,
+   20,
+   "Auf dem Regal fehlt ein Teller"
+  ],
+  [
+   80,
+   143,
+   13,
+   "Dem großen Kürbis fehlt der Stiel"
+  ],
+  [
+   135,
+   186,
+   20,
+   "Der kleine Kürbis ist grün statt orange"
+  ],
+  [
+   171,
+   153,
+   17,
+   "Im Glas steckt ein Rosmarinzweig weniger"
+  ],
+  [
+   247,
+   136,
+   25,
+   "Die Kelle im Topf fehlt"
+  ],
+  [
+   352,
+   178,
+   14,
+   "In der Suppenschale fehlt der Sahneklecks"
+  ],
+  [
+   215,
+   246,
+   14,
+   "In der Kiste liegt ein Apfel weniger"
+  ]
+ ]
+}

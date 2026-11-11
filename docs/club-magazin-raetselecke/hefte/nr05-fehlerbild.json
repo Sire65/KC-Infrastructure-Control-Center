@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "spargelzeit",
+ "fehler": [
+  [
+   76,
+   50,
+   21,
+   "An der Wand hängt eine Pfanne weniger"
+  ],
+  [
+   205,
+   68,
+   20,
+   "Am Maibaum fehlt der Kranz"
+  ],
+  [
+   51,
+   99,
+   18,
+   "Aus dem Spargeltopf steigt kein Dampf"
+  ],
+  [
+   378,
+   110,
+   19,
+   "Ein Rhabarberblatt fehlt"
+  ],
+  [
+   136,
+   171,
+   16,
+   "Das Band um den Spargelbund ist grün statt rot"
+  ],
+  [
+   205,
+   186,
+   21,
+   "Eine Spargelstange ist grün statt weiß"
+  ],
+  [
+   270,
+   158,
+   15,
+   "In der Sauciere steckt ein Löffel"
+  ],
+  [
+   330,
+   162,
+   12,
+   "In der Schüssel fehlt eine Kartoffel"
+  ],
+  [
+   200,
+   238,
+   14,
+   "Am Vorhang fehlt die Schleife"
+  ],
+  [
+   62,
+   247,
+   13,
+   "Im Korb ist eine Spargelstange lila"
+  ]
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "martinsgans",
+ "fehler": [
+  [
+   88,
+   38,
+   23,
+   "An der Bonleiste hängt ein Zettel weniger"
+  ],
+  [
+   180,
+   92,
+   24,
+   "Eine Wärmelampe ist aus"
+  ],
+  [
+   306,
+   40,
+   16,
+   "Vollmond statt Mondsichel"
+  ],
+  [
+   350,
+   84,
+   16,
+   "Eine Laterne leuchtet blau statt rot"
+  ],
+  [
+   124,
+   158,
+   13,
+   "Auf dem Teller liegt ein Kloß weniger"
+  ],
+  [
+   160,
+   159,
+   13,
+   "Auf der Platte fehlt ein Bratapfel"
+  ],
+  [
+   296,
+   158,
+   27,
+   "Die Wirsingschüssel ist golden statt rot"
+  ],
+  [
+   362,
+   161,
+   17,
+   "Die Klingel ist silbern statt golden"
+  ],
+  [
+   40,
+   205,
+   27,
+   "Das Geschirrtuch hat blaue Streifen"
+  ],
+  [
+   200,
+   207,
+   20,
+   "An der mittleren Tür fehlt der Griff"
+  ]
+ ]
+}

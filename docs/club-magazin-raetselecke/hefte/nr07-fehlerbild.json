@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "picknick",
+ "fehler": [
+  [
+   235,
+   36,
+   28,
+   "Eine Wolke fehlt"
+  ],
+  [
+   81,
+   105,
+   13,
+   "An der Mühle fehlt ein Fenster"
+  ],
+  [
+   141,
+   121,
+   12,
+   "Am Wasserrad fehlt eine Schaufel"
+  ],
+  [
+   205,
+   159,
+   23,
+   "Eine Ente schwimmt in die andere Richtung"
+  ],
+  [
+   365,
+   123,
+   16,
+   "Das Vogelhäuschen am Baum fehlt"
+  ],
+  [
+   135,
+   207,
+   26,
+   "Der Picknickkorb hat keinen Henkel"
+  ],
+  [
+   215,
+   238,
+   27,
+   "Die Gurkensalat-Schüssel ist blau"
+  ],
+  [
+   318,
+   240,
+   13,
+   "Ein Becher fehlt"
+  ],
+  [
+   370,
+   255,
+   12,
+   "Eine Blume blüht blau statt rot"
+  ],
+  [
+   40,
+   196,
+   14,
+   "Der Schmetterling fehlt"
+  ]
+ ]
+}

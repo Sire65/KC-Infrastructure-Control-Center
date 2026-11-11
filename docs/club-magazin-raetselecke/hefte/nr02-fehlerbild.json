@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "karneval",
+ "fehler": [
+  [
+   45,
+   62,
+   24,
+   "Die Uhr zeigt eine andere Zeit"
+  ],
+  [
+   110,
+   66,
+   23,
+   "Die Narrenkappe hat nur noch zwei Zipfel"
+  ],
+  [
+   226,
+   92,
+   18,
+   "Vor dem Fenster fehlt der blaue Luftballon"
+  ],
+  [
+   360,
+   90,
+   15,
+   "An der Maske fehlt die Feder"
+  ],
+  [
+   104,
+   138,
+   21,
+   "Am Frittierkorb fehlt der Griff"
+  ],
+  [
+   172,
+   185,
+   16,
+   "Auf dem Blech fehlt ein Berliner"
+  ],
+  [
+   260,
+   175,
+   16,
+   "Ein Berliner hat Schokoguss statt Puderzucker"
+  ],
+  [
+   150,
+   244,
+   14,
+   "Das Geschirrtuch hat blaue statt rote Streifen"
+  ],
+  [
+   50,
+   255,
+   13,
+   "Im Korb fehlt ein Ei"
+  ],
+  [
+   353,
+   268,
+   17,
+   "Auf dem Mehlsack fehlt die Ähre"
+  ]
+ ]
+}

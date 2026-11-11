@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "fischmarkt",
+ "fehler": [
+  [
+   300,
+   28,
+   13,
+   "Am Himmel fehlt eine Möwe"
+  ],
+  [
+   170,
+   70,
+   23,
+   "Ein Streifen der Markise ist gelb"
+  ],
+  [
+   120,
+   128,
+   25,
+   "Der Rettungsring hat blaue statt rote Streifen"
+  ],
+  [
+   292,
+   115,
+   24,
+   "Am Brett hängt ein Bärlauchbund weniger"
+  ],
+  [
+   115,
+   184,
+   26,
+   "Ein Fisch liegt andersherum"
+  ],
+  [
+   215,
+   184,
+   26,
+   "Auf dem Eis fehlt ein Fisch"
+  ],
+  [
+   288,
+   173,
+   17,
+   "Die Waage zeigt ein anderes Gewicht"
+  ],
+  [
+   204,
+   236,
+   23,
+   "Das Fischschild am Tresen ist rot statt golden"
+  ],
+  [
+   138,
+   259,
+   12,
+   "Eine Zitrone ist grün"
+  ],
+  [
+   366,
+   210,
+   13,
+   "Eine Narzisse blüht weiß statt gelb"
+  ]
+ ]
+}

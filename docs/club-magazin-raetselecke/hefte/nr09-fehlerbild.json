@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "hofladen",
+ "fehler": [
+  [
+   68,
+   40,
+   13,
+   "Im Fenster fehlt die Sonne"
+  ],
+  [
+   80,
+   97,
+   17,
+   "Im Regal fehlt ein Honigglas"
+  ],
+  [
+   231,
+   83,
+   22,
+   "Ein Band der Erntekrone ist grün"
+  ],
+  [
+   337,
+   60,
+   22,
+   "Auf der Tafel: Birne statt Apfel"
+  ],
+  [
+   199,
+   158,
+   17,
+   "Vom Zwetschgenkuchen fehlt ein Stück"
+  ],
+  [
+   255,
+   152,
+   15,
+   "Die Waage zeigt ein anderes Gewicht"
+  ],
+  [
+   309,
+   130,
+   15,
+   "Einer Sonnenblume fehlt die Blüte"
+  ],
+  [
+   60,
+   224,
+   12,
+   "In der Kiste liegt ein grüner Apfel"
+  ],
+  [
+   215,
+   224,
+   15,
+   "Das Band am Kartoffelsack ist blau"
+  ],
+  [
+   345,
+   267,
+   24,
+   "Ein Kürbis ist grün statt orange"
+  ]
+ ]
+}

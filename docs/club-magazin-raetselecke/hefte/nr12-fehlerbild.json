@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "weihnachtsbaeckerei",
+ "fehler": [
+  [
+   205,
+   50,
+   22,
+   "Der Stern an der Decke hat weniger Zacken"
+  ],
+  [
+   122,
+   100,
+   22,
+   "Vor dem Fenster fehlt der Schneemann"
+  ],
+  [
+   305,
+   42,
+   16,
+   "Am Haken hängt ein Mond statt Herz"
+  ],
+  [
+   274,
+   75,
+   13,
+   "Am Lebkuchenhaus fehlt der Schornstein"
+  ],
+  [
+   90,
+   150,
+   13,
+   "Am Adventskranz brennt eine Kerze mehr"
+  ],
+  [
+   232,
+   182,
+   13,
+   "Auf dem Blech fehlt ein Plätzchen"
+  ],
+  [
+   319,
+   186,
+   12,
+   "Am Nudelholz fehlt ein Griff"
+  ],
+  [
+   370,
+   146,
+   22,
+   "In der Schüssel steckt ein Löffel statt Schneebesen"
+  ],
+  [
+   138,
+   269,
+   15,
+   "Der Katze fehlt der Schwanz"
+  ],
+  [
+   300,
+   254,
+   26,
+   "Der Mehlsack hat keinen roten Streifen"
+  ]
+ ]
+}

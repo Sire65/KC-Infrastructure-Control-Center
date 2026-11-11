@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "erdbeeren",
+ "fehler": [
+  [
+   340,
+   19,
+   17,
+   "Ein Wimpel der Girlande ist grün"
+  ],
+  [
+   50,
+   72,
+   26,
+   "Die Uhr zeigt eine andere Zeit"
+  ],
+  [
+   50,
+   128,
+   17,
+   "Die Erdbeere im Bild ist gelb"
+  ],
+  [
+   300,
+   70,
+   22,
+   "Der Lampenschirm hat eine andere Farbe"
+  ],
+  [
+   380,
+   96,
+   20,
+   "Im Regal fehlt ein Glas"
+  ],
+  [
+   118,
+   119,
+   15,
+   "Am Sahnespender fehlt der Hebel"
+  ],
+  [
+   232,
+   109,
+   13,
+   "Auf der Torte fehlt eine Erdbeere"
+  ],
+  [
+   271,
+   184,
+   23,
+   "Der Tortenheber fehlt"
+  ],
+  [
+   335,
+   176,
+   21,
+   "Der Minztopf ist blau"
+  ],
+  [
+   250,
+   244,
+   19,
+   "In der Vitrine fehlt ein Törtchen"
+  ]
+ ]
+}
