@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "kraeutergarten",
+ "fehler": [
+  [
+   40,
+   38,
+   26,
+   "Die Sonne hat keine Strahlen"
+  ],
+  [
+   160,
+   40,
+   24,
+   "Am Himmel fehlt eine Wolke"
+  ],
+  [
+   240,
+   82,
+   18,
+   "Die Harke hat weniger Zinken"
+  ],
+  [
+   380,
+   82,
+   11,
+   "Das Vogelhaus hat kein Flugloch"
+  ],
+  [
+   130,
+   126,
+   14,
+   "Der Schmetterling ist blau statt gelb"
+  ],
+  [
+   180,
+   140,
+   11,
+   "Am Lavendel fehlt die Biene"
+  ],
+  [
+   62,
+   152,
+   14,
+   "Der Schnittlauch blüht nicht"
+  ],
+  [
+   98,
+   243,
+   12,
+   "An der Gießkanne fehlt die Brause"
+  ],
+  [
+   292,
+   203,
+   14,
+   "Ein Kräutertopf ist blau statt aus Ton"
+  ],
+  [
+   362,
+   207,
+   11,
+   "Auf der Bank liegt ein Handschuh weniger"
+  ]
+ ]
+}

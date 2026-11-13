@@ -1,0 +1,1414 @@
+{
+ "hefte": {
+  "13": {
+   "termine_fest": [
+    {
+     "sym": "🎆",
+     "text": "Neujahr",
+     "wann": "Sa., 1. Januar"
+    },
+    {
+     "sym": "👑",
+     "text": "Heilige Drei Könige",
+     "wann": "Do., 6. Januar",
+     "info": "In NRW kein Feiertag – in anderen Bundesländern schon, dort sind manche Lieferanten zu."
+    },
+    {
+     "sym": "🥬",
+     "text": "Grünkohlzeit",
+     "wann": "den ganzen Monat",
+     "info": "Nach den ersten kalten Nächten schmeckt er milder – mit Pinkel, Kassler oder Mettenden."
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Der Grünkohl bleibt zäh und schmeckt bitter",
+     "kniff": "Die Blätter von den dicken Mittelrippen streifen, gründlich waschen und 2–3 Minuten in Salzwasser blanchieren, dann grob hacken. Zwiebeln in Schmalz andünsten, den Kohl zugeben, mit Brühe knapp bedecken und zugedeckt mindestens eine bis anderthalb Stunden leise schmoren. Zum Binden zum Schluss ein paar zarte Haferflocken einrühren.",
+     "warum": "Die Bitterstoffe stecken vor allem in den Senfölverbindungen des Kohls – ein Teil davon geht beim Blanchieren ins Wasser. Die harten Blattrippen werden auch nach Stunden nicht zart, darum müssen sie raus. Kälte lässt die lebende Pflanze Zucker einlagern; deshalb schmeckt Grünkohl nach kalten Nächten milder. Das Gefrierfach ersetzt das nicht.",
+     "merke": "Rippen raus, kurz blanchieren – dann Zeit lassen."
+    },
+    {
+     "titel": "Die Sauce mit Mehlschwitze wird klumpig",
+     "kasten": true,
+     "schritte": [
+      "Butter schmelzen, die gleiche Menge Mehl einrühren und unter Rühren 2–3 Minuten anschwitzen – hell für Béchamel, bräunlich für dunkle Saucen.",
+      "Entweder heiße Mehlschwitze in kalte Flüssigkeit oder abgekühlte Mehlschwitze in heiße Flüssigkeit – nie heiß zu heiß.",
+      "Die Flüssigkeit nach und nach mit dem Schneebesen einrühren, dabei bis in die Topfecken arbeiten.",
+      "Mindestens 15–20 Minuten leise köcheln lassen, öfter umrühren und erst dann abschmecken; notfalls durch ein Sieb passieren."
+     ],
+     "warum": "Mehl bindet, weil seine Stärke Wasser aufnimmt und aufquillt. Trifft heiße Mehlschwitze auf heiße Flüssigkeit, verkleistert die Stärke außen sofort – innen bleibt trockenes Mehl eingeschlossen: ein Klümpchen. Ist eine Seite kühler, bleibt Zeit, das Mehl zu verteilen, bevor es quillt. Das lange Köcheln nimmt den rohen Mehlgeschmack.",
+     "werte": [
+      [
+       "1 : 1",
+       "Butter zu Mehl, nach Gewicht"
+      ],
+      [
+       "50–60 g Mehl je Liter",
+       "mittlere Bindung, z. B. Béchamel"
+      ],
+      [
+       "15–20 Min.",
+       "köcheln, damit der Mehlgeschmack verschwindet"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Gute Vorsätze",
+    "zeilen": [
+     [
+      "Küchenchef",
+      "„Was ist dein Vorsatz fürs neue Jahr?“"
+     ],
+     [
+      "Azubi",
+      "„Ab jetzt bin ich jeden Morgen pünktlich, Chef!“"
+     ],
+     [
+      "Küchenchef",
+      "„Sehr schön. Dann fang am besten gleich heute an – es ist zehn nach acht.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Legieren",
+    "aussprache": "[le-gie-ren]",
+    "herkunft": "Lateinisch „ligare“: binden",
+    "heisst": "Eine Suppe oder Sauce zum Schluss mit einer Mischung aus Eigelb und Sahne binden. Die Legierung macht sie sämig, gibt Glanz und einen runden, milden Geschmack – klassisch bei Ragout fin, Frikassee und feinen Cremesuppen.",
+    "schritte": [
+     "Eigelb und Sahne in einer Schüssel glatt verrühren – etwa 1 Eigelb und 4 EL Sahne auf einen halben Liter.",
+     "Die Suppe oder Sauce vom Herd nehmen, sie soll nicht mehr kochen.",
+     "Einige Kellen der heißen Flüssigkeit unter Rühren in die Legierung geben, um sie anzugleichen.",
+     "Die angewärmte Legierung zurück in den Topf rühren.",
+     "Unter Rühren nur noch erhitzen, bis die Sauce leicht bindet – nicht mehr kochen lassen."
+    ],
+    "warum": "Eigelb stockt beim Erwärmen und bindet dabei Flüssigkeit. Die Sahne puffert und gibt ihm etwas mehr Spielraum. Kocht die Suppe danach, gerinnt das Eigelb zu Flöckchen – die Bindung ist weg. Das Angleichen verhindert, dass das Eigelb beim Eingießen schlagartig zu heiß wird.",
+    "merke": "Erst angleichen, dann einrühren – kochen verboten."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Der Grünkohl bleibt zäh und schmeckt bitter"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Majoran"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Legieren"
+    ]
+   ]
+  },
+  "14": {
+   "termine_fest": [
+    {
+     "sym": "❤️",
+     "text": "Valentinstag",
+     "wann": "Mo., 14. Februar",
+     "info": "Einer der vollsten Abende des Jahres in der Gastronomie – diesmal an einem Montag."
+    },
+    {
+     "sym": "🎭",
+     "text": "Weiberfastnacht",
+     "wann": "Do., 24. Februar",
+     "info": "Startschuss für die Karnevalstage – Hochsaison für Berliner, Krapfen und Mutzen."
+    },
+    {
+     "sym": "🎉",
+     "text": "Rosenmontag",
+     "wann": "Mo., 28. Februar"
+    },
+    {
+     "sym": "🎊",
+     "text": "Veilchendienstag",
+     "wann": "Di., 29. Februar",
+     "info": "2028 ist ein Schaltjahr – der letzte Karnevalstag fällt auf den Schalttag."
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Die Schokolade wird beim Schmelzen plötzlich dick und klumpig",
+     "kniff": "Schokolade grob hacken und in einer ganz trockenen Schüssel über einem Topf mit nur leise siedendem Wasser schmelzen – die Schüssel darf das Wasser nicht berühren, und kein Dampf soll hineinziehen. Oder in der Mikrowelle bei mittlerer Stufe in kurzen Abständen, dazwischen umrühren. Ist sie schon fest geworden: mit einem guten Schuss heißer Sahne glatt rühren und als Ganache oder Schokosauce verwenden.",
+     "warum": "Schokolade besteht aus feinsten Zucker- und Kakaoteilchen in Kakaobutter. Schon wenige Tropfen Wasser oder Dampf lösen den Zucker an, die Teilchen verkleben zu einer zähen, körnigen Masse. Zu viel Hitze lässt sie ebenfalls verklumpen und anbrennen. Mit reichlich Flüssigkeit dagegen entsteht wieder eine glatte Masse – deshalb rettet ein Schuss heiße Sahne.",
+     "merke": "Ein Tropfen Wasser verdirbt sie, ein guter Schuss Sahne rettet sie."
+    },
+    {
+     "titel": "Die Schokoglasur wird nach dem Festwerden grau und streifig",
+     "kasten": true,
+     "schritte": [
+      "Kuvertüre fein hacken und zwei Drittel davon im Wasserbad schmelzen.",
+      "Vom Wasserbad nehmen und das restliche Drittel unterrühren, bis alles geschmolzen und die Masse abgekühlt ist.",
+      "Temperatur mit dem Thermometer prüfen – oder eine Messerspitze eintauchen: Die Probe soll in wenigen Minuten glänzend fest werden.",
+      "Auf Verarbeitungstemperatur halten, zügig überziehen und bei Raumtemperatur fest werden lassen, nicht im Kühlschrank."
+     ],
+     "warum": "Kakaobutter kann in mehreren Kristallformen erstarren – nur eine davon ergibt Glanz, Knack und zarten Schmelz. Ungesteuert abgekühlt bilden sich instabile Kristalle, Fett wandert an die Oberfläche: Die Glasur wird grau, streifig und weich. Beim Temperieren bringen die unberührten Stücke aus dem letzten Drittel die richtigen Kristalle mit.",
+     "werte": [
+      [
+       "45–50 °C",
+       "dunkle Kuvertüre schmelzen"
+      ],
+      [
+       "31–32 °C",
+       "dunkle Kuvertüre verarbeiten"
+      ],
+      [
+       "29–30 °C / 28–29 °C",
+       "Vollmilch- / weiße Kuvertüre verarbeiten"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Flambiert",
+    "zeilen": [
+     [
+      "Gast",
+      "„Werden die Crêpes Suzette wirklich am Tisch flambiert?“"
+     ],
+     [
+      "Kellner",
+      "„Selbstverständlich, mein Herr.“"
+     ],
+     [
+      "Gast (nach der Stichflamme)",
+      "„Großartig! Und die Augenbrauen – sind die im Preis inbegriffen?“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Flambieren",
+    "aussprache": "[flã-bie-ren]",
+    "herkunft": "Französisch „flamber“: abflammen, von „flamme“: Flamme",
+    "heisst": "Eine Speise mit hochprozentigem Alkohol übergießen und anzünden. Die Flamme verbrennt einen Teil des Alkohols, zurück bleibt das Aroma von Cognac, Grand Marnier oder Rum – und ein Hingucker am Tisch, etwa bei Crêpes Suzette oder Rinderfiletspitzen.",
+    "schritte": [
+     "Eine Spirituose mit etwa 40 % vol. in einem kleinen Topf leicht erwärmen – nicht kochen.",
+     "Die Pfanne mit der Speise vom Herd nehmen, Dunstabzug ausschalten, nichts Brennbares in der Nähe.",
+     "Den Alkohol aus dem Topf oder einer Kelle angießen – nie direkt aus der Flasche.",
+     "Mit einem langen Streichholz entzünden, Gesicht und Haare auf Abstand.",
+     "Die Pfanne sanft schwenken, bis die Flamme von selbst erlischt."
+    ],
+    "warum": "Kalter Alkohol verdampft zu wenig, um zu zünden; angewärmt bildet er brennbaren Dampf über der Pfanne. Aus der Flasche kann die Flamme zurückschlagen. Beim Abbrennen bleiben Aromastoffe und Zucker zurück, der zum Teil karamellisiert. Ganz ohne Alkohol ist das Gericht danach nicht.",
+    "merke": "Warm angießen, nie aus der Flasche, Abstand halten."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Die Schokolade wird beim Schmelzen plötzlich dick und klumpig"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Gartenkresse"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Flambieren"
+    ]
+   ]
+  },
+  "15": {
+   "termine_fest": [
+    {
+     "sym": "🐟",
+     "text": "Aschermittwoch",
+     "wann": "Mi., 1. März",
+     "info": "Die Fastenzeit beginnt – traditionell kommt Fisch auf den Tisch."
+    },
+    {
+     "sym": "🌱",
+     "text": "Frühlingsanfang",
+     "wann": "Mo., 20. März"
+    },
+    {
+     "sym": "⏰",
+     "text": "Beginn der Sommerzeit",
+     "wann": "So., 26. März",
+     "info": "Uhren eine Stunde vor – vor dem Sonntagsdienst eine Stunde weniger Schlaf."
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Die Panade löst sich vom Fischfilet und wird fleckig",
+     "kniff": "Filets mit Küchenpapier gut trocken tupfen, salzen, dünn in Mehl wenden und überschüssiges Mehl abklopfen. Dann durch verquirltes Ei ziehen, abtropfen lassen und die Brösel nur leicht andrücken – nicht festpressen. Sofort in reichlich heißem Fett ausbacken, die Pfanne dabei sanft schwenken und nur einmal wenden.",
+     "warum": "Das Mehl nimmt die Feuchtigkeit der Oberfläche auf und gibt dem Ei Halt. Ist der Fisch nass oder liegt zu viel Mehl darauf, bildet sich eine schmierige Zwischenschicht, die beim Braten abreißt. Wer zu früh paniert, lässt die Brösel durchweichen; fest angedrückt kann die Panade nicht locker aufgehen.",
+     "merke": "Trocken tupfen, dünn mehlieren, sofort braten."
+    },
+    {
+     "titel": "Bei den Miesmuscheln weiß man nicht, welche noch gut sind",
+     "kasten": true,
+     "schritte": [
+      "Muscheln in kaltem Wasser waschen und die Bärte (Byssusfäden) zur Schale hin abziehen.",
+      "Muscheln mit beschädigter Schale aussortieren; geöffnete kurz antippen – schließen sie sich nicht, kommen sie weg.",
+      "Sud aus Weißwein, Schalotten, Knoblauch und Kräutern aufkochen, Muscheln zugeben und zugedeckt dämpfen, dabei den Topf ein-, zweimal schütteln.",
+      "Muscheln, die nach dem Garen geschlossen bleiben, nicht mit Gewalt öffnen, sondern aussortieren."
+     ],
+     "warum": "Muscheln müssen bis zur Zubereitung leben. Eine lebende Muschel hält ihre Schale geschlossen oder schließt sie bei Berührung. Im Wasser gelagert ersticken sie; im Kühlschrank unter einem feuchten Tuch bleiben sie frisch. Beim Dämpfen gibt der Schließmuskel nach, und die Schale springt auf.",
+     "werte": [
+      [
+       "ca. 1 kg",
+       "Miesmuscheln je Person als Hauptgericht"
+      ],
+      [
+       "5–7 Min.",
+       "zugedeckt dämpfen, bis sich die Schalen öffnen"
+      ],
+      [
+       "feuchtes Tuch",
+       "im Kühlschrank lagern, nie im Wasser"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Fastenzeit",
+    "zeilen": [
+     [
+      "Gast",
+      "„Was empfehlen Sie mir in der Fastenzeit?“"
+     ],
+     [
+      "Kellner",
+      "„Unseren Fisch.“"
+     ],
+     [
+      "Gast",
+      "„Und wenn ich keinen Fisch mag?“"
+     ],
+     [
+      "Kellner",
+      "„Dann empfehle ich Ihnen Ostern.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Beurre noisette",
+    "aussprache": "[bör nwa-sett]",
+    "herkunft": "Französisch: „Haselnussbutter“ – nach Farbe und Duft, nicht nach Nüssen",
+    "heisst": "Butter, die so lange erhitzt wird, bis ihr Milcheiweiß goldbraun wird und sie nussig duftet. Klassisch über Scholle „Müllerin Art“, Forelle, Spargel oder Gnocchi und in Gebäck wie Financiers.",
+    "schritte": [
+     "Butter in Stücken in einen hellen Topf oder eine helle Pfanne geben – so sieht man die Farbe.",
+     "Bei mittlerer Hitze schmelzen lassen; sie schäumt, solange das Wasser verdampft.",
+     "Den Topf schwenken und den Boden beobachten: Die Eiweißflöckchen werden hell- bis haselnussbraun.",
+     "Sobald es nussig duftet, sofort vom Herd nehmen und in ein kaltes Gefäß umgießen oder mit Zitronensaft abstoppen.",
+     "Nach Belieben durch ein Sieb gießen oder mitsamt den braunen Flöckchen verwenden."
+    ],
+    "warum": "Butter besteht aus Fett, Wasser und Milcheiweiß. Erst wenn das Wasser verdampft ist, wird sie so heiß, dass Eiweiß und Milchzucker bräunen – dabei entstehen die nussigen Röstaromen. Von braun zu schwarz und bitter sind es nur Sekunden, darum sofort raus aus der heißen Pfanne.",
+    "merke": "Wenn der Schaum fällt, hinschauen – wenn es duftet, runter vom Herd."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Die Panade löst sich vom Fischfilet und wird fleckig"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Sauerampfer"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Beurre noisette"
+    ]
+   ]
+  },
+  "16": {
+   "termine_fest": [
+    {
+     "sym": "🌿",
+     "text": "Gründonnerstag",
+     "wann": "Do., 13. April",
+     "info": "Traditionell mit grüner Kräutersuppe oder Grüner Soße."
+    },
+    {
+     "sym": "🐟",
+     "text": "Karfreitag",
+     "wann": "Fr., 14. April",
+     "info": "Feiertag – Fisch hat Saison."
+    },
+    {
+     "sym": "🐣",
+     "text": "Ostern",
+     "wann": "So., 16. und Mo., 17. April",
+     "info": "Lamm, Eier, Hefezopf – und volle Restaurants zum Osterbrunch."
+    },
+    {
+     "sym": "🥬",
+     "text": "Spargelzeit beginnt",
+     "wann": "je nach Wetter im April",
+     "info": "Bis Johanni (Sa., 24. Juni) hat heimischer Spargel Saison."
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Die Ostereier haben einen grünen Rand ums Eigelb",
+     "kniff": "Eier am stumpfen Ende anstechen und in kochendes Wasser geben; für harte Eier 9–10 Minuten sanft – nicht sprudelnd – kochen. Danach sofort in kaltem Wasser abschrecken und vollständig abkühlen lassen. Wer viele Eier für den Brunch braucht, kocht lieber mehrere kleine Durchgänge als einen übervollen Topf, in dem die Zeiten nicht mehr stimmen.",
+     "warum": "Kocht das Ei zu lange oder zu heiß, wird aus dem Eiweiß Schwefelwasserstoff frei. Er wandert zum Eigelb und verbindet sich dort mit dessen Eisen zu grau-grünem Eisensulfid – harmlos, aber unschön und mit leichtem Schwefelgeruch. Rasches Abkühlen stoppt das Garen und damit auch die Verfärbung.",
+     "merke": "Nicht länger als nötig – und dann sofort kalt."
+    },
+    {
+     "titel": "Die Lammkeule ist außen grau und innen ungleich gegart",
+     "kasten": true,
+     "schritte": [
+      "Keule eine Stunde vor dem Garen aus dem Kühlschrank nehmen, die Fettauflage leicht einschneiden.",
+      "Rundherum kräftig anbraten und mit Knoblauch, Rosmarin und Thymian in den Bräter legen.",
+      "Bei moderater Ofentemperatur garen und die Kerntemperatur mit dem Thermometer an der dicksten Stelle verfolgen – nicht am Knochen messen.",
+      "Etwa 2–3 Grad vor der Zieltemperatur herausnehmen und locker abgedeckt ruhen lassen."
+     ],
+     "warum": "Je heißer der Ofen, desto dicker wird der graue, durchgegarte Rand unter der Kruste, während der Kern noch roh ist. Bei moderater Hitze wandert die Wärme gleichmäßiger nach innen. In der Ruhezeit zieht die Wärme von außen weiter nach – der Kern steigt noch, und der Fleischsaft verteilt sich.",
+     "werte": [
+      [
+       "140–160 °C",
+       "Ofentemperatur für die Lammkeule"
+      ],
+      [
+       "58–62 °C Kern",
+       "rosa, nach dem Ruhen"
+      ],
+      [
+       "10–15 Min.",
+       "Ruhezeit – der Kern steigt noch um 2–3 Grad"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Osterhase",
+    "zeilen": [
+     [
+      "Kind",
+      "„Wer versteckt eigentlich die Ostereier?“"
+     ],
+     [
+      "Küchenchef",
+      "„Der Osterhase.“"
+     ],
+     [
+      "Kind",
+      "„Und wer hat sie gefärbt?“"
+     ],
+     [
+      "Küchenchef",
+      "„Auch der Osterhase.“"
+     ],
+     [
+      "Azubi (leise)",
+      "„Und wer hat die 300 Eier für den Brunch gepellt?“"
+     ],
+     [
+      "Küchenchef",
+      "„Das, mein Lieber, warst du.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Farcieren",
+    "aussprache": "[far-ßie-ren]",
+    "herkunft": "Französisch „farcir“, von lateinisch „farcire“: stopfen, füllen",
+    "heisst": "Fleisch, Fisch, Geflügel, Gemüse oder Teigtaschen füllen – mit einer Farce. Eine feine Farce aus Fleisch oder Fisch wird mit Sahne zu einer glatten Masse gemixt und ist Grundlage für Klößchen, Terrinen und gefüllte Braten, etwa eine gefüllte Lammschulter zu Ostern.",
+    "schritte": [
+     "Fleisch oder Fisch würfeln und zusammen mit Mixbecher und Messer gut vorkühlen.",
+     "Mit Salz fein mixen, bis eine bindige Masse entsteht.",
+     "Eiskalte Sahne nach und nach einarbeiten – die Masse soll dabei kalt bleiben.",
+     "Für besonders feine Farcen durch ein Sieb streichen.",
+     "Ein Probeklößchen in siedendem Salzwasser garen und abschmecken – erst dann füllen."
+    ],
+    "warum": "Salz löst das Muskeleiweiß; es umschließt Fett und Sahne und bindet die Farce beim Garen. Wird die Masse warm, trennt sich das Fett ab – die Farce wird krümelig und trocken. Das Probeklößchen zeigt Würze und Bindung, solange man noch nachbessern kann.",
+    "merke": "Eiskalt arbeiten, Probe garen."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Die Ostereier haben einen grünen Rand ums Eigelb"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Pimpinelle"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Farcieren"
+    ]
+   ]
+  },
+  "17": {
+   "termine_fest": [
+    {
+     "sym": "🍹",
+     "text": "Tag der Arbeit",
+     "wann": "Mo., 1. Mai",
+     "info": "Zeit für die Maibowle mit Waldmeister."
+    },
+    {
+     "sym": "💐",
+     "text": "Muttertag",
+     "wann": "So., 14. Mai",
+     "info": "Einer der umsatzstärksten Tage für Restaurants – früh reservieren."
+    },
+    {
+     "sym": "🚶",
+     "text": "Christi Himmelfahrt / Vatertag",
+     "wann": "Do., 25. Mai"
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Der Kartoffelsalat ist trocken und schmeckt fad",
+     "kniff": "Festkochende Kartoffeln in der Schale garen, noch warm pellen und in Scheiben schneiden. Sofort mit heißer, kräftig abgeschmeckter Brühe, Essig, Salz und fein gewürfelten Zwiebeln übergießen und mindestens eine halbe Stunde ziehen lassen. Erst dann Öl oder Mayonnaise, Gurke und Kräuter untermischen und vor dem Servieren noch einmal abschmecken.",
+     "warum": "Warme Kartoffeln nehmen Flüssigkeit und Würze auf, kalte kaum noch – die Marinade bleibt dann außen liegen. Kommt das Öl zu früh, legt es sich wie ein Film um die Scheiben und sperrt Brühe und Essig aus. Beim Abkühlen bindet die Stärke weiter Flüssigkeit, darum braucht der Salat vor dem Servieren oft noch einen Schuss Brühe.",
+     "merke": "Kartoffeln warm, Brühe heiß – das Öl kommt zuletzt."
+    },
+    {
+     "titel": "Die Mayonnaise gerinnt",
+     "kasten": true,
+     "schritte": [
+      "Eigelb und Öl auf dieselbe Temperatur bringen – am besten Zimmertemperatur.",
+      "Eigelb mit Senf, Salz und etwas Zitronensaft oder Essig glatt rühren.",
+      "Das Öl zuerst tropfenweise, dann in dünnem Strahl unter ständigem Rühren einarbeiten.",
+      "Wird sie zu fest, mit ein paar Tropfen Wasser oder Zitronensaft lockern. Geronnene Mayonnaise tröpfchenweise in ein frisches Eigelb einrühren."
+     ],
+     "warum": "Mayonnaise ist eine Emulsion: winzige Öltröpfchen schweben in der wässrigen Phase aus Eigelb und Säure. Das Lecithin im Eigelb legt sich um die Tropfen und hält sie getrennt. Kommt das Öl zu schnell oder ist es viel kälter als das Eigelb, wird es nicht fein genug zerteilt – die Tropfen fließen zusammen, und die Sauce trennt sich.",
+     "werte": [
+      [
+       "Zimmertemperatur",
+       "Eigelb und Öl gleich warm"
+      ],
+      [
+       "bis ca. 200 ml",
+       "Öl je Eigelb – sicher zu verarbeiten"
+      ],
+      [
+       "pasteurisiertes Eigelb",
+       "in der Gastronomie üblich; Selbstgemachtes kühl lagern und am selben Tag verbrauchen"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Muttertag",
+    "zeilen": [
+     [
+      "Kellner",
+      "„Chef, zum Muttertag sind alle Tische ausgebucht!“"
+     ],
+     [
+      "Küchenchef",
+      "„Wunderbar. Und wer kümmert sich um meine Mutter?“"
+     ],
+     [
+      "Kellner",
+      "„Die sitzt an Tisch 4 und fragt, warum du nie anrufst.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Chiffonade",
+    "aussprache": "[schi-fo-nad]",
+    "herkunft": "Französisch „chiffon“: Lappen, Stofffetzen",
+    "heisst": "Blattgemüse und Kräuter in feine Streifen schneiden – etwa Sauerampfer, Basilikum, Salbei, Spinat oder Salat. Die Streifen sehen fein aus, verteilen sich gut und fallen in Suppe oder Sauce sanft zusammen.",
+    "schritte": [
+     "Blätter waschen, gut trocken tupfen und dicke Stiele entfernen.",
+     "Mehrere Blätter gleich ausgerichtet aufeinanderlegen.",
+     "Den Stapel der Länge nach zu einer festen Rolle drehen.",
+     "Mit einem sehr scharfen Messer in ziehenden Zügen quer in feine Streifen schneiden.",
+     "Die Streifen auflockern und gleich verwenden."
+    ],
+    "warum": "Ein scharfer Schnitt durch die gerollten Blätter quetscht sie kaum – sie bleiben grün und saftig. Stumpfes Hacken zerdrückt die Zellen, der Saft tritt aus, und empfindliche Kräuter werden schwarz.",
+    "merke": "Stapeln, rollen, ein scharfer Schnitt."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Der Kartoffelsalat ist trocken und schmeckt fad"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Waldmeister"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Chiffonade"
+    ]
+   ]
+  },
+  "18": {
+   "termine_fest": [
+    {
+     "sym": "🕊️",
+     "text": "Pfingsten",
+     "wann": "So., 4. und Mo., 5. Juni"
+    },
+    {
+     "sym": "⛪",
+     "text": "Fronleichnam",
+     "wann": "Do., 15. Juni",
+     "info": "Feiertag in Nordrhein-Westfalen."
+    },
+    {
+     "sym": "☀️",
+     "text": "Sommeranfang",
+     "wann": "Di., 20. Juni",
+     "info": "Die Grillsaison ist in vollem Gang."
+    },
+    {
+     "sym": "🥬",
+     "text": "Johanni – Ende der Spargel- und Rhabarberzeit",
+     "wann": "Sa., 24. Juni",
+     "info": "Danach dürfen die Pflanzen sich für das nächste Jahr erholen."
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Der Erdbeerkuchen weicht durch",
+     "kniff": "Den ausgekühlten Tortenboden dünn mit geschmolzener weißer Kuvertüre oder glatt gerührter, erwärmter Konfitüre bestreichen und fest werden lassen. Erdbeeren erst kurz vor dem Belegen waschen, gut abtropfen, trocken tupfen und dann halbieren. Den Kuchen erst wenige Stunden vor dem Servieren belegen und gleich mit Tortenguss überziehen.",
+     "warum": "Biskuit und Mürbeteig saugen jede Feuchtigkeit auf wie ein Schwamm. Kuvertüre oder Konfitüre legen sich als Sperrschicht dazwischen. Nasse und angeschnittene Erdbeeren geben Saft ab – je länger sie liegen, desto mehr. Der Guss hält die Früchte zusammen und schließt die Schnittflächen ab.",
+     "merke": "Boden versiegeln, Beeren trocken, spät belegen."
+    },
+    {
+     "titel": "Die Panna cotta ist fest wie Gummi",
+     "kasten": true,
+     "schritte": [
+      "Gelatineblätter in reichlich kaltem Wasser 5–10 Minuten einweichen.",
+      "Sahne mit Zucker und Vanille aufkochen, vom Herd nehmen und kurz abkühlen lassen.",
+      "Gelatine gut ausdrücken und in der heißen, nicht mehr kochenden Sahne auflösen.",
+      "In Förmchen füllen und mindestens 6 Stunden, besser über Nacht, kühlen – erst dann über die Festigkeit urteilen."
+     ],
+     "warum": "Gelatine bindet nicht sofort, sondern zieht über viele Stunden nach. Wer nach zwei Stunden nachdosiert, hat am nächsten Tag Gummi. Kochen schwächt ihre Bindekraft. Frische Ananas, Kiwi oder Papaya enthalten Enzyme, die Gelatine abbauen – mit diesen Früchten bleibt eine Creme flüssig, außer sie wurden vorher erhitzt.",
+     "werte": [
+      [
+       "4 Blatt je 500 ml",
+       "Sahne – zart und gerade noch stürzbar"
+      ],
+      [
+       "6 Blatt je 500 ml",
+       "Flüssigkeit – fest und schnittfest"
+      ],
+      [
+       "mind. 6 Std.",
+       "im Kühlschrank fest werden lassen"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Wasserbad",
+    "zeilen": [
+     [
+      "Gast",
+      "„Das Fleisch lag drei Stunden im Wasserbad?“"
+     ],
+     [
+      "Kellner",
+      "„Jawohl, sous-vide gegart.“"
+     ],
+     [
+      "Gast",
+      "„Und ich dachte schon, ich bin hier der Einzige, der so lange warten muss.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Sous-vide",
+    "aussprache": "[ßu-wied]",
+    "herkunft": "Französisch: „unter Vakuum“",
+    "heisst": "Lebensmittel luftdicht in Folie vakuumieren und im Wasserbad bei genau eingestellter, niedriger Temperatur garen. Fleisch und Fisch werden so von Rand zu Rand gleichmäßig gar, Gemüse behält Aroma und Biss.",
+    "schritte": [
+     "Lebensmittel würzen – rohe Zwiebeln und Knoblauch wirken im Beutel sehr stark, also sparsam.",
+     "Mit wenig Fett oder ein paar Kräutern vakuumieren.",
+     "Das Wasserbad mit dem Garer auf die Zieltemperatur bringen, z. B. Lachs etwa 45–50 °C, Rinderfilet rosa etwa 54–56 °C.",
+     "Den Beutel ganz untertauchen und je nach Dicke garen – oft eine bis mehrere Stunden.",
+     "Herausnehmen, trocken tupfen und kurz in sehr heißer Pfanne oder auf dem Grill anbraten."
+    ],
+    "warum": "Das Wasserbad wird nie heißer als die gewünschte Kerntemperatur – das Lebensmittel kann nicht übergaren. Eine Kruste entsteht so aber nicht, darum folgt das scharfe Anbraten. Weil niedrige Temperaturen Keime nicht sicher abtöten, gehören frische Ware, saubere Arbeit und rasches Abkühlen auf Eis dazu, wenn vorgegart wird.",
+    "merke": "Temperatur genau, Hygiene genau – Kruste zum Schluss."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Der Erdbeerkuchen weicht durch"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Borretsch"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Sous-vide"
+    ]
+   ]
+  },
+  "19": {
+   "termine_fest": [
+    {
+     "sym": "🫐",
+     "text": "Heidelbeeren, Aprikosen und Sauerkirschen",
+     "wann": "den ganzen Monat",
+     "info": "Zeit für Kompott, Kuchen und Einmachen."
+    },
+    {
+     "sym": "🥒",
+     "text": "Einlegezeit für Gurken",
+     "wann": "Juli und August",
+     "info": "Gewürzgurken mit Dill, Senfsaat und Zwiebeln."
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Der Nudelsalat saugt das Dressing auf und wird trocken",
+     "kniff": "Nudeln in kräftig gesalzenem Wasser bissfest kochen, abgießen und nur kurz abkühlen lassen. Noch lauwarm mit zwei Dritteln des Dressings mischen und durchziehen lassen. Das letzte Drittel zurückbehalten und erst kurz vor dem Servieren unterheben – dazu frische Kräuter und, falls nötig, einen Schuss Brühe.",
+     "warum": "Nudeln nehmen auch nach dem Kochen noch Flüssigkeit auf; beim Abkühlen wird ihre Stärke fester und bindet die Feuchtigkeit des Dressings. Was am Vormittag saftig war, ist mittags trocken. Das zurückgehaltene Dressing bringt Saft und frische Würze zurück.",
+     "merke": "Ein Drittel Dressing gehört dem letzten Moment."
+    },
+    {
+     "titel": "Das Sommerbuffet steht stundenlang in der Wärme",
+     "kasten": true,
+     "schritte": [
+      "Kalte Speisen bis zum Auftragen im Kühlhaus lassen und auf gekühlten Platten oder auf Eis anrichten.",
+      "Nicht auffüllen, sondern austauschen: kleine Schüsseln anrichten und durch frische ersetzen.",
+      "Warme Speisen in Chafing Dishes heiß halten und die Temperatur regelmäßig nachmessen.",
+      "Was länger ungekühlt auf dem Buffet stand, nicht zurück ins Kühlhaus stellen, sondern entsorgen."
+     ],
+     "warum": "Keime vermehren sich zwischen etwa 10 und 60 °C besonders schnell – bei Sommerhitze genügen wenige Stunden, und Kartoffelsalat, Mayonnaise, Geflügel oder Sahnedesserts verderben. Wer Frisches auf Altes kippt, verdirbt auch das Frische. Kälte und Hitze halten die Keime in Schach, kleine Portionen verkürzen die Zeit draußen.",
+     "werte": [
+      [
+       "max. 7 °C",
+       "kalte, leicht verderbliche Speisen wie Salate und Desserts"
+      ],
+      [
+       "mind. 65 °C",
+       "warm gehaltene Speisen"
+      ],
+      [
+       "max. 2 Std.",
+       "Faustregel für ungekühlte Speisen auf dem Buffet"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Gazpacho",
+    "zeilen": [
+     [
+      "Gast",
+      "„Herr Ober, meine Suppe ist ja kalt!“"
+     ],
+     [
+      "Kellner",
+      "„Das will ich hoffen, mein Herr – es ist eine Gazpacho.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Sautieren",
+    "aussprache": "[ßo-tie-ren]",
+    "herkunft": "Französisch „sauter“: springen",
+    "heisst": "Kleine Stücke Gemüse, Pilze oder Fleisch in wenig Fett bei großer Hitze kurz braten und dabei durch Schwenken der Pfanne in Bewegung halten. Sie bräunen leicht und bleiben saftig und knackig – ideal für Sommergemüse wie Zucchini, Paprika und Zuckerschoten.",
+    "schritte": [
+     "Alles in gleich große Stücke schneiden und gut trocken tupfen.",
+     "Eine weite Pfanne mit wenig Öl stark erhitzen.",
+     "Nur so viel einlegen, dass der Pfannenboden locker bedeckt ist.",
+     "Durch kurzes Schwenken aus dem Handgelenk wenden, statt ständig zu rühren.",
+     "Erst zum Schluss salzen, mit Butter oder Kräutern verfeinern und sofort servieren."
+    ],
+    "warum": "Große Hitze und wenig Füllung lassen austretendes Wasser sofort verdampfen – das Gargut brät, statt im eigenen Saft zu kochen. Liegt zu viel in der Pfanne, fällt die Temperatur, und alles wird weich und grau. Das Schwenken verteilt die Hitze gleichmäßig.",
+    "merke": "Heiß, wenig, in Bewegung."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Der Nudelsalat saugt das Dressing auf und wird trocken"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Koriander"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Sautieren"
+    ]
+   ]
+  },
+  "20": {
+   "termine_fest": [
+    {
+     "sym": "🍑",
+     "text": "Mirabellen und Zwetschgen",
+     "wann": "ab Mitte August",
+     "info": "Hochsaison für Kuchen, Kompott und Einmachen."
+    },
+    {
+     "sym": "🍄",
+     "text": "Pfifferlinge und Steinpilze",
+     "wann": "den ganzen Monat, je nach Wetter"
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Die Sommertomaten schmecken nach Kühlschrank",
+     "kniff": "Reife Tomaten bei Zimmertemperatur lagern, nicht im Kühlschrank, am besten mit dem Stielansatz nach unten. Für den Salat in Scheiben oder Spalten schneiden, salzen und 10 Minuten stehen lassen. Den ausgetretenen Saft mit Essig und Öl zur Vinaigrette verrühren und über die Tomaten geben.",
+     "warum": "Unter etwa 12 °C stellen Tomaten die Bildung ihrer Aromastoffe weitgehend ein, das Fruchtfleisch wird mehlig. Salz zieht Saft und löst Aromen, die sonst im Inneren eingeschlossen bleiben. Der Saft ist das Beste an der Tomate – er gehört ins Dressing, nicht in den Ausguss.",
+     "merke": "Tomaten gehören in die Obstschale, nicht ins Kühlfach."
+    },
+    {
+     "titel": "Die Gläser mit eingekochtem Obst gehen wieder auf",
+     "kasten": true,
+     "schritte": [
+      "Gläser, Deckel und Gummiringe heiß ausspülen; die Glasränder müssen glatt sein, ohne Macken.",
+      "Früchte einfüllen, mit Sirup bedecken, 2–3 cm Platz zum Rand lassen und die Ränder sauber abwischen.",
+      "Gläser in den Einkochtopf stellen, Wasser bis etwa drei Viertel der Glashöhe auffüllen, Temperatur und Zeit einhalten.",
+      "Langsam abkühlen lassen, nach 24 Stunden die Klammern abnehmen und prüfen, ob alle Deckel fest sitzen."
+     ],
+     "warum": "Beim Erhitzen dehnt sich der Inhalt aus, und Luft entweicht; beim Abkühlen entsteht ein Unterdruck, der den Deckel festsaugt. Ein Fruchtrest am Rand, ein alter, spröder Gummiring oder eine Macke im Glas lassen Luft nachströmen. Zu volle Gläser drücken Saft unter den Deckel.",
+     "werte": [
+      [
+       "80–90 °C · ca. 30 Min.",
+       "Steinobst wie Mirabellen und Zwetschgen"
+      ],
+      [
+       "2–3 cm",
+       "Platz bis zum Glasrand lassen"
+      ],
+      [
+       "24 Std.",
+       "abkühlen lassen, dann den Sitz prüfen"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Plattiert",
+    "zeilen": [
+     [
+      "Gast",
+      "„Das Schnitzel ist ja größer als der Teller!“"
+     ],
+     [
+      "Kellner",
+      "„Plattiert, mein Herr. Der Koch hatte heute Morgen Ärger mit dem Finanzamt.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Plattieren",
+    "aussprache": "[pla-tie-ren]",
+    "herkunft": "Französisch „plat“: flach",
+    "heisst": "Fleischscheiben mit dem Plattiereisen oder einem schweren Topfboden gleichmäßig flach klopfen. So werden Schnitzel, Rouladen und Paillards überall gleich dick und garen in kurzer Zeit gleichmäßig.",
+    "schritte": [
+     "Fleisch quer zur Faser in Scheiben schneiden, Sehnen und Silberhaut entfernen.",
+     "Zwischen zwei Lagen Frischhaltefolie oder in einen aufgeschnittenen Gefrierbeutel legen.",
+     "Mit dem Plattiereisen von der Mitte nach außen klopfen und dabei leicht schieben, statt nur draufzuhauen.",
+     "Auf gleichmäßige Dicke achten – für Schnitzel etwa 4–5 mm.",
+     "Den Rand bei Bedarf leicht einschneiden, damit er sich in der Pfanne nicht wellt."
+    ],
+    "warum": "Gleich dick heißt gleich schnell gar – keine trockenen Ränder, keine rohe Mitte. Die Folie schützt die Fasern vor dem Zerreißen und hält das Brett sauber. Mit der Kante oder mit zu viel Wucht geschlagen, wird das Fleisch löchrig und verliert Saft.",
+    "merke": "Schieben statt schlagen, Folie dazwischen."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Die Sommertomaten schmecken nach Kühlschrank"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Estragon"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Plattieren"
+    ]
+   ]
+  },
+  "21": {
+   "termine_fest": [
+    {
+     "sym": "🍎",
+     "text": "Apfelernte",
+     "wann": "ab September",
+     "info": "Frühe Sorten für Kuchen und Mus, Lageräpfel kommen später."
+    },
+    {
+     "sym": "🍂",
+     "text": "Herbstanfang",
+     "wann": "Fr., 22. September"
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Die Bratkartoffeln kleben an und werden nicht knusprig",
+     "kniff": "Festkochende Pellkartoffeln am Vortag kochen, auskühlen lassen und in gleichmäßige Scheiben schneiden. In einer großen Pfanne Butterschmalz oder Öl richtig heiß werden lassen, die Scheiben in einer Lage einlegen und einige Minuten in Ruhe bräunen lassen – erst dann wenden. Speck und Zwiebeln erst gegen Ende zugeben, gesalzen wird zum Schluss.",
+     "warum": "Frisch gekochte Kartoffeln sind feucht und weich; ihre Stärke klebt an der Pfanne, und die Scheiben zerfallen beim Wenden. Über Nacht trocknet die Oberfläche ab, die Stärke wird fester. Wer zu früh wendet, reißt die Kruste ab, bevor sie sich vom Pfannenboden löst. Zwiebeln enthalten Zucker und verbrennen, wenn sie von Anfang an mitbraten.",
+     "merke": "Gestern gekocht, heute gebraten – und Finger weg vom Wender."
+    },
+    {
+     "titel": "Die Zwiebeln für den Zwiebelkuchen werden schwarz statt weich und golden",
+     "kasten": true,
+     "schritte": [
+      "Zwiebeln halbieren und gleichmäßig in feine Streifen schneiden.",
+      "In einem breiten Topf mit Butter oder Schmalz bei mittlerer Hitze anschwitzen und leicht salzen.",
+      "Hitze reduzieren und die Zwiebeln unter gelegentlichem Rühren langsam weich und hellgolden schmoren.",
+      "Setzt sich am Boden Bräune an, mit einem Schuss Wasser lösen und weitergaren."
+     ],
+     "warum": "Zwiebeln enthalten Zucker, der bei starker Hitze erst bräunt und dann schnell verbrennt und bitter wird – lange bevor die Zwiebel innen weich ist. Bei sanfter Hitze tritt der Saft aus, die Zwiebeln werden weich, und der Zucker karamellisiert gleichmäßig. Das Salz hilft, den Saft herauszuziehen.",
+     "werte": [
+      [
+       "30–45 Min.",
+       "für weiche, goldene Schmorzwiebeln"
+      ],
+      [
+       "mittlere bis kleine Hitze",
+       "die Zwiebeln sollen leise brutzeln, nicht zischen"
+      ],
+      [
+       "1 Schuss Wasser",
+       "löst angesetzte Röstaromen vom Boden"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Tränen",
+    "zeilen": [
+     [
+      "Azubi",
+      "„Chef, warum muss ich beim Zwiebelschneiden eigentlich immer weinen?“"
+     ],
+     [
+      "Küchenchef",
+      "„Weil du gerade gesehen hast, dass noch zwanzig Kilo für den Zwiebelkuchen fehlen.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Reduzieren",
+    "aussprache": "[re-du-tsie-ren]",
+    "herkunft": "Lateinisch „reducere“: zurückführen, verringern",
+    "heisst": "Eine Flüssigkeit offen einkochen, damit Wasser verdampft. Fond, Wein, Sahne oder Saucen werden dadurch dicker und kräftiger im Geschmack – die Grundlage vieler Saucen.",
+    "schritte": [
+     "Einen weiten Topf oder eine Sauteuse wählen – große Oberfläche, schnelle Verdunstung.",
+     "Die Flüssigkeit offen bei lebhafter Hitze köcheln lassen.",
+     "Aufsteigenden Schaum und Fett regelmäßig abschöpfen.",
+     "Ab und zu die Konsistenz mit dem Löffelrücken prüfen.",
+     "Erst am Ende mit Salz abschmecken."
+    ],
+    "warum": "Beim Einkochen verdampft nur das Wasser; Geschmack, Gelatine und Zucker bleiben zurück und verdichten sich. Auch das Salz – was am Anfang gut gesalzen war, ist am Ende versalzen. Abschöpfen hält die Sauce klar.",
+    "merke": "Breit statt hoch, offen kochen, spät salzen."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Die Bratkartoffeln kleben an und werden nicht knusprig"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Bohnenkraut"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Reduzieren"
+    ]
+   ]
+  },
+  "22": {
+   "termine_fest": [
+    {
+     "sym": "🌾",
+     "text": "Erntedank",
+     "wann": "So., 1. Oktober"
+    },
+    {
+     "sym": "🇩🇪",
+     "text": "Tag der Deutschen Einheit",
+     "wann": "Di., 3. Oktober",
+     "info": "Feiertag."
+    },
+    {
+     "sym": "🍞",
+     "text": "Welttag des Brotes",
+     "wann": "Mo., 16. Oktober"
+    },
+    {
+     "sym": "👨‍🍳",
+     "text": "Internationaler Tag der Köche",
+     "wann": "Fr., 20. Oktober",
+     "info": "Der Tag unseres Berufs – weltweit ausgerufen vom Köche-Weltverband."
+    },
+    {
+     "sym": "⏰",
+     "text": "Ende der Sommerzeit",
+     "wann": "So., 29. Oktober",
+     "info": "Uhren eine Stunde zurück."
+    },
+    {
+     "sym": "🎃",
+     "text": "Halloween",
+     "wann": "Di., 31. Oktober"
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Die Maronen lassen sich nicht schälen",
+     "kniff": "Maronen auf der gewölbten Seite kreuzweise oder quer durch die Schale einschneiden. Auf einem Blech im Ofen bei etwa 200 °C 20–25 Minuten rösten, bis die Schale aufspringt – eine Schale Wasser im Ofen hält sie saftig. Dann in ein feuchtes Tuch wickeln, kurz ruhen lassen und noch warm schälen, dabei auch die dünne, pelzige Innenhaut abziehen.",
+     "warum": "Die Innenhaut klebt an der rohen Frucht fest. In der Hitze bildet sich Dampf unter der Schale, der Schale und Haut von der Frucht löst. Kühlen die Maronen ab, ziehen sie sich zusammen, und die Haut haftet wieder – darum warm schälen.",
+     "merke": "Einschneiden, rösten, warm schälen."
+    },
+    {
+     "titel": "Die Spätzle werden zäh oder zerfallen im Wasser",
+     "kasten": true,
+     "schritte": [
+      "Mehl, Eier, Salz und etwas Wasser verrühren und den Teig mit dem Kochlöffel kräftig schlagen, bis er Blasen wirft und zäh vom Löffel reißt.",
+      "Den Teig 10–15 Minuten ruhen lassen.",
+      "Portionsweise in reichlich siedendes Salzwasser schaben oder pressen.",
+      "Sobald die Spätzle oben schwimmen, kurz ziehen lassen, mit der Schaumkelle herausheben und in Butter schwenken."
+     ],
+     "warum": "Beim Schlagen bildet das Mehl ein elastisches Klebergerüst – es hält die Spätzle im Wasser zusammen. Zu wenig geschlagen, zerfallen sie; ein zu fester Teig mit zu viel Mehl macht sie zäh. In der Ruhezeit quillt das Mehl, der Teig wird geschmeidiger.",
+     "werte": [
+      [
+       "500 g Mehl, 5 Eier",
+       "Grundteig für etwa 4 Personen, dazu rund 100 ml Wasser"
+      ],
+      [
+       "10–15 Min.",
+       "Teigruhe"
+      ],
+      [
+       "oben schwimmen + 1 Min.",
+       "dann sind sie gar"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Regional",
+    "zeilen": [
+     [
+      "Gast",
+      "„Ist der Kürbis aus der Region?“"
+     ],
+     [
+      "Kellner",
+      "„Aus dem Garten des Chefs.“"
+     ],
+     [
+      "Gast",
+      "„Wie schön!“"
+     ],
+     [
+      "Kellner",
+      "„Finden die Nachbarn nicht – er ist über den Zaun gewachsen.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Gratinieren",
+    "aussprache": "[gra-ti-nie-ren]",
+    "herkunft": "Französisch „gratiner“, von „gratter“: kratzen – „Gratin“ hieß die Kruste, die man vom Topfboden kratzte",
+    "heisst": "Ein Gericht bei starker Oberhitze überbacken, bis sich eine goldbraune Kruste bildet. Klassisch mit Käse, Butterbröseln, Sahne oder Sauce Hollandaise – beim Kartoffel- oder Kürbisgratin, bei der Zwiebelsuppe oder bei Fisch.",
+    "schritte": [
+     "Das Gericht in einer flachen, ofenfesten Form verteilen – so entsteht viel Kruste.",
+     "Die Oberfläche gleichmäßig mit geriebenem Käse, Bröseln und Butterflocken bestreuen oder mit Sauce überziehen.",
+     "Den Ofen mit Grill oder Oberhitze stark vorheizen – oder den Salamander nutzen.",
+     "Die Form auf die obere Schiene stellen und nicht aus den Augen lassen.",
+     "Herausnehmen, sobald die Kruste goldbraun ist, und kurz ruhen lassen."
+    ],
+    "warum": "Die starke Hitze von oben bräunt Eiweiß, Zucker und Fett an der Oberfläche – dabei entstehen Röstaromen und Knusper. Ist das Gericht darunter schon gar, dauert das Gratinieren nur Minuten; unter Grill oder Salamander geht es von golden zu verbrannt sehr schnell.",
+    "merke": "Flache Form, Hitze von oben, dabeibleiben."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Die Maronen lassen sich nicht schälen"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Liebstöckel"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Gratinieren"
+    ]
+   ]
+  },
+  "23": {
+   "termine_fest": [
+    {
+     "sym": "🕯️",
+     "text": "Allerheiligen",
+     "wann": "Mi., 1. November",
+     "info": "Feiertag in Nordrhein-Westfalen."
+    },
+    {
+     "sym": "🏮",
+     "text": "Martinstag",
+     "wann": "Sa., 11. November",
+     "info": "Zeit für die Martinsgans – und um 11.11 Uhr beginnt der Karneval."
+    },
+    {
+     "sym": "🦢",
+     "text": "Gänsezeit",
+     "wann": "von Martini bis Weihnachten"
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Die Kartoffelklöße zerfallen im Kochwasser",
+     "kniff": "Mehligkochende Kartoffeln in der Schale garen, gut ausdampfen lassen und noch heiß pellen und durch die Presse drücken. Den Teig mit Kartoffelstärke, Eigelb und Salz zügig verkneten, nicht lange bearbeiten. Zuerst einen Probekloß garen. Die Klöße in reichlich Salzwasser geben, das nur siedet, nicht sprudelt, und 15–20 Minuten ziehen lassen.",
+     "warum": "Zu viel Feuchtigkeit ist der Hauptgrund: Wässrige Kartoffeln binden nicht. Mehligkochende Sorten haben mehr Stärke und weniger Wasser. Sprudelndes Wasser reißt die Oberfläche auf, bevor sie fest ist. Der Probekloß zeigt rechtzeitig, ob noch etwas Stärke fehlt.",
+     "merke": "Trocken, zügig, nur ziehen lassen – und immer erst ein Probekloß."
+    },
+    {
+     "titel": "Der Glühwein schmeckt bitter und brandig",
+     "kasten": true,
+     "schritte": [
+      "Rotwein mit Orangenscheiben, Zimtstange, Nelken und Sternanis langsam erwärmen.",
+      "Den Wein nie kochen lassen – nur heiß werden lassen und mit dem Thermometer kontrollieren.",
+      "Gewürze und Orangenscheiben nach 30–60 Minuten herausnehmen.",
+      "Erst zum Schluss mit Zucker oder Honig abschmecken."
+     ],
+     "warum": "Alkohol siedet schon bei etwa 78 °C; kocht der Wein, verdampft er, und zurück bleibt ein flacher, brandiger Geschmack. Nelken und die weiße Haut der Orangenschale geben bei langem Ziehen Bitterstoffe ab. Zucker überdeckt viel, aber nicht alles – darum Temperatur und Zeit im Griff behalten.",
+     "werte": [
+      [
+       "ca. 70–75 °C",
+       "heiß genug, aber weit vom Kochen"
+      ],
+      [
+       "78 °C",
+       "Siedepunkt von Alkohol"
+      ],
+      [
+       "30–60 Min.",
+       "dann die Gewürze herausnehmen"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Geschnattert",
+    "zeilen": [
+     [
+      "Kind",
+      "„Warum heißt die Gans eigentlich Martinsgans?“"
+     ],
+     [
+      "Koch",
+      "„Weil die Gänse den heiligen Martin mit ihrem Geschnatter verraten haben, als er sich im Stall versteckte.“"
+     ],
+     [
+      "Kind",
+      "„Und deshalb essen wir sie heute noch?“"
+     ],
+     [
+      "Koch",
+      "„Sagen wir so: Schnattern hat Folgen.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Bardieren",
+    "aussprache": "[bar-die-ren]",
+    "herkunft": "Französisch „barde“: dünne Speckscheibe – ursprünglich die Panzerdecke eines Pferdes",
+    "heisst": "Mageres Fleisch, Wildgeflügel oder Wildbraten vor dem Braten mit dünnen Scheiben fettem Speck umwickeln. Der Speck schützt vor dem Austrocknen und gibt Geschmack – etwa bei Fasan, Perlhuhn oder Rehkeule. Anders als beim Spicken bleibt der Speck außen.",
+    "schritte": [
+     "Grünen (ungeräucherten) Rückenspeck in sehr dünne Scheiben schneiden.",
+     "Das gewürzte Fleisch damit vollständig belegen oder umwickeln.",
+     "Mit Küchengarn festbinden.",
+     "Wie gewohnt braten und dabei öfter mit dem Bratfett übergießen.",
+     "Etwa 10–15 Minuten vor dem Ende den Speck abnehmen, damit das Fleisch Farbe bekommt."
+    ],
+    "warum": "Mageres Wild und Wildgeflügel haben kaum eigenes Fett und trocknen in der Ofenhitze schnell aus. Die Speckhülle schirmt die Hitze ab und gibt beim Ausschmelzen ständig Fett ab. Geräucherter Speck würde den feinen Wildgeschmack überdecken – darum grüner Speck.",
+    "merke": "Speckmantel an – zum Bräunen wieder aus."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Die Kartoffelklöße zerfallen im Kochwasser"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Beifuß"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Bardieren"
+    ]
+   ]
+  },
+  "24": {
+   "termine_fest": [
+    {
+     "sym": "🎄",
+     "text": "Weihnachtsmarkt Werne",
+     "wann": "Termine folgen",
+     "info": "Grünkohl, Glühwein und viele helfende Hände – der Köcheclub ist wieder dabei."
+    },
+    {
+     "sym": "🕯️",
+     "text": "1. Advent",
+     "wann": "So., 3. Dezember"
+    },
+    {
+     "sym": "🎅",
+     "text": "Nikolaus",
+     "wann": "Mi., 6. Dezember"
+    },
+    {
+     "sym": "🕯️",
+     "text": "4. Advent und Heiligabend",
+     "wann": "So., 24. Dezember",
+     "info": "2028 fallen beide auf denselben Tag."
+    },
+    {
+     "sym": "🎄",
+     "text": "Weihnachten",
+     "wann": "Mo., 25. und Di., 26. Dezember",
+     "info": "Gans, Braten, Fondue – die Küchen laufen auf Hochtouren."
+    },
+    {
+     "sym": "🎆",
+     "text": "Silvester",
+     "wann": "So., 31. Dezember"
+    }
+   ],
+   "tipp": [
+    {
+     "titel": "Die Plätzchen zerlaufen auf dem Blech",
+     "kniff": "Den Mürbeteig mit kalter Butter zügig verkneten und mindestens eine Stunde kühlen. Ausgestochene Plätzchen auf dem Blech noch einmal 10–15 Minuten kalt stellen, bevor sie in den vorgeheizten Ofen kommen. Bleche zwischendurch abkühlen lassen – nie Teig auf ein heißes Blech legen.",
+     "warum": "In Mürbeteig hält die feste Butter die Form. Wird sie weich, bevor der Teig im Ofen Halt bekommt, läuft das Fett und zieht den Teig mit. Auch zu viel Zucker oder Backpulver lassen Plätzchen breit laufen. Kälte verschafft den Plätzchen die Minuten, die Mehl und Ei zum Festwerden brauchen.",
+     "merke": "Kalter Teig, kaltes Blech, heißer Ofen."
+    },
+    {
+     "titel": "Das Rinderfilet im Ganzen ist an den Enden durch und in der Mitte roh",
+     "kasten": true,
+     "schritte": [
+      "Das Filet parieren, die dünne Spitze unterschlagen und mit Küchengarn in eine gleichmäßige Form binden.",
+      "Eine Stunde vor dem Garen aus der Kühlung nehmen und rundherum kräftig anbraten.",
+      "Bei niedriger Ofentemperatur garen, dabei ein Thermometer in der dicksten Stelle stecken lassen.",
+      "Kurz vor der Zieltemperatur herausnehmen, etwa 10 Minuten ruhen lassen und erst dann aufschneiden."
+     ],
+     "warum": "Ein Filet ist von Natur aus ungleich dick: Die Spitze ist dünn, das Mittelstück dick. Gebunden gart es überall gleich schnell. Niedrige Ofenhitze macht den Garpunkt planbar – das Filet verzeiht ein paar Minuten länger, und der Rand bleibt rosa statt grau.",
+     "werte": [
+      [
+       "80–120 °C",
+       "Ofentemperatur beim Niedrigtemperatur-Garen"
+      ],
+      [
+       "52–54 °C Kern",
+       "rosa (medium rare)"
+      ],
+      [
+       "56–58 °C Kern",
+       "rosa bis halb durch (medium)"
+      ]
+     ]
+    }
+   ],
+   "witz": {
+    "titel": "Ausgebucht",
+    "zeilen": [
+     [
+      "Gast",
+      "„Haben Sie an Heiligabend geöffnet?“"
+     ],
+     [
+      "Kellner",
+      "„Ja, aber wir sind leider ausgebucht.“"
+     ],
+     [
+      "Gast",
+      "„Seit wann denn?“"
+     ],
+     [
+      "Kellner",
+      "„Seit Ostern.“"
+     ]
+    ]
+   },
+   "latein": {
+    "begriff": "Nappieren",
+    "aussprache": "[na-pie-ren]",
+    "herkunft": "Französisch „napper“, von „nappe“: Tischdecke",
+    "heisst": "Ein Gericht gleichmäßig mit Sauce überziehen, sodass es wie mit einer Decke bedeckt ist. „Nappe“ heißt auch die richtige Konsistenz: Die Sauce überzieht den Löffelrücken als dünner, glatter Film.",
+    "schritte": [
+     "Die Sauce auf die richtige Dicke bringen und abschmecken.",
+     "Löffelprobe: Löffel eintauchen und mit dem Finger eine Spur über den Rücken ziehen – die Spur bleibt sauber stehen.",
+     "Fleisch, Fisch oder Gemüse auf dem vorgewärmten Teller anrichten.",
+     "Die Sauce mit einem Löffel oder einer kleinen Kelle in einer Bewegung darübergießen.",
+     "Den Tellerrand mit einem Tuch sauber wischen."
+    ],
+    "warum": "Eine zu dünne Sauce läuft vom Fleisch und bildet eine Pfütze, eine zu dicke legt sich wie Kleister darüber. In der richtigen Konsistenz haftet sie als gleichmäßiger, glänzender Film – das Fleisch bleibt saftig, und der Teller sieht ordentlich aus.",
+    "merke": "Bleibt die Spur auf dem Löffel stehen, passt die Sauce."
+   },
+   "schlagzeilen_zusatz": [
+    [
+     "💡",
+     "Aus der Trickkiste: Die Plätzchen zerlaufen auf dem Blech"
+    ],
+    [
+     "🌿",
+     "Kraut des Monats: Wacholder"
+    ],
+    [
+     "📚",
+     "Küchenlatein: Nappieren"
+    ]
+   ]
+  }
+ },
+ "kraeuter_2028": [
+  {
+   "n": "Majoran",
+   "l": "Origanum majorana",
+   "her": "Stammt aus dem östlichen Mittelmeerraum und Kleinasien; bei uns wächst er einjährig und ist seit Jahrhunderten als „Wurstkraut“ bekannt.",
+   "geschmack": "Würzig-süßlich, warm, milder und blumiger als sein Verwandter, der Oregano.",
+   "kueche": "Erbsen- und Kartoffelsuppe, Linseneintopf, Leberknödel, Bratwurst, Gänse- und Schweinebraten, Pilze.",
+   "tipp": "Im Winter getrocknet verwenden und zwischen den Fingern zerreiben, bevor er in den Topf kommt. Frischen Majoran erst zum Schluss zugeben – langes Kochen nimmt ihm das Aroma."
+  },
+  {
+   "n": "Gartenkresse",
+   "l": "Lepidium sativum",
+   "her": "Stammt vermutlich aus Westasien und Nordostafrika; bei uns seit dem Mittelalter bekannt. Keimt in wenigen Tagen auf jeder Fensterbank – das erste frische Grün im Winter.",
+   "geschmack": "Frisch, pfeffrig-scharf, leicht senfartig.",
+   "kueche": "Eier und Eiersalat, Quark und Frischkäse, Kartoffelsuppe, Butterbrot, Salate, zu Räucherfisch.",
+   "tipp": "Erst kurz vor dem Servieren mit der Schere schneiden und nie mitkochen – Hitze nimmt ihr Schärfe und Farbe. Selbst ziehen: Samen dicht auf feuchte Watte oder Küchenpapier streuen, nach 5–7 Tagen ernten."
+  },
+  {
+   "n": "Sauerampfer",
+   "l": "Rumex acetosa",
+   "her": "Wächst wild auf Wiesen in ganz Europa und wird auch im Garten gezogen; die jungen Blätter im Frühjahr sind am zartesten.",
+   "geschmack": "Frisch und säuerlich, erinnert an Zitrone und grünen Apfel.",
+   "kueche": "Sauerampfersuppe, Frankfurter Grüne Soße, Sauce zu Lachs und Zander, Salate, Kräuterquark, Rührei.",
+   "tipp": "Nur ganz kurz erhitzen, sonst wird er olivgrün. Er enthält – wie Rhabarber – Oxalsäure: in Maßen verwenden und nicht in Aluminium- oder Eisentöpfen garen. Als feine Streifen (Chiffonade) unterziehen."
+  },
+  {
+   "n": "Pimpinelle",
+   "l": "Sanguisorba minor",
+   "her": "Heißt auch Kleiner Wiesenknopf und wächst auf trockenen, kalkhaltigen Wiesen in Europa. Sie gehört zu den sieben Kräutern der Frankfurter Grünen Soße.",
+   "geschmack": "Frisch, leicht nussig, mit deutlichem Gurkenduft.",
+   "kueche": "Grüne Soße zu Gründonnerstag, Kräuterquark, Salate, Eierspeisen, Kräuterbutter, Gurkengerichte.",
+   "tipp": "Nur die jungen, zarten Blättchen von den Stielen zupfen und roh verwenden – Hitze nimmt ihr den Gurkenduft. Nicht verwechseln mit der Bibernelle (Pimpinella), einem Doldenblütler, der im Handel manchmal ebenfalls Pimpinelle heißt."
+  },
+  {
+   "n": "Waldmeister",
+   "l": "Galium odoratum",
+   "her": "Wächst in schattigen Buchenwäldern; Saison ist im April und Mai, am besten vor der Blüte.",
+   "geschmack": "Süß-würzig, heuartig, nach Vanille und frischem Gras – der Duft kommt vom Cumarin.",
+   "kueche": "Maibowle, Sirup, Götterspeise, Eis, Sorbet, Panna cotta.",
+   "tipp": "Sein Aroma bildet sich erst beim Anwelken. Sparsam dosieren – zu viel Cumarin bekommt nicht: etwa 3 g frisches Kraut je Liter. Das Sträußchen kopfüber in die Bowle hängen, sodass die Schnittenden nicht eintauchen, und nach etwa einer halben Stunde herausnehmen."
+  },
+  {
+   "n": "Borretsch",
+   "l": "Borago officinalis",
+   "her": "Stammt aus dem Mittelmeerraum; im Garten sät er sich von selbst aus. Wegen seines Geschmacks heißt er auch Gurkenkraut.",
+   "geschmack": "Frisch und gurkenartig, die blauen Blüten leicht süßlich.",
+   "kueche": "Gurkensalat, Grüne Soße, Quark, Salate, Kaltschalen; die blauen Blüten auf Salaten, Desserts oder eingefroren im Eiswürfel.",
+   "tipp": "Die rauen, behaarten Blätter sehr fein schneiden und nur roh verwenden – gekocht verliert er sein Aroma. Junge Blätter nehmen und wie viele Wildkräuter in Maßen genießen."
+  },
+  {
+   "n": "Koriander",
+   "l": "Coriandrum sativum",
+   "her": "Eine der ältesten Gewürzpflanzen, stammt aus dem Mittelmeerraum und Vorderasien; heute aus der Küche Asiens, Mexikos und des Orients nicht wegzudenken.",
+   "geschmack": "Die Blätter frisch, zitronig und sehr eigen – manche Menschen empfinden sie als seifig. Die Samen schmecken ganz anders: warm, mild, mit einem Hauch Orange.",
+   "kueche": "Blätter für Currys, Salsa, Guacamole, Thai-Salate und Pho; Samen für Lebkuchen, Brot, Würste, Sauerkraut und Einlegegurken.",
+   "tipp": "Blätter und zarte Stiele erst ganz am Ende zugeben; die Wurzel gehört in thailändische Currypasten. Die Samen trocken anrösten und frisch mörsern."
+  },
+  {
+   "n": "Estragon",
+   "l": "Artemisia dracunculus",
+   "her": "Stammt aus Sibirien und Zentralasien. Köche greifen zum Französischen Estragon; der Russische ist robuster, aber deutlich weniger aromatisch.",
+   "geschmack": "Fein-würzig, süßlich, mit deutlicher Anisnote und leichter Bitterkeit.",
+   "kueche": "Sauce béarnaise, Estragonsenf und -essig, Hähnchen, Fisch, Eierspeisen, Fines herbes, Tomaten.",
+   "tipp": "Sparsam dosieren – er überdeckt schnell andere Aromen. Getrocknet verliert er viel; besser ein paar Zweige in Weißweinessig ziehen lassen und so den Sommer konservieren."
+  },
+  {
+   "n": "Bohnenkraut",
+   "l": "Satureja hortensis",
+   "her": "Stammt aus dem östlichen Mittelmeerraum. Bei uns ist das einjährige Sommer-Bohnenkraut verbreitet; das ausdauernde Winter-Bohnenkraut schmeckt kräftiger.",
+   "geschmack": "Pfeffrig-würzig, an Thymian erinnernd – daher auch der Name Pfefferkraut.",
+   "kueche": "Grüne Bohnen, Bohnensalat, Eintöpfe mit Hülsenfrüchten, Lamm, Kartoffeln, Pilze.",
+   "tipp": "Ein, zwei Zweige mitkochen und vor dem Servieren herausnehmen. Wer weniger Pfeffer nehmen möchte, würzt mit Bohnenkraut nach."
+  },
+  {
+   "n": "Liebstöckel",
+   "l": "Levisticum officinale",
+   "her": "Kommt aus dem Mittelmeerraum und Westasien und wächst bei uns als ausdauernde, fast mannshohe Staude in vielen Bauerngärten.",
+   "geschmack": "Kräftig, würzig, sellerieartig – er erinnert an Suppenwürze, darum heißt er auch „Maggikraut“.",
+   "kueche": "Kraftbrühen, Eintöpfe, Kartoffel- und Kürbissuppe, Schmorgerichte, Saucen, Linsen.",
+   "tipp": "Sehr sparsam verwenden – ein Blatt reicht oft für einen ganzen Topf. Er verträgt Hitze gut und darf mitkochen; vor dem Servieren herausfischen."
+  },
+  {
+   "n": "Beifuß",
+   "l": "Artemisia vulgaris",
+   "her": "Wächst wild an Wegrändern und auf Brachflächen in ganz Europa; seit alters das klassische Gewürz zu Gänse- und Entenbraten.",
+   "geschmack": "Herb, leicht bitter und würzig.",
+   "kueche": "Martinsgans, Ente, Schweinebraten, fette Schmorgerichte und ihre Saucen.",
+   "tipp": "Die Rispen kurz vor der Blüte ernten, solange die Knospen noch geschlossen sind – später werden sie zu bitter. Ein paar Zweige in die Gans stecken oder im Bräter mitgaren."
+  },
+  {
+   "n": "Wacholder",
+   "l": "Juniperus communis",
+   "her": "Wächst in Heiden und auf mageren Böden in ganz Europa, etwa in der Lüneburger Heide. Die blauschwarzen „Beeren“ – botanisch kleine Zapfen – reifen erst im zweiten oder dritten Jahr.",
+   "geschmack": "Harzig, würzig, leicht süßlich, mit einem Hauch Nadelwald.",
+   "kueche": "Wild, Sauerbraten, Sauerkraut, Rotkohl, Beizen, Gänse- und Entenbraten – und natürlich Gin.",
+   "tipp": "Die Beeren vor dem Garen leicht andrücken, damit das Aroma frei wird; wenige reichen. Nur Beeren vom Gemeinen Wacholder verwenden – andere Arten wie der Sadebaum sind giftig."
+  }
+ ],
+ "schon_gewusst_2028": [
+  [
+   "Einfrieren ohne Klumpen: Beeren, Kräuter oder Plätzchenteig erst einzeln auf einem Blech vorfrieren, dann in Beutel füllen – so lässt sich später genau die Menge entnehmen, die man braucht.",
+   "Suppe versalzen? Die rohe Kartoffel im Topf hilft kaum. Besser mit ungesalzener Brühe, Wasser oder Sahne strecken.",
+   "Fleisch zugedeckt im Kühlschrank auftauen, nicht auf der Arbeitsplatte – das dauert länger, ist aber sicher, und das Fleisch verliert weniger Saft."
+  ],
+  [
+   "Schokolade hacken: mit einem großen Messer schräg von der Ecke aus schneiden – sie splittert weniger als beim Brechen.",
+   "Sahne wird schneller und sicherer steif, wenn Sahne, Schüssel und Schneebesen gut gekühlt sind.",
+   "Zucker karamellisieren: nicht rühren, nur die Pfanne schwenken – sonst bilden sich Kristalle, und der Karamell wird körnig."
+  ],
+  [
+   "Frischer Fisch riecht nach Meer, nicht nach Fisch: klare, gewölbte Augen, rote Kiemen und festes Fleisch, das auf Druck zurückfedert.",
+   "Fischgeruch an den Händen: mit etwas Zitronensaft oder Essig einreiben und dann mit kaltem Wasser und Seife waschen.",
+   "Gräten im Filet finden: mit den Fingerspitzen gegen die Wuchsrichtung über das Filet streichen und die Gräten mit der Grätenpinzette in Wuchsrichtung herausziehen."
+  ],
+  [
+   "Ist das Ei noch frisch? In kaltes Wasser legen: Frische Eier bleiben flach liegen, ältere stellen sich auf, sehr alte schwimmen – die Luftkammer wird mit der Zeit größer.",
+   "Ganz frische Eier lassen sich hart gekocht schlecht pellen. Für Ostereier lieber Eier nehmen, die schon gut eine Woche alt sind.",
+   "Ostereier färben: Ein Schuss Essig im Farbbad lässt die Farbe gleichmäßiger und kräftiger auf die Schale ziehen."
+  ],
+  [
+   "Neue Kartoffeln nicht schälen – die dünne Haut lässt sich mit einer Gemüsebürste abrubbeln oder einfach mitessen.",
+   "Waldmeister entfaltet sein Aroma erst, wenn er angewelkt ist: einige Stunden liegen lassen oder kurz einfrieren.",
+   "Radieschenblätter nicht wegwerfen: jung und frisch ergeben sie ein würziges Pesto oder eine grüne Suppe."
+  ],
+  [
+   "Beeren und Kirschen erst kurz vor dem Essen waschen – feucht gelagert schimmeln sie schnell.",
+   "Gurken nicht neben Tomaten lagern: Das Reifegas Ethylen aus den Tomaten lässt Gurken schneller gelb und weich werden.",
+   "Johannisbeeren mit einer Gabel von der Rispe streifen – das geht schnell und zerdrückt die Beeren kaum."
+  ],
+  [
+   "Ist die Wassermelone reif? Sie klingt beim Klopfen hohl, und der helle Fleck, auf dem sie lag, ist gelblich statt weiß.",
+   "Kräuter einfrieren: fein gehackt mit etwas Öl oder Wasser in Eiswürfelformen füllen – so hat man fertige Portionen für Saucen.",
+   "Klarere Eiswürfel gibt es aus abgekochtem und wieder abgekühltem Wasser – es enthält weniger gelöste Luft."
+  ],
+  [
+   "Zuckermais am besten am Tag des Kaufs verarbeiten – der Zucker im Korn wandelt sich schnell in Stärke um, der Mais schmeckt dann weniger süß.",
+   "Zucchiniblüten vor dem Füllen innen vom Stempel befreien und nicht waschen, sondern nur vorsichtig ausschütteln.",
+   "Pfirsiche und Pflaumen entsteinen: entlang der Naht rundherum einschneiden und die Hälften gegeneinander drehen – bei reifen Früchten löst sich der Stein von selbst."
+  ],
+  [
+   "Äpfel kühl und getrennt von Gemüse lagern – sie geben das Reifegas Ethylen ab, davon werden zum Beispiel Möhren bitter.",
+   "Weniger Tränen beim Zwiebelschneiden: Messer scharf halten, die Zwiebel gut gekühlt verarbeiten und die Wurzel bis zuletzt dranlassen.",
+   "Federweißer gärt weiter: stehend lagern und nie fest verschließen – die Flaschen haben deshalb einen Deckel mit Luftloch."
+  ],
+  [
+   "Kürbiskerne rösten: von den Fasern befreien, trocken tupfen, mit wenig Öl und Salz mischen und bei 160 °C etwa 15–20 Minuten im Ofen rösten.",
+   "Feldsalat in mehreren Wasserbädern waschen und jeweils herausheben statt abgießen – der Sand bleibt am Boden der Schüssel.",
+   "Ingwer einfrieren: Gefroren lässt er sich ungeschält ganz fein reiben, und die Fasern bleiben an der Reibe."
+  ],
+  [
+   "Gänseschmalz aufheben: das Fett aus dem Bräter durch ein Sieb abgießen und kühl stellen – ideal für Bratkartoffeln und Rotkohl.",
+   "Rosenkohl gart gleichmäßiger, wenn größere Röschen halbiert werden – dann sind Strunk und Blätter zur selben Zeit gar.",
+   "Maronen erkennt man an der Spitze mit kleiner Quaste. Rosskastanien sind rundlich, glatt, haben keine Spitze – und sind nicht essbar."
+  ],
+  [
+   "Honig oder Sirup abmessen: den Löffel vorher kurz einölen – alles läuft restlos herunter.",
+   "Rosinen und kandierte Früchte vor dem Unterheben in etwas Mehl wenden – so sinken sie im Teig nicht so leicht auf den Boden.",
+   "Übrig gebliebenes Eiweiß lässt sich einfrieren, am besten portionsweise – ideal für Makronen und Baiser nach der Plätzchenbäckerei."
+  ]
+ ]
+}

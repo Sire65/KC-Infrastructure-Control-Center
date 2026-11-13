@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "eisdiele",
+ "fehler": [
+  [
+   260,
+   22,
+   20,
+   "Die Markise hat einen blauen Streifen"
+  ],
+  [
+   88,
+   72,
+   13,
+   "Im Halter steckt eine Waffel weniger"
+  ],
+  [
+   132,
+   42,
+   13,
+   "Im Eisbecher fehlt das Schirmchen"
+  ],
+  [
+   166,
+   53,
+   11,
+   "Im Eisbecher fehlt die Waffelrolle"
+  ],
+  [
+   217,
+   71,
+   11,
+   "Im Glas steckt ein Löffel weniger"
+  ],
+  [
+   268,
+   89,
+   15,
+   "Auf der Theke fehlt die Klingel"
+  ],
+  [
+   65,
+   126,
+   11,
+   "In der Vanille-Wanne fehlt der Spatel"
+  ],
+  [
+   176,
+   138,
+   15,
+   "Eine Eissorte ist blau statt grün"
+  ],
+  [
+   352,
+   82,
+   11,
+   "Im Wandschild: Eis mit zwei statt drei Kugeln"
+  ],
+  [
+   372,
+   216,
+   15,
+   "Die Palme hat ein Blatt weniger"
+  ]
+ ]
+}

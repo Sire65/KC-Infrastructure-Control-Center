@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "kartoffelfeuer",
+ "fehler": [
+  [
+   240,
+   88,
+   18,
+   "Der Drachen hat keinen Schwanz"
+  ],
+  [
+   59,
+   89,
+   15,
+   "Die Windmühle hat einen Flügel weniger"
+  ],
+  [
+   150,
+   66,
+   14,
+   "Die Vogelscheuche hat keinen Hut"
+  ],
+  [
+   160,
+   130,
+   11,
+   "Am Hemd fehlt der gelbe Flicken"
+  ],
+  [
+   184,
+   98,
+   12,
+   "Auf dem Arm sitzt keine Krähe"
+  ],
+  [
+   100,
+   182,
+   11,
+   "Auf dem Acker liegt eine Kartoffel weniger"
+  ],
+  [
+   112,
+   266,
+   13,
+   "Die Schubkarre hat kein Rad"
+  ],
+  [
+   246,
+   254,
+   11,
+   "In der Glut liegt eine Kartoffel weniger"
+  ],
+  [
+   316,
+   214,
+   11,
+   "Auf dem Baumstumpf fehlt der Becher"
+  ],
+  [
+   254,
+   284,
+   13,
+   "Die Grabegabel hat drei statt vier Zinken"
+  ]
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "seeufer",
+ "fehler": [
+  [
+   225,
+   32,
+   11,
+   "Am Himmel fliegt eine Möwe weniger"
+  ],
+  [
+   109,
+   132,
+   16,
+   "Das Segelboot hat ein Segel weniger"
+  ],
+  [
+   232,
+   166,
+   15,
+   "Die Ente schwimmt in die andere Richtung"
+  ],
+  [
+   40,
+   147,
+   11,
+   "Am Schilf fehlt ein Kolben"
+  ],
+  [
+   385,
+   140,
+   12,
+   "Die Laterne am Steg leuchtet nicht"
+  ],
+  [
+   340,
+   187,
+   11,
+   "Unter dem Steg fehlt ein Pfosten"
+  ],
+  [
+   93,
+   196,
+   11,
+   "An der Angelschnur fehlt der Schwimmer"
+  ],
+  [
+   232,
+   228,
+   14,
+   "Am Feuer steckt ein Fisch weniger"
+  ],
+  [
+   228,
+   275,
+   11,
+   "Im Steinkreis fehlt ein Stein"
+  ],
+  [
+   334,
+   252,
+   22,
+   "Die Kühlbox ist blau statt rot"
+  ]
+ ]
+}

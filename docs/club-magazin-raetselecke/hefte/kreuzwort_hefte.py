@@ -1,5 +1,7 @@
-"""Kreuzworträtsel für die Club-Küche, Hefte 2–12 (2027). Nutzt Gitterbau und Prüfung aus kreuzwort.py (Heft 1).
-Aufruf: python3 kreuzwort_hefte.py  → schreibt nrNN-kreuzwort.json (Format wie MAG_AUSGABEN[n].raetsel.kreuzwort)."""
+"""Kreuzworträtsel für die Club-Küche, Hefte 2–12 (2027) und 13–24 (2028). Nutzt Gitterbau und Prüfung aus kreuzwort.py (Heft 1).
+Aufruf: python3 kreuzwort_hefte.py        → Hefte 2–12 (hefte_woerter.py)
+        python3 kreuzwort_hefte.py 2028   → Hefte 13–24 (hefte_woerter_2028.py)
+schreibt nrNN-kreuzwort.json (Format wie MAG_AUSGABEN[n].raetsel.kreuzwort)."""
 import json, random, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -45,6 +47,19 @@ def bauen(nr, titel, loesung, anzeige, woerter, ziel=20, groesse=17):
     (HIER / f"nr{nr:02d}-kreuzwort.json").write_text(json.dumps(out, ensure_ascii=False) + "\n", encoding="utf-8")
     return f"Nr. {nr}: {len(fr)} Begriffe, {H}×{W}, Lösung {anzeige}"
 
+# Lösungswörter aus 2027 (Hefte 1–12) – dürfen 2028 nicht wiederkommen
+LOESUNGEN_2027 = {"KOECHECLUB", "KAMELLE", "FISCHER", "OSTERNEST", "MAIBAUM", "ERDBEERE", "PICKNICK",
+                  "GRILLFEST", "ERNTEDANK", "KUERBIS", "LATERNE", "PLAETZCHEN"}
+
 if __name__ == "__main__":
-    for nr, (titel, loesung, anzeige, woerter) in HEFTE.items():
-        print(bauen(nr, titel, loesung, anzeige, woerter))
+    if sys.argv[1:] == ["2028"]:
+        from hefte_woerter_2028 import HEFTE as HEFTE_2028
+        loes = [h[1] for h in HEFTE_2028.values()]
+        assert not set(loes) & LOESUNGEN_2027 and len(set(loes)) == len(loes), "Lösungswort doppelt"
+        for nr, (titel, loesung, anzeige, woerter) in HEFTE_2028.items():
+            assert 13 <= nr <= 24 and 6 <= len(loesung) <= 10, nr
+            try: print(bauen(nr, titel, loesung, anzeige, woerter))
+            except AssertionError: print(bauen(nr, titel, loesung, anzeige, woerter, ziel=18))
+    else:
+        for nr, (titel, loesung, anzeige, woerter) in HEFTE.items():
+            print(bauen(nr, titel, loesung, anzeige, woerter))

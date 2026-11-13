@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "weihnachtsmarkt",
+ "fehler": [
+  [
+   370,
+   30,
+   11,
+   "Am Himmel fehlt ein Stern"
+  ],
+  [
+   220,
+   28,
+   14,
+   "Auf dem Budendach fehlt der Stern"
+  ],
+  [
+   245,
+   100,
+   11,
+   "Ein Lämpchen der Lichterkette ist blau"
+  ],
+  [
+   150,
+   126,
+   15,
+   "Am Lebkuchenherz fehlt die Zuckerschrift"
+  ],
+  [
+   208,
+   147,
+   13,
+   "Im Grünkohl fehlt die Mettwurst"
+  ],
+  [
+   253,
+   130,
+   13,
+   "Im Kessel steckt keine Kelle"
+  ],
+  [
+   248,
+   201,
+   11,
+   "Dem Kessel fehlt ein Fuß"
+  ],
+  [
+   161,
+   191,
+   11,
+   "Eine Glühweintasse ist grün statt rot"
+  ],
+  [
+   306,
+   190,
+   11,
+   "Auf dem Teller liegt eine Kartoffel weniger"
+  ],
+  [
+   377,
+   186,
+   11,
+   "Am Tannenbaum fehlt eine Kugel"
+  ]
+ ]
+}

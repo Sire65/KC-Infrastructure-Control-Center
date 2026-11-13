@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "valentinsdinner",
+ "fehler": [
+  [
+   76,
+   70,
+   11,
+   "Im Fenster fehlt ein Stern"
+  ],
+  [
+   130,
+   84,
+   24,
+   "Der rechte Vorhang ist blau statt rot"
+  ],
+  [
+   290,
+   38,
+   13,
+   "An der Girlande hängt ein Herz weniger"
+  ],
+  [
+   328,
+   78,
+   22,
+   "Im Bilderrahmen: Stern statt Herz"
+  ],
+  [
+   88,
+   162,
+   14,
+   "Die linke Stuhllehne hat kein Herz"
+  ],
+  [
+   213,
+   126,
+   11,
+   "In der Vase steht eine Rose weniger"
+  ],
+  [
+   258,
+   138,
+   11,
+   "Eine Kerze brennt nicht"
+  ],
+  [
+   279,
+   170,
+   13,
+   "In einem Glas ist Weißwein statt Rotwein"
+  ],
+  [
+   327,
+   194,
+   14,
+   "Neben dem rechten Teller fehlt das Messer"
+  ],
+  [
+   38,
+   240,
+   13,
+   "Am Geschenk fehlt die Schleife"
+  ]
+ ]
+}

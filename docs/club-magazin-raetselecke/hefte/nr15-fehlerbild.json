@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "baeckerei",
+ "fehler": [
+  [
+   40,
+   36,
+   17,
+   "Das Brezelschild ist grau statt golden"
+  ],
+  [
+   92,
+   104,
+   12,
+   "Im Fenster fehlt ein Schornstein"
+  ],
+  [
+   205,
+   46,
+   20,
+   "Die Uhr zeigt eine andere Zeit"
+  ],
+  [
+   250,
+   92,
+   14,
+   "Eine Lampe leuchtet nicht"
+  ],
+  [
+   356,
+   66,
+   18,
+   "Dem langen Brot fehlen die Kerben"
+  ],
+  [
+   374,
+   131,
+   12,
+   "Im Regal liegt ein Brötchen weniger"
+  ],
+  [
+   100,
+   188,
+   13,
+   "In der Theke fehlt ein Croissant"
+  ],
+  [
+   165,
+   171,
+   11,
+   "Auf der Torte fehlt die Kirsche"
+  ],
+  [
+   268,
+   166,
+   13,
+   "Am Ständer hängt eine Brezel weniger"
+  ],
+  [
+   312,
+   166,
+   13,
+   "Über dem Kaffee fehlt der Dampf"
+  ]
+ ]
+}

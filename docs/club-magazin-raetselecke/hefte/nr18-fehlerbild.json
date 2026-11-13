@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "kirschernte",
+ "fehler": [
+  [
+   330,
+   79,
+   11,
+   "Am Heißluftballon fehlt der Korb"
+  ],
+  [
+   58,
+   40,
+   14,
+   "Im Kirschbaum fehlt der Vogel"
+  ],
+  [
+   151,
+   67,
+   12,
+   "Ein Kirschenpaar ist gelb statt rot"
+  ],
+  [
+   193,
+   183,
+   13,
+   "Der Leiter fehlt eine Sprosse"
+  ],
+  [
+   227,
+   238,
+   14,
+   "Der Eimer an der Leiter ist grün statt blau"
+  ],
+  [
+   85,
+   236,
+   18,
+   "Der Kirschkorb hat keinen Henkel"
+  ],
+  [
+   280,
+   188,
+   20,
+   "Der Kirschkuchen hat kein Teiggitter"
+  ],
+  [
+   325,
+   168,
+   11,
+   "Dem Marmeladenglas fehlt der Deckel"
+  ],
+  [
+   369,
+   190,
+   13,
+   "Am Strohhut fehlt das rote Band"
+  ],
+  [
+   150,
+   282,
+   11,
+   "Im Gras blüht eine Blume weniger"
+  ]
+ ]
+}

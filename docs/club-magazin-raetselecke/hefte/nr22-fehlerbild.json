@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "apfelpresse",
+ "fehler": [
+  [
+   81,
+   13,
+   12,
+   "Auf dem Dach fehlt der Wetterhahn"
+  ],
+  [
+   80,
+   190,
+   28,
+   "Am Scheunentor fehlt das Kreuz"
+  ],
+  [
+   240,
+   70,
+   11,
+   "In der Luft fliegt ein Blatt weniger"
+  ],
+  [
+   318,
+   62,
+   11,
+   "Am Baum hängt ein grüner Apfel"
+  ],
+  [
+   220,
+   104,
+   25,
+   "An der Presse fehlt der Drehgriff"
+  ],
+  [
+   255,
+   245,
+   12,
+   "Aus der Presse fließt kein Saft"
+  ],
+  [
+   84,
+   243,
+   11,
+   "Auf der Kiste liegt ein Apfel weniger"
+  ],
+  [
+   305,
+   197,
+   11,
+   "Einer Flasche fehlt der Korken"
+  ],
+  [
+   366,
+   220,
+   15,
+   "Auf der Bank steht eine Flasche weniger"
+  ],
+  [
+   160,
+   255,
+   11,
+   "Der Igel trägt keinen Apfel"
+  ]
+ ]
+}

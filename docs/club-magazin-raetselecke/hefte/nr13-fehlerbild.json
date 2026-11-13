@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "suppenkueche",
+ "fehler": [
+  [
+   150,
+   30,
+   20,
+   "Aus dem Schornstein steigt kein Rauch"
+  ],
+  [
+   156,
+   124,
+   14,
+   "Am Dach fehlen zwei Eiszapfen"
+  ],
+  [
+   60,
+   158,
+   22,
+   "Das Fenster der Hütte ist dunkel"
+  ],
+  [
+   126,
+   170,
+   13,
+   "An der Tür hängt kein Kranz"
+  ],
+  [
+   264,
+   148,
+   17,
+   "Im Kessel steckt ein Holzlöffel statt Kelle"
+  ],
+  [
+   235,
+   215,
+   13,
+   "Unter dem Kessel brennt kein Feuer"
+  ],
+  [
+   322,
+   117,
+   12,
+   "Der Vogel in der Tanne ist blau statt rot"
+  ],
+  [
+   369,
+   141,
+   11,
+   "Dem Schneemann fehlt die Nase"
+  ],
+  [
+   140,
+   243,
+   13,
+   "Auf der Bank fehlt eine Suppenschale"
+  ],
+  [
+   338,
+   237,
+   12,
+   "Auf dem Schlitten liegt ein Scheit weniger"
+  ]
+ ]
+}

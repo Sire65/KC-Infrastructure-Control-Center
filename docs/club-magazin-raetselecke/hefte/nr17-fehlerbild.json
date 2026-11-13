@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "biergarten",
+ "fehler": [
+  [
+   176,
+   24,
+   11,
+   "Am Himmel fliegt ein Vogel weniger"
+  ],
+  [
+   84,
+   88,
+   15,
+   "Am Maibaumkranz fehlt ein Band"
+  ],
+  [
+   60,
+   152,
+   17,
+   "Am Maibaum: Stern- statt Herzschild"
+  ],
+  [
+   366,
+   70,
+   11,
+   "Am Kastanienbaum fehlt eine Blüte"
+  ],
+  [
+   190,
+   143,
+   13,
+   "Ein Lampion ist grün statt orange"
+  ],
+  [
+   160,
+   166,
+   12,
+   "Ein Bierkrug hat keinen Schaum"
+  ],
+  [
+   284,
+   185,
+   11,
+   "Einem Bierkrug fehlt der Henkel"
+  ],
+  [
+   232,
+   188,
+   11,
+   "Auf dem Brett liegt ein Radieschen weniger"
+  ],
+  [
+   132,
+   189,
+   13,
+   "Auf dem Teller fehlt die Brezel"
+  ],
+  [
+   303,
+   268,
+   13,
+   "Der Bank fehlt ein Bein"
+  ]
+ ]
+}

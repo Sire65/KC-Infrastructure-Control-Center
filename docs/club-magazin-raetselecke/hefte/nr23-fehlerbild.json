@@ -1,0 +1,66 @@
+{
+ "titel": "Finde die 10 Fehler",
+ "thema": "wildkueche",
+ "fehler": [
+  [
+   86,
+   114,
+   20,
+   "Im Fenster fehlt das Reh"
+  ],
+  [
+   230,
+   52,
+   15,
+   "Am Balken hängt ein Kräuterbund weniger"
+  ],
+  [
+   171,
+   94,
+   12,
+   "Am Jägerhut fehlt die Feder"
+  ],
+  [
+   331,
+   37,
+   12,
+   "Das Geweih hat eine Sprosse weniger"
+  ],
+  [
+   320,
+   128,
+   18,
+   "Auf dem Bräter fehlt der Deckel"
+  ],
+  [
+   330,
+   222,
+   21,
+   "Im Ofen brennt kein Feuer"
+  ],
+  [
+   72,
+   186,
+   11,
+   "Im Korb liegt ein Fliegenpilz"
+  ],
+  [
+   110,
+   195,
+   14,
+   "Im Glas sind blaue statt rote Beeren"
+  ],
+  [
+   145,
+   191,
+   11,
+   "Die Weinflasche hat kein Etikett"
+  ],
+  [
+   242,
+   202,
+   14,
+   "Auf dem Brett fehlt das Messer"
+  ]
+ ]
+}
