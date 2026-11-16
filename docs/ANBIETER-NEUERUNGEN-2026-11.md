@@ -92,3 +92,67 @@ Laut Neon-Preisseite ([Plans](https://neon.com/docs/introduction/plans), Stand 2
 
 ## 5. Naechste Pruefung
 Naechste Durchsicht der Anbieter-Neuerungen spaetestens vor dem naechsten RC. Pruefpunkte: Supabase-Changelog, Neon-Changelog und Plans-Seite, Backblaze-Blog, Cloudflare-Changelog, GitHub-Changelog (Label `actions`).
+
+## 6. Nachtrag 2026-11-16: Neuerungen seit 2026-11-10
+
+### Handlungsbedarf
+| Anbieter | Neuerung | Massnahme |
+|---|---|---|
+| Supabase | Seit 2026-11-13 gibt es zusaetzliche Anmeldewege fuer das Konto: Wiederherstellungscodes fuer die Zwei-Faktor-Anmeldung und ein Passwort neben der Anmeldung ueber GitHub ([Changelog](https://supabase.com/changelog)) | Fuer das Konto mit KC Core beide einrichten (Betreiber, Account Security). Faellt sonst der GitHub-Zugang aus, ist kein Zugriff auf die Datenbank mehr moeglich. Codes an einem sicheren Ort aufbewahren, nie im Repository (Regel 15) |
+| Cloudflare | Workers mit `compatibility_date` ab 2026-11-17 melden abgebrochene Verbindungen ueber `request.signal` und laden Module ueber ein neues Verfahren ([Changelog](https://developers.cloudflare.com/changelog/)) | Betrifft den KC-Failover-Gateway nur, wenn das Datum dort hochgesetzt wird. Dann vorher „KC Dual Provider Regression“ laufen lassen. Gateway-Repo nicht geprueft |
+
+### Gut zu wissen, kein Handlungsbedarf
+| Anbieter | Neuerung | Bewertung fuer KC |
+|---|---|---|
+| Neon | Postgres 18.7 als Sicherheitsupdate mit 52 behobenen Schwachstellen ([Changelog 2026-11-13](https://neon.com/docs/changelog/2026-11-13)) | Wird beim naechsten Start des Compute eingespielt; durch Scale-to-Zero geschieht das regelmaessig. Version nicht abgefragt, weil die Abfrage Neon weckt (KICC-F-097) |
+| Neon | MCP-Werkzeug `list_incidents` zeigt Stoerungen und Wartungen von Neon | Hilft zu unterscheiden, ob Neon gestoert ist oder ein eigener Fehler vorliegt |
+| Supabase | „Correlated Logs“ seit 2026-11-10: Logs nach Anfrage, Trace oder Nutzer verknuepft; Log-Explorer in CLI v3 | Erleichtert Fehlersuche, z. B. beim `kc-db-backup-worker` |
+| Supabase | Abschaltung alter TLS-1.2-Verschluesselungen | Keine neue Meldung seit der Ankuendigung. Direkte Postgres- und Pooler-Verbindungen sind nicht betroffen. KICC-F-109 bleibt offen |
+| Cloudflare | Ausgabelimits und E-Mail-Warnungen fuer Workers und Durable Objects (2026-11-13) | Fuer welche Tarife, ist nicht angegeben. Im kostenlosen Tarif fallen ohnehin keine Kosten an |
+| GitHub | `pull_request_target` ab 2026-12-02 standardmaessig gesperrt; ARM32-Runner entfallen ab 2026-12-08 ([Changelog](https://github.blog/changelog/2026-11-12-actions-for-arm32-linux-windows-retirement/)) | Dieses Repo nicht betroffen: beide Ablaeufe auf `ubuntu-latest`, Node 22, kein `pull_request_target`. KC-Clubapp und Gateway nicht geprueft |
+
+### Nicht relevant
+- Backblaze B2: im November nur Quartalszahlen, keine neuen Funktionen.
+- Cloudflare Hyperdrive: hoehere Grenzen nur im bezahlten Tarif.
+- GitHub Secret Scanning in Ablauf-Logs: nur Enterprise.
+
+## 7. Kostenlose Datenbanken mit Speicherplatz (Stand 2026-11-16)
+
+### Ausgangslage
+| Datenbank | Belegt | Kostenlose Grenze | Auslastung |
+|---|---|---|---|
+| Supabase KC Core | 158 MB (gemessen 2026-11-10; davon 104 MB `public`, 25 MB Systemschemas) | 500 MB | ca. 32 % |
+| Neon KC Core Mirror | ca. 376 MB (Stand 2026-10-20; davon 290 MB Backup-Saetze) | 1 GB je Projekt, 20 GB ueber alle Projekte | ca. 37 % |
+
+Gemessen wurde nur die Groesse (`pg_database_size`), keine Inhalte (Regel 19). Der Engpass sind die **500 MB bei Supabase**, weil dort die Hauptdaten liegen. Bei Neon belegen vor allem die Backups den Speicher.
+
+### Anbieter
+| Anbieter | Kostenloser Speicher | Art | Haken | Eignung |
+|---|---|---|---|---|
+| **Azure SQL Database** (Free Tier) | **10 Datenbanken × 32 GB**, dazu je 32 GB Backup; 100.000 vCore-Sekunden je Datenbank und Monat, dauerhaft ([Microsoft Learn](https://learn.microsoft.com/en-us/azure/azure-sql/database/free-offer), Stand 2026-11-11) | SQL Server (T-SQL), kein Postgres | Azure-Abo noetig (Kreditkarte). Beim Anlegen **„AutoPause“** waehlen, sonst wird ueber der Grenze abgerechnet; die Wahl „weiter mit Kosten“ ist nicht umkehrbar. Pausiert nach 15 min ohne Nutzung; bei aufgebrauchter Rechenzeit bis Monatsende nicht erreichbar. Kein SLA | Groesster kostenloser Speicher. Nur fuer Archiv oder Backup ueber eigenen Adapter, nie fuer laufende Kassen (Regel 12) |
+| **Oracle Cloud Always Free** | 2 Datenbanken × 20 GB; zusaetzlich 200 GB Festplatte fuer eigene Server ([Oracle](https://docs.oracle.com/iaas/Content/FreeTier/resourceref.htm)) | Oracle-Datenbank; Postgres nur selbst betrieben | Kreditkarte zur Anmeldung. Eigenbetrieb bedeutet Updates und Sicherung in eigener Verantwortung | Reserve fuer Archiv |
+| **TiDB Cloud Starter** | 25 GiB, verteilt auf bis zu 5 Datenbanken ([PingCAP](https://www.pingcap.com/tidb-cloud-pricing/)) | MySQL-kompatibel | Kein Postgres; ueber der Grenze 0,20 $ je GiB | Nur mit eigenem Adapter |
+| **Azure Cosmos DB** (Free Tier) | 25 GB und 1.000 RU/s, dauerhaft ([Microsoft Learn](https://learn.microsoft.com/en-us/azure/cosmos-db/free-tier)) | Dokumentdatenbank (NoSQL) | Ein Free-Konto je Abo; Kreditkarte | Kein SQL; nur fuer Sonderfaelle |
+| **AWS DynamoDB** | 25 GB, dauerhaft (nur bei bereitgestellter Kapazitaet) | Schluessel-Wert (NoSQL) | Kreditkarte; ueber der Grenze kostenpflichtig | Kein SQL; nur fuer Sonderfaelle |
+| **Neon** (im Einsatz) | 1 GB je Projekt, bis 100 Projekte, **20 GB gesamt** ([Plans](https://neon.com/docs/introduction/plans)) | Postgres | Ein Projekt allein hat nur 1 GB | Beste Erweiterung ohne Umbau |
+| **Turso** | 5 GB, 100 Datenbanken | SQLite | Grenze 2026 von 9 GB gesenkt | Nur mit eigenem Adapter |
+| **Cloudflare D1** | 5 GB gesamt, hoechstens 500 MB je Datenbank ([Cloudflare](https://developers.cloudflare.com/d1/platform/limits)) | SQLite | Kleine Einzeldatenbanken | Nur fuer Kleinkram am Gateway |
+| **Aiven** | 1 GB ([Aiven](https://aiven.io/docs/products/postgresql/concepts/pg-free-tier)) | Postgres | hoechstens 20 Verbindungen; ungenutzte Dienste werden gestoppt | Kaum Gewinn |
+| **Nile** | 1 GB | Postgres | Angaben nur aus Drittquellen | Kaum Gewinn |
+| **AWS Aurora DSQL** | 1 GB | Postgres-aehnlich | Kreditkarte | Kaum Gewinn |
+| **Supabase** (im Einsatz) | 500 MB Datenbank, 1 GB Dateien | Postgres | pausiert nach 1 Woche ohne Aktivitaet | – |
+| **MongoDB Atlas M0** | 512 MB | Dokumente | keine Backups | ungeeignet |
+| **Firestore** | 1 GiB | Dokumente | Tageslimits | ungeeignet |
+| **Tiger Data** (Free) | nicht beziffert | Postgres | **nur US-Region**, Beta | ungeeignet (Mitgliederdaten) |
+| **Render** | 1 GB | Postgres | laeuft nach 30 Tagen ab | ungeeignet |
+| CockroachDB, Xata, PlanetScale | – | – | nach Berichten seit 2026 kein kostenloser Tarif mehr | – |
+
+Es gibt keinen Postgres-Anbieter mit deutlich mehr als 1 GB kostenlos je Datenbank. Die grossen Angebote (Azure SQL, Oracle, TiDB) sind keine Postgres-Datenbanken; ein Umzug der Hauptdaten dorthin wuerde SQL-Funktionen, pg_cron und Edge Functions brechen und widerspricht Regel 3.
+
+### Empfohlene Reihenfolge
+1. **Backups aus den Datenbanken in Objektspeicher** (B2, KICC-F-099). Gibt den groessten Teil des Neon-Speichers frei.
+2. **Neon auf mehrere Projekte verteilen:** abgeschlossene Zeitraeume in Archivprojekte (wie `KC Archiv Kopie`). Bleibt Postgres, kein Umbau.
+3. **Supabase entlasten:** abgeschlossene Daten nach Neon auslagern, Dateien und Anhaenge in Storage statt in Tabellen.
+4. **Reserve fuer grosses Archiv:** Azure SQL Free (320 GB) oder Oracle Always Free (40 GB), nur ueber eigenen Adapter (Regel 4/18), mit Kostenschutz (AutoPause) und erst nach Pruefung der EU-Region und des Zero-Cost-Gates.
+
+Vor jedem neuen Anbieter: EU-Region pruefen (Mitgliederdaten), Lizenz und Kosten nach `docs/ZERO-COST.md` dokumentieren, Kostenschutz nachweisen.
