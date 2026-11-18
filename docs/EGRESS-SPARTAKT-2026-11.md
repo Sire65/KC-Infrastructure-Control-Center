@@ -21,6 +21,17 @@ PostgREST-Verkehr laeuft ueberwiegend ueber die Edge Function `kc-club` (Club-Ap
   schreibt einen Audit-Eintrag und entfernt sich selbst.
 - Audit: `kc_db_mirror_audit`, action `mirror_spartakt_egress`.
 
+## Weitere Massnahmen (Freigabe Admin 17./18.11.2026)
+
+| Massnahme | vorher | nachher | Rueckweg |
+|---|---|---|---|
+| Cron `kc-club-notpaket-15min` (Notfall-Paket) | `9,24,39,54 * * * *` | `9 * * * *` | Takt zuruecksetzen (Audit `notpaket_spartakt_egress`) |
+| Cron `kc-live-operations-watch-minute` (Betriebs-Waechter) | `2-59/5 * * * *` | `2-59/15 * * * *` | Takt zuruecksetzen (Audit `betriebswaechter_spartakt_egress`) |
+| Club-App 2.977.0: Anlagen nach Pfad im Service Worker merken, Chat-Uebersicht gemeinsam abrufen | – | Zweig `egress-sparen-2977`, Einspielen 18.11. 19:45 | App 2.976.0 |
+
+Messgrundlage ohne Protokoll-Abfragen: `kc_club_protokoll` aktion `egress_messung` (Club-Server, bis 21.11.), `pg_stat_statements`.
+Korrektur 18.11.: Die 133 Speicher-Downloads am 17.11. kamen von vielen Geraeten, nicht von einem einzelnen PC.
+
 ## Offen
 
 - Eigentliche Ursache in der Club-App (`kc-club`, Repo KC-Clubapp): Abfragen je Aufruf bzw. Aufrufe je Geraet senken.
