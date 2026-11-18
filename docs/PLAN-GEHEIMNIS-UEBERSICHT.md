@@ -69,10 +69,28 @@ Passwörter für Menschen (Logins für web.de-Postfach, Samsung-Konto, Supabase,
 gemeinsam genutzten Passwort-Manager des Vorstands (z. B. KeePassXC oder Bitwarden Free). Die Übersicht (F-120) verweist
 nur darauf („Ablageort: Passwort-Manager Vorstand“).
 
-## Entscheidung: kein eigener Wert-Tresor (18.11.2026)
+## Entscheidung Tresor (18.11.2026, Freigabe Admin)
 
-Frage Admin: eigenen, extra verschlüsselten Tresor mit Werten in der Club-App bauen?
-Empfehlung: nein. Gründe: eigene Kryptografie ist fehleranfällig; ein Browser-Admin-Bereich mit allen Werten wäre ein
-Einbruch-für-alles; liegt der Tresor in Supabase, ist er bei einem Supabase-Ausfall mit weg (genau dafür existiert der
-Cloudflare-Notfall-Tresor). Bestehende Tresore verwenden (AGENTS.md Regel 3): Supabase Vault (Programme), Cloudflare
-Notfall-Tresor (Notfallkopie), Passwort-Manager Vorstand (Menschen). Die Club-App bekommt die Übersicht (F-120) ohne Werte.
+Externer Passwort-Manager ist dem Vorstand zu kompliziert. Darum: **kein Server-Tresor mit lesbaren Werten**, sondern ein
+**Ende-zu-Ende-verschlüsselter Tresor als Teil von KICC-F-120** (Zero-Knowledge, Prinzip wie Bitwarden).
+Technische Schlüssel der Programme bleiben im Supabase Vault (F-121), die Notfallkopie im Cloudflare-Notfall-Tresor.
+
+### KICC-F-120 Teil B: Zugangs-Tresor für Logins von Menschen
+
+- Ort: Club-App → Admin → Zugänge (nur Admin-Rolle), in der Übersicht aus Teil A.
+- Nur für Einträge der Art „Login (Mensch)“, z. B. web.de-Postfach, Samsung-Konto, Supabase, GitHub. **Nie** für Programm-Schlüssel.
+- Verschlüsselung ausschließlich im Browser mit WebCrypto (keine eigene Kryptografie):
+  Schlüssel aus Tresor-Passwort per PBKDF2-SHA-256 (hohe Iterationszahl, zufälliges Salz je Tresor), Werte mit AES-256-GCM
+  (zufälliger IV je Wert). Server/DB speichert nur Chiffrat, Salz, IV, Parameter-Version.
+- Das Tresor-Passwort verlässt nie das Gerät, wird nicht gespeichert (kein localStorage, kein Server, kein Log).
+  Prüfwert (verschlüsselter bekannter Text) erkennt ein falsches Passwort, ohne es preiszugeben.
+- Anzeigen: Tippen auf „Anzeigen“ + Tresor-Passwort → Wert 30 s sichtbar bzw. kopierbar, danach aus Speicher und Anzeige entfernt.
+- Audit je Öffnen/Ändern: wer, wann, welcher Eintrag – nie der Wert.
+- Ausfallsicherheit: Chiffrat läuft in Neon-Spiegel und Sicherungen mit; Knopf „Notfallblatt drucken“ (lokal im Browser
+  erzeugt, nichts an Server) für versiegelten Umschlag beim Vorstand.
+- Verlust des Tresor-Passworts = Werte nicht wiederherstellbar (bewusst). Tresor-Passwort gehört auf Papier in den Umschlag.
+- Tresor-Passwort ändern: alle Werte im Browser neu verschlüsseln, atomar speichern.
+
+DoD Teil B: Kryptografie-Tests (Rundlauf, falsches Passwort, manipuliertes Chiffrat wird abgewiesen), Test „kein Klartext in
+DB/Antworten/Logs/Browser-Speicher“, Rechte-Test (nur Admin), Audit-Test, Browser-Tests nur abgeschirmt (KC-TESTS-OHNE-ECHTSERVER),
+Sicherheitsprüfung vor Freigabe, Zero-Cost-Check, Doku inkl. Notfallablauf.
