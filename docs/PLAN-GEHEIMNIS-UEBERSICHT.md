@@ -17,13 +17,18 @@ Ziel: Eine Stelle, an der alle Zugangsdaten und Schlüssel der KC-Systeme auffin
 | Zweck / wofür | KC Communicator verschickt E-Mails über smtp.web.de |
 | Warum nötig | Anmeldung am web.de-Postfach `koecheclub-werne@web.de` |
 | System / Programm | KC Communicator (`kc-communication-dispatch`) |
-| Ablageort | Supabase Vault · Supabase Edge-Function-Secrets · Passwort-Manager Vorstand · Neon · GitHub Secrets … |
+| Ablageort | Supabase Vault · Supabase Edge-Function-Secrets · Cloudflare Notfall-Tresor (`kc-notfall-tresor`) · Passwort-Manager Vorstand · GitHub Secrets … |
 | Projekt | `ptblnpiroqftcvlsrhac` (KC Core) |
 | Art | Passwort · API-Schlüssel · Token · Zertifikat/Schlüsselpaar |
+| Wer darf es benutzen | Programme (z. B. `kc-communication-dispatch`) und Rollen (z. B. Admin) mit Zugriff |
 | Verantwortlich / wer weiß Bescheid | Rolle (z. B. Admin, Vorstand) – keine privaten Kontaktdaten |
 | Zuletzt geändert | automatisch, wo ermittelbar (z. B. Supabase meldet „vor x Minuten“) |
 | Erneuern bis | Datum, Ampel bei Fälligkeit |
 | Status | aktiv · Reserve · stillgelegt · UNBEKANNT (nie als OK anzeigen) |
+
+### Ort
+
+Wunsch Admin 18.11.2026: in der Club-App unter Admin (nur Admin-Rolle). Daten nur Metadaten, Tabelle in KC Core.
 
 ### Bedienung
 
@@ -63,3 +68,11 @@ Ziel: Für Programme nur noch **einen** Ablageort. Heute zwei: Supabase Vault (z
 Passwörter für Menschen (Logins für web.de-Postfach, Samsung-Konto, Supabase, GitHub …) gehören in einen kostenlosen,
 gemeinsam genutzten Passwort-Manager des Vorstands (z. B. KeePassXC oder Bitwarden Free). Die Übersicht (F-120) verweist
 nur darauf („Ablageort: Passwort-Manager Vorstand“).
+
+## Entscheidung: kein eigener Wert-Tresor (18.11.2026)
+
+Frage Admin: eigenen, extra verschlüsselten Tresor mit Werten in der Club-App bauen?
+Empfehlung: nein. Gründe: eigene Kryptografie ist fehleranfällig; ein Browser-Admin-Bereich mit allen Werten wäre ein
+Einbruch-für-alles; liegt der Tresor in Supabase, ist er bei einem Supabase-Ausfall mit weg (genau dafür existiert der
+Cloudflare-Notfall-Tresor). Bestehende Tresore verwenden (AGENTS.md Regel 3): Supabase Vault (Programme), Cloudflare
+Notfall-Tresor (Notfallkopie), Passwort-Manager Vorstand (Menschen). Die Club-App bekommt die Übersicht (F-120) ohne Werte.
