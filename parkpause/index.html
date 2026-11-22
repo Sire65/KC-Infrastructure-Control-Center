@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1F4E8C">
+<meta name="description" content="ParkPause – klickbarer Prototyp: Tiefgaragenplätze freigeben, reservieren und freischalten.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>ParkPause</title>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: Kopfzeile mit Marke + Identitaet, Reiterleiste, darunter Ebenen-Plan aus Raum-Bloecken (zwei Platzreihen um eine Fahrgasse) */
+:root {
+  --bg: #EDF0F3; --surface: #FFFFFF; --ink: #17202A; --muted: #5A6674; --line: #D3DAE1; --concrete: #E2E6EA; --mark: #E3B12A;
+  --brand: #1F4E8C; --brand-ink: #FFFFFF;
+  --led-free: #19A64F; --led-req: #E0A100; --led-busy: #D04040; --led-fix: #2F6FD6; --led-off: #A0A9B3;
+  --ok-bg: #DDF2E4; --warn-bg: #FBF0D4; --bad-bg: #F8E0E0; --info-bg: #E1EBF8;
+  --display: "Barlow Condensed", "Arial Narrow", sans-serif; --body: "Barlow", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10151A; --surface: #19212A; --ink: #E4E9EE; --muted: #93A0AE; --line: #2A3540; --concrete: #141B22; --mark: #C99B1F;
+  --led-off: #56616D; --ok-bg: #143022; --warn-bg: #3A2E10; --bad-bg: #3A1B1B; --info-bg: #182A40; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #10151A; --surface: #19212A; --ink: #E4E9EE; --muted: #93A0AE; --line: #2A3540; --concrete: #141B22; --mark: #C99B1F;
+  --led-off: #56616D; --ok-bg: #143022; --warn-bg: #3A2E10; --bad-bg: #3A1B1B; --info-bg: #182A40; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.45; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-block: 16px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 16px; }
+h1, h2, h3 { font-family: var(--display); margin: 0; letter-spacing: .01em; text-wrap: balance; }
+h2 { font-size: 1.5rem; } h3 { font-size: 1.15rem; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+.small { font-size: .86rem; }
+
+/* Kopf */
+header.top { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; }
+.brand { display: flex; gap: 12px; align-items: center; min-width: 0; flex: 1 1 260px; }
+.appicon { width: 48px; height: 48px; flex: none; border-radius: 12px; background: var(--brand); color: var(--brand-ink); position: relative;
+  display: grid; place-items: center; font: 700 2rem/1 var(--display); }
+.appicon::after { content: ""; position: absolute; top: 7px; right: 7px; width: 9px; height: 9px; border-radius: 50%; background: var(--led-free); box-shadow: 0 0 6px var(--led-free); }
+.brand img { max-height: 48px; max-width: 140px; object-fit: contain; }
+.brand h1 { font-size: 1.9rem; line-height: 1; }
+.who { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.bell { position: relative; }
+.bell b { position: absolute; top: -6px; right: -6px; background: var(--led-busy); color: #fff; font-size: .7rem; border-radius: 99px; padding: 1px 6px; }
+.demo { background: var(--info-bg); border-radius: 10px; padding: 10px 14px; font-size: .9rem; display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+.demo button { padding: 4px 10px; }
+
+nav.tabs { display: flex; gap: 4px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+nav.tabs button { border: 0; border-bottom: 3px solid transparent; border-radius: 0; background: transparent; padding: 10px 12px; white-space: nowrap; color: var(--muted); }
+nav.tabs button[aria-current="page"] { color: var(--ink); border-bottom-color: var(--brand); }
+nav.tabs .count { background: var(--led-req); color: #222; border-radius: 99px; padding: 0 7px; font-size: .75rem; margin-left: 4px; }
+
+/* Bedienelemente */
+input, select, textarea { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-width: 0; max-width: 100%; }
+input[type="checkbox"], input[type="radio"] { accent-color: var(--brand); width: 18px; height: 18px; }
+input[type="color"] { padding: 2px; width: 48px; height: 38px; }
+button { font: 600 .93rem var(--body); border-radius: 8px; padding: 8px 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+button.primary { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+button.ok { background: var(--led-free); border-color: var(--led-free); color: #fff; }
+button.danger { color: var(--led-busy); }
+button.sm { padding: 4px 10px; font-size: .84rem; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.row > .field { flex: 1 1 140px; }
+.check { display: flex; gap: 8px; align-items: center; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+.empty { padding: 14px; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); }
+.msg { font-weight: 500; font-size: .9rem; }
+.msg.err { color: var(--led-busy); } .msg.ok { color: var(--led-free); }
+
+/* Plan */
+.planbar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: end; justify-content: space-between; }
+.leveltabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 4px; flex-wrap: wrap; }
+.leveltabs button { border: 0; padding: 6px 12px; }
+.leveltabs button[aria-pressed="true"] { background: var(--brand); color: var(--brand-ink); }
+.summary { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .88rem; color: var(--muted); }
+.summary span { display: inline-flex; gap: 6px; align-items: center; }
+.summary b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+.rooms { display: grid; gap: 16px; }
+.room { background: var(--concrete); border-radius: 14px; padding: 12px; display: grid; gap: 8px; min-width: 0; }
+.roomhead { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; align-items: baseline; }
+.roomscroll { overflow-x: auto; padding-bottom: 4px; }
+.roominner { display: grid; gap: 0; min-width: max-content; }
+.srow { display: grid; grid-auto-flow: column; grid-auto-columns: 66px; gap: 5px; }
+.lane { height: 34px; display: flex; align-items: center; justify-content: center; position: relative; color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; }
+.lane::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; margin-top: -1px;
+  background: repeating-linear-gradient(90deg, var(--mark) 0 18px, transparent 18px 32px); opacity: .8; }
+.lane span { background: var(--concrete); padding: 0 8px; position: relative; }
+.spot { height: 70px; border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 5px 6px; text-align: left;
+  display: grid; align-content: space-between; position: relative; cursor: pointer; font-weight: 500; }
+.srow.bottom .spot { border-top-width: 3px; } .srow.top .spot { border-bottom-width: 3px; }
+.spot .nr { font: 700 .95rem/1 var(--display); font-variant-numeric: tabular-nums; }
+.spot .tx { font-size: .74rem; line-height: 1.15; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.spot .led { position: absolute; top: 6px; right: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--led-off); }
+.spot.frei { border-color: var(--led-free); }
+.spot.frei .led { background: var(--led-free); box-shadow: 0 0 0 2px color-mix(in srgb, var(--led-free) 30%, transparent), 0 0 10px var(--led-free); animation: glow 2.4s ease-in-out infinite; }
+.spot.frei .tx { color: var(--led-free); font-weight: 700; }
+.spot.angefragt .led { background: var(--led-req); } .spot.angefragt .tx { color: var(--led-req); font-weight: 600; }
+.spot.belegt .led { background: var(--led-busy); } .spot.belegt .tx { color: var(--led-busy); font-weight: 600; }
+.spot.fest { background: color-mix(in srgb, var(--led-fix) 10%, var(--surface)); } .spot.fest .led { background: var(--led-fix); }
+.spot.gesperrt, .spot.unklar { background: repeating-linear-gradient(135deg, var(--surface) 0 6px, var(--concrete) 6px 12px); }
+.spot.mine { outline: 2px solid var(--brand); outline-offset: 1px; }
+.spot.dim { opacity: .3; }
+.spot .tag { position: absolute; right: 20px; top: 4px; font-size: .62rem; font-weight: 700; color: var(--muted); }
+@keyframes glow { 50% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--led-free) 20%, transparent), 0 0 4px var(--led-free); } }
+@media (prefers-reduced-motion: reduce) { .spot.frei .led { animation: none; } }
+
+/* Listen */
+.list { display: grid; gap: 8px; }
+.item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.item .t { font: 600 1.05rem var(--display); font-variant-numeric: tabular-nums; }
+.item .m { font-size: .86rem; color: var(--muted); overflow-wrap: anywhere; }
+.item .a { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+@media (max-width: 560px) { .item { grid-template-columns: minmax(0, 1fr); } .item .a { justify-content: flex-start; } }
+.chip { display: inline-block; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 99px; vertical-align: middle; }
+.chip.angefragt { background: var(--warn-bg); color: var(--led-req); } .chip.bestaetigt { background: var(--ok-bg); color: var(--led-free); }
+.chip.abgelehnt, .chip.storniert, .chip.verfallen { background: var(--bad-bg); color: var(--led-busy); }
+.chip.aktiv { background: var(--ok-bg); color: var(--led-free); } .chip.geplant { background: var(--info-bg); color: var(--led-fix); } .chip.pausiert { background: var(--concrete); color: var(--muted); }
+
+/* Tabellen */
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; white-space: nowrap; }
+th { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); background: var(--bg); position: sticky; top: 0; }
+td select { padding: 4px 6px; }
+
+/* Dialog */
+.overlay { position: fixed; inset: 0; background: rgba(10, 15, 20, .55); display: grid; place-items: center; z-index: 20;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.dialog { background: var(--surface); border-radius: 16px; width: min(560px, 100%); max-height: 100%; overflow: auto; padding: 18px; display: grid; gap: 14px; }
+.dlghead { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+.bignr { font: 700 2.2rem/1 var(--display); }
+.choice { display: grid; gap: 8px; }
+.choice label { display: flex; gap: 10px; align-items: start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; }
+.choice label:has(input:checked) { border-color: var(--brand); background: color-mix(in srgb, var(--brand) 8%, var(--surface)); }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg);
+  padding: 10px 16px; border-radius: 10px; z-index: 30; max-width: calc(100% - 32px); font-weight: 500; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.push { display: flex; gap: 10px; align-items: start; }
+.push .appicon { width: 32px; height: 32px; font-size: 1.3rem; border-radius: 8px; }
+.push .appicon::after { width: 6px; height: 6px; top: 4px; right: 4px; }
+.swatches { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.swatches button { width: 34px; height: 34px; padding: 0; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line); }
+.subtabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.subtabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.levelcfg { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 10px; }
+.roomcfg { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; align-items: end; padding: 10px; border-radius: 10px; background: var(--bg); }
+.kpi { display: flex; gap: 18px; flex-wrap: wrap; }
+.kpi div { display: grid; } .kpi b { font: 700 1.6rem var(--display); font-variant-numeric: tabular-nums; }
+</style>
+
+<div class="wrap" id="app"></div>
+<div id="layer"></div>
+
+<script>
+(() => {
+  // ================= Hilfen =================
+  const pad = (n) => String(n).padStart(2, "0");
+  const iso = (d) => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  const parse = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const add = (s, n) => { const d = parse(s); d.setDate(d.getDate() + n); return iso(d); };
+  const days = (a, b) => Math.round((Date.UTC(...ymd(b)) - Date.UTC(...ymd(a))) / 864e5) + 1;
+  const ymd = (s) => { const [y, m, d] = s.split("-").map(Number); return [y, m - 1, d]; };
+  const TODAY = iso(new Date());
+  const f = (s) => parse(s).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" });
+  const fw = (s) => parse(s).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit", year: "numeric" });
+  const rng = (a, b) => a === b ? f(a) : f(a) + "–" + f(b);
+  const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const uid = (p) => p + Math.random().toString(36).slice(2, 9);
+  const isDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || "");
+  const overlap = (a1, b1, a2, b2) => !(b1 < a2 || a1 > b2);
+  const $ = (id) => document.getElementById(id);
+
+  // ================= Beispieldaten =================
+  function seed() {
+    const vn = ["Thomas","Anna","Michael","Julia","Stefan","Sabine","Andreas","Katrin","Markus","Claudia","Frank","Nicole","Jörg","Martin","Sandra","Uwe","Melanie","Ralf","Birgit","Christian","Tanja","Oliver","Kerstin","Jan","Silke","Daniel","Heike","Tobias","Susanne","Sebastian","Anja","Matthias","Simone","Florian","Nadine","Alexander","Monika","Dirk","Ute","Patrick","Carina","Holger","Bettina","Sven","Jana","Marco","Ines","Lukas","Jonas","Laura","Felix","Sarah","Tim","Lisa","Philipp","Miriam","Kai","Vanessa","Jens","Elke","Björn","Christina","Hendrik","Doris","Moritz","Franziska","Niklas","Gabi","Marcel","Stefanie","Rainer","Yvonne","Benedikt","Karin","Robert","Maren","Erik","Vera","Paul","Lena","Max","Hannah","Ben","Emma","Leon","Mia","Noah","Sophie","Elias","Clara","Finn"];
+    const nn = "BKSMWHFRLTGNPDEZ";
+    const abt = ["Privatkunden","Firmenkunden","Kreditabteilung","Marktfolge","IT/Organisation","Personal","Vermögensberatung","Revision","Immobilien","Zahlungsverkehr"];
+    const persons = vn.map((v, i) => ({ id: "p" + i, vorname: v, nachname: nn[i % nn.length] + ".", abt: abt[i % abt.length], kennz: "" }));
+    persons.push({ id: "padmin", vorname: "Petra", nachname: "V.", abt: "Facility Management", kennz: "", admin: true });
+    const L1 = { id: "L1", kz: "U1", name: "Ebene −1", rooms: [{ id: "R1", kz: "A", name: "Raum A", count: 24 }, { id: "R2", kz: "B", name: "Raum B", count: 20 }] };
+    const L2 = { id: "L2", kz: "U2", name: "Ebene −2", rooms: [{ id: "R3", kz: "A", name: "Raum A", count: 22 }, { id: "R4", kz: "B", name: "Raum B", count: 19 }] };
+    const S = {
+      v: 1, me: "p79", viewDate: TODAY, tab: "plan", level: "L1", adminTab: "garage",
+      config: { appName: "ParkPause", color: "#1F4E8C", logo: null, scheme: "ebene-raum", showNames: true,
+        rules: { fristStd: 24, nachFrist: "verfallen", maxTage: 21, vorlauf: 90 },
+        notify: { push: true, mail: true, smtpHost: "", smtpPort: 587, smtpFrom: "" }, db: "demo" },
+      levels: [L1, L2], meta: {}, assign: [], persons, releases: [], res: [], notes: [], filterFree: false,
+    };
+    const keys = []; S.levels.forEach((L) => L.rooms.forEach((R) => { for (let i = 1; i <= R.count; i++) keys.push(L.id + "|" + R.id + "|" + i); }));
+    const fest = ["Vorstand","Vorstand","Vorstand","Dienstwagen","Dienstwagen","Vorstand Gäste"];
+    keys.slice(0, 6).forEach((k, i) => { S.meta[k] = { type: "fest", festLabel: fest[i] }; });
+    S.meta[keys[30]] = { type: "miete", merkmal: "E-Laden" }; S.meta[keys[31]] = { type: "miete", merkmal: "E-Laden" };
+    S.meta[keys[70]] = { type: "miete", merkmal: "breit" };
+    const rent = keys.slice(6);
+    rent.forEach((k, i) => S.assign.push({ key: k, personId: "p" + i, ab: "2024-01-01" }));
+    S.assign.push({ key: rent[40], personId: "p86", ab: add(TODAY, 20) }); // geplanter Besitzerwechsel
+    const rel = (i, a, b, extra) => { const r = { id: uid("f"), key: rent[i], ownerId: "p" + i, von: add(TODAY, a), bis: add(TODAY, b), ab: null, aktiv: true, grund: "Urlaub", ...extra }; S.releases.push(r); return r; };
+    rel(2, -2, 6); rel(9, -1, 4, { grund: "Krank" });
+    const r12 = rel(12, 0, 9);
+    S.res.push({ id: uid("r"), key: r12.key, relId: r12.id, personId: "p80", von: TODAY, bis: add(TODAY, 2), status: "bestaetigt", kennz: "S-AB 123", msg: "", created: Date.now() - 864e5 * 2 });
+    rel(20, 1, 4, { grund: "Dienstreise" });
+    const r24 = rel(24, -1, 12);
+    S.res.push({ id: uid("r"), key: r24.key, relId: r24.id, personId: "p81", von: TODAY, bis: add(TODAY, 4), status: "angefragt", kennz: "S-XY 77", msg: "Ankunft gegen 7:30", created: Date.now() - 36e5 * 3 });
+    S.notes.push({ id: uid("n"), to: "p24", text: vn[81] + " möchte Ihren Platz vom " + f(TODAY) + " bis " + f(add(TODAY, 4)) + ". Bitte freischalten oder ablehnen.", time: Date.now() - 36e5 * 3, read: false });
+    rel(38, 14, 28, { ab: add(TODAY, 7) });
+    rel(44, 0, 3); rel(55, -3, 7, { grund: "Homeoffice" }); rel(61, 2, 16); rel(70, 0, 1);
+    rel(2, 20, 30, { aktiv: false, grund: "Urlaub" });
+    return S;
+  }
+
+  // ================= Zustand =================
+  const LS = "parkpause-prototyp-v1";
+  let S;
+  try { const raw = localStorage.getItem(LS); S = raw ? JSON.parse(raw) : null; } catch (e) { S = null; }
+  if (!S || S.v !== 1) S = seed();
+  const save = () => { try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {} };
+
+  // ================= Ableitungen =================
+  const P = (id) => S.persons.find((p) => p.id === id);
+  const pname = (id) => P(id)?.vorname || "—";
+  const pfull = (id) => { const p = P(id); return p ? p.vorname + " " + p.nachname : "—"; };
+  const me = () => P(S.me);
+  const isAdmin = () => !!me()?.admin;
+
+  function allSpots() {
+    const out = []; let run = 0;
+    S.levels.forEach((L) => { let inL = 0; L.rooms.forEach((R) => { for (let i = 1; i <= R.count; i++) {
+      run++; inL++; const key = L.id + "|" + R.id + "|" + i; const meta = S.meta[key] || { type: "miete" };
+      let label = S.config.scheme === "fortlaufend" ? String(run) : S.config.scheme === "ebene" ? L.kz + "-" + pad(inL) : L.kz + R.kz + "-" + pad(i);
+      if (meta.label) label = meta.label;
+      out.push({ key, L, R, i, meta, label });
+    } }); });
+    return out;
+  }
+  let SP = allSpots();
+  const spot = (key) => SP.find((s) => s.key === key);
+  function ownerOn(key, d) {
+    let best = null;
+    for (const a of S.assign) if (a.key === key && a.ab <= d && (!best || a.ab >= best.ab)) best = a;
+    return best ? best.personId : null;
+  }
+  const nextChange = (key) => S.assign.filter((a) => a.key === key && a.ab > TODAY).sort((a, b) => a.ab.localeCompare(b.ab))[0];
+  const liveRes = (r) => r.status === "angefragt" || r.status === "bestaetigt";
+  const resOn = (key, d) => S.res.find((r) => r.key === key && liveRes(r) && r.von <= d && d <= r.bis);
+  const relOn = (key, d) => S.releases.find((r) => r.key === key && r.aktiv && r.von <= d && d <= r.bis);
+  const bookable = (rel) => rel.aktiv && (!rel.ab || rel.ab <= TODAY);
+
+  function status(s, d) {
+    if (s.meta.type === "fest") return "fest";
+    if (s.meta.type === "gesperrt") return "gesperrt";
+    if (!ownerOn(s.key, d)) return "unklar";
+    const rel = relOn(s.key, d);
+    if (!rel) return "aus";
+    const r = resOn(s.key, d);
+    if (r) return r.status === "bestaetigt" ? "belegt" : "angefragt";
+    if (!bookable(rel)) return "geplant";
+    if (d < TODAY) return "aus";
+    return "frei";
+  }
+  function freeUntil(s, d) {
+    const rel = relOn(s.key, d); if (!rel) return d; let e = d;
+    while (add(e, 1) <= rel.bis && !resOn(s.key, add(e, 1))) e = add(e, 1);
+    return e;
+  }
+  function segments(rel) {
+    const segs = []; let cur = null;
+    for (let d = rel.von < TODAY ? TODAY : rel.von; d <= rel.bis; d = add(d, 1)) {
+      const free = !resOn(rel.key, d);
+      if (free) { if (!cur) cur = { von: d, bis: d }; else cur.bis = d; } else if (cur) { segs.push(cur); cur = null; }
+    }
+    if (cur) segs.push(cur);
+    return segs;
+  }
+  const mySpots = () => SP.filter((s) => s.meta.type === "miete" && (ownerOn(s.key, TODAY) === S.me || S.assign.some((a) => a.key === s.key && a.personId === S.me && a.ab > TODAY)));
+  const pendingFor = (pid) => S.res.filter((r) => r.status === "angefragt" && ownerOn(r.key, r.von) === pid);
+
+  function housekeeping() {
+    const now = Date.now(), lim = S.config.rules.fristStd * 36e5;
+    S.res.forEach((r) => {
+      if (r.status === "angefragt" && now - r.created > lim) {
+        r.status = S.config.rules.nachFrist === "auto" ? "bestaetigt" : "verfallen";
+        notify(r.personId, "Ihre Anfrage für Platz " + spot(r.key)?.label + " (" + rng(r.von, r.bis) + ") wurde " + (r.status === "bestaetigt" ? "automatisch bestätigt." : "nicht rechtzeitig beantwortet und ist verfallen."));
+      }
+      if (r.status === "bestaetigt" && r.bis < TODAY) r.status = "beendet";
+    });
+  }
+
+  // ================= Benachrichtigung (simuliert) =================
+  function notify(to, text) {
+    text = text.replace(/\.\.(?=$|\s)/g, ".");
+    S.notes.unshift({ id: uid("n"), to, text, time: Date.now(), read: false });
+    if (to !== S.me && S.config.notify.push) toast("Push an " + pname(to) + " gesendet: „" + text + "“");
+  }
+  let toastT;
+  function toast(t) {
+    clearTimeout(toastT); let el = document.querySelector(".toast"); if (!el) { el = document.createElement("div"); el.className = "toast"; el.setAttribute("role", "status"); document.body.append(el); }
+    el.textContent = t; toastT = setTimeout(() => el.remove(), 4200);
+  }
+
+  // ================= Render =================
+  const STXT = { frei: "frei", angefragt: "angefragt", belegt: "belegt", fest: "Festplatz", aus: "Inhaber nutzt", geplant: "geplant", gesperrt: "gesperrt", unklar: "ohne Mieter" };
+  const CHIP = { angefragt: "offen", bestaetigt: "bestätigt", abgelehnt: "abgelehnt", storniert: "storniert", verfallen: "verfallen", beendet: "beendet" };
+
+  function applyBrand() {
+    document.documentElement.style.setProperty("--brand", S.config.color);
+    document.title = S.config.appName || "ParkPause";
+  }
+
+  function render() {
+    SP = allSpots(); housekeeping(); applyBrand(); save();
+    const u = me(); const unread = S.notes.filter((n) => n.to === S.me && !n.read).length;
+    const own = mySpots().length > 0; const pend = pendingFor(S.me).length;
+    if (S.tab === "mein" && !own) S.tab = "plan"; if (S.tab === "admin" && !isAdmin()) S.tab = "plan";
+    const tabs = [["plan", "Lageplan"], ["frei", "Jetzt frei"], ["meine", "Meine Reservierungen"]];
+    if (own) tabs.push(["mein", "Mein Platz" + (pend ? `<span class="count">${pend}</span>` : "")]);
+    tabs.push(["inbox", "Mitteilungen" + (unread ? `<span class="count">${unread}</span>` : "")]);
+    if (isAdmin()) tabs.push(["admin", "Admin"]);
+    const hintOwner = pendingFor("p24").length ? pname("p24") : null;
+    $("app").innerHTML = `
+      <header class="top">
+        <div class="brand">${S.config.logo ? `<img src="${esc(S.config.logo)}" alt="Logo">` : `<div class="appicon" aria-hidden="true">P</div>`}
+          <div><h1>${esc(S.config.appName)}</h1><p class="muted small">Tiefgarage · ${SP.length} Stellplätze · ${S.levels.length} ${S.levels.length === 1 ? "Ebene" : "Ebenen"}</p></div></div>
+        <div class="who">
+          <label class="field"><span class="label">Angemeldet als (Demo)</span>
+            <select id="whoSel">${S.persons.map((p) => `<option value="${p.id}" ${p.id === S.me ? "selected" : ""}>${esc(p.vorname + " " + p.nachname)} · ${esc(p.abt)}${p.admin ? " · Admin" : ""}${SP.some((s) => ownerOn(s.key, TODAY) === p.id) ? " · hat Platz" : ""}</option>`).join("")}</select></label>
+        </div>
+      </header>
+      <div class="demo"><span><b>Prototyp mit Beispieldaten.</b> Namen sind erfunden, Push und E-Mail werden nur simuliert, gespeichert wird nur in diesem Browser.</span>
+        ${hintOwner ? `<button class="sm" data-act="as" data-id="p24">Als ${esc(hintOwner)} ansehen (offene Anfrage)</button>` : ""}
+        <button class="sm" data-act="as" data-id="padmin">Als Petra ansehen (Admin)</button>
+        <button class="sm" data-act="as" data-id="p79">Als ${esc(pname("p79"))} ansehen (ohne Platz)</button></div>
+      <nav class="tabs" aria-label="Bereiche">${tabs.map(([k, t]) => `<button data-act="tab" data-id="${k}" ${S.tab === k ? 'aria-current="page"' : ""}>${t}</button>`).join("")}</nav>
+      <main id="view"></main>`;
+    $("whoSel").onchange = (e) => { S.me = e.target.value; S.tab = "plan"; render(); };
+    const v = $("view");
+    ({ plan: viewPlan, frei: viewFree, meine: viewMine, mein: viewOwner, inbox: viewInbox, admin: viewAdmin })[S.tab](v);
+  }
+
+  // ---------- Lageplan ----------
+  function viewPlan(v) {
+    const L = S.levels.find((l) => l.id === S.level) || S.levels[0]; S.level = L.id;
+    const d = S.viewDate < TODAY ? TODAY : S.viewDate;
+    const cnt = {}; SP.forEach((s) => { const st = status(s, d); cnt[st] = (cnt[st] || 0) + 1; });
+    const room = (R) => {
+      const ss = SP.filter((s) => s.L.id === L.id && s.R.id === R.id);
+      const top = Math.ceil(ss.length / 2);
+      const tile = (s) => {
+        const st = status(s, d); const o = ownerOn(s.key, d);
+        let tx = st === "frei" ? "bis " + f(freeUntil(s, d)) : st === "fest" ? s.meta.festLabel || "Festplatz" : st === "unklar" ? "ohne Mieter" : st === "gesperrt" ? "gesperrt" : st === "belegt" ? "belegt" : st === "angefragt" ? "angefragt" : (S.config.showNames ? pname(o) : "vermietet");
+        const mine = o === S.me ? " mine" : ""; const dim = S.filterFree && st !== "frei" ? " dim" : "";
+        const tag = s.meta.merkmal === "E-Laden" ? "⚡" : s.meta.merkmal === "breit" ? "↔" : s.meta.merkmal === "Motorrad" ? "M" : "";
+        return `<button class="spot ${st}${mine}${dim}" data-act="spot" data-id="${s.key}" aria-label="Platz ${esc(s.label)}, ${STXT[st]}${st === "frei" ? " bis " + f(freeUntil(s, d)) : ""}">
+          <span class="nr">${esc(s.label)}</span><span class="led" aria-hidden="true"></span><span class="tx">${esc(tx)}</span>${tag ? `<span class="tag" aria-hidden="true">${tag}</span>` : ""}</button>`;
+      };
+      const free = ss.filter((s) => status(s, d) === "frei").length;
+      return `<section class="room"><div class="roomhead"><h3>${esc(R.name)}</h3><span class="small muted">${ss.length} Plätze · <b style="color:var(--led-free)">${free} frei</b></span></div>
+        <div class="roomscroll"><div class="roominner">
+          <div class="srow top">${ss.slice(0, top).map(tile).join("")}</div>
+          <div class="lane"><span>Fahrgasse</span></div>
+          <div class="srow bottom">${ss.slice(top).map(tile).join("")}</div>
+        </div></div></section>`;
+    };
+    v.innerHTML = `<div style="display:grid;gap:14px">
+      <div class="planbar">
+        <div class="leveltabs" role="group" aria-label="Ebene">${S.levels.map((l) => `<button data-act="level" data-id="${l.id}" aria-pressed="${l.id === L.id}">${esc(l.name)}</button>`).join("")}</div>
+        <div class="row">
+          <label class="field"><span class="label">Tag anzeigen</span><input type="date" id="viewDate" min="${TODAY}" value="${d}"></label>
+          <label class="check" style="padding-bottom:8px"><input type="checkbox" id="onlyFree" ${S.filterFree ? "checked" : ""}> Nur freie Plätze</label>
+        </div>
+      </div>
+      <div class="summary"><span>Alle Ebenen:</span>
+        <span><i class="dot" style="background:var(--led-free);box-shadow:0 0 6px var(--led-free)"></i><b>${cnt.frei || 0}</b> frei</span>
+        <span><i class="dot" style="background:var(--led-req)"></i><b>${cnt.angefragt || 0}</b> angefragt</span>
+        <span><i class="dot" style="background:var(--led-busy)"></i><b>${cnt.belegt || 0}</b> vom Gast belegt</span>
+        <span><i class="dot" style="background:var(--led-off)"></i><b>${(cnt.aus || 0) + (cnt.geplant || 0)}</b> Inhaber nutzt</span>
+        <span><i class="dot" style="background:var(--led-fix)"></i><b>${cnt.fest || 0}</b> Festplätze</span>
+        ${cnt.unklar || cnt.gesperrt ? `<span><i class="dot" style="background:repeating-linear-gradient(135deg,var(--led-off) 0 2px,transparent 2px 4px);border:1px solid var(--led-off)"></i><b>${(cnt.unklar || 0) + (cnt.gesperrt || 0)}</b> ohne Mieter / gesperrt</span>` : ""}
+        <span>Stand: ${fw(d)}</span>
+      </div>
+      <div class="rooms">${L.rooms.map(room).join("") || `<div class="empty">Diese Ebene hat noch keine Räume. Im Admin-Bereich unter „Garage“ anlegen.</div>`}</div>
+      <p class="small muted">Tippe auf einen grünen Platz, um ihn zu reservieren. ⚡ = E-Ladeplatz, ↔ = breiter Platz. Dein eigener Platz ist umrandet.</p>
+    </div>`;
+    $("viewDate").onchange = (e) => { if (isDate(e.target.value)) { S.viewDate = e.target.value; render(); } };
+    $("onlyFree").onchange = (e) => { S.filterFree = e.target.checked; render(); };
+  }
+
+  // ---------- Jetzt frei ----------
+  function viewFree(v) {
+    const now = SP.filter((s) => status(s, TODAY) === "frei");
+    const soon = S.releases.filter((r) => bookable(r) && r.bis >= TODAY && spot(r.key)).flatMap((r) => segments(r).map((g) => ({ ...g, r })))
+      .filter((g) => g.von > TODAY).sort((a, b) => a.von.localeCompare(b.von));
+    const where = (s) => esc(s.L.name + " · " + s.R.name);
+    v.innerHTML = `<div class="cols">
+      <section class="panel"><h2>Heute frei</h2><div class="list">${now.length ? now.map((s) => `<div class="item"><div><div class="t">Platz ${esc(s.label)}</div><div class="m">${where(s)} · frei bis ${fw(freeUntil(s, TODAY))}${s.meta.merkmal ? " · " + esc(s.meta.merkmal) : ""}</div></div><div class="a"><button class="primary sm" data-act="spot" data-id="${s.key}">Reservieren</button></div></div>`).join("") : `<div class="empty">Heute ist kein Platz freigegeben. Schau unter „Demnächst frei“.</div>`}</div></section>
+      <section class="panel"><h2>Demnächst frei</h2><div class="list">${soon.length ? soon.map((g) => { const s = spot(g.r.key); return `<div class="item"><div><div class="t">${rng(g.von, g.bis)} · Platz ${esc(s.label)}</div><div class="m">${where(s)} · ${days(g.von, g.bis)} Tage</div></div><div class="a"><button class="sm" data-act="spot" data-id="${s.key}" data-day="${g.von}">Ansehen</button></div></div>`; }).join("") : `<div class="empty">Keine weiteren Freigaben eingetragen.</div>`}</div></section>
+    </div>`;
+  }
+
+  // ---------- Meine Reservierungen ----------
+  function viewMine(v) {
+    const list = S.res.filter((r) => r.personId === S.me).sort((a, b) => b.von.localeCompare(a.von));
+    v.innerHTML = `<section class="panel"><h2>Meine Reservierungen</h2><div class="list">${list.length ? list.map((r) => { const s = spot(r.key); return `<div class="item"><div>
+      <div class="t">${rng(r.von, r.bis)} · Platz ${esc(s?.label || "?")} <span class="chip ${r.status}">${CHIP[r.status]}</span></div>
+      <div class="m">${s ? esc(s.L.name + " · " + s.R.name) : ""} · Inhaber ${esc(pname(ownerOn(r.key, r.von)))} · ${esc(r.kennz)}</div></div>
+      <div class="a">${liveRes(r) && r.bis >= TODAY ? `<button class="sm danger" data-act="storno" data-id="${r.id}">Stornieren</button>` : ""}</div></div>`; }).join("") : `<div class="empty">Noch keine Reservierungen. Wähle im Lageplan einen grünen Platz.</div>`}</div></section>`;
+  }
+
+  // ---------- Mein Platz (Inhaber) ----------
+  function viewOwner(v) {
+    const spots = mySpots();
+    v.innerHTML = spots.map((s) => {
+      const rels = S.releases.filter((r) => r.key === s.key && r.ownerId === S.me && r.bis >= TODAY).sort((a, b) => a.von.localeCompare(b.von));
+      const reqs = S.res.filter((r) => r.key === s.key && ownerOn(r.key, r.von) === S.me && r.bis >= TODAY && r.status !== "beendet").sort((a, b) => (a.status === "angefragt" ? -1 : 1) - (b.status === "angefragt" ? -1 : 1) || a.von.localeCompare(b.von));
+      const fromMe = ownerOn(s.key, TODAY) !== S.me ? S.assign.find((a) => a.key === s.key && a.personId === S.me).ab : null;
+      const nc = nextChange(s.key);
+      return `<div class="cols" style="margin-bottom:16px">
+        <section class="panel">
+          <div><span class="label">Mein Stellplatz</span><h2>Platz ${esc(s.label)} <span class="small muted" style="font-family:var(--body);font-weight:500">${esc(s.L.name + " · " + s.R.name)}</span></h2>
+          ${fromMe ? `<p class="msg ok">Du übernimmst diesen Platz ab ${fw(fromMe)}.</p>` : ""}
+          ${nc && nc.personId !== S.me ? `<p class="msg err">Ab ${fw(nc.ab)} übernimmt ${esc(pname(nc.personId))} diesen Platz.</p>` : ""}</div>
+          ${reqs.filter((r) => r.status === "angefragt").map((r) => `<div class="item" style="border-color:var(--led-req);background:var(--warn-bg)"><div class="push"><div class="appicon" aria-hidden="true">P</div><div>
+            <div class="t">${esc(pfull(r.personId))} möchte ${rng(r.von, r.bis)}</div>
+            <div class="m">${esc(P(r.personId)?.abt)} · ${esc(r.kennz)} · ${days(r.von, r.bis)} Tage${r.msg ? " · „" + esc(r.msg) + "“" : ""}</div></div></div>
+            <div class="a"><button class="ok sm" data-act="approve" data-id="${r.id}">Freischalten</button><button class="sm danger" data-act="decline" data-id="${r.id}">Ablehnen</button></div></div>`).join("")}
+          <h3>Platz freigeben</h3>
+          <form class="list" data-form="release" data-key="${s.key}">
+            <div class="row">
+              <label class="field"><span class="label">Von</span><input type="date" name="von" min="${TODAY}" required></label>
+              <label class="field"><span class="label">Bis</span><input type="date" name="bis" min="${TODAY}" required></label>
+              <label class="field"><span class="label">Grund (nur für dich)</span><select name="grund"><option>Urlaub</option><option>Krank</option><option>Dienstreise</option><option>Homeoffice</option><option>Sonstiges</option></select></label>
+            </div>
+            <div class="row"><label class="check"><input type="checkbox" name="useAb"> Erst ab Datum reservierbar machen</label>
+              <label class="field" style="flex:0 1 180px"><span class="label">Reservierbar ab</span><input type="date" name="ab" min="${TODAY}"></label></div>
+            <div class="row"><button class="primary" type="submit">Zeitraum freigeben</button><span class="msg" data-out></span></div>
+          </form>
+        </section>
+        <section class="panel">
+          <h3>Meine Freigaben</h3>
+          <div class="list">${rels.length ? rels.map((r) => { const st = !r.aktiv ? "pausiert" : r.ab && r.ab > TODAY ? "geplant" : "aktiv";
+            const booked = S.res.filter((x) => x.relId === r.id && x.status === "bestaetigt").reduce((n, x) => n + days(x.von, x.bis), 0);
+            return `<div class="item"><div><div class="t">${rng(r.von, r.bis)} <span class="chip ${st}">${st === "geplant" ? "ab " + f(r.ab) : st}</span></div>
+              <div class="m">${esc(r.grund)} · ${days(r.von, r.bis)} Tage · ${booked} vergeben</div></div>
+              <div class="a"><label class="check small"><input type="checkbox" data-act="toggleRel" data-id="${r.id}" ${r.aktiv ? "checked" : ""}> aktiv</label>
+              <button class="sm" data-act="shortenRel" data-id="${r.id}">Früher zurück</button>
+              <button class="sm danger" data-act="delRel" data-id="${r.id}">Löschen</button></div></div>`; }).join("") : `<div class="empty">Keine Freigaben. Trag deinen nächsten Urlaub links ein, auch mehrere im Voraus.</div>`}</div>
+          <h3>Gäste auf meinem Platz</h3>
+          <div class="list">${reqs.filter((r) => r.status === "bestaetigt").map((r) => `<div class="item"><div><div class="t">${rng(r.von, r.bis)} · ${esc(pname(r.personId))}</div><div class="m">${esc(P(r.personId)?.abt)} · ${esc(r.kennz)}</div></div></div>`).join("") || `<div class="empty">Noch keine bestätigten Gäste.</div>`}</div>
+        </section></div>`;
+    }).join("");
+  }
+
+  // ---------- Mitteilungen ----------
+  function viewInbox(v) {
+    const list = S.notes.filter((n) => n.to === S.me);
+    v.innerHTML = `<section class="panel"><div class="row" style="justify-content:space-between"><h2>Mitteilungen</h2><span class="small muted">So sehen Push-Nachrichten auf dem Handy aus.</span></div>
+      <div class="list">${list.length ? list.map((n) => `<div class="item" style="${n.read ? "" : "border-color:var(--brand)"}"><div class="push"><div class="appicon" aria-hidden="true">P</div><div>
+        <div class="m">${esc(S.config.appName)} · ${new Date(n.time).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</div><div>${esc(n.text)}</div></div></div></div>`).join("") : `<div class="empty">Keine Mitteilungen.</div>`}</div></section>`;
+    list.forEach((n) => (n.read = true)); save();
+  }
+
+  // ---------- Admin ----------
+  function viewAdmin(v) {
+    const t = S.adminTab; const tabs = [["garage", "Garage"], ["plaetze", "Plätze & Mieter"], ["leute", "Belegschaft"], ["design", "Erscheinungsbild"], ["regeln", "Regeln"], ["push", "Push & E-Mail"], ["db", "Datenbank"]];
+    v.innerHTML = `<div style="display:grid;gap:14px"><div class="subtabs">${tabs.map(([k, n]) => `<button class="sm" data-act="atab" data-id="${k}" aria-pressed="${t === k}">${n}</button>`).join("")}</div><div id="adm"></div></div>`;
+    ({ garage: admGarage, plaetze: admSpots, leute: admPeople, design: admDesign, regeln: admRules, push: admPush, db: admDb })[t]($("adm"));
+  }
+
+  let draft = null; // Garage-Entwurf
+  function admGarage(el) {
+    if (!draft) draft = JSON.parse(JSON.stringify(S.levels));
+    const total = draft.reduce((n, L) => n + L.rooms.reduce((m, R) => m + (Number(R.count) || 0), 0), 0);
+    el.innerHTML = `<section class="panel"><h2>Aufbau der Garage</h2>
+      <p class="muted">Lege fest, wie viele Ebenen und Räume es gibt und wie viele Plätze jeder Raum hat. Die Platznummern entstehen automatisch nach dem gewählten Schema.</p>
+      <div class="row">
+        <label class="field" style="flex:0 1 160px"><span class="label">Anzahl Ebenen</span><input type="number" min="1" max="8" id="gLevels" value="${draft.length}"></label>
+        <label class="field"><span class="label">Nummernschema</span><select id="gScheme">
+          <option value="ebene-raum" ${S.config.scheme === "ebene-raum" ? "selected" : ""}>Ebene + Raum + Platz (U1A-07)</option>
+          <option value="ebene" ${S.config.scheme === "ebene" ? "selected" : ""}>Ebene + fortlaufend (U1-31)</option>
+          <option value="fortlaufend" ${S.config.scheme === "fortlaufend" ? "selected" : ""}>Durchgehend (1–${total})</option></select></label>
+      </div>
+      ${draft.map((L, li) => `<div class="levelcfg"><div class="row">
+          <label class="field" style="flex:0 1 110px"><span class="label">Kürzel</span><input data-g="L.kz" data-li="${li}" value="${esc(L.kz)}" maxlength="4"></label>
+          <label class="field"><span class="label">Name der Ebene</span><input data-g="L.name" data-li="${li}" value="${esc(L.name)}" maxlength="30"></label>
+          <label class="field" style="flex:0 1 140px"><span class="label">Anzahl Räume</span><input type="number" min="0" max="12" data-g="L.rooms" data-li="${li}" value="${L.rooms.length}"></label></div>
+        ${L.rooms.map((R, ri) => `<div class="roomcfg">
+          <label class="field"><span class="label">Raum-Kürzel</span><input data-g="R.kz" data-li="${li}" data-ri="${ri}" value="${esc(R.kz)}" maxlength="3"></label>
+          <label class="field"><span class="label">Raumname</span><input data-g="R.name" data-li="${li}" data-ri="${ri}" value="${esc(R.name)}" maxlength="30"></label>
+          <label class="field"><span class="label">Plätze</span><input type="number" min="0" max="200" data-g="R.count" data-li="${li}" data-ri="${ri}" value="${R.count}"></label>
+          <span class="small muted">${L.kz}${R.kz}-01 … ${L.kz}${R.kz}-${pad(R.count || 0)}</span></div>`).join("")}</div>`).join("")}
+      <div class="row"><b style="font-family:var(--display);font-size:1.3rem">${total} Plätze gesamt</b>
+        <button class="primary" data-act="gApply">Aufbau übernehmen</button><button data-act="gReset">Verwerfen</button><span class="msg" id="gMsg"></span></div>
+    </section>`;
+    const sync = (e) => {
+      const g = e.target.dataset.g; if (!g) return; const L = draft[e.target.dataset.li]; const val = e.target.value;
+      if (g === "L.kz") L.kz = val.trim(); else if (g === "L.name") L.name = val;
+      else if (g === "L.rooms") { const n = Math.max(0, Math.min(12, Number(val) || 0)); while (L.rooms.length < n) L.rooms.push({ id: uid("R"), kz: String.fromCharCode(65 + L.rooms.length), name: "Raum " + String.fromCharCode(65 + L.rooms.length), count: 10 }); L.rooms.length = n; admGarage(el); }
+      else { const R = L.rooms[e.target.dataset.ri]; if (g === "R.kz") R.kz = val.trim(); else if (g === "R.name") R.name = val; else R.count = Math.max(0, Math.min(200, Number(val) || 0)); if (e.type === "change") admGarage(el); }
+    };
+    el.querySelectorAll("[data-g]").forEach((i) => { i.addEventListener("input", sync); i.addEventListener("change", sync); });
+    $("gLevels").onchange = (e) => { const n = Math.max(1, Math.min(8, Number(e.target.value) || 1));
+      while (draft.length < n) { const k = draft.length + 1; draft.push({ id: uid("L"), kz: "U" + k, name: "Ebene −" + k, rooms: [{ id: uid("R"), kz: "A", name: "Raum A", count: 10 }] }); }
+      draft.length = n; admGarage(el); };
+    $("gScheme").onchange = (e) => { S.config.scheme = e.target.value; save(); SP = allSpots(); toast("Nummernschema geändert"); };
+  }
+  let applyArmed = false;
+  function applyGarage() {
+    const newKeys = new Set(); draft.forEach((L) => L.rooms.forEach((R) => { for (let i = 1; i <= R.count; i++) newKeys.add(L.id + "|" + R.id + "|" + i); }));
+    const gone = SP.filter((s) => !newKeys.has(s.key));
+    const affected = gone.filter((s) => S.assign.some((a) => a.key === s.key) || S.releases.some((r) => r.key === s.key));
+    if (affected.length && !applyArmed) { applyArmed = true; $("gMsg").className = "msg err"; $("gMsg").textContent = affected.length + " Plätze mit Mietern oder Freigaben fallen weg. Zum Bestätigen nochmal klicken."; return; }
+    applyArmed = false;
+    const goneKeys = new Set(gone.map((s) => s.key));
+    S.assign = S.assign.filter((a) => !goneKeys.has(a.key)); S.releases = S.releases.filter((r) => !goneKeys.has(r.key));
+    S.res.forEach((r) => { if (goneKeys.has(r.key) && liveRes(r)) { r.status = "storniert"; notify(r.personId, "Ihre Reservierung wurde storniert, weil der Platz nicht mehr existiert."); } });
+    goneKeys.forEach((k) => delete S.meta[k]);
+    S.levels = draft; draft = null; if (!S.levels.some((l) => l.id === S.level)) S.level = S.levels[0].id;
+    toast("Garagenaufbau übernommen"); render();
+  }
+
+  let spotFilter = "";
+  function admSpots(el) {
+    const people = [...S.persons].sort((a, b) => a.vorname.localeCompare(b.vorname));
+    const opts = (sel) => `<option value="">— ohne Mieter —</option>` + people.map((p) => `<option value="${p.id}" ${p.id === sel ? "selected" : ""}>${esc(p.vorname + " " + p.nachname)}</option>`).join("");
+    const rows = SP.filter((s) => !spotFilter || s.L.id === spotFilter);
+    el.innerHTML = `<section class="panel"><div class="row" style="justify-content:space-between"><h2>Plätze & Mieter</h2>
+      <label class="field" style="flex:0 1 200px"><span class="label">Ebene</span><select id="spFilter"><option value="">Alle Ebenen</option>${S.levels.map((l) => `<option value="${l.id}" ${spotFilter === l.id ? "selected" : ""}>${esc(l.name)}</option>`).join("")}</select></label></div>
+      <p class="muted small">Mieter ändern = Korrektur ab sofort. Für einen Wechsel zu einem Stichtag „Wechsel ab …“ nutzen.</p>
+      <div class="tablewrap" style="max-height:620px"><table><thead><tr><th>Platz</th><th>Ebene / Raum</th><th>Typ</th><th>Merkmal</th><th>Mieter heute</th><th>Besitzerwechsel</th></tr></thead><tbody>
+      ${rows.map((s) => { const o = ownerOn(s.key, TODAY); const nc = nextChange(s.key); return `<tr>
+        <td><b>${esc(s.label)}</b></td><td>${esc(s.L.name + " · " + s.R.name)}</td>
+        <td><select data-sp="type" data-id="${s.key}">${["miete", "fest", "gesperrt"].map((t) => `<option value="${t}" ${s.meta.type === t ? "selected" : ""}>${{ miete: "vermietet", fest: "Festplatz", gesperrt: "gesperrt" }[t]}</option>`).join("")}</select>
+          ${s.meta.type === "fest" ? `<input data-sp="festLabel" data-id="${s.key}" value="${esc(s.meta.festLabel || "")}" placeholder="z. B. Vorstand" style="width:120px">` : ""}</td>
+        <td><select data-sp="merkmal" data-id="${s.key}">${["", "E-Laden", "breit", "Motorrad"].map((m) => `<option value="${m}" ${(s.meta.merkmal || "") === m ? "selected" : ""}>${m || "—"}</option>`).join("")}</select></td>
+        <td>${s.meta.type === "miete" ? `<select data-sp="owner" data-id="${s.key}">${opts(o)}</select>` : `<span class="muted">${esc(s.meta.type === "fest" ? s.meta.festLabel || "Festplatz" : "—")}</span>`}</td>
+        <td>${s.meta.type !== "miete" ? "" : nc ? `<span class="chip geplant">ab ${f(nc.ab)}: ${esc(pname(nc.personId))}</span> <button class="sm danger" data-act="undoChange" data-id="${s.key}">Zurücknehmen</button>` : `<button class="sm" data-act="change" data-id="${s.key}">Wechsel ab …</button>`}</td></tr>`; }).join("")}
+      </tbody></table></div></section>`;
+    $("spFilter").onchange = (e) => { spotFilter = e.target.value; admSpots(el); };
+    el.querySelectorAll("[data-sp]").forEach((i) => i.addEventListener("change", (e) => {
+      const k = e.target.dataset.id, what = e.target.dataset.sp; const m = S.meta[k] = { ...(S.meta[k] || { type: "miete" }) };
+      if (what === "owner") {
+        const cur = S.assign.filter((a) => a.key === k && a.ab <= TODAY).sort((a, b) => b.ab.localeCompare(a.ab))[0];
+        if (cur) cur.personId = e.target.value || null; else S.assign.push({ key: k, personId: e.target.value || null, ab: TODAY });
+        toast("Mieter von " + spot(k).label + " korrigiert");
+      } else { m[what] = e.target.value; if (what === "type") { if (m.type === "fest" && !m.festLabel) m.festLabel = "Festplatz"; admSpots(el); } }
+      save(); SP = allSpots();
+    }));
+  }
+
+  function admPeople(el) {
+    const withSpot = new Set(SP.map((s) => ownerOn(s.key, TODAY)).filter(Boolean));
+    el.innerHTML = `<section class="panel"><h2>Belegschaft</h2>
+      <div class="kpi"><div><span class="label">Personen</span><b>${S.persons.length}</b></div><div><span class="label">mit Platz</span><b>${withSpot.size}</b></div><div><span class="label">ohne Platz</span><b>${S.persons.length - withSpot.size}</b></div></div>
+      <p class="muted small">Im Pilot kommt die Liste automatisch aus dem Verzeichnis (Microsoft Entra ID / AD). Hier zum Testen von Hand:</p>
+      <form data-form="person" class="row">
+        <label class="field"><span class="label">Vorname</span><input name="vn" required maxlength="30"></label>
+        <label class="field"><span class="label">Nachname</span><input name="nn" maxlength="30"></label>
+        <label class="field"><span class="label">Abteilung</span><input name="abt" maxlength="40"></label>
+        <label class="check" style="padding-bottom:8px"><input type="checkbox" name="admin"> Admin</label>
+        <button class="primary" type="submit">Hinzufügen</button></form>
+      <div class="tablewrap" style="max-height:460px"><table><thead><tr><th>Name</th><th>Abteilung</th><th>Platz heute</th><th>Admin</th></tr></thead><tbody>
+      ${S.persons.map((p) => { const s = SP.find((x) => ownerOn(x.key, TODAY) === p.id); return `<tr><td>${esc(p.vorname + " " + p.nachname)}</td><td>${esc(p.abt)}</td><td>${s ? esc(s.label) : '<span class="muted">—</span>'}</td><td><input type="checkbox" data-act="padmin" data-id="${p.id}" ${p.admin ? "checked" : ""} ${p.id === S.me ? "disabled" : ""} aria-label="Admin"></td></tr>`; }).join("")}
+      </tbody></table></div></section>`;
+  }
+
+  function admDesign(el) {
+    const presets = [["#1F4E8C", "Blau"], ["#C8102E", "Rot"], ["#0E6E73", "Petrol"], ["#2E7D32", "Grün"], ["#37424D", "Anthrazit"]];
+    el.innerHTML = `<div class="cols"><section class="panel"><h2>Erscheinungsbild</h2>
+      <label class="field"><span class="label">App-Name</span><input id="dName" value="${esc(S.config.appName)}" maxlength="24"></label>
+      <div class="field"><span class="label">Hausfarbe</span><div class="swatches">${presets.map(([c, n]) => `<button data-act="color" data-id="${c}" style="background:${c}" aria-label="${n}" title="${n}"></button>`).join("")}<input type="color" id="dColor" value="${S.config.color}" aria-label="Eigene Farbe"></div></div>
+      <div class="field"><span class="label">Logo (SVG oder PNG, höchstens 300 KB)</span><input type="file" id="dLogo" accept="image/svg+xml,image/png,image/jpeg">
+        ${S.config.logo ? `<button class="sm danger" data-act="logoDel" style="justify-self:start">Logo entfernen</button>` : ""}<span class="msg" id="dMsg"></span></div>
+      <p class="small muted">Das Sparkassen-„S“ und Sparkassen-Rot sind geschützte Marken. Logo erst nach Freigabe durch Marketing bzw. Kommunikation hochladen.</p>
+      <label class="check"><input type="checkbox" id="dNames" ${S.config.showNames ? "checked" : ""}> Vornamen der Inhaber im Lageplan zeigen</label>
+      <button class="primary" data-act="designSave" style="justify-self:start">Speichern</button></section>
+      <section class="panel"><h2>Install-Icon</h2><p class="muted small">So erscheint die App auf dem Startbildschirm.</p>
+        <div class="row" style="align-items:center;gap:24px">
+          <div style="display:grid;gap:6px;justify-items:center"><div class="appicon" style="width:96px;height:96px;font-size:4rem;border-radius:22px"></div><span class="small">${esc(S.config.appName)}</span></div>
+          <div style="display:grid;gap:6px;justify-items:center"><div class="appicon"></div><span class="small">klein</span></div></div></section></div>`;
+    el.querySelectorAll(".appicon").forEach((a) => (a.textContent = "P"));
+    $("dColor").oninput = (e) => document.documentElement.style.setProperty("--brand", e.target.value);
+    $("dLogo").onchange = (e) => {
+      const file = e.target.files[0]; if (!file) return;
+      if (file.size > 300 * 1024) { $("dMsg").className = "msg err"; $("dMsg").textContent = "Die Datei ist größer als 300 KB. Bitte verkleinern."; return; }
+      const r = new FileReader(); r.onload = () => { S.config.logo = r.result; save(); render(); toast("Logo übernommen"); }; r.readAsDataURL(file);
+    };
+  }
+
+  function admRules(el) {
+    const R = S.config.rules;
+    el.innerHTML = `<section class="panel" style="max-width:720px"><h2>Regeln</h2>
+      <div class="row"><label class="field"><span class="label">Frist für Inhaber (Stunden)</span><input type="number" id="rFrist" min="1" max="168" value="${R.fristStd}"></label>
+        <label class="field"><span class="label">Nach Ablauf der Frist</span><select id="rNach"><option value="verfallen" ${R.nachFrist === "verfallen" ? "selected" : ""}>Anfrage verfällt</option><option value="auto" ${R.nachFrist === "auto" ? "selected" : ""}>automatisch bestätigen</option></select></label></div>
+      <div class="row"><label class="field"><span class="label">Höchstdauer einer Reservierung (Tage)</span><input type="number" id="rMax" min="1" max="365" value="${R.maxTage}"></label>
+        <label class="field"><span class="label">Reservieren höchstens … Tage im Voraus</span><input type="number" id="rVor" min="1" max="365" value="${R.vorlauf}"></label></div>
+      <button class="primary" data-act="rulesSave" style="justify-self:start">Speichern</button></section>`;
+  }
+
+  function admPush(el) {
+    const N = S.config.notify;
+    el.innerHTML = `<div class="cols"><section class="panel"><h2>Push</h2>
+      <label class="check"><input type="checkbox" id="nPush" ${N.push ? "checked" : ""}> Push-Nachrichten senden</label>
+      <p class="small muted">Im Pilot erzeugt der Server einmalig ein Schlüsselpaar (VAPID). Der private Schlüssel bleibt auf dem Server, er wird hier nie angezeigt.</p>
+      <button disabled>Schlüssel erzeugen (ab Pilot)</button></section>
+      <section class="panel"><h2>E-Mail</h2>
+      <label class="check"><input type="checkbox" id="nMail" ${N.mail ? "checked" : ""}> Zusätzlich E-Mail senden</label>
+      <div class="row"><label class="field"><span class="label">Mailserver (SMTP)</span><input id="nHost" value="${esc(N.smtpHost)}" placeholder="mail.intern.example"></label>
+        <label class="field" style="flex:0 1 100px"><span class="label">Port</span><input id="nPort" type="number" value="${N.smtpPort}"></label></div>
+      <label class="field"><span class="label">Absender</span><input id="nFrom" value="${esc(N.smtpFrom)}" placeholder="parkpause@…"></label>
+      <p class="small muted">Das Passwort wird nur auf dem Server hinterlegt, nicht in der App.</p>
+      <div class="row"><button class="primary" data-act="pushSave">Speichern</button><button disabled>Test-Mail senden (ab Pilot)</button></div></section></div>`;
+  }
+
+  function admDb(el) {
+    el.innerHTML = `<section class="panel" style="max-width:720px"><h2>Datenbank</h2>
+      <label class="field"><span class="label">Datenquelle</span><select id="dbSel">
+        ${[["demo", "Demo-Speicher (nur dieser Browser)"], ["postgres", "PostgreSQL"], ["mssql", "Microsoft SQL Server"], ["sqlite", "SQLite (Test)"]].map(([k, n]) => `<option value="${k}" ${S.config.db === k ? "selected" : ""}>${n}</option>`).join("")}</select></label>
+      <p class="small">Status: <b>${S.config.db === "demo" ? "verbunden mit Demo-Speicher" : "nicht verbunden"}</b>${S.config.db !== "demo" ? " – im Prototyp gibt es keinen Server. Ab Pilot trägt die IT hier Host und Datenbank ein, Zugangsdaten liegen nur auf dem Server." : ""}</p>
+      <div class="row"><button data-act="dbSave" class="primary">Speichern</button><button data-act="reset" class="danger">Demo zurücksetzen</button><span class="msg" id="dbMsg"></span></div></section>`;
+  }
+
+  // ================= Dialoge =================
+  function closeDlg() { $("layer").innerHTML = ""; }
+  function openSpot(key, day) {
+    const s = spot(key); if (!s) return;
+    const d = day || (S.viewDate < TODAY ? TODAY : S.viewDate);
+    const o = ownerOn(key, TODAY); const st = status(s, d);
+    const rels = S.releases.filter((r) => r.key === key && bookable(r) && r.bis >= TODAY).sort((a, b) => a.von.localeCompare(b.von));
+    const segs = rels.flatMap((r) => segments(r).map((g) => ({ ...g, rel: r })));
+    const isOwner = o === S.me;
+    const nc = nextChange(key);
+    let body;
+    if (s.meta.type === "fest") body = `<p>Dieser Platz ist fest vergeben (${esc(s.meta.festLabel || "Festplatz")}) und kann nicht reserviert werden.</p>`;
+    else if (s.meta.type === "gesperrt") body = `<p>Dieser Platz ist gesperrt.</p>`;
+    else if (isOwner) body = `<p>Das ist dein Platz.</p><button class="primary" data-act="tab" data-id="mein">Freigaben verwalten</button>`;
+    else if (!segs.length) body = `<p>Für diesen Platz ist derzeit kein Zeitraum zum Reservieren freigegeben.</p>`;
+    else {
+      const first = segs.find((g) => g.von <= d && d <= g.bis) || segs[0];
+      const max = S.config.rules.maxTage;
+      body = `<form class="list" data-form="reserve" data-key="${key}">
+        <span class="label">Wie lange möchtest du den Platz?</span>
+        <div class="choice">${segs.map((g, i) => `<label><input type="radio" name="mode" value="seg${i}" ${g === first ? "checked" : ""}><span><b>Ganzer freigegebener Zeitraum</b><br><span class="small muted">${fw(g.von)} bis ${fw(g.bis)} · ${days(g.von, g.bis)} Tage${days(g.von, g.bis) > max ? " (länger als erlaubt: " + max + " Tage)" : ""}</span></span></label>`).join("")}
+          <label><input type="radio" name="mode" value="custom"><span><b>Anderen Zeitraum wählen</b><br><span class="small muted">nur Tage innerhalb der Freigabe</span></span></label></div>
+        <div class="row" id="customRow" hidden>
+          <label class="field"><span class="label">Von</span><input type="date" name="von" min="${segs[0].von}" max="${segs.at(-1).bis}" value="${first.von}"></label>
+          <label class="field"><span class="label">Bis</span><input type="date" name="bis" min="${segs[0].von}" max="${segs.at(-1).bis}" value="${first.von}"></label></div>
+        <div class="row"><label class="field"><span class="label">Kennzeichen</span><input name="kennz" maxlength="14" required value="${esc(me()?.kennz || "")}" placeholder="S-AB 1234" style="text-transform:uppercase"></label>
+          <label class="field"><span class="label">Nachricht (optional)</span><input name="msg" maxlength="120" placeholder="z. B. Ankunft 7:30"></label></div>
+        <div class="row"><button class="primary" type="submit">Verbindlich anfragen</button><span class="msg" data-out></span></div>
+        <p class="small muted">${esc(pname(o))} bekommt eine Push-Nachricht und schaltet den Platz frei.${S.config.rules.nachFrist === "auto" ? " Ohne Antwort in " + S.config.rules.fristStd + " Std. wird automatisch bestätigt." : ""}</p></form>`;
+      setTimeout(() => {
+        const fm = document.querySelector('[data-form="reserve"]'); if (!fm) return;
+        fm.querySelectorAll('[name="mode"]').forEach((r) => r.onchange = () => { $("customRow").hidden = fm.mode.value !== "custom"; });
+        fm._segs = segs;
+      });
+    }
+    $("layer").innerHTML = `<div class="overlay" data-act="closeBg"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgT">
+      <div class="dlghead"><div><span class="label">${esc(s.L.name + " · " + s.R.name)}${s.meta.merkmal ? " · " + esc(s.meta.merkmal) : ""}</span>
+        <div class="bignr" id="dlgT">Platz ${esc(s.label)}</div>
+        <p class="small muted">${s.meta.type === "miete" ? "Inhaber: " + esc(o ? pname(o) : "noch keiner") : ""}${nc ? " · ab " + f(nc.ab) + ": " + esc(pname(nc.personId)) : ""} · am ${f(d)}: <b>${STXT[st]}</b></p></div>
+        <button class="sm" data-act="close" aria-label="Schließen">✕</button></div>${body}</div></div>`;
+    document.querySelector(".dialog button, .dialog input")?.focus();
+  }
+
+  function shortenDlg(rel) {
+    $("layer").innerHTML = `<div class="overlay" data-act="closeBg"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="shT">
+      <div class="dlghead"><h2 id="shT">Früher zurück</h2><button class="sm" data-act="close" aria-label="Schließen">✕</button></div>
+      <p>Freigabe ${rng(rel.von, rel.bis)}. Ab welchem Tag brauchst du deinen Platz wieder selbst?</p>
+      <form class="list" data-form="shorten" data-id="${rel.id}">
+        <label class="field"><span class="label">Ich parke wieder selbst ab</span><input type="date" name="d" min="${rel.von > TODAY ? rel.von : TODAY}" max="${rel.bis}" required></label>
+        <p class="small muted">Bestätigte Gäste in diesem Zeitraum werden sofort benachrichtigt und ihre Reservierung storniert.</p>
+        <div class="row"><button class="primary" type="submit">Freigabe kürzen</button><span class="msg" data-out></span></div></form></div></div>`;
+  }
+
+  function changeDlg(key) {
+    const s = spot(key); const o = ownerOn(key, TODAY);
+    const people = [...S.persons].filter((p) => p.id !== o).sort((a, b) => a.vorname.localeCompare(b.vorname));
+    $("layer").innerHTML = `<div class="overlay" data-act="closeBg"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="chT">
+      <div class="dlghead"><div><span class="label">Besitzerwechsel</span><h2 id="chT">Platz ${esc(s.label)}</h2><p class="small muted">Bisher: ${esc(pfull(o))}</p></div><button class="sm" data-act="close" aria-label="Schließen">✕</button></div>
+      <form class="list" data-form="change" data-key="${key}">
+        <div class="row"><label class="field"><span class="label">Neuer Mieter</span><select name="p" required><option value="">bitte wählen</option>${people.map((p) => `<option value="${p.id}">${esc(p.vorname + " " + p.nachname)} · ${esc(p.abt)}</option>`).join("")}</select></label>
+          <label class="field"><span class="label">Übernimmt ab</span><input type="date" name="ab" min="${add(TODAY, 1)}" required></label></div>
+        <span class="label">Freigaben des bisherigen Mieters nach dem Stichtag</span>
+        <div class="choice"><label><input type="radio" name="how" value="end" checked><span><b>Beenden</b><br><span class="small muted">Gäste ab dem Stichtag werden benachrichtigt und storniert.</span></span></label>
+          <label><input type="radio" name="how" value="hand"><span><b>An neuen Mieter übergeben</b><br><span class="small muted">Freigaben und Gäste bleiben bestehen, der neue Mieter wird informiert.</span></span></label></div>
+        <div class="row"><button class="primary" type="submit">Wechsel planen</button><span class="msg" data-out></span></div></form></div></div>`;
+  }
+
+  // ================= Aktionen =================
+  function checkRange(key, von, bis) {
+    if (!isDate(von) || !isDate(bis)) return "Bitte Von und Bis wählen.";
+    if (bis < von) return "Das Bis-Datum liegt vor dem Von-Datum.";
+    if (von < TODAY) return "Der Zeitraum beginnt in der Vergangenheit.";
+    if (days(TODAY, von) - 1 > S.config.rules.vorlauf) return "So weit im Voraus geht es nicht (höchstens " + S.config.rules.vorlauf + " Tage).";
+    if (days(von, bis) > S.config.rules.maxTage) return "Höchstens " + S.config.rules.maxTage + " Tage am Stück.";
+    for (let d = von; d <= bis; d = add(d, 1)) {
+      const rel = relOn(key, d); if (!rel || !bookable(rel)) return fw(d) + " ist nicht freigegeben.";
+      if (resOn(key, d)) return fw(d) + " ist schon reserviert oder angefragt.";
+    }
+    if (S.res.some((r) => r.personId === S.me && liveRes(r) && overlap(von, bis, r.von, r.bis))) return "Du hast in diesem Zeitraum schon einen Platz.";
+    return null;
+  }
+
+  function cancelRes(r, why) { r.status = "storniert"; notify(r.personId, "Ihre Reservierung für Platz " + spot(r.key)?.label + " (" + rng(r.von, r.bis) + ") wurde storniert: " + why); }
+
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-act]"); if (!t) return;
+    const a = t.dataset.act, id = t.dataset.id;
+    if (a === "closeBg" && e.target !== t) return;
+    switch (a) {
+      case "tab": S.tab = id; closeDlg(); render(); break;
+      case "as": S.me = id; S.tab = id === "padmin" ? "admin" : id === "p24" ? "mein" : "plan"; render(); window.scrollTo(0, 0); break;
+      case "level": S.level = id; render(); break;
+      case "spot": openSpot(id, t.dataset.day); break;
+      case "close": case "closeBg": closeDlg(); break;
+      case "approve": case "decline": {
+        const r = S.res.find((x) => x.id === id); if (!r || r.status !== "angefragt") break;
+        r.status = a === "approve" ? "bestaetigt" : "abgelehnt";
+        const s = spot(r.key);
+        notify(r.personId, a === "approve" ? "Platz " + s.label + " (" + s.L.name + ", " + s.R.name + ") ist für Sie freigeschaltet: " + rng(r.von, r.bis) + "." : "Ihre Anfrage für Platz " + s.label + " (" + rng(r.von, r.bis) + ") wurde abgelehnt. Die Tage sind wieder frei.");
+        render(); break; }
+      case "storno": {
+        const r = S.res.find((x) => x.id === id); if (!r) break;
+        if (t.dataset.armed !== "1") { t.dataset.armed = "1"; t.textContent = "Wirklich stornieren?"; break; }
+        r.status = "storniert"; notify(ownerOn(r.key, r.von), pname(r.personId) + " hat die Reservierung für Platz " + spot(r.key)?.label + " (" + rng(r.von, r.bis) + ") storniert. Die Tage sind wieder frei.");
+        render(); break; }
+      case "toggleRel": { const r = S.releases.find((x) => x.id === id); if (!r) break;
+        if (!t.checked && S.res.some((x) => x.relId === r.id && x.status === "bestaetigt" && x.bis >= TODAY)) { t.checked = true; toast("Diese Freigabe hat bestätigte Gäste. Nutze „Früher zurück“."); break; }
+        r.aktiv = t.checked; S.res.filter((x) => x.relId === r.id && x.status === "angefragt").forEach((x) => { if (!r.aktiv) { x.status = "abgelehnt"; notify(x.personId, "Die Freigabe für Platz " + spot(x.key)?.label + " wurde zurückgezogen. Ihre Anfrage ist damit abgelehnt."); } });
+        render(); break; }
+      case "delRel": { const r = S.releases.find((x) => x.id === id); if (!r) break;
+        if (t.dataset.armed !== "1") { t.dataset.armed = "1"; t.textContent = "Sicher?"; break; }
+        S.res.filter((x) => x.relId === r.id && liveRes(x) && x.bis >= TODAY).forEach((x) => cancelRes(x, "Der Inhaber braucht den Platz selbst."));
+        S.releases = S.releases.filter((x) => x !== r); render(); break; }
+      case "shortenRel": shortenDlg(S.releases.find((x) => x.id === id)); break;
+      case "atab": S.adminTab = id; render(); break;
+      case "gApply": applyGarage(); break;
+      case "gReset": draft = null; applyArmed = false; render(); break;
+      case "change": changeDlg(id); break;
+      case "undoChange": { const nc = nextChange(id); S.assign = S.assign.filter((x) => x !== nc); toast("Geplanter Wechsel zurückgenommen"); render(); break; }
+      case "padmin": { const p = P(id); if (p) { p.admin = t.checked; save(); } break; }
+      case "color": S.config.color = id; render(); break;
+      case "logoDel": S.config.logo = null; render(); break;
+      case "designSave": S.config.appName = $("dName").value.trim() || "ParkPause"; S.config.color = $("dColor").value; S.config.showNames = $("dNames").checked; toast("Erscheinungsbild gespeichert"); render(); break;
+      case "rulesSave": { const R = S.config.rules; R.fristStd = Math.max(1, Number($("rFrist").value) || 24); R.nachFrist = $("rNach").value; R.maxTage = Math.max(1, Number($("rMax").value) || 14); R.vorlauf = Math.max(1, Number($("rVor").value) || 90); toast("Regeln gespeichert"); render(); break; }
+      case "pushSave": { const N = S.config.notify; N.push = $("nPush").checked; N.mail = $("nMail").checked; N.smtpHost = $("nHost").value.trim(); N.smtpPort = Number($("nPort").value) || 587; N.smtpFrom = $("nFrom").value.trim(); toast("Einstellungen gespeichert"); render(); break; }
+      case "dbSave": S.config.db = $("dbSel").value; toast("Datenquelle gespeichert"); render(); break;
+      case "reset": if (t.dataset.armed !== "1") { t.dataset.armed = "1"; t.textContent = "Alles zurücksetzen?"; break; }
+        S = seed(); draft = null; render(); toast("Demo zurückgesetzt"); break;
+    }
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDlg(); });
+
+  document.addEventListener("submit", (e) => {
+    const fm = e.target; const kind = fm.dataset.form; if (!kind) return; e.preventDefault();
+    const out = fm.querySelector("[data-out]"); const err = (m) => { if (out) { out.className = "msg err"; out.textContent = m; } };
+    if (kind === "reserve") {
+      const key = fm.dataset.key; let von, bis;
+      if (fm.mode.value === "custom") { von = fm.von.value; bis = fm.bis.value; } else { const g = fm._segs[Number(fm.mode.value.slice(3))]; von = g.von; bis = g.bis; }
+      const kennz = fm.kennz.value.trim().toUpperCase(); if (!kennz) return err("Bitte das Kennzeichen angeben.");
+      const m = checkRange(key, von, bis); if (m) return err(m);
+      const rel = relOn(key, von); const auto = false; if (!rel) return err("Dieser Zeitraum ist nicht freigegeben.");
+      const r = { id: uid("r"), key, relId: rel.id, personId: S.me, von, bis, status: auto ? "bestaetigt" : "angefragt", kennz, msg: fm.msg.value.trim(), created: Date.now() };
+      S.res.push(r); const u = me(); if (u && !u.kennz) u.kennz = kennz;
+      const owner = ownerOn(key, von);
+      notify(owner, u.vorname + " (" + u.abt + ") möchte Platz " + spot(key).label + " vom " + f(von) + " bis " + f(bis) + ".");
+      closeDlg(); S.tab = "meine"; render();
+    } else if (kind === "release") {
+      const key = fm.dataset.key, von = fm.von.value, bis = fm.bis.value;
+      if (!isDate(von) || !isDate(bis)) return err("Bitte Von und Bis wählen.");
+      if (bis < von) return err("Bis liegt vor Von.");
+      if (von < TODAY) return err("Der Zeitraum beginnt in der Vergangenheit.");
+      if (ownerOn(key, von) !== S.me || ownerOn(key, bis) !== S.me) return err("In diesem Zeitraum bist du nicht durchgehend Mieter des Platzes.");
+      if (S.releases.some((r) => r.key === key && overlap(von, bis, r.von, r.bis))) return err("Überschneidet sich mit einer vorhandenen Freigabe.");
+      let ab = null; if (fm.useAb.checked) { ab = fm.ab.value; if (!isDate(ab)) return err("Bitte das Datum für „reservierbar ab“ wählen."); if (ab > von) return err("„Reservierbar ab“ muss vor dem Beginn liegen."); }
+      S.releases.push({ id: uid("f"), key, ownerId: S.me, von, bis, ab, aktiv: true, grund: fm.grund.value });
+      toast("Freigegeben: " + rng(von, bis) + (ab && ab > TODAY ? ", reservierbar ab " + f(ab) : "")); render();
+    } else if (kind === "shorten") {
+      const rel = S.releases.find((x) => x.id === fm.dataset.id); const d = fm.d.value;
+      if (!isDate(d) || d < rel.von || d > rel.bis) return err("Bitte einen Tag innerhalb der Freigabe wählen.");
+      S.res.filter((x) => x.relId === rel.id && liveRes(x) && x.bis >= d).forEach((x) => {
+        if (x.von >= d) cancelRes(x, "Der Inhaber ist früher zurück.");
+        else { x.bis = add(d, -1); notify(x.personId, "Ihre Reservierung für Platz " + spot(x.key)?.label + " endet früher, am " + f(x.bis) + ". Der Inhaber ist früher zurück."); }
+      });
+      if (d <= rel.von) S.releases = S.releases.filter((x) => x !== rel); else rel.bis = add(d, -1);
+      closeDlg(); toast("Freigabe gekürzt"); render();
+    } else if (kind === "change") {
+      const key = fm.dataset.key, p = fm.p.value, ab = fm.ab.value, how = fm.how.value;
+      if (!p) return err("Bitte den neuen Mieter wählen."); if (!isDate(ab) || ab <= TODAY) return err("Der Stichtag muss in der Zukunft liegen.");
+      const old = ownerOn(key, ab);
+      S.assign = S.assign.filter((a) => !(a.key === key && a.ab >= ab)); S.assign.push({ key, personId: p, ab });
+      const affected = S.releases.filter((r) => r.key === key && r.bis >= ab);
+      affected.forEach((r) => {
+        if (how === "hand") { if (r.von >= ab) r.ownerId = p; else { const tail = { ...r, id: uid("f"), von: ab, ownerId: p }; r.bis = add(ab, -1); S.releases.push(tail); S.res.filter((x) => x.relId === r.id && x.von >= ab).forEach((x) => (x.relId = tail.id)); } }
+        else { S.res.filter((x) => x.relId === r.id && liveRes(x) && x.bis >= ab).forEach((x) => x.von >= ab ? cancelRes(x, "Der Platz bekommt einen neuen Mieter.") : (x.bis = add(ab, -1)));
+          if (r.von >= ab) S.releases = S.releases.filter((x) => x !== r); else r.bis = add(ab, -1); }
+      });
+      notify(p, "Ab " + f(ab) + " ist Platz " + spot(key).label + " Ihnen zugeordnet." + (how === "hand" && affected.length ? " Bestehende Freigaben wurden übernommen." : ""));
+      if (old) notify(old, "Ihr Platz " + spot(key).label + " geht ab " + f(ab) + " an einen neuen Mieter.");
+      closeDlg(); toast("Besitzerwechsel geplant"); render();
+    } else if (kind === "person") {
+      const vn = fm.vn.value.trim(); if (!vn) return;
+      S.persons.push({ id: uid("p"), vorname: vn, nachname: fm.nn.value.trim() ? fm.nn.value.trim()[0].toUpperCase() + "." : "", abt: fm.abt.value.trim() || "—", kennz: "", admin: fm.admin.checked });
+      toast(vn + " hinzugefügt"); render();
+    }
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
