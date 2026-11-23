@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1F4E8C">
+<meta name="description" content="ParkPause – Tiefgaragenplätze unter Kolleginnen und Kollegen teilen.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../icon-192.png">
+<title>ParkPause</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+/* KICC-PARKPAUSE-APP · Layout: Kopf mit Marke, Reiter, Ebenen-Plan aus Raum-Bloecken (zwei Platzreihen um eine Fahrgasse) */
+:root {
+  --bg: #EDF0F3; --surface: #FFFFFF; --ink: #17202A; --muted: #5A6674; --line: #D3DAE1; --concrete: #E2E6EA; --mark: #E3B12A;
+  --brand: #1F4E8C; --brand-ink: #FFFFFF;
+  --led-free: #19A64F; --led-req: #E0A100; --led-busy: #D04040; --led-fix: #2F6FD6; --led-off: #A0A9B3;
+  --ok-bg: #DDF2E4; --warn-bg: #FBF0D4; --bad-bg: #F8E0E0; --info-bg: #E1EBF8;
+  --display: "Barlow Condensed", "Arial Narrow", sans-serif; --body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) { :root {
+  --bg: #10151A; --surface: #19212A; --ink: #E4E9EE; --muted: #93A0AE; --line: #2A3540; --concrete: #141B22; --mark: #C99B1F;
+  --led-off: #56616D; --ok-bg: #143022; --warn-bg: #3A2E10; --bad-bg: #3A1B1B; --info-bg: #182A40; color-scheme: dark; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.45; }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-block: 16px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 16px; }
+h1, h2, h3 { font-family: var(--display); margin: 0; letter-spacing: .01em; text-wrap: balance; }
+h2 { font-size: 1.5rem; } h3 { font-size: 1.15rem; }
+p { margin: 0; }
+.muted { color: var(--muted); } .small { font-size: .86rem; }
+.label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+header.top { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; justify-content: space-between; }
+.brand { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.appicon { width: 48px; height: 48px; flex: none; border-radius: 12px; background: var(--brand); color: var(--brand-ink); position: relative;
+  display: grid; place-items: center; font: 700 2rem/1 var(--display); }
+.appicon::after { content: ""; position: absolute; top: 7px; right: 7px; width: 9px; height: 9px; border-radius: 50%; background: var(--led-free); box-shadow: 0 0 6px var(--led-free); }
+.brand img { max-height: 48px; max-width: 140px; object-fit: contain; }
+.brand h1 { font-size: 1.9rem; line-height: 1; }
+.me { display: flex; gap: 8px; align-items: center; font-weight: 600; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--concrete); display: grid; place-items: center; font: 700 1rem var(--display); }
+nav.tabs { display: flex; gap: 4px; overflow-x: auto; border-bottom: 1px solid var(--line); }
+nav.tabs button { border: 0; border-bottom: 3px solid transparent; border-radius: 0; background: transparent; padding: 10px 12px; white-space: nowrap; color: var(--muted); }
+nav.tabs button[aria-current="page"] { color: var(--ink); border-bottom-color: var(--brand); }
+.count { background: var(--led-req); color: #222; border-radius: 99px; padding: 0 7px; font-size: .75rem; margin-left: 4px; }
+input, select, textarea { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-width: 0; max-width: 100%; }
+input[type="checkbox"], input[type="radio"] { accent-color: var(--brand); width: 18px; height: 18px; }
+input[type="color"] { padding: 2px; width: 48px; height: 38px; }
+button { font: 600 .93rem var(--body); border-radius: 8px; padding: 8px 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+button.primary { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
+button.ok { background: var(--led-free); border-color: var(--led-free); color: #fff; }
+button.danger { color: var(--led-busy); }
+button.dangerfill { background: var(--led-busy); border-color: var(--led-busy); color: #fff; }
+button.sm { padding: 4px 10px; font-size: .84rem; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.row > .field { flex: 1 1 140px; }
+.check { display: flex; gap: 8px; align-items: center; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+.empty { padding: 14px; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); }
+.msg { font-weight: 500; font-size: .9rem; } .msg.err { color: var(--led-busy); } .msg.ok { color: var(--led-free); }
+.note { background: var(--info-bg); border-radius: 10px; padding: 10px 14px; font-size: .9rem; }
+.warnbox { background: var(--warn-bg); border-radius: 10px; padding: 10px 14px; font-size: .9rem; }
+.planbar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: end; justify-content: space-between; }
+.leveltabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 4px; flex-wrap: wrap; }
+.leveltabs button { border: 0; padding: 6px 12px; }
+.leveltabs button[aria-pressed="true"] { background: var(--brand); color: var(--brand-ink); }
+.summary { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .88rem; color: var(--muted); }
+.summary span { display: inline-flex; gap: 6px; align-items: center; } .summary b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+.rooms { display: grid; gap: 16px; }
+.room { background: var(--concrete); border-radius: 14px; padding: 12px; display: grid; gap: 8px; min-width: 0; }
+.roomhead { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; align-items: baseline; }
+.roomscroll { overflow-x: auto; padding-bottom: 4px; }
+.roominner { display: grid; min-width: max-content; }
+.srow { display: grid; grid-auto-flow: column; grid-auto-columns: 66px; gap: 5px; min-height: 70px; }
+.lane { height: 34px; display: flex; align-items: center; justify-content: center; position: relative; color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; }
+.lane::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; margin-top: -1px; background: repeating-linear-gradient(90deg, var(--mark) 0 18px, transparent 18px 32px); opacity: .8; }
+.lane span { background: var(--concrete); padding: 0 8px; position: relative; }
+.spot { height: 70px; border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 5px 6px; text-align: left; display: grid; align-content: space-between; position: relative; cursor: pointer; font-weight: 500; }
+.srow.bottom .spot { border-top-width: 3px; } .srow.top .spot { border-bottom-width: 3px; }
+.spot .nr { font: 700 .95rem/1 var(--display); font-variant-numeric: tabular-nums; }
+.spot .tx { font-size: .74rem; line-height: 1.15; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.spot .led { position: absolute; top: 6px; right: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--led-off); }
+.spot .tag { position: absolute; right: 20px; top: 4px; font-size: .62rem; font-weight: 700; color: var(--muted); }
+.spot.frei { border-color: var(--led-free); }
+.spot.frei .led { background: var(--led-free); box-shadow: 0 0 0 2px color-mix(in srgb, var(--led-free) 30%, transparent), 0 0 10px var(--led-free); animation: glow 2.4s ease-in-out infinite; }
+.spot.frei .tx { color: var(--led-free); font-weight: 700; }
+.spot.angefragt .led { background: var(--led-req); } .spot.angefragt .tx { color: var(--led-req); font-weight: 600; }
+.spot.belegt .led { background: var(--led-busy); } .spot.belegt .tx { color: var(--led-busy); font-weight: 600; }
+.spot.fest { background: color-mix(in srgb, var(--led-fix) 10%, var(--surface)); } .spot.fest .led { background: var(--led-fix); }
+.spot.gesperrt, .spot.unklar { background: repeating-linear-gradient(135deg, var(--surface) 0 6px, var(--concrete) 6px 12px); }
+.spot.claimable { border: 2px dashed var(--brand); }
+.spot.mine { outline: 2px solid var(--brand); outline-offset: 1px; }
+.spot.dim { opacity: .3; }
+@keyframes glow { 50% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--led-free) 20%, transparent), 0 0 4px var(--led-free); } }
+@media (prefers-reduced-motion: reduce) { .spot.frei .led { animation: none; } }
+.list { display: grid; gap: 8px; }
+.item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.item .t { font: 600 1.05rem var(--display); font-variant-numeric: tabular-nums; }
+.item .m { font-size: .86rem; color: var(--muted); overflow-wrap: anywhere; }
+.item .a { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+@media (max-width: 560px) { .item { grid-template-columns: minmax(0, 1fr); } .item .a { justify-content: flex-start; } }
+.chip { display: inline-block; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 99px; vertical-align: middle; }
+.chip.angefragt { background: var(--warn-bg); color: var(--led-req); } .chip.bestaetigt, .chip.aktiv { background: var(--ok-bg); color: var(--led-free); }
+.chip.abgelehnt, .chip.storniert, .chip.verfallen { background: var(--bad-bg); color: var(--led-busy); }
+.chip.geplant { background: var(--info-bg); color: var(--led-fix); } .chip.pausiert, .chip.beendet { background: var(--concrete); color: var(--muted); }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; white-space: nowrap; }
+th { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); background: var(--bg); position: sticky; top: 0; }
+td select, td input { padding: 4px 6px; }
+.overlay { position: fixed; inset: 0; background: rgba(10, 15, 20, .55); display: grid; place-items: center; z-index: 20;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.dialog { background: var(--surface); border-radius: 16px; width: min(560px, 100%); max-height: 100%; overflow: auto; padding: 18px; display: grid; gap: 14px; }
+.dlghead { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+.bignr { font: 700 2.2rem/1 var(--display); }
+.choice { display: grid; gap: 8px; }
+.choice label { display: flex; gap: 10px; align-items: start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; }
+.choice label:has(input:checked) { border-color: var(--brand); background: color-mix(in srgb, var(--brand) 8%, var(--surface)); }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px; z-index: 30; max-width: calc(100% - 32px); font-weight: 500; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.push { display: flex; gap: 10px; align-items: start; }
+.push .appicon { width: 32px; height: 32px; font-size: 1.3rem; border-radius: 8px; } .push .appicon::after { width: 6px; height: 6px; top: 4px; right: 4px; }
+.swatches { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.swatches button { width: 34px; height: 34px; padding: 0; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line); }
+.subtabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.subtabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.levelcfg { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 10px; }
+.roomcfg { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; align-items: end; padding: 10px; border-radius: 10px; background: var(--bg); }
+.authcard { max-width: 440px; margin: 6vh auto 0; }
+.big { font: 700 1.6rem var(--display); letter-spacing: .08em; }
+.kpi { display: flex; gap: 18px; flex-wrap: wrap; } .kpi div { display: grid; } .kpi b { font: 700 1.6rem var(--display); font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><p class="muted">ParkPause wird geladen …</p></div>
+<div id="layer"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script>
+(() => {
+  "use strict";
+  // ======================= Hilfen =======================
+  const $ = (id) => document.getElementById(id);
+  const pad = (n) => String(n).padStart(2, "0");
+  const iso = (d) => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+  const parse = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const add = (s, n) => { const d = parse(s); d.setDate(d.getDate() + n); return iso(d); };
+  const days = (a, b) => { const A = parse(a), B = parse(b); return Math.round((Date.UTC(B.getFullYear(), B.getMonth(), B.getDate()) - Date.UTC(A.getFullYear(), A.getMonth(), A.getDate())) / 864e5) + 1; };
+  const TODAY = () => iso(new Date());
+  const f = (s) => parse(s).toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit" });
+  const fw = (s) => parse(s).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit", year: "numeric" });
+  const rng = (a, b) => a === b ? f(a) : f(a) + "–" + f(b);
+  const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const isDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || "");
+  const overlap = (a1, b1, a2, b2) => !(b1 < a2 || a1 > b2);
+  let toastT;
+  function toast(t) {
+    clearTimeout(toastT); let el = document.querySelector(".toast");
+    if (!el) { el = document.createElement("div"); el.className = "toast"; el.setAttribute("role", "status"); document.body.append(el); }
+    el.textContent = t; toastT = setTimeout(() => el.remove(), 4000);
+  }
+  async function loginEmail(pseudonym) {
+    const h = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pseudonym.trim().toLowerCase())));
+    return "pp-" + Array.from(h.slice(0, 16), (b) => b.toString(16).padStart(2, "0")).join("") + "@parkpause.invalid";
+  }
+  const cleanErr = (m) => String(m || "Das hat nicht geklappt.").replace(/^.*?ERROR:\s*/, "");
+
+  // ======================= Verbindung =======================
+  const C = window.PP_CONFIG || {};
+  if (!C.supabaseUrl || !C.supabaseKey || !window.supabase) {
+    $("app").innerHTML = `<div class="panel authcard"><h2>ParkPause ist noch nicht verbunden</h2><p class="muted">In <code>config.js</code> fehlen Adresse und Schlüssel des Supabase-Projekts. Siehe <code>parkpause/app/SETUP.md</code>.</p></div>`;
+    return;
+  }
+  const sb = window.supabase.createClient(C.supabaseUrl, C.supabaseKey, { auth: { persistSession: true, storageKey: "parkpause-auth" } });
+
+  // ======================= Zustand =======================
+  const S = {
+    session: null, me: null, priv: null, settings: {}, levels: [], rooms: [], spots: [], owners: [], releases: [], occ: [],
+    res: [], notes: [], profiles: [], tab: location.hash === "#inbox" ? "inbox" : "plan", level: null, viewDate: TODAY(),
+    filterFree: false, adminTab: "garage", claimMode: false, invite: null, loaded: false, pushOn: false,
+  };
+  let SP = [];
+  const P = (id) => S.profiles.find((p) => p.id === id);
+  const pname = (id) => P(id)?.pseudonym || "—";
+  const isAdmin = () => !!S.me?.is_admin;
+
+  function buildSpots() {
+    const levels = [...S.levels].sort((a, b) => a.sort - b.sort || a.kz.localeCompare(b.kz));
+    const out = []; let run = 0;
+    for (const L of levels) {
+      let inL = 0;
+      const rooms = S.rooms.filter((r) => r.level_id === L.id).sort((a, b) => a.sort - b.sort || a.kz.localeCompare(b.kz));
+      for (const R of rooms) {
+        const ss = S.spots.filter((s) => s.room_id === R.id).sort((a, b) => a.idx - b.idx);
+        for (const s of ss) {
+          run++; inL++;
+          const sc = S.settings.scheme;
+          const label = s.label_override || (sc === "fortlaufend" ? String(run) : sc === "ebene" ? L.kz + "-" + pad(inL) : L.kz + R.kz + "-" + pad(s.idx));
+          out.push({ ...s, L, R, label });
+        }
+      }
+    }
+    SP = out;
+  }
+  const spot = (id) => SP.find((s) => s.id === id);
+  const ownerOn = (sid, d) => S.owners.find((o) => o.spot_id === sid && o.ab <= d && (!o.bis || o.bis >= d))?.user_id || null;
+  const relOn = (sid, d) => S.releases.find((r) => r.spot_id === sid && r.aktiv && r.von <= d && d <= r.bis);
+  const occOn = (sid, d) => S.occ.find((r) => r.spot_id === sid && r.von <= d && d <= r.bis);
+  const bookable = (r) => r.aktiv && (!r.ab || r.ab <= TODAY());
+  function status(s, d) {
+    if (s.type === "fest") return "fest";
+    if (s.type === "gesperrt") return "gesperrt";
+    if (!ownerOn(s.id, d)) return "unklar";
+    const rel = relOn(s.id, d); if (!rel) return "aus";
+    const o = occOn(s.id, d); if (o) return o.status === "bestaetigt" ? "belegt" : "angefragt";
+    if (!bookable(rel)) return "geplant";
+    return "frei";
+  }
+  function freeUntil(s, d) { const rel = relOn(s.id, d); if (!rel) return d; let e = d; while (add(e, 1) <= rel.bis && !occOn(s.id, add(e, 1))) e = add(e, 1); return e; }
+  function segments(rel) {
+    const segs = []; let cur = null;
+    for (let d = rel.von < TODAY() ? TODAY() : rel.von; d <= rel.bis; d = add(d, 1)) {
+      if (!occOn(rel.spot_id, d)) { if (!cur) cur = { von: d, bis: d }; else cur.bis = d; } else if (cur) { segs.push(cur); cur = null; }
+    }
+    if (cur) segs.push(cur); return segs;
+  }
+  const myOwn = () => S.owners.filter((o) => o.user_id === S.me.id && (!o.bis || o.bis >= TODAY()));
+  const STXT = { frei: "frei", angefragt: "angefragt", belegt: "belegt", fest: "Festplatz", aus: "Inhaber nutzt", geplant: "geplant", gesperrt: "gesperrt", unklar: "ohne Mieter" };
+  const CHIP = { angefragt: "offen", bestaetigt: "bestätigt", abgelehnt: "abgelehnt", storniert: "storniert", verfallen: "verfallen", beendet: "beendet" };
+
+  // ======================= Daten =======================
+  async function q(p) { const { data, error } = await p; if (error) throw error; return data; }
+  async function loadAll() {
+    const uid = S.session.user.id;
+    const [me, priv] = await Promise.all([
+      q(sb.from("pp_profiles").select("*").eq("id", uid).maybeSingle()),
+      q(sb.from("pp_private").select("*").eq("id", uid).maybeSingle()),
+    ]);
+    S.me = me; S.priv = priv;
+    if (!me) return;
+    await sb.rpc("pp_housekeeping");
+    const r = await Promise.all([
+      q(sb.from("pp_settings").select("*").eq("id", 1).single()),
+      q(sb.from("pp_levels").select("*")), q(sb.from("pp_rooms").select("*")), q(sb.from("pp_spots").select("*")),
+      q(sb.from("pp_owners").select("*")), q(sb.from("pp_releases").select("*").gte("bis", add(TODAY(), -1))),
+      q(sb.rpc("pp_occupancy")), q(sb.from("pp_res").select("*").order("von", { ascending: false }).limit(300)),
+      q(sb.from("pp_notes").select("*").order("created_at", { ascending: false }).limit(60)),
+      q(sb.from("pp_profiles").select("id, pseudonym, is_admin, created_at")),
+    ]);
+    [S.settings, S.levels, S.rooms, S.spots, S.owners, S.releases, S.occ, S.res, S.notes, S.profiles] = r;
+    buildSpots(); S.loaded = true;
+    document.documentElement.style.setProperty("--brand", S.settings.color || "#1F4E8C");
+    document.title = S.settings.app_name || "ParkPause";
+  }
+  async function refresh() { try { await loadAll(); render(); } catch (e) { toast("Daten konnten nicht geladen werden. Bitte gleich nochmal versuchen."); } }
+  async function rpc(name, args) {
+    const { data, error } = await sb.rpc(name, args || {});
+    if (error) throw new Error(cleanErr(error.message));
+    if (Array.isArray(data) && data.length && typeof data[0] === "string") sendPush(data);
+    return data;
+  }
+  function sendPush(ids) { sb.functions.invoke("pp-push", { body: { ids } }).catch(() => {}); }
+
+  // ======================= Anmeldung =======================
+  function viewAuth(mode, msg) {
+    $("app").innerHTML = `<div class="panel authcard">
+      <div class="brand"><div class="appicon" aria-hidden="true">P</div><div><h1>ParkPause</h1><p class="muted small">Tiefgaragenplätze unter Kolleginnen und Kollegen teilen</p></div></div>
+      <div class="subtabs"><button class="sm" data-act="authmode" data-id="login" aria-pressed="${mode === "login"}">Anmelden</button><button class="sm" data-act="authmode" data-id="reg" aria-pressed="${mode === "reg"}">Neu registrieren</button></div>
+      ${mode === "login" ? `<form data-form="login" class="list">
+        <label class="field"><span class="label">Pseudonym</span><input name="pseudonym" autocomplete="username" required></label>
+        <label class="field"><span class="label">Passwort</span><input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="primary" type="submit">Anmelden</button>
+        <p class="small muted">Passwort vergessen? Der Admin kann dir ein neues geben.</p></form>`
+      : `<form data-form="register" class="list">
+        <label class="field"><span class="label">Einladungscode</span><input name="code" autocomplete="off" required style="text-transform:uppercase"></label>
+        <label class="field"><span class="label">Pseudonym (für andere sichtbar)</span><input name="pseudonym" autocomplete="username" required minlength="3" maxlength="20" placeholder="z. B. Blauer Golf"></label>
+        <p class="small muted">Bitte keinen echten Namen. Das Pseudonym ist zugleich dein Anmeldename.</p>
+        <label class="field"><span class="label">Passwort (mind. 8 Zeichen)</span><input name="password" type="password" autocomplete="new-password" required minlength="8"></label>
+        <label class="field"><span class="label">Passwort wiederholen</span><input name="password2" type="password" autocomplete="new-password" required minlength="8"></label>
+        <div class="note small">Gespeichert werden nur dein Pseudonym, dein Stellplatz, deine Freigaben und Reservierungen sowie dein Kennzeichen (nur für Inhaber, bei denen du reservierst). Keine E-Mail, kein echter Name. Mit „Meine Daten löschen“ in deinem Profil ist alles sofort weg.</div>
+        <label class="check small"><input type="checkbox" name="ok" required> Verstanden</label>
+        <button class="primary" type="submit">Konto anlegen</button></form>`}
+      <p class="msg ${msg?.ok ? "ok" : "err"}" id="authMsg" role="status">${esc(msg?.text || "")}</p></div>`;
+  }
+
+  // ======================= Rahmen =======================
+  function render() {
+    if (!S.session) return viewAuth("login");
+    if (!S.me) {
+      $("app").innerHTML = `<div class="panel authcard"><h2>Kein ParkPause-Konto</h2><p class="muted">Zu dieser Anmeldung gibt es kein Profil (mehr).</p><button class="primary" data-act="logout">Abmelden</button></div>`;
+      return;
+    }
+    if (!S.loaded) return;
+    const own = myOwn().length > 0;
+    const unread = S.notes.filter((n) => !n.read).length;
+    const pend = S.res.filter((r) => r.status === "angefragt" && ownerOn(r.spot_id, r.von) === S.me.id).length;
+    if (S.tab === "mein" && !own) S.tab = "profil";
+    if (S.tab === "admin" && !isAdmin()) S.tab = "plan";
+    const onboarding = !S.me.onboarded && !own;
+    const tabs = [["plan", "Lageplan"], ["frei", "Jetzt frei"], ["meine", "Meine Reservierungen"]];
+    if (own) tabs.push(["mein", "Mein Platz" + (pend ? `<span class="count">${pend}</span>` : "")]);
+    tabs.push(["inbox", "Mitteilungen" + (unread ? `<span class="count">${unread}</span>` : "")], ["profil", "Profil"]);
+    if (isAdmin()) tabs.push(["admin", "Admin"]);
+    $("app").innerHTML = `
+      <header class="top">
+        <div class="brand">${S.settings.logo ? `<img src="${esc(S.settings.logo)}" alt="Logo">` : `<div class="appicon" aria-hidden="true">P</div>`}
+          <div><h1>${esc(S.settings.app_name)}</h1><p class="muted small">${SP.length} Stellplätze · ${S.profiles.length} Mitglieder</p></div></div>
+        <button class="me" data-act="tab" data-id="profil" style="border:0;background:transparent"><span class="avatar" aria-hidden="true">${esc(S.me.pseudonym.slice(0, 1).toUpperCase())}</span>${esc(S.me.pseudonym)}</button>
+      </header>
+      ${onboarding ? `<div class="panel" style="border-color:var(--brand)"><h2>Willkommen, ${esc(S.me.pseudonym)}!</h2>
+        <p>Hast du einen festen Stellplatz in der Tiefgarage?</p>
+        <div class="row"><button class="primary" data-act="claimStart">Ja, meinen Platz im Plan auswählen</button><button data-act="noSpot">Nein, ich möchte nur freie Plätze nutzen</button></div></div>` : ""}
+      ${S.claimMode ? `<div class="warnbox"><b>Platz auswählen:</b> Tippe im Plan auf deinen Platz (gestrichelt umrandet = noch niemandem zugeordnet). <button class="sm" data-act="claimStop">Abbrechen</button></div>` : ""}
+      <nav class="tabs" aria-label="Bereiche">${tabs.map(([k, t]) => `<button data-act="tab" data-id="${k}" ${S.tab === k ? 'aria-current="page"' : ""}>${t}</button>`).join("")}</nav>
+      <main id="view"></main>`;
+    ({ plan: viewPlan, frei: viewFree, meine: viewMine, mein: viewOwner, inbox: viewInbox, profil: viewProfile, admin: viewAdmin })[S.tab]($("view"));
+  }
+
+  // ======================= Lageplan =======================
+  function viewPlan(v) {
+    if (!S.levels.length) {
+      v.innerHTML = `<div class="panel"><h2>Noch kein Lageplan</h2><p class="muted">${isAdmin() ? "Lege im Admin-Bereich unter „Garage“ die Ebenen und Räume an, oder starte mit dem Vorschlag (2 Ebenen, 85 Plätze)." : "Der Admin richtet den Lageplan gerade ein."}</p>${isAdmin() ? `<button class="primary" data-act="seed" style="justify-self:start">Vorschlag anlegen</button>` : ""}</div>`;
+      return;
+    }
+    const levels = [...S.levels].sort((a, b) => a.sort - b.sort || a.kz.localeCompare(b.kz));
+    const L = levels.find((l) => l.id === S.level) || levels[0]; S.level = L.id;
+    const d = S.viewDate < TODAY() ? TODAY() : S.viewDate;
+    const cnt = {}; SP.forEach((s) => { const st = status(s, d); cnt[st] = (cnt[st] || 0) + 1; });
+    const tile = (s) => {
+      const st = status(s, d); const o = ownerOn(s.id, d);
+      const tx = st === "frei" ? "bis " + f(freeUntil(s, d)) : st === "fest" ? s.fest_label || "Festplatz" : st === "unklar" ? "ohne Mieter" : st === "gesperrt" ? "gesperrt" : st === "belegt" ? "belegt" : st === "angefragt" ? "angefragt" : (S.settings.show_names ? pname(o) : "vermietet");
+      const cls = [st, o === S.me.id ? "mine" : "", S.filterFree && st !== "frei" ? "dim" : "", S.claimMode && st === "unklar" ? "claimable" : ""].join(" ");
+      const tag = s.merkmal === "E-Laden" ? "⚡" : s.merkmal === "breit" ? "↔" : s.merkmal === "Motorrad" ? "M" : "";
+      return `<button class="spot ${cls}" data-act="spot" data-id="${s.id}" aria-label="Platz ${esc(s.label)}, ${STXT[st]}${st === "frei" ? " bis " + f(freeUntil(s, d)) : ""}">
+        <span class="nr">${esc(s.label)}</span><span class="led" aria-hidden="true"></span><span class="tx">${esc(tx)}</span>${tag ? `<span class="tag" aria-hidden="true">${tag}</span>` : ""}</button>`;
+    };
+    const room = (R) => {
+      const ss = SP.filter((s) => s.room_id === R.id); const top = Math.ceil(ss.length / 2);
+      const free = ss.filter((s) => status(s, d) === "frei").length;
+      return `<section class="room"><div class="roomhead"><h3>${esc(R.name)}</h3><span class="small muted">${ss.length} Plätze · <b style="color:var(--led-free)">${free} frei</b></span></div>
+        <div class="roomscroll"><div class="roominner"><div class="srow top">${ss.slice(0, top).map(tile).join("")}</div>
+        <div class="lane"><span>Fahrgasse</span></div><div class="srow bottom">${ss.slice(top).map(tile).join("")}</div></div></div></section>`;
+    };
+    const rooms = S.rooms.filter((r) => r.level_id === L.id).sort((a, b) => a.sort - b.sort || a.kz.localeCompare(b.kz));
+    v.innerHTML = `<div style="display:grid;gap:14px">
+      <div class="planbar">
+        <div class="leveltabs" role="group" aria-label="Ebene">${levels.map((l) => `<button data-act="level" data-id="${l.id}" aria-pressed="${l.id === L.id}">${esc(l.name)}</button>`).join("")}</div>
+        <div class="row"><label class="field"><span class="label">Tag anzeigen</span><input type="date" id="viewDate" min="${TODAY()}" value="${d}"></label>
+          <label class="check" style="padding-bottom:8px"><input type="checkbox" id="onlyFree" ${S.filterFree ? "checked" : ""}> Nur freie Plätze</label></div>
+      </div>
+      <div class="summary"><span>Alle Ebenen:</span>
+        <span><i class="dot" style="background:var(--led-free);box-shadow:0 0 6px var(--led-free)"></i><b>${cnt.frei || 0}</b> frei</span>
+        <span><i class="dot" style="background:var(--led-req)"></i><b>${cnt.angefragt || 0}</b> angefragt</span>
+        <span><i class="dot" style="background:var(--led-busy)"></i><b>${cnt.belegt || 0}</b> vom Gast belegt</span>
+        <span><i class="dot" style="background:var(--led-off)"></i><b>${(cnt.aus || 0) + (cnt.geplant || 0)}</b> Inhaber nutzt</span>
+        <span><i class="dot" style="background:var(--led-fix)"></i><b>${cnt.fest || 0}</b> Festplätze</span>
+        <span><i class="dot" style="border:1px solid var(--led-off)"></i><b>${(cnt.unklar || 0) + (cnt.gesperrt || 0)}</b> ohne Mieter / gesperrt</span>
+        <span>Stand: ${fw(d)}</span></div>
+      <div class="rooms">${rooms.map(room).join("") || `<div class="empty">Diese Ebene hat noch keine Räume.</div>`}</div>
+      <p class="small muted">Tippe auf einen grünen Platz, um ihn zu reservieren. ⚡ = E-Laden, ↔ = breit. Dein Platz ist umrandet.</p></div>`;
+    $("viewDate").onchange = (e) => { if (isDate(e.target.value)) { S.viewDate = e.target.value; render(); } };
+    $("onlyFree").onchange = (e) => { S.filterFree = e.target.checked; render(); };
+  }
+
+  // ======================= Listen =======================
+  function viewFree(v) {
+    const now = SP.filter((s) => status(s, TODAY()) === "frei");
+    const soon = S.releases.filter((r) => bookable(r) && r.bis >= TODAY() && spot(r.spot_id) && ownerOn(r.spot_id, r.von) !== S.me.id)
+      .flatMap((r) => segments(r).map((g) => ({ ...g, r }))).filter((g) => g.von > TODAY()).sort((a, b) => a.von.localeCompare(b.von));
+    const where = (s) => esc(s.L.name + " · " + s.R.name);
+    v.innerHTML = `<div class="cols">
+      <section class="panel"><h2>Heute frei</h2><div class="list">${now.length ? now.map((s) => `<div class="item"><div><div class="t">Platz ${esc(s.label)}</div><div class="m">${where(s)} · frei bis ${fw(freeUntil(s, TODAY()))}${s.merkmal ? " · " + esc(s.merkmal) : ""}</div></div><div class="a">${ownerOn(s.id, TODAY()) === S.me.id ? `<span class="small muted">dein Platz</span>` : `<button class="primary sm" data-act="spot" data-id="${s.id}">Reservieren</button>`}</div></div>`).join("") : `<div class="empty">Heute ist kein Platz frei.</div>`}</div></section>
+      <section class="panel"><h2>Demnächst frei</h2><div class="list">${soon.length ? soon.map((g) => { const s = spot(g.r.spot_id); return `<div class="item"><div><div class="t">${rng(g.von, g.bis)} · Platz ${esc(s.label)}</div><div class="m">${where(s)} · ${days(g.von, g.bis)} Tage</div></div><div class="a"><button class="sm" data-act="spot" data-id="${s.id}" data-day="${g.von}">Ansehen</button></div></div>`; }).join("") : `<div class="empty">Keine weiteren Freigaben.</div>`}</div></section></div>`;
+  }
+
+  function viewMine(v) {
+    const list = S.res.filter((r) => r.user_id === S.me.id);
+    v.innerHTML = `<section class="panel"><h2>Meine Reservierungen</h2><div class="list">${list.length ? list.map((r) => { const s = spot(r.spot_id); const live = (r.status === "angefragt" || r.status === "bestaetigt") && r.bis >= TODAY(); return `<div class="item"><div>
+      <div class="t">${rng(r.von, r.bis)} · Platz ${esc(s?.label || "?")} <span class="chip ${r.status}">${CHIP[r.status]}</span></div>
+      <div class="m">${s ? esc(s.L.name + " · " + s.R.name) : ""} · Inhaber ${esc(pname(ownerOn(r.spot_id, r.von)))} · ${esc(r.kennz)}</div></div>
+      <div class="a">${live ? `<button class="sm danger" data-act="cancel" data-id="${r.id}">Stornieren</button>` : ""}</div></div>`; }).join("") : `<div class="empty">Noch keine Reservierungen. Wähle im Lageplan einen grünen Platz.</div>`}</div></section>`;
+  }
+
+  function viewOwner(v) {
+    v.innerHTML = myOwn().map((o) => {
+      const s = spot(o.spot_id); if (!s) return "";
+      const rels = S.releases.filter((r) => r.spot_id === s.id && r.owner_id === S.me.id && r.bis >= TODAY()).sort((a, b) => a.von.localeCompare(b.von));
+      const reqs = S.res.filter((r) => r.spot_id === s.id && r.user_id !== S.me.id && r.bis >= TODAY());
+      const pend = reqs.filter((r) => r.status === "angefragt"); const guests = reqs.filter((r) => r.status === "bestaetigt");
+      return `<div class="cols" style="margin-bottom:16px">
+        <section class="panel">
+          <div><span class="label">Mein Stellplatz</span><h2>Platz ${esc(s.label)} <span class="small muted" style="font-family:var(--body);font-weight:500">${esc(s.L.name + " · " + s.R.name)}</span></h2>
+            ${o.ab > TODAY() ? `<p class="msg ok">Du übernimmst den Platz ab ${fw(o.ab)}.</p>` : ""}${o.bis ? `<p class="msg err">Du gibst den Platz nach dem ${fw(o.bis)} ab.</p>` : ""}</div>
+          ${pend.map((r) => `<div class="item" style="border-color:var(--led-req);background:var(--warn-bg)"><div class="push"><div class="appicon" aria-hidden="true">P</div><div>
+            <div class="t">${esc(pname(r.user_id))} möchte ${rng(r.von, r.bis)}</div><div class="m">${esc(r.kennz)} · ${days(r.von, r.bis)} Tage${r.msg ? " · „" + esc(r.msg) + "“" : ""}</div></div></div>
+            <div class="a"><button class="ok sm" data-act="decide" data-id="${r.id}" data-ok="1">Freischalten</button><button class="sm danger" data-act="decide" data-id="${r.id}" data-ok="0">Ablehnen</button></div></div>`).join("")}
+          <h3>Platz freigeben</h3>
+          <form class="list" data-form="release" data-id="${s.id}">
+            <div class="row"><label class="field"><span class="label">Von</span><input type="date" name="von" min="${TODAY()}" required></label>
+              <label class="field"><span class="label">Bis</span><input type="date" name="bis" min="${TODAY()}" required></label></div>
+            <div class="row"><label class="check"><input type="checkbox" name="useAb"> Erst ab Datum reservierbar machen</label>
+              <label class="field" style="flex:0 1 180px"><span class="label">Reservierbar ab</span><input type="date" name="ab" min="${TODAY()}"></label></div>
+            <div class="row"><button class="primary" type="submit">Zeitraum freigeben</button><span class="msg" data-out></span></div></form>
+        </section>
+        <section class="panel"><h3>Meine Freigaben</h3>
+          <div class="list">${rels.length ? rels.map((r) => { const st = !r.aktiv ? "pausiert" : r.ab && r.ab > TODAY() ? "geplant" : "aktiv";
+            const booked = guests.filter((x) => x.release_id === r.id).reduce((n, x) => n + days(x.von, x.bis), 0);
+            return `<div class="item"><div><div class="t">${rng(r.von, r.bis)} <span class="chip ${st}">${st === "geplant" ? "ab " + f(r.ab) : st}</span></div><div class="m">${days(r.von, r.bis)} Tage · ${booked} vergeben</div></div>
+              <div class="a"><label class="check small"><input type="checkbox" data-act="relActive" data-id="${r.id}" ${r.aktiv ? "checked" : ""}> aktiv</label>
+              <button class="sm" data-act="shorten" data-id="${r.id}">Früher zurück</button><button class="sm danger" data-act="relDelete" data-id="${r.id}">Löschen</button></div></div>`; }).join("") : `<div class="empty">Keine Freigaben. Trag deinen nächsten Urlaub links ein, auch mehrere im Voraus.</div>`}</div>
+          <h3>Gäste auf meinem Platz</h3>
+          <div class="list">${guests.map((r) => `<div class="item"><div><div class="t">${rng(r.von, r.bis)} · ${esc(pname(r.user_id))}</div><div class="m">${esc(r.kennz)}</div></div></div>`).join("") || `<div class="empty">Keine bestätigten Gäste.</div>`}</div>
+        </section></div>`;
+    }).join("");
+  }
+
+  function viewInbox(v) {
+    v.innerHTML = `<section class="panel"><h2>Mitteilungen</h2><div class="list">${S.notes.length ? S.notes.map((n) => `<div class="item" style="${n.read ? "" : "border-color:var(--brand)"}"><div class="push"><div class="appicon" aria-hidden="true">P</div><div>
+      <div class="m">${new Date(n.created_at).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</div><div>${esc(n.text)}</div></div></div></div>`).join("") : `<div class="empty">Keine Mitteilungen.</div>`}</div></section>`;
+    if (S.notes.some((n) => !n.read)) sb.rpc("pp_notes_read").then(() => S.notes.forEach((n) => (n.read = true)));
+  }
+
+  // ======================= Profil =======================
+  function viewProfile(v) {
+    const own = myOwn();
+    v.innerHTML = `<div class="cols">
+      <section class="panel"><h2>Mein Profil</h2>
+        <p>Pseudonym: <b>${esc(S.me.pseudonym)}</b>${S.me.is_admin ? ' <span class="chip aktiv">Admin</span>' : ""}</p>
+        <form class="row" data-form="kennz"><label class="field"><span class="label">Kennzeichen (für Reservierungen)</span><input name="k" maxlength="14" value="${esc(S.priv?.kennz || "")}" style="text-transform:uppercase" placeholder="S-AB 1234"></label><button type="submit">Speichern</button></form>
+        <h3>Push-Nachrichten</h3>
+        <p class="small muted">Du bekommst eine Nachricht, wenn jemand deinen Platz anfragt oder deine Anfrage beantwortet wird. Auf dem iPhone geht das nur, wenn ParkPause zum Home-Bildschirm hinzugefügt ist.</p>
+        <div class="row"><button class="${S.pushOn ? "" : "primary"}" data-act="push">${S.pushOn ? "Push auf diesem Gerät ausschalten" : "Push auf diesem Gerät einschalten"}</button><span class="msg" id="pushMsg"></span></div>
+        <h3>Passwort ändern</h3>
+        <form class="row" data-form="pw"><label class="field"><span class="label">Neues Passwort (mind. 8 Zeichen)</span><input name="p" type="password" minlength="8" autocomplete="new-password" required></label><button type="submit">Ändern</button></form>
+        <div class="row"><button data-act="logout">Abmelden</button></div>
+      </section>
+      <section class="panel"><h2>Mein Stellplatz</h2>
+        ${own.length ? own.map((o) => { const s = spot(o.spot_id); return `<div class="item"><div><div class="t">Platz ${esc(s?.label || "?")}</div><div class="m">${s ? esc(s.L.name + " · " + s.R.name) : ""} · seit ${fw(o.ab)}${o.bis ? " · bis " + fw(o.bis) : ""}</div></div>
+          <div class="a">${o.bis ? "" : `<button class="sm danger" data-act="leave" data-id="${o.spot_id}">Platz abgeben …</button>`}</div></div>`; }).join("") : `<p class="muted">Dir ist kein Platz zugeordnet.</p>`}
+        <button data-act="claimStart" style="justify-self:start">${own.length ? "Weiteren Platz eintragen" : "Ich habe einen Stellplatz"}</button>
+        <h2 style="margin-top:12px">Datenschutz</h2>
+        <p class="small muted">ParkPause speichert dein Pseudonym, deinen Platz, deine Freigaben, Reservierungen, Mitteilungen und dein Kennzeichen. Das Kennzeichen sehen nur Inhaber, bei denen du reservierst. Alle sehen im Plan nur Pseudonyme und ob ein Platz frei ist, nie warum.</p>
+        <button class="danger" data-act="deleteMe" style="justify-self:start">Meine Daten löschen …</button>
+      </section></div>`;
+  }
+
+  // ======================= Admin =======================
+  function viewAdmin(v) {
+    const t = S.adminTab;
+    const tabs = [["garage", "Garage"], ["plaetze", "Plätze & Mieter"], ["leute", "Mitglieder"], ["einladung", "Einladung"], ["design", "Erscheinungsbild"], ["regeln", "Regeln"]];
+    v.innerHTML = `<div style="display:grid;gap:14px"><div class="subtabs">${tabs.map(([k, n]) => `<button class="sm" data-act="atab" data-id="${k}" aria-pressed="${t === k}">${n}</button>`).join("")}</div><div id="adm"></div></div>`;
+    ({ garage: admGarage, plaetze: admSpots, leute: admPeople, einladung: admInvite, design: admDesign, regeln: admRules })[t]($("adm"));
+  }
+  function admGarage(el) {
+    const levels = [...S.levels].sort((a, b) => a.sort - b.sort || a.kz.localeCompare(b.kz));
+    el.innerHTML = `<section class="panel"><h2>Aufbau der Garage</h2>
+      <p class="muted">Ebenen, Räume und Anzahl der Plätze. Änderungen werden sofort gespeichert. Platznummern entstehen nach dem Schema.</p>
+      <label class="field" style="max-width:420px"><span class="label">Nummernschema</span><select data-set="scheme">
+        <option value="ebene-raum" ${S.settings.scheme === "ebene-raum" ? "selected" : ""}>Ebene + Raum + Platz (U1A-07)</option>
+        <option value="ebene" ${S.settings.scheme === "ebene" ? "selected" : ""}>Ebene + fortlaufend (U1-31)</option>
+        <option value="fortlaufend" ${S.settings.scheme === "fortlaufend" ? "selected" : ""}>Durchgehend (1–${SP.length})</option></select></label>
+      ${!levels.length ? `<button class="primary" data-act="seed" style="justify-self:start">Vorschlag anlegen (2 Ebenen, 4 Räume, 85 Plätze)</button>` : ""}
+      ${levels.map((L) => { const rooms = S.rooms.filter((r) => r.level_id === L.id).sort((a, b) => a.sort - b.sort || a.kz.localeCompare(b.kz)); return `<div class="levelcfg">
+        <div class="row"><label class="field" style="flex:0 1 100px"><span class="label">Kürzel</span><input data-tbl="pp_levels" data-id="${L.id}" data-col="kz" value="${esc(L.kz)}" maxlength="4"></label>
+          <label class="field"><span class="label">Name der Ebene</span><input data-tbl="pp_levels" data-id="${L.id}" data-col="name" value="${esc(L.name)}" maxlength="30"></label>
+          <label class="field" style="flex:0 1 90px"><span class="label">Reihenfolge</span><input type="number" data-tbl="pp_levels" data-id="${L.id}" data-col="sort" value="${L.sort}"></label>
+          <button class="sm danger" data-act="delLevel" data-id="${L.id}">Ebene löschen</button></div>
+        ${rooms.map((R) => `<div class="roomcfg">
+          <label class="field"><span class="label">Raum-Kürzel</span><input data-tbl="pp_rooms" data-id="${R.id}" data-col="kz" value="${esc(R.kz)}" maxlength="3"></label>
+          <label class="field"><span class="label">Raumname</span><input data-tbl="pp_rooms" data-id="${R.id}" data-col="name" value="${esc(R.name)}" maxlength="30"></label>
+          <label class="field"><span class="label">Plätze</span><input type="number" min="0" max="200" data-tbl="pp_rooms" data-id="${R.id}" data-col="count" value="${R.count}"></label>
+          <label class="field"><span class="label">Reihenfolge</span><input type="number" data-tbl="pp_rooms" data-id="${R.id}" data-col="sort" value="${R.sort}"></label>
+          <button class="sm danger" data-act="delRoom" data-id="${R.id}">Raum löschen</button></div>`).join("")}
+        <button class="sm" data-act="addRoom" data-id="${L.id}" style="justify-self:start">+ Raum</button></div>`; }).join("")}
+      <div class="row"><button data-act="addLevel">+ Ebene</button><b style="font-family:var(--display);font-size:1.2rem">${SP.length} Plätze gesamt</b></div></section>`;
+    el.querySelectorAll("[data-tbl]").forEach((i) => i.addEventListener("change", async (e) => {
+      const t = e.target; let val = t.type === "number" ? Number(t.value) : t.value.trim();
+      if (t.dataset.col === "count") {
+        const R = S.rooms.find((r) => r.id === t.dataset.id);
+        const gone = SP.filter((s) => s.room_id === R.id && s.idx > val && S.owners.some((o) => o.spot_id === s.id));
+        if (gone.length && t.dataset.armed !== "1") { t.dataset.armed = "1"; toast(gone.length + " Plätze mit Mietern fallen weg. Zum Bestätigen den Wert nochmal ändern oder Enter drücken."); return; }
+      }
+      const { error } = await sb.from(t.dataset.tbl).update({ [t.dataset.col]: val }).eq("id", t.dataset.id);
+      if (error) toast("Nicht gespeichert: " + cleanErr(error.message)); else { toast("Gespeichert"); refresh(); }
+    }));
+    el.querySelector("[data-set=scheme]").onchange = (e) => saveSettings({ scheme: e.target.value });
+  }
+  function admSpots(el) {
+    const people = [...S.profiles].sort((a, b) => a.pseudonym.localeCompare(b.pseudonym));
+    el.innerHTML = `<section class="panel"><h2>Plätze & Mieter</h2>
+      <p class="muted small">Mieter tragen sich normalerweise selbst ein. Hier kannst du Typ und Merkmal setzen und Zuordnungen korrigieren oder zu einem Stichtag wechseln.</p>
+      <div class="tablewrap" style="max-height:620px"><table><thead><tr><th>Platz</th><th>Ebene / Raum</th><th>Typ</th><th>Merkmal</th><th>Mieter heute</th><th>Nächster Wechsel</th><th></th></tr></thead><tbody>
+      ${SP.map((s) => { const o = ownerOn(s.id, TODAY()); const nx = S.owners.filter((x) => x.spot_id === s.id && x.ab > TODAY()).sort((a, b) => a.ab.localeCompare(b.ab))[0]; return `<tr>
+        <td><b>${esc(s.label)}</b></td><td>${esc(s.L.name + " · " + s.R.name)}</td>
+        <td><select data-spot="${s.id}" data-col="type">${["miete", "fest", "gesperrt"].map((t) => `<option value="${t}" ${s.type === t ? "selected" : ""}>${{ miete: "vermietet", fest: "Festplatz", gesperrt: "gesperrt" }[t]}</option>`).join("")}</select>
+          ${s.type === "fest" ? `<input data-spot="${s.id}" data-col="fest_label" value="${esc(s.fest_label || "")}" placeholder="z. B. Vorstand" maxlength="30" style="width:120px">` : ""}</td>
+        <td><select data-spot="${s.id}" data-col="merkmal">${["", "E-Laden", "breit", "Motorrad"].map((m) => `<option value="${m}" ${(s.merkmal || "") === m ? "selected" : ""}>${m || "—"}</option>`).join("")}</select></td>
+        <td>${s.type === "miete" ? esc(o ? pname(o) : "—") : ""}</td>
+        <td>${nx ? `ab ${f(nx.ab)}: ${esc(pname(nx.user_id))}` : ""}</td>
+        <td>${s.type === "miete" ? `<button class="sm" data-act="changeOwner" data-id="${s.id}">Mieter ändern …</button>` : ""}</td></tr>`; }).join("")}
+      </tbody></table></div></section>`;
+    el.querySelectorAll("[data-spot]").forEach((i) => i.addEventListener("change", async (e) => {
+      const t = e.target; const val = t.value.trim() || null;
+      const { error } = await sb.from("pp_spots").update({ [t.dataset.col]: val }).eq("id", t.dataset.spot);
+      if (error) toast("Nicht gespeichert: " + cleanErr(error.message)); else { toast("Gespeichert"); refresh(); }
+    }));
+  }
+  function admPeople(el) {
+    const people = [...S.profiles].sort((a, b) => a.pseudonym.localeCompare(b.pseudonym));
+    el.innerHTML = `<section class="panel"><h2>Mitglieder</h2>
+      <div class="kpi"><div><span class="label">Mitglieder</span><b>${people.length}</b></div><div><span class="label">mit Platz</span><b>${new Set(S.owners.filter((o) => !o.bis || o.bis >= TODAY()).map((o) => o.user_id)).size}</b></div></div>
+      <div class="tablewrap"><table><thead><tr><th>Pseudonym</th><th>Platz</th><th>dabei seit</th><th>Admin</th><th></th></tr></thead><tbody>
+      ${people.map((p) => { const sp = SP.filter((s) => ownerOn(s.id, TODAY()) === p.id).map((s) => s.label).join(", "); return `<tr><td>${esc(p.pseudonym)}</td><td>${esc(sp || "—")}</td><td>${new Date(p.created_at).toLocaleDateString("de-DE")}</td>
+        <td><input type="checkbox" data-act="setAdmin" data-id="${p.id}" ${p.is_admin ? "checked" : ""} ${p.id === S.me.id ? "disabled" : ""} aria-label="Admin"></td>
+        <td>${p.id === S.me.id ? "" : `<button class="sm" data-act="resetPw" data-id="${p.id}">Neues Passwort</button> <button class="sm danger" data-act="removeUser" data-id="${p.id}">Entfernen</button>`}</td></tr>`; }).join("")}
+      </tbody></table></div></section>`;
+  }
+  async function admInvite(el) {
+    el.innerHTML = `<section class="panel" style="max-width:720px"><h2>Einladung</h2><p class="muted">Lädt …</p></section>`;
+    try { S.invite = await rpc("pp_admin_invite", { p_new: null }); } catch (e) { el.innerHTML = `<p class="msg err">${esc(e.message)}</p>`; return; }
+    const link = location.origin + location.pathname;
+    const text = `Hallo, für die Tiefgarage gibt es jetzt ParkPause: Wer im Urlaub ist, gibt seinen Platz frei, andere können ihn reservieren.\n\nApp: ${link}\nEinladungscode: ${S.invite}\n\nBitte bei der Registrierung ein Pseudonym statt des echten Namens wählen.`;
+    el.innerHTML = `<section class="panel" style="max-width:720px"><h2>Einladung</h2>
+      <p>Wer den Code kennt, kann sich registrieren. Gib ihn nur an Kolleginnen und Kollegen weiter.</p>
+      <div class="row" style="align-items:center"><span class="big">${esc(S.invite)}</span><button class="sm" data-act="copy" data-text="${esc(S.invite)}">Code kopieren</button></div>
+      <label class="field"><span class="label">Text zum Weiterleiten</span><textarea id="invText" rows="6" readonly>${esc(text)}</textarea></label>
+      <button class="sm" data-act="copy" data-text="${esc(text)}" style="justify-self:start">Text kopieren</button>
+      <form class="row" data-form="invite"><label class="field"><span class="label">Neuer Code (alter wird ungültig)</span><input name="c" minlength="6" maxlength="20" required style="text-transform:uppercase"></label><button type="submit">Code ändern</button></form></section>`;
+  }
+  function admDesign(el) {
+    const presets = [["#1F4E8C", "Blau"], ["#C8102E", "Rot"], ["#0E6E73", "Petrol"], ["#2E7D32", "Grün"], ["#37424D", "Anthrazit"]];
+    el.innerHTML = `<section class="panel" style="max-width:720px"><h2>Erscheinungsbild</h2>
+      <label class="field"><span class="label">App-Name</span><input id="dName" value="${esc(S.settings.app_name)}" maxlength="24"></label>
+      <div class="field"><span class="label">Hausfarbe</span><div class="swatches">${presets.map(([c, n]) => `<button data-act="color" data-id="${c}" style="background:${c}" aria-label="${n}" title="${n}"></button>`).join("")}<input type="color" id="dColor" value="${esc(S.settings.color)}" aria-label="Eigene Farbe"></div></div>
+      <div class="field"><span class="label">Logo (SVG oder PNG, höchstens 150 KB)</span><input type="file" id="dLogo" accept="image/svg+xml,image/png,image/jpeg">
+        ${S.settings.logo ? `<button class="sm danger" data-act="logoDel" style="justify-self:start">Logo entfernen</button>` : ""}</div>
+      <p class="small muted">Ein Firmenlogo nur verwenden, wenn die Firma zugestimmt hat.</p>
+      <label class="check"><input type="checkbox" id="dNames" ${S.settings.show_names ? "checked" : ""}> Pseudonyme der Inhaber im Lageplan zeigen</label>
+      <button class="primary" data-act="designSave" style="justify-self:start">Speichern</button></section>`;
+    $("dColor").oninput = (e) => document.documentElement.style.setProperty("--brand", e.target.value);
+    $("dLogo").onchange = (e) => {
+      const file = e.target.files[0]; if (!file) return;
+      if (file.size > 150 * 1024) { toast("Die Datei ist größer als 150 KB."); return; }
+      const r = new FileReader(); r.onload = () => saveSettings({ logo: r.result }); r.readAsDataURL(file);
+    };
+  }
+  function admRules(el) {
+    const R = S.settings;
+    el.innerHTML = `<section class="panel" style="max-width:720px"><h2>Regeln</h2>
+      <div class="row"><label class="field"><span class="label">Antwortfrist für Inhaber (Stunden)</span><input type="number" id="rFrist" min="1" max="168" value="${R.frist_std}"></label>
+        <label class="field"><span class="label">Nach Ablauf der Frist</span><select id="rNach"><option value="verfallen" ${R.nach_frist === "verfallen" ? "selected" : ""}>Anfrage verfällt</option><option value="auto" ${R.nach_frist === "auto" ? "selected" : ""}>automatisch bestätigen</option></select></label></div>
+      <div class="row"><label class="field"><span class="label">Höchstdauer einer Reservierung (Tage)</span><input type="number" id="rMax" min="1" max="365" value="${R.max_tage}"></label>
+        <label class="field"><span class="label">Reservieren höchstens … Tage im Voraus</span><input type="number" id="rVor" min="1" max="365" value="${R.vorlauf}"></label></div>
+      <button class="primary" data-act="rulesSave" style="justify-self:start">Speichern</button></section>`;
+  }
+  async function saveSettings(patch) {
+    const { error } = await sb.from("pp_settings").update({ ...patch, updated_at: new Date().toISOString() }).eq("id", 1);
+    if (error) toast("Nicht gespeichert: " + cleanErr(error.message)); else { toast("Gespeichert"); refresh(); }
+  }
+
+  // ======================= Dialoge =======================
+  const closeDlg = () => { $("layer").innerHTML = ""; };
+  function dlg(title, sub, body) {
+    $("layer").innerHTML = `<div class="overlay" data-act="closeBg"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgT">
+      <div class="dlghead"><div>${sub ? `<span class="label">${sub}</span>` : ""}<div class="bignr" id="dlgT" style="font-size:1.8rem">${title}</div></div><button class="sm" data-act="close" aria-label="Schließen">✕</button></div>${body}</div></div>`;
+    document.querySelector(".dialog input, .dialog button")?.focus();
+  }
+  function openSpot(id, day) {
+    const s = spot(id); if (!s) return;
+    const d = day || (S.viewDate < TODAY() ? TODAY() : S.viewDate);
+    const o = ownerOn(s.id, TODAY()); const st = status(s, d);
+    if (S.claimMode) {
+      if (st !== "unklar") { toast("Dieser Platz ist schon jemandem zugeordnet oder kein Mietplatz."); return; }
+      dlg("Platz " + esc(s.label), esc(s.L.name + " · " + s.R.name), `<form class="list" data-form="claim" data-id="${s.id}">
+        <p>Ist das dein Stellplatz?</p>
+        <label class="field"><span class="label">Mein Platz seit / ab</span><input type="date" name="ab" value="${TODAY()}" required></label>
+        <div class="row"><button class="primary" type="submit">Ja, das ist mein Platz</button><span class="msg" data-out></span></div></form>`);
+      return;
+    }
+    const rels = S.releases.filter((r) => r.spot_id === s.id && bookable(r) && r.bis >= TODAY()).sort((a, b) => a.von.localeCompare(b.von));
+    const segs = rels.flatMap((r) => segments(r));
+    let body;
+    if (s.type === "fest") body = `<p>Fest vergeben (${esc(s.fest_label || "Festplatz")}), nicht reservierbar.</p>`;
+    else if (s.type === "gesperrt") body = `<p>Dieser Platz ist gesperrt.</p>`;
+    else if (!o) body = `<p>Diesem Platz ist noch niemand zugeordnet.</p><button data-act="claimStart" style="justify-self:start">Das ist mein Platz</button>`;
+    else if (o === S.me.id) body = `<p>Das ist dein Platz.</p><button class="primary" data-act="tab" data-id="mein" style="justify-self:start">Freigaben verwalten</button>`;
+    else if (!segs.length) body = `<p>Für diesen Platz ist gerade kein Zeitraum freigegeben.</p>`;
+    else {
+      const first = segs.find((g) => g.von <= d && d <= g.bis) || segs[0]; const max = S.settings.max_tage;
+      body = `<form class="list" data-form="reserve" data-id="${s.id}">
+        <span class="label">Wie lange möchtest du den Platz?</span>
+        <div class="choice">${segs.map((g, i) => `<label><input type="radio" name="mode" value="${g.von}|${g.bis}" ${g === first ? "checked" : ""}><span><b>Ganzer freigegebener Zeitraum</b><br><span class="small muted">${fw(g.von)} bis ${fw(g.bis)} · ${days(g.von, g.bis)} Tage${days(g.von, g.bis) > max ? " (länger als erlaubt: höchstens " + max + ")" : ""}</span></span></label>`).join("")}
+          <label><input type="radio" name="mode" value="custom"><span><b>Anderen Zeitraum wählen</b><br><span class="small muted">nur Tage innerhalb der Freigabe</span></span></label></div>
+        <div class="row" id="customRow" hidden>
+          <label class="field"><span class="label">Von</span><input type="date" name="von" min="${segs[0].von}" max="${segs.at(-1).bis}" value="${first.von}"></label>
+          <label class="field"><span class="label">Bis</span><input type="date" name="bis" min="${segs[0].von}" max="${segs.at(-1).bis}" value="${first.von}"></label></div>
+        <div class="row"><label class="field"><span class="label">Kennzeichen</span><input name="kennz" maxlength="14" required value="${esc(S.priv?.kennz || "")}" placeholder="S-AB 1234" style="text-transform:uppercase"></label>
+          <label class="field"><span class="label">Nachricht (optional)</span><input name="msg" maxlength="120" placeholder="z. B. Ankunft 7:30"></label></div>
+        <div class="row"><button class="primary" type="submit">Verbindlich anfragen</button><span class="msg" data-out></span></div>
+        <p class="small muted">${esc(pname(o))} bekommt eine Nachricht und schaltet den Platz frei.</p></form>`;
+    }
+    dlg("Platz " + esc(s.label), esc(s.L.name + " · " + s.R.name) + (s.merkmal ? " · " + esc(s.merkmal) : ""),
+      `<p class="small muted">${s.type === "miete" ? "Inhaber: " + esc(o ? pname(o) : "noch keiner") + " · " : ""}am ${f(d)}: <b>${STXT[st]}</b></p>${body}`);
+    const fm = document.querySelector('[data-form="reserve"]');
+    if (fm) fm.querySelectorAll('[name="mode"]').forEach((r) => r.onchange = () => { $("customRow").hidden = fm.mode.value !== "custom"; });
+  }
+
+  // ======================= Push =======================
+  const b64 = (s) => { const p = "=".repeat((4 - s.length % 4) % 4); const r = atob((s + p).replace(/-/g, "+").replace(/_/g, "/")); return Uint8Array.from(r, (c) => c.charCodeAt(0)); };
+  async function pushState() {
+    try { const reg = await navigator.serviceWorker?.getRegistration("./"); S.pushOn = !!(reg && await reg.pushManager.getSubscription()); } catch { S.pushOn = false; }
+  }
+  async function togglePush() {
+    const out = $("pushMsg"); const say = (t, ok) => { if (out) { out.className = "msg " + (ok ? "ok" : "err"); out.textContent = t; } };
+    if (!("serviceWorker" in navigator) || !("PushManager" in window)) return say("Dieser Browser kann keine Push-Nachrichten. Auf dem iPhone ParkPause erst zum Home-Bildschirm hinzufügen.");
+    if (!C.vapidPublic) return say("Push ist noch nicht eingerichtet.");
+    try {
+      const reg = await navigator.serviceWorker.register("sw.js", { scope: "./" }); await navigator.serviceWorker.ready;
+      const cur = await reg.pushManager.getSubscription();
+      if (cur) {
+        await sb.from("pp_push").delete().eq("endpoint", cur.endpoint); await cur.unsubscribe();
+        S.pushOn = false; render(); toast("Push ausgeschaltet"); return;
+      }
+      if (await Notification.requestPermission() !== "granted") return say("Benachrichtigungen sind für ParkPause blockiert. Bitte in den Einstellungen des Browsers erlauben.");
+      const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(C.vapidPublic) });
+      const j = sub.toJSON();
+      await sb.from("pp_push").delete().eq("endpoint", j.endpoint);
+      const { error } = await sb.from("pp_push").insert({ endpoint: j.endpoint, user_id: S.me.id, p256dh: j.keys.p256dh, auth: j.keys.auth });
+      if (error) throw error;
+      S.pushOn = true; render(); toast("Push eingeschaltet");
+    } catch (e) { say("Push konnte nicht eingeschaltet werden: " + cleanErr(e.message)); }
+  }
+
+  // ======================= Aktionen =======================
+  async function run(btn, fn) { if (btn) btn.disabled = true; try { await fn(); } catch (e) { toast(cleanErr(e.message)); } finally { if (btn) btn.disabled = false; } }
+  function arm(btn, label) { if (btn.dataset.armed === "1") return true; btn.dataset.armed = "1"; btn.dataset.label = btn.textContent; btn.textContent = label; setTimeout(() => { btn.dataset.armed = ""; btn.textContent = btn.dataset.label; }, 4000); return false; }
+
+  document.addEventListener("click", async (e) => {
+    const t = e.target.closest("[data-act]"); if (!t) return;
+    const a = t.dataset.act, id = t.dataset.id;
+    if (a === "closeBg" && e.target !== t) return;
+    switch (a) {
+      case "authmode": return viewAuth(id);
+      case "tab": S.tab = id; closeDlg(); render(); window.scrollTo(0, 0); return;
+      case "level": S.level = id; return render();
+      case "spot": return openSpot(id, t.dataset.day);
+      case "close": case "closeBg": return closeDlg();
+      case "logout": await sb.auth.signOut(); S.session = null; S.me = null; S.loaded = false; return render();
+      case "claimStart": S.claimMode = true; S.tab = "plan"; closeDlg(); return render();
+      case "claimStop": S.claimMode = false; return render();
+      case "noSpot": return run(t, async () => { await rpc("pp_set_onboarded"); await refresh(); });
+      case "decide": return run(t, async () => { await rpc("pp_decide", { p_res: id, p_ok: t.dataset.ok === "1" }); toast(t.dataset.ok === "1" ? "Freigeschaltet" : "Abgelehnt"); await refresh(); });
+      case "cancel": if (!arm(t, "Wirklich stornieren?")) return; return run(t, async () => { await rpc("pp_cancel", { p_res: id }); toast("Storniert"); await refresh(); });
+      case "relActive": return run(null, async () => { try { await rpc("pp_release_set_active", { p_id: id, p_aktiv: t.checked }); } catch (er) { t.checked = !t.checked; throw er; } await refresh(); });
+      case "relDelete": if (!arm(t, "Sicher?")) return; return run(t, async () => { await rpc("pp_release_delete", { p_id: id }); toast("Freigabe gelöscht"); await refresh(); });
+      case "shorten": { const r = S.releases.find((x) => x.id === id);
+        return dlg("Früher zurück", "Freigabe " + rng(r.von, r.bis), `<form class="list" data-form="shorten" data-id="${id}"><label class="field"><span class="label">Ich parke wieder selbst ab</span><input type="date" name="d" min="${r.von > TODAY() ? r.von : TODAY()}" max="${r.bis}" required></label><p class="small muted">Betroffene Gäste werden sofort benachrichtigt.</p><div class="row"><button class="primary" type="submit">Freigabe kürzen</button><span class="msg" data-out></span></div></form>`); }
+      case "leave": { const s = spot(id);
+        return dlg("Platz " + esc(s.label) + " abgeben", "Kündigung oder Wechsel", `<form class="list" data-form="leave" data-id="${id}"><label class="field"><span class="label">Mein letzter Tag auf dem Platz</span><input type="date" name="d" min="${add(TODAY(), -1)}" value="${TODAY()}" required></label><p class="small muted">Danach kann der neue Mieter den Platz selbst eintragen. Freigaben und Gäste nach diesem Tag werden beendet und benachrichtigt.</p><div class="row"><button class="dangerfill" type="submit">Platz abgeben</button><span class="msg" data-out></span></div></form>`); }
+      case "deleteMe":
+        return dlg("Meine Daten löschen", "", `<form class="list" data-form="deleteMe"><p>Dein Konto, deine Platz-Zuordnung, Freigaben, Reservierungen, Mitteilungen und Push-Abos werden <b>sofort und endgültig</b> gelöscht. Betroffene Gäste und Inhaber werden benachrichtigt.</p>
+          <label class="field"><span class="label">Zur Bestätigung dein Pseudonym eingeben</span><input name="n" autocomplete="off" required></label><div class="row"><button class="dangerfill" type="submit">Endgültig löschen</button><span class="msg" data-out></span></div></form>`);
+      case "push": return togglePush();
+      case "seed": return run(t, async () => { await rpc("pp_admin_seed_layout"); toast("Garage angelegt"); await refresh(); });
+      case "atab": S.adminTab = id; return render();
+      case "addLevel": return run(t, async () => { const n = S.levels.length + 1; const { error } = await sb.from("pp_levels").insert({ kz: "U" + n, name: "Ebene −" + n, sort: n }); if (error) throw error; await refresh(); });
+      case "addRoom": return run(t, async () => { const n = S.rooms.filter((r) => r.level_id === id).length; const k = String.fromCharCode(65 + n); const { error } = await sb.from("pp_rooms").insert({ level_id: id, kz: k, name: "Raum " + k, sort: n + 1, count: 10 }); if (error) throw error; await refresh(); });
+      case "delLevel": case "delRoom": { const tbl = a === "delLevel" ? "pp_levels" : "pp_rooms";
+        const ss = SP.filter((s) => (a === "delLevel" ? s.L.id : s.R.id) === id); const used = ss.filter((s) => S.owners.some((o) => o.spot_id === s.id)).length;
+        if (!arm(t, used ? `${used} Plätze mit Mietern! Sicher?` : "Sicher?")) return;
+        return run(t, async () => { const { error } = await sb.from(tbl).delete().eq("id", id); if (error) throw error; toast("Gelöscht"); await refresh(); }); }
+      case "changeOwner": { const s = spot(id); const o = ownerOn(id, TODAY()); const people = [...S.profiles].sort((x, y) => x.pseudonym.localeCompare(y.pseudonym));
+        return dlg("Platz " + esc(s.label), "Mieter ändern", `<form class="list" data-form="owner" data-id="${id}"><p class="small muted">Heute: ${esc(o ? pname(o) : "niemand")}</p>
+          <div class="row"><label class="field"><span class="label">Neuer Mieter</span><select name="p"><option value="">— niemand (Platz frei machen) —</option>${people.map((p) => `<option value="${p.id}">${esc(p.pseudonym)}</option>`).join("")}</select></label>
+          <label class="field"><span class="label">ab</span><input type="date" name="ab" value="${TODAY()}" required></label></div>
+          <div class="choice"><label><input type="radio" name="how" value="end" checked><span><b>Freigaben des bisherigen Mieters beenden</b><br><span class="small muted">Gäste ab dem Stichtag werden benachrichtigt.</span></span></label>
+          <label><input type="radio" name="how" value="hand"><span><b>An neuen Mieter übergeben</b><br><span class="small muted">Freigaben und Gäste bleiben bestehen.</span></span></label></div>
+          <div class="row"><button class="primary" type="submit">Übernehmen</button><span class="msg" data-out></span></div></form>`); }
+      case "setAdmin": return run(null, async () => { try { await rpc("pp_admin_set_admin", { p_user: id, p_on: t.checked }); } catch (er) { t.checked = !t.checked; throw er; } toast("Gespeichert"); await refresh(); });
+      case "resetPw": if (!arm(t, "Wirklich?")) return; return run(t, async () => {
+        const { data, error } = await sb.functions.invoke("pp-auth", { body: { action: "admin_reset", user_id: id } });
+        if (error || !data?.password) throw new Error(data?.error || "Passwort konnte nicht gesetzt werden.");
+        dlg("Neues Passwort", esc(pname(id)), `<p>Gib dieses Passwort persönlich weiter. Es wird nur jetzt angezeigt.</p><p class="big">${esc(data.password)}</p><button class="sm" data-act="copy" data-text="${esc(data.password)}" style="justify-self:start">Kopieren</button><p class="small muted">Danach unter Profil → Passwort ändern ein eigenes setzen.</p>`); });
+      case "removeUser": if (!arm(t, "Endgültig entfernen?")) return; return run(t, async () => { await rpc("pp_admin_remove_user", { p_user: id }); toast("Mitglied entfernt"); await refresh(); });
+      case "copy": try { await navigator.clipboard.writeText(t.dataset.text); toast("Kopiert"); } catch { toast("Kopieren nicht möglich. Bitte markieren und kopieren."); } return;
+      case "color": return saveSettings({ color: id });
+      case "logoDel": return saveSettings({ logo: null });
+      case "designSave": return saveSettings({ app_name: $("dName").value.trim() || "ParkPause", color: $("dColor").value, show_names: $("dNames").checked });
+      case "rulesSave": return saveSettings({ frist_std: Number($("rFrist").value) || 24, nach_frist: $("rNach").value, max_tage: Number($("rMax").value) || 21, vorlauf: Number($("rVor").value) || 90 });
+    }
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDlg(); });
+
+  document.addEventListener("submit", async (e) => {
+    const fm = e.target; const kind = fm.dataset.form; if (!kind) return; e.preventDefault();
+    const out = fm.querySelector("[data-out]") || $("authMsg");
+    const say = (m, ok) => { if (out) { out.className = "msg " + (ok ? "ok" : "err"); out.textContent = m; } };
+    const btn = fm.querySelector("[type=submit]"); if (btn) btn.disabled = true;
+    try {
+      switch (kind) {
+        case "login": {
+          const { error } = await sb.auth.signInWithPassword({ email: await loginEmail(fm.pseudonym.value), password: fm.password.value });
+          if (error) throw new Error("Pseudonym oder Passwort stimmt nicht.");
+          break; }
+        case "register": {
+          if (fm.password.value !== fm.password2.value) throw new Error("Die beiden Passwörter sind verschieden.");
+          const { data, error } = await sb.functions.invoke("pp-auth", { body: { action: "register", code: fm.code.value, pseudonym: fm.pseudonym.value, password: fm.password.value } });
+          if (error || !data?.ok) { let m = data?.error; try { m = m || (await error.context.json()).error; } catch {} throw new Error(m || "Registrierung fehlgeschlagen."); }
+          const { error: e2 } = await sb.auth.signInWithPassword({ email: await loginEmail(fm.pseudonym.value), password: fm.password.value });
+          if (e2) throw new Error("Konto angelegt, aber die Anmeldung klappte nicht. Bitte unter „Anmelden“ versuchen.");
+          if (data.admin) toast("Du bist das erste Mitglied und damit Admin.");
+          break; }
+        case "claim": await rpc("pp_claim_spot", { p_spot: fm.dataset.id, p_ab: fm.ab.value }); S.claimMode = false; closeDlg(); toast("Platz eingetragen"); await refresh(); break;
+        case "reserve": {
+          let von, bis; if (fm.mode.value === "custom") { von = fm.von.value; bis = fm.bis.value; } else [von, bis] = fm.mode.value.split("|");
+          if (!isDate(von) || !isDate(bis)) throw new Error("Bitte Von und Bis wählen.");
+          await rpc("pp_request", { p_spot: fm.dataset.id, p_von: von, p_bis: bis, p_kennz: fm.kennz.value, p_msg: fm.msg.value });
+          closeDlg(); toast("Anfrage gesendet"); S.tab = "meine"; await refresh(); break; }
+        case "release": {
+          const ab = fm.useAb.checked ? fm.ab.value : null; if (fm.useAb.checked && !isDate(ab)) throw new Error("Bitte das Datum für „reservierbar ab“ wählen.");
+          await rpc("pp_release_add", { p_spot: fm.dataset.id, p_von: fm.von.value || null, p_bis: fm.bis.value || null, p_ab: ab });
+          toast("Freigegeben: " + rng(fm.von.value, fm.bis.value)); await refresh(); break; }
+        case "shorten": await rpc("pp_release_shorten", { p_id: fm.dataset.id, p_back: fm.d.value }); closeDlg(); toast("Freigabe gekürzt"); await refresh(); break;
+        case "leave": await rpc("pp_leave_spot", { p_spot: fm.dataset.id, p_last: fm.d.value }); closeDlg(); toast("Abgabe gespeichert"); await refresh(); break;
+        case "owner": await rpc("pp_admin_set_owner", { p_spot: fm.dataset.id, p_user: fm.p.value || null, p_ab: fm.ab.value, p_handover: fm.how.value === "hand" }); closeDlg(); toast("Mieter geändert"); await refresh(); break;
+        case "kennz": await rpc("pp_set_kennz", { p_kennz: fm.k.value }); toast("Gespeichert"); await refresh(); break;
+        case "pw": { const { error } = await sb.auth.updateUser({ password: fm.p.value }); if (error) throw new Error("Passwort konnte nicht geändert werden."); fm.reset(); toast("Passwort geändert"); break; }
+        case "invite": S.invite = await rpc("pp_admin_invite", { p_new: fm.c.value }); toast("Neuer Code gilt ab sofort"); render(); break;
+        case "deleteMe": {
+          if (fm.n.value.trim().toLowerCase() !== S.me.pseudonym.toLowerCase()) throw new Error("Das Pseudonym stimmt nicht.");
+          try { const reg = await navigator.serviceWorker?.getRegistration("./"); const sub = reg && await reg.pushManager.getSubscription(); if (sub) await sub.unsubscribe(); } catch {}
+          await rpc("pp_delete_me"); await sb.auth.signOut(); closeDlg();
+          S.session = null; S.me = null; S.loaded = false; viewAuth("login", { ok: true, text: "Deine Daten wurden gelöscht." }); break; }
+      }
+    } catch (er) { say(cleanErr(er.message)); }
+    finally { if (btn) btn.disabled = false; }
+  });
+
+  // ======================= Start =======================
+  // Supabase-Hinweis: im Auth-Rueckruf selbst keine weiteren Abfragen abwarten (sonst Blockade) -> entkoppeln
+  sb.auth.onAuthStateChange((ev, session) => {
+    const had = !!S.session; S.session = session;
+    setTimeout(async () => {
+      if (session && (!had || ev === "SIGNED_IN")) { S.loaded = false; try { await loadAll(); await pushState(); } catch { toast("Daten konnten nicht geladen werden."); } render(); }
+      if (!session) render();
+    }, 0);
+  });
+  const typing = () => { const a = document.activeElement; return a && /^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName); };
+  setInterval(() => { if (S.session && S.me && document.visibilityState === "visible" && !$("layer").innerHTML && !typing()) refresh(); }, 30000);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && S.session && S.me) refresh(); });
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { scope: "./" }).catch(() => {});
+})();
+</script>
+</body>
+</html>

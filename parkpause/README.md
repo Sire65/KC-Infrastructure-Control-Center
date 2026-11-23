@@ -32,4 +32,17 @@ Inhaber geben ihren Tiefgaragenplatz für Abwesenheiten frei, Kolleginnen und Ko
 - [ ] Lageplan nach echtem Foto/Skizze
 - [ ] Freigabe durch Vorstand, Personalrat, Datenschutz vor Pilot
 
+## Echte App (KICC-PARKPAUSE-APP)
+
+Unter `parkpause/app/` liegt die echte App mit eigener Datenbank (Supabase, eigenes Konto, keine Verbindung zu KC oder Sparkasse):
+
+- Selbstregistrierung mit Einladungscode und **Pseudonym** (keine E-Mail, kein echter Name); das erste Konto wird Admin
+- Jeder trägt seinen Platz selbst im Plan ein, gibt ihn selbst ab (Kündigung/Wechsel) und kann **„Meine Daten löschen“**
+- Freigeben, Reservieren (ganzer oder anderer Zeitraum), Freischalten, Storno, früher zurück, Antwortfrist
+- Echte Push-Nachrichten (Web Push), Mitteilungen in der App
+- Admin: Garage (Ebenen, Räume, Plätze, Nummernschema), Plätze & Mieter, Mitglieder (Admin-Recht, neues Passwort, entfernen), Einladung, Erscheinungsbild, Regeln
+- Zugriffsregeln in der Datenbank: Kennzeichen und Gäste sieht nur der Platzinhaber, Belegung sehen alle nur ohne Person
+
+Einrichtung: `parkpause/app/SETUP.md`. Datenbank, Funktionen und Tests: `supabase/parkpause/`.
+
 Konzept: Claude-Dokument „ParkPause – Konzept Stellplatz-Freigabe Tiefgarage“.
