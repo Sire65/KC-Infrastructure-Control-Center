@@ -1,7 +1,7 @@
 # Konzept: Mein Stundenkonto (Club-App + DP2)
 
 Feature-ID: **KICC-F-113** (Club-App: `KC-CLUB-STUNDENKONTO`, DP2: `DP2-F-KONTO-01`)
-Stand: 24.11.2026 · Status: **KONZEPT** (noch nichts gebaut) · Baut auf KICC-F-100 (Sonderstunden) und KICC-F-112 (Zeit aus der Erstattung) auf.
+Stand: 24.11.2026 · Status: **KONZEPT FREIGEGEBEN** – Phase 1 in Arbeit · Baut auf KICC-F-100 (Sonderstunden) und KICC-F-112 (Zeit aus der Erstattung) auf.
 
 ## 1. Ziel
 
@@ -128,11 +128,16 @@ Gebaut auf dem vorhandenen Druck-System mit dem Club-Kopfbogen (KC-CLUB-BRIEFBOG
 - [ ] Diagramme: Werte = Liste, lesbar hell und dunkel, 320–1280 px ohne seitlichen Überlauf
 - [ ] Browser-Rundgang abgeschirmt (KC-TESTS-OHNE-ECHTSERVER), Hilfe-Eintrag, CHANGELOG in beiden Apps
 
-## 9. Offene Fragen an Hansi
+## 9. Entscheidungen (Hansi, 24.11.2026)
 
-1. **Vorläufige Zeiten** (noch nicht von DP2 geprüft): nur anzeigen (Vorschlag) oder in die Gesamtsumme mitzählen?
-2. **km:** schon bei „eingereicht“ zählen (Vorschlag, mit Kennzeichen) oder erst bei „erstattet“?
-3. **Soll** als gestrichelte Vergleichslinie zeigen? Ja/Nein
-4. **Konten anderer:** Sollen Vorstand oder Planer das Stundenkonto eines Mitglieds in der Club-App ansehen und drucken dürfen, oder bleibt das in DP2?
-5. **Anlässe außerhalb des Dienstplans** (Clubabend, Kochen in Dortmund, Schulung): Sollen dafür auch Stunden gesammelt werden? Dann bräuchte es dort ebenfalls „Zeit mitmelden“.
-6. **Reihenfolge:** erst Phase 1 (schnell sichtbar, Stand-Dienste vorläufig) oder gleich Phase 1+2 zusammen?
+1. Vorläufige Zeiten zählen **nicht** in die Gesamtsumme – nur anzeigen, eigene Summe „⏳ vorläufig“.
+2. km zählen **schon bei „eingereicht“**, gekennzeichnet „noch nicht erstattet“ (abgelehnte zählen nie).
+3. **Soll** erscheint als gestrichelte Vergleichslinie (nie in der Summe).
+4. **Vorstand und Planer dürfen** das Stundenkonto anderer Mitglieder in der Club-App ansehen und drucken.
+   Umsetzung: Auswahl „Mitglied“ nur für die Clubleitung (Vorstand/Admin) und Personen mit DP2-Planungsrolle; jeder Blick in ein fremdes
+   Konto wird protokolliert (wer, wessen Konto, wann – ohne Inhalte); das Mitglied sieht in seinem Konto „zuletzt angesehen von …“ nicht
+   (nur im Protokoll für den Admin).
+5. Anlässe außerhalb des Dienstplans: **erst mal nicht**.
+6. **Schritt für Schritt:** zuerst Phase 1 (nur Club-App, Stand-Dienste vorläufig aus der Kasse-Stechuhr), danach Phase 2 (DP2 veröffentlicht den Kontoauszug).
+
+Status: **KONZEPT FREIGEGEBEN**, Phase 1 in Arbeit.
