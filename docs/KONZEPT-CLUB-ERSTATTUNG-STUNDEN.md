@@ -1,7 +1,7 @@
 # Konzept: Stunden mit der Erstattung einreichen (Club-App + DP2)
 
 Feature-ID: **KICC-F-112** (Club-App: `KC-CLUB-ERSTATTUNG-STUNDEN`, DP2: `DP2-F-SE-09`)
-Stand: 24.11.2026 · Status: **KONZEPT** (noch nichts gebaut) · Betrifft: `Sire65/KC-Clubapp`, `Sire65/dp3`
+Stand: 24.11.2026 · Status: **KONZEPT FREIGEGEBEN** (noch nichts gebaut) · Betrifft: `Sire65/KC-Clubapp`, `Sire65/dp3`
 
 ## 1. Worum geht es?
 
@@ -45,6 +45,7 @@ Der Schalter erscheint auch bei **🛒 Einkauf**, denn Einkaufen ist auch Zeit. 
 
 **Regeln, damit es einfach bleibt:**
 - Fahrzeit von zuhause bis zuhause zählt, wie bisher bei den Sonderstunden.
+- Der Schalter erscheint immer, wenn im Dienstplan eine Veranstaltung aktiv ist (nicht nur zum Weihnachtsmarkt).
 - Wer nicht im Dienstplan geführt ist, sieht den Schalter nicht, also keine Stunden ins Leere.
 - In „Meine Anträge“ steht je Antrag: Betrag, Status beim Kassenwart **und** „⏱️ 1,5 Std. gebucht“.
 
@@ -88,16 +89,18 @@ Sicherungen statt Freigabe:
 - [ ] Doppelschutz: dieselbe Zeit über Twinkey **und** über die Erstattung → nur einmal gebucht
 - [ ] Kassenwart lehnt ab → Stunden zurückgezogen, DP2 storniert die Ist-Buchung, Mitglied wird benachrichtigt
 - [ ] Planer storniert in DP2 → Antrag bleibt, Stunden weg, Mitglied sieht es in „Meine Anträge“
-- [ ] Person nicht im Dienstplan → kein Schalter
+- [ ] Person nicht im Dienstplan oder keine Veranstaltung aktiv → kein Schalter
 - [ ] Twinkey-Weg „Sonderstunden melden“ unverändert (Regressionstest)
 - [ ] Offline in DP2: Automatik bucht beim nächsten Abgleich, kein Mischstand (Vertrag Nr. 16)
 - [ ] Zero-Cost: keine neuen Dienste, nur vorhandene Supabase-Tabellen
 - [ ] Hilfe-Eintrag „Zeit mit der Erstattung melden“ und `CHANGELOG` in beiden Apps
 
-## 7. Offene Fragen an Hansi
+## 7. Entscheidungen (Hansi, 24.11.2026)
 
-1. **Sofort gutschreiben** (Vorschlag oben) oder **erst, wenn der Kassenwart den Antrag erledigt hat**? Beides geht ohne Freigabe in DP2. Die zweite Variante ist strenger, aber Marianne sieht die Stunden erst später.
-2. Soll es den Zeit-Schalter nur während des Weihnachtsmarkts geben oder immer, wenn eine Veranstaltung im Dienstplan aktiv ist?
-3. Name des ständigen Einsatzes: „Besorgungen & Fahrten“ in Ordnung?
+1. **Sofort gutschreiben.** Die Stunden zählen beim Einreichen; der Kassenwart kann nur über eine Ablehnung des Antrags zurücknehmen.
+2. **Immer:** Den Zeit-Schalter gibt es immer, wenn im Dienstplan eine Veranstaltung aktiv ist, nicht nur zum Weihnachtsmarkt.
+3. Der ständige Einsatz heißt **„Besorgungen & Fahrten“** (je Veranstaltung, in DP2 veröffentlicht).
+
+Status: **KONZEPT FREIGEGEBEN**, Umsetzung offen.
 
 Einspielen nach Freigabe gebündelt zu den Club-App-Terminen (12:00 / 23:50 Uhr).
