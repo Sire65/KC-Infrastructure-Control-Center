@@ -1,7 +1,7 @@
 # Konzept: Mein Stundenkonto (Club-App + DP2)
 
 Feature-ID: **KICC-F-113** (Club-App: `KC-CLUB-STUNDENKONTO`, DP2: `DP2-F-KONTO-01`)
-Stand: 24.11.2026 · Status: **KONZEPT FREIGEGEBEN** – Phase 1 in Arbeit · Baut auf KICC-F-100 (Sonderstunden) und KICC-F-112 (Zeit aus der Erstattung) auf.
+Stand: 24.11.2026 · Status: **Phase 1 UMGESETZT (DEV)** – Club-App 3.22.0, noch nicht eingespielt; Phase 2 (DP2) offen · Baut auf KICC-F-100 (Sonderstunden) und KICC-F-112 (Zeit aus der Erstattung) auf.
 
 ## 1. Ziel
 
@@ -140,4 +140,4 @@ Gebaut auf dem vorhandenen Druck-System mit dem Club-Kopfbogen (KC-CLUB-BRIEFBOG
 5. Anlässe außerhalb des Dienstplans: **erst mal nicht**.
 6. **Schritt für Schritt:** zuerst Phase 1 (nur Club-App, Stand-Dienste vorläufig aus der Kasse-Stechuhr), danach Phase 2 (DP2 veröffentlicht den Kontoauszug).
 
-Status: **KONZEPT FREIGEGEBEN**, Phase 1 in Arbeit.
+Status: Phase 1 umgesetzt am 24.11.2026 (Club-App 3.22.0, Zweig `claude/club-app-erstattung-stunden-di659r`, Test `tests/stundenkonto.test.mjs`). Phase 2 (DP2 veröffentlicht den geprüften Kontoauszug) folgt.
