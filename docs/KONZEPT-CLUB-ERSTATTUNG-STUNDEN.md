@@ -1,11 +1,11 @@
 # Konzept: Stunden mit der Erstattung einreichen (Club-App + DP2)
 
 Feature-ID: **KICC-F-112** (Club-App: `KC-CLUB-ERSTATTUNG-STUNDEN`, DP2: `DP2-F-SE-09`)
-Stand: 24.11.2026 · Status: **KONZEPT FREIGEGEBEN** (noch nichts gebaut) · Betrifft: `Sire65/KC-Clubapp`, `Sire65/dp3`
+Stand: 24.11.2026 · Status: **UMGESETZT (DEV)** – Club-App 3.22.0, DP2 Build 325; noch nicht eingespielt · Betrifft: `Sire65/KC-Clubapp`, `Sire65/dp3`
 
 ## 1. Worum geht es?
 
-Beispiel: Marianne Holt holt mit ihrem Pkw die Wurst beim Metzger ab und bringt sie zum Weihnachtsmarkt.
+Beispiel: Marianne holt mit ihrem Pkw die Wurst beim Metzger ab und bringt sie zum Weihnachtsmarkt.
 
 - Die **Kilometer** bekommt sie mit dem Km-Satz erstattet (gibt es schon: 💶 Erstattung → Fahrt).
 - Die **Zeit** soll auf ihr **Stundenkonto** im Dienstplan (DP2).
@@ -101,6 +101,13 @@ Sicherungen statt Freigabe:
 2. **Immer:** Den Zeit-Schalter gibt es immer, wenn im Dienstplan eine Veranstaltung aktiv ist, nicht nur zum Weihnachtsmarkt.
 3. Der ständige Einsatz heißt **„Besorgungen & Fahrten“** (je Veranstaltung, in DP2 veröffentlicht).
 
-Status: **KONZEPT FREIGEGEBEN**, Umsetzung offen.
+Status: **KONZEPT FREIGEGEBEN**, umgesetzt am 24.11.2026.
+
+## 8. Umsetzung (24.11.2026)
+
+- Club-App 3.22.0 (Zweig `claude/club-app-erstattung-stunden-di659r`): Formular, Server, Ablehnung, Hilfe, Test `tests/erstattung-stunden.test.mjs`.
+- Datenbank: `KC-Clubapp/supabase/migrations/20261124_kc_dp_erstattung_stunden.sql` (über „DB einspielen“; vor App/Server und DP2).
+- DP2 Build 325 (Zweig `claude/club-app-erstattung-stunden-di659r` in `dp3`): automatische Buchung, Reiter „Automatisch (Erstattung)“, Rücknahme mit Grund, Einsatz-Modus „Ständig (jeder Tag)“; Tests `tools/test-hour-reports-auto*.mjs`.
+- Reihenfolge beim Einspielen: 1. Migration, 2. Club-App/Server (Einspiel-Termin), 3. DP2 Build 325, 4. Planer legt den Einsatz „Besorgungen & Fahrten“ (Ständig) an und veröffentlicht ihn – erst dann erscheint der Schalter.
 
 Einspielen nach Freigabe gebündelt zu den Club-App-Terminen (12:00 / 23:50 Uhr).
