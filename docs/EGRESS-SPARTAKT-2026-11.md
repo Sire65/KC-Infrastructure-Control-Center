@@ -57,3 +57,7 @@ Update-Stopp Club-App (KC-EGRESS-STOPP, AGENTS.md der Club-App): ab 23.11. nur F
 - Eigentliche Ursache in der Club-App (`kc-club`, Repo KC-Clubapp): Abfragen je Aufruf bzw. Aufrufe je Geraet senken.
 - Keine Supabase-Protokolle fuer Lagebilder durchsuchen (zaehlt als „Logs Query“, KC-SPARSAM-PROTOKOLLE der Club-App);
   eigene Tabellen nutzen.
+
+## Abschluss 24.11.2026
+
+Supabase auf Pro umgestellt (Hansi). Update-Stopp aufgehoben und alle Egress-Spartakte (Spiegel, Hintergrundjobs, Wächter, Notpaket) zurückgestellt – von einer anderen Sitzung erledigt, Audit `spartakt_egress_aufgehoben`; die Einmal-Rückstell-Jobs für den 26.11. sind damit entfallen. Siehe `ZERO-COST.md` (bewusste Abweichung).
