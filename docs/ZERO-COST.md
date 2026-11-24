@@ -13,3 +13,11 @@ KICC must be operable without mandatory paid subscriptions or transaction fees.
 
 ## Degradation
 If a free external service is unavailable or quota-limited, KICC must degrade visibly and safely rather than purchase/activate paid capacity automatically.
+## Bewusste Abweichung: Supabase Pro (24.11.2026)
+
+- Entscheidung Admin (Hansi), 24.11.2026: Supabase-Organisation auf **Pro** umgestellt, weil der kostenlose Ausgang (5 GB) im
+  Zeitraum 26.10.–26.11.2026 nicht reichte (4,64 GB am 22.11., siehe `EGRESS-SPARTAKT-2026-11.md`). Kein automatischer Kauf durch KICC.
+- Kosten: Grundpreis Pro je Monat zzgl. Rechenzeit je Projekt (ein kleines Projekt ist im Guthaben enthalten; das zweite Projekt
+  „Future Academy“ kostet extra, solange es in derselben Organisation läuft). Ausgabenbremse („Spend Cap“) muss eingeschaltet bleiben.
+- Offen: Vorstandsbeschluss dokumentieren; Dauer festlegen (Notlösung oder dauerhaft); Sparmaßnahmen bleiben gültig, damit eine
+  Rückkehr in den kostenlosen Tarif möglich bleibt.
