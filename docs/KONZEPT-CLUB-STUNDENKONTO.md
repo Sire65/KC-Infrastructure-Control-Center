@@ -1,7 +1,7 @@
 # Konzept: Mein Stundenkonto (Club-App + DP2)
 
 Feature-ID: **KICC-F-113** (Club-App: `KC-CLUB-STUNDENKONTO`, DP2: `DP2-F-KONTO-01`)
-Stand: 24.11.2026 · Status: **Phase 1 UMGESETZT (DEV)** – Club-App 3.22.0, noch nicht eingespielt; Phase 2 (DP2) offen · Baut auf KICC-F-100 (Sonderstunden) und KICC-F-112 (Zeit aus der Erstattung) auf.
+Stand: 24.11.2026 · Status: **Phase 1 + 2 LIVE** – Club-App 3.22.0/3.25.0, DP2 Build 325/326 · Baut auf KICC-F-100 (Sonderstunden) und KICC-F-112 (Zeit aus der Erstattung) auf.
 
 ## 1. Ziel
 
@@ -145,5 +145,4 @@ Status: Phase 1 umgesetzt am 24.11.2026 (Club-App 3.22.0, Zweig `claude/club-app
 ## 10. Stand 25.11.2026
 
 - **Phase 1 eingespielt** (Club-App/Server 3.22.0, 25.11.2026 ~04:37 Uhr; Datenbank KICC-F-112 vorher eingespielt, DP2 Build 325 live).
-- **Phase 2 gebaut, noch nicht eingespielt:** Datenbank `20261125_kc_dp_konto_published.sql` (Club-App-Repo), DP2 Build 326 (`src/core/konto-publish.js`),
-  Club-App/Server 3.23.0 – jeweils Zweig `claude/stundenkonto-phase2`. Reihenfolge: Datenbank → DP2 Build 326 → Club-App 3.23.0.
+- **Phase 2 eingespielt** (25.11.2026, 05:50–06:03 Uhr): Datenbank `20261125_kc_dp_konto_published.sql` (Lauf 217, Probelauf + Nachprüfung grün), DP2 Build 326 (PR #23), Club-App/Server **3.25.0** (Nummer verschoben, weil eine andere Sitzung parallel 3.23.0 und 3.24.0 eingespielt hat).
