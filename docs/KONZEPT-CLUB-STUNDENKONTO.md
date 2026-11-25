@@ -141,3 +141,9 @@ Gebaut auf dem vorhandenen Druck-System mit dem Club-Kopfbogen (KC-CLUB-BRIEFBOG
 6. **Schritt für Schritt:** zuerst Phase 1 (nur Club-App, Stand-Dienste vorläufig aus der Kasse-Stechuhr), danach Phase 2 (DP2 veröffentlicht den Kontoauszug).
 
 Status: Phase 1 umgesetzt am 24.11.2026 (Club-App 3.22.0, Zweig `claude/club-app-erstattung-stunden-di659r`, Test `tests/stundenkonto.test.mjs`). Phase 2 (DP2 veröffentlicht den geprüften Kontoauszug) folgt.
+
+## 10. Stand 25.11.2026
+
+- **Phase 1 eingespielt** (Club-App/Server 3.22.0, 25.11.2026 ~04:37 Uhr; Datenbank KICC-F-112 vorher eingespielt, DP2 Build 325 live).
+- **Phase 2 gebaut, noch nicht eingespielt:** Datenbank `20261125_kc_dp_konto_published.sql` (Club-App-Repo), DP2 Build 326 (`src/core/konto-publish.js`),
+  Club-App/Server 3.23.0 – jeweils Zweig `claude/stundenkonto-phase2`. Reihenfolge: Datenbank → DP2 Build 326 → Club-App 3.23.0.
