@@ -1,7 +1,7 @@
 # Konzept: Stunden und km mit wenig Aufwand – Fahrtprofil und Sammel-Abrechnung (Club-App + DP2)
 
 Feature-ID: **KICC-F-114** (Club-App: `KC-CLUB-FAHRTKOSTEN-SAMMEL`)
-Stand: 26.11.2026 · Status: **KONZEPT** (noch nichts gebaut) · Baut auf KICC-F-112 (Zeit aus der Erstattung) und KICC-F-113 (Mein Stundenkonto) auf.
+Stand: 26.11.2026 · Status: **UMGESETZT (DEV)** – Club-App 3.33.0, noch nicht eingespielt · Baut auf KICC-F-112 (Zeit aus der Erstattung) und KICC-F-113 (Mein Stundenkonto) auf.
 
 ## 1. Problem
 
@@ -80,8 +80,15 @@ Einzelne Erstattungen für Ungeplantes (Metzger, Einkauf, Parken, Zeit aus der E
 - [ ] Clubleitungs-Liste „wer hat Fahrtkosten eingetragen“
 - [ ] Hilfe-Eintrag, CHANGELOG, Browser-Rundgang abgeschirmt
 
-## 8. Offene Fragen an Hansi
+## 8. Entscheidungen (Hansi, 26.11.2026) und Umsetzung
 
-1. Gibt es eine **Mindestentfernung** (z. B. erst ab 10 km hin und zurück), oder entscheidet jedes Mitglied selbst?
-2. Soll die **Clubleitung das Fahrtprofil bestätigen**, bevor es zählt (z. B. 40 km bei jemandem aus Werne)? Oder reicht die Liste zum Draufschauen?
-3. Gilt das Fahrtprofil auch für **andere Veranstaltungen** mit Dienstplan, oder nur für den Weihnachtsmarkt?
+1. **Keine Mindestentfernung** – jedes Mitglied entscheidet selbst.
+2. **Liste reicht** – das Fahrtprofil wird nicht von der Clubleitung bestätigt (Reiter „🚗 Fahrtprofile“ zum Draufschauen).
+3. **Alle Veranstaltungen** – das Fahrtprofil gilt überall, abgerechnet wird je Veranstaltung.
+4. Wunsch Hansi: „logisch aufgebaut, einfach, bedienerfreundlich, selbst erklärend … sauber und ausgerichtet, chronologisch, nicht Relevantes ausgegraut, Plausibilitätsprüfung“.
+
+**Umgesetzt (DEV):** Club-App/Server 3.33.0, Zweig `claude/fahrtprofil-sammel` im Club-App-Repo: `teile/fahrten.js`, Server-Aktionen `fahrtprofil`,
+`fahrt_sammel_vorschlag`, `fahrt_sammel_einreichen` (läuft durch den normalen Erstattungsweg), `fahrtprofil_liste`, `erstattung_sammel_liste`, Erinnerung in
+der Wartung, Datenbank `20261126_kc_club_fahrtprofil.sql`, Test `tests/fahrten.test.mjs`. DP2 bleibt unverändert (nutzt den Kontoauszug aus KICC-F-113).
+Noch nicht umgesetzt: die Push-Frage „Warst du beim Sondereinsatz dabei?“ (Punkt 4.2) – bis dahin gelten die vorhandene Erinnerung „Bitte Sonderstunden melden“
+und die Sammelmeldung über Twinkey.
