@@ -1,7 +1,7 @@
 # Konzept: Stunden und km mit wenig Aufwand – Fahrtprofil und Sammel-Abrechnung (Club-App + DP2)
 
 Feature-ID: **KICC-F-114** (Club-App: `KC-CLUB-FAHRTKOSTEN-SAMMEL`)
-Stand: 26.11.2026 · Status: **UMGESETZT (DEV)** – Club-App 3.33.0, noch nicht eingespielt · Baut auf KICC-F-112 (Zeit aus der Erstattung) und KICC-F-113 (Mein Stundenkonto) auf.
+Stand: 26.11.2026 · Status: **LIVE** – Club-App 3.33.0 (Fahrten & Abrechnung), 3.34.0 (Parken), eingespielt 26.11.2026 · Baut auf KICC-F-112 (Zeit aus der Erstattung) und KICC-F-113 (Mein Stundenkonto) auf.
 
 ## 1. Problem
 
@@ -92,3 +92,21 @@ Einzelne Erstattungen für Ungeplantes (Metzger, Einkauf, Parken, Zeit aus der E
 der Wartung, Datenbank `20261126_kc_club_fahrtprofil.sql`, Test `tests/fahrten.test.mjs`. DP2 bleibt unverändert (nutzt den Kontoauszug aus KICC-F-113).
 Noch nicht umgesetzt: die Push-Frage „Warst du beim Sondereinsatz dabei?“ (Punkt 4.2) – bis dahin gelten die vorhandene Erinnerung „Bitte Sonderstunden melden“
 und die Sammelmeldung über Twinkey.
+
+**Live seit 26.11.2026:** 3.33.0 (Fahrtprofil, Sammel-Abrechnung) und 3.34.0 (Parken).
+
+## 9. Parken auf dem Weihnachtsmarkt (KC-CLUB-PARKAUSWEIS, Club-App 3.34.0)
+
+Laut Schreiben der Stadt (Beschicker-Info Werne Marketing, 20.11.2026) gibt es zwei Sorten. Beide werden am Donnerstagmorgen in der Tourist-Info, Markt 19, ausgegeben:
+
+1. **Park-Ausnahmegenehmigung für Auf- und Abbau**, ohne Gebühr.
+2. **Parkausweis für die Marktzeit**, 5 oder 10 Tage zu je 2 €. Er gilt auf allen öffentlichen Parkplätzen der Stadt.
+
+**Mitglied:** Meins → 🚗 Fahrten & Abrechnung → Block 🅿️ Parken. Dort gibt es:
+- Auf-/Abbau: Ja/Nein
+- Marktzeit: Nein / 5 Tage / 10 Tage, mit Betrag und Startdatum
+- Kennzeichen mit Formatprüfung
+
+**Kassenwart:** Sammel-Freigabe → Reiter 🅿️ Parkausweise. Die Druckliste für die Stadt ist nach Sorte getrennt und enthält ID, Name, Vorname, Kennzeichen, Zeitraum, Tage, Betrag und Summe.
+
+Preis je Tag, Tage-Auswahl und Abholung stehen in `kc_club_konfig` „parkausweis“ und lassen sich über ⚙️ ändern. Datenbank: `20261126_kc_club_parkausweis.sql`.
