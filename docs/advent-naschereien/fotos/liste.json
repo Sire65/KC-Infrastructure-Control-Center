@@ -1,0 +1,362 @@
+[
+ {
+  "nr": 1,
+  "id": "hexenhaus",
+  "datei": "01-hexenhaus",
+  "titel": "Hexenhaus aus Butterkeksen",
+  "suchbegriff_en": "butter biscuit gingerbread house",
+  "essbar": true
+ },
+ {
+  "nr": 2,
+  "id": "lokomotive",
+  "datei": "02-lokomotive",
+  "titel": "Lokomotive aus Dominosteinen",
+  "suchbegriff_en": "candy train chocolate christmas",
+  "essbar": true
+ },
+ {
+  "nr": 3,
+  "id": "stall",
+  "datei": "03-stall",
+  "titel": "Stall aus Zwieback",
+  "suchbegriff_en": "rusk nativity stable edible",
+  "essbar": true
+ },
+ {
+  "nr": 4,
+  "id": "iglu",
+  "datei": "04-iglu",
+  "titel": "Iglu aus Mini-Marshmallows",
+  "suchbegriff_en": "marshmallow igloo",
+  "essbar": true
+ },
+ {
+  "nr": 5,
+  "id": "schlitten",
+  "datei": "05-schlitten",
+  "titel": "Schlitten aus Zuckerstangen",
+  "suchbegriff_en": "candy cane sleigh",
+  "essbar": true
+ },
+ {
+  "nr": 6,
+  "id": "schneemann-pfeffernuss",
+  "datei": "06-schneemann-pfeffernuss",
+  "titel": "Schneemann aus Pfeffernüssen",
+  "suchbegriff_en": "pfeffernuesse snowman",
+  "essbar": true
+ },
+ {
+  "nr": 7,
+  "id": "marshmallow-schneemann",
+  "datei": "07-marshmallow-schneemann",
+  "titel": "Marshmallow-Schneemann am Spieß",
+  "suchbegriff_en": "marshmallow snowman on a stick",
+  "essbar": true
+ },
+ {
+  "nr": 8,
+  "id": "schneemann-muffin",
+  "datei": "08-schneemann-muffin",
+  "titel": "Schneemann-Muffin",
+  "suchbegriff_en": "melting snowman cupcake",
+  "essbar": true
+ },
+ {
+  "nr": 9,
+  "id": "schneemann-lolli",
+  "datei": "09-schneemann-lolli",
+  "titel": "Schneemann-Lollis aus Doppelkeksen",
+  "suchbegriff_en": "oreo snowman pops",
+  "essbar": true
+ },
+ {
+  "nr": 10,
+  "id": "bananen-schneemann",
+  "datei": "10-bananen-schneemann",
+  "titel": "Bananen-Schneemänner am Spieß",
+  "suchbegriff_en": "banana snowman skewer",
+  "essbar": true
+ },
+ {
+  "nr": 11,
+  "id": "nikolaus-schokokuss",
+  "datei": "11-nikolaus-schokokuss",
+  "titel": "Nikolaus aus Schokokuss",
+  "suchbegriff_en": "chocolate marshmallow santa strawberry",
+  "essbar": true
+ },
+ {
+  "nr": 12,
+  "id": "nikolaus-erdbeeren",
+  "datei": "12-nikolaus-erdbeeren",
+  "titel": "Nikolaus-Erdbeeren",
+  "suchbegriff_en": "strawberry santa cream",
+  "essbar": true
+ },
+ {
+  "nr": 13,
+  "id": "brownie-muetzen",
+  "datei": "13-brownie-muetzen",
+  "titel": "Brownie-Weihnachtsmützen",
+  "suchbegriff_en": "santa hat brownies",
+  "essbar": true
+ },
+ {
+  "nr": 14,
+  "id": "grinch-spiesse",
+  "datei": "14-grinch-spiesse",
+  "titel": "Grinch-Spieße",
+  "suchbegriff_en": "grinch fruit kabobs",
+  "essbar": true
+ },
+ {
+  "nr": 15,
+  "id": "rentier-marshmallow",
+  "datei": "15-rentier-marshmallow",
+  "titel": "Rentier aus Marshmallow",
+  "suchbegriff_en": "marshmallow reindeer pretzel antlers",
+  "essbar": true
+ },
+ {
+  "nr": 16,
+  "id": "rentier-lebkuchen",
+  "datei": "16-rentier-lebkuchen",
+  "titel": "Rentier aus Lebkuchenmann",
+  "suchbegriff_en": "gingerbread man reindeer upside down",
+  "essbar": true
+ },
+ {
+  "nr": 17,
+  "id": "rentier-bruchschokolade",
+  "datei": "17-rentier-bruchschokolade",
+  "titel": "Rentier-Bruchschokolade",
+  "suchbegriff_en": "reindeer chocolate bark",
+  "essbar": true
+ },
+ {
+  "nr": 18,
+  "id": "pinguin",
+  "datei": "18-pinguin",
+  "titel": "Pinguin aus Mini-Schokoküssen",
+  "suchbegriff_en": "chocolate penguin treat",
+  "essbar": true
+ },
+ {
+  "nr": 19,
+  "id": "apfel-igel",
+  "datei": "19-apfel-igel",
+  "titel": "Apfel-Igel",
+  "suchbegriff_en": "apple hedgehog almonds",
+  "essbar": true
+ },
+ {
+  "nr": 20,
+  "id": "eiswaffel-tanne",
+  "datei": "20-eiswaffel-tanne",
+  "titel": "Tannenbaum aus Eiswaffel",
+  "suchbegriff_en": "ice cream cone christmas tree",
+  "essbar": true
+ },
+ {
+  "nr": 21,
+  "id": "keks-tannen",
+  "datei": "21-keks-tannen",
+  "titel": "Keks-Tannen",
+  "suchbegriff_en": "star cookie christmas tree stack",
+  "essbar": true
+ },
+ {
+  "nr": 22,
+  "id": "obst-tanne",
+  "datei": "22-obst-tanne",
+  "titel": "Obst-Tannenbaum",
+  "suchbegriff_en": "fruit christmas tree kiwi",
+  "essbar": true
+ },
+ {
+  "nr": 23,
+  "id": "lebkuchen-kerze",
+  "datei": "23-lebkuchen-kerze",
+  "titel": "Lebkuchen-Kerze mit Mandel-Flamme",
+  "suchbegriff_en": "edible candle wafer roll almond flame",
+  "essbar": true
+ },
+ {
+  "nr": 24,
+  "id": "mandarinen-licht",
+  "datei": "24-mandarinen-licht",
+  "titel": "Mandarinen-Licht (Luciatag)",
+  "suchbegriff_en": "clementine candle",
+  "essbar": true
+ },
+ {
+  "nr": 25,
+  "id": "brezel-schneeflocke",
+  "datei": "25-brezel-schneeflocke",
+  "titel": "Schneeflocke aus Brezeln",
+  "suchbegriff_en": "pretzel snowflake white chocolate",
+  "essbar": true
+ },
+ {
+  "nr": 26,
+  "id": "brezel-kranz",
+  "datei": "26-brezel-kranz",
+  "titel": "Brezelkränze mit Schokolade",
+  "suchbegriff_en": "pretzel wreath chocolate",
+  "essbar": true
+ },
+ {
+  "nr": 27,
+  "id": "zauberstaebe",
+  "datei": "27-zauberstaebe",
+  "titel": "Zauberstäbe aus Salzstangen",
+  "suchbegriff_en": "chocolate dipped pretzel rods sprinkles",
+  "essbar": true
+ },
+ {
+  "nr": 28,
+  "id": "schokoloeffel",
+  "datei": "28-schokoloeffel",
+  "titel": "Schokolöffel für heiße Milch",
+  "suchbegriff_en": "hot chocolate spoons",
+  "essbar": true
+ },
+ {
+  "nr": 29,
+  "id": "naschglas",
+  "datei": "29-naschglas",
+  "titel": "Naschglas-Schneekugel",
+  "suchbegriff_en": "candy jar snow globe",
+  "essbar": true
+ },
+ {
+  "nr": 30,
+  "id": "domino-paeckchen",
+  "datei": "30-domino-paeckchen",
+  "titel": "Päckchen aus Dominosteinen",
+  "suchbegriff_en": "Dominostein",
+  "essbar": true
+ },
+ {
+  "nr": 31,
+  "id": "zuckerstangen-herz",
+  "datei": "31-zuckerstangen-herz",
+  "titel": "Zuckerstangen-Herz",
+  "suchbegriff_en": "candy cane heart chocolate",
+  "essbar": true
+ },
+ {
+  "nr": 32,
+  "id": "nudel-engel",
+  "datei": "32-nudel-engel",
+  "titel": "Engel aus Nudeln (Baumschmuck)",
+  "suchbegriff_en": "pasta angel ornament",
+  "essbar": false
+ },
+ {
+  "nr": 33,
+  "id": "popcorn-girlande",
+  "datei": "33-popcorn-girlande",
+  "titel": "Popcorn-Girlande",
+  "suchbegriff_en": "popcorn cranberry garland",
+  "essbar": false
+ },
+ {
+  "nr": 34,
+  "id": "tueten-sterne",
+  "datei": "34-tueten-sterne",
+  "titel": "Sterne aus Butterbrottüten",
+  "suchbegriff_en": "paper bag star",
+  "essbar": false
+ },
+ {
+  "nr": 35,
+  "id": "papier-schneeflocken",
+  "datei": "35-papier-schneeflocken",
+  "titel": "Schneeflocken aus Papier",
+  "suchbegriff_en": "paper snowflake",
+  "essbar": false
+ },
+ {
+  "nr": 36,
+  "id": "filz-stiefel",
+  "datei": "36-filz-stiefel",
+  "titel": "Nikolausstiefel aus Filz",
+  "suchbegriff_en": "felt christmas stocking",
+  "essbar": false
+ },
+ {
+  "nr": 37,
+  "id": "stehauf-karte",
+  "datei": "37-stehauf-karte",
+  "titel": "Karte mit Stehauf-Tannenbäumen",
+  "suchbegriff_en": "pop up christmas tree card",
+  "essbar": false
+ },
+ {
+  "nr": 38,
+  "id": "kartoffeldruck",
+  "datei": "38-kartoffeldruck",
+  "titel": "Geschenkpapier mit Kartoffeldruck",
+  "suchbegriff_en": "potato stamp wrapping paper",
+  "essbar": false
+ },
+ {
+  "nr": 39,
+  "id": "natur-verpackung",
+  "datei": "39-natur-verpackung",
+  "titel": "Geschenke natürlich verpacken",
+  "suchbegriff_en": "kraft paper gift cinnamon orange",
+  "essbar": false
+ },
+ {
+  "nr": 40,
+  "id": "salz-windlicht",
+  "datei": "40-salz-windlicht",
+  "titel": "Frost-Windlicht mit Salzkristallen",
+  "suchbegriff_en": "salt crystal jar lantern",
+  "essbar": false
+ },
+ {
+  "nr": 41,
+  "id": "orangen-girlande",
+  "datei": "41-orangen-girlande",
+  "titel": "Girlande aus Orangenscheiben",
+  "suchbegriff_en": "dried orange garland",
+  "essbar": false
+ },
+ {
+  "nr": 42,
+  "id": "nelken-orange",
+  "datei": "42-nelken-orange",
+  "titel": "Duft-Orange mit Nelken",
+  "suchbegriff_en": "orange cloves pomander",
+  "essbar": false
+ },
+ {
+  "nr": 43,
+  "id": "zapfenwichtel",
+  "datei": "43-zapfenwichtel",
+  "titel": "Zapfenwichtel",
+  "suchbegriff_en": "pine cone gnome",
+  "essbar": false
+ },
+ {
+  "nr": 44,
+  "id": "doppelvase",
+  "datei": "44-doppelvase",
+  "titel": "Leuchtende Doppelvase",
+  "suchbegriff_en": "vase in vase fairy lights baubles",
+  "essbar": false
+ },
+ {
+  "nr": 45,
+  "id": "servietten-tanne",
+  "datei": "45-servietten-tanne",
+  "titel": "Servietten-Tannenbaum",
+  "suchbegriff_en": "christmas tree napkin fold",
+  "essbar": false
+ }
+]

@@ -1,0 +1,698 @@
+{
+ "stand": "2026-11-27",
+ "nasch": [
+  {
+   "quelle": "club-nasch",
+   "sym": "🚂",
+   "t": "Lokomotive aus Dominosteinen",
+   "z": [
+    "4 Dominosteine",
+    "1 Schokoriegel (z. B. Kinderriegel)",
+    "6 Schoko-Taler oder Rolos als Räder",
+    "1 Mini-Marshmallow (Dampf)",
+    "Zuckerguss als Kleber"
+   ],
+   "s": [
+    "Zwei Dominosteine nebeneinander als Kessel auf den Schokoriegel kleben – das ist der Boden der Lok.",
+    "Einen Dominostein hinten hochkant als Führerhaus daraufsetzen, einen vorne als Schornstein.",
+    "Je drei Taler an jede Seite kleben – das sind die Räder.",
+    "Den Marshmallow oben auf den Schornstein setzen: Dampf! Gut trocknen lassen."
+   ],
+   "tipp": "Mit weiteren Dominosteinen und Lakritzschnecken als Rädern hängst du Waggons an.",
+   "tuerchen": 1
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "☃️",
+   "t": "Schneemann aus Pfeffernüssen",
+   "z": [
+    "3 weiße Pfeffernüsse",
+    "1 Butterkeks als Sockel",
+    "1 Dominostein + 1 Schoko-Taler (Hut)",
+    "Zuckerguss, Schokolinsen, 1 Stück Fruchtgummischnur"
+   ],
+   "s": [
+    "Die erste Pfeffernuss mit Zuckerguss auf den Butterkeks kleben.",
+    "Die zweite und dritte darauf stapeln – jeweils kurz antrocknen lassen.",
+    "Für den Hut den Taler und darauf den Dominostein kleben und oben aufsetzen.",
+    "Knöpfe aus Schokolinsen, Gesicht mit Zuckerguss oder Lebensmittelstift, Schal aus Fruchtgummischnur."
+   ],
+   "tipp": "Etwas Zuckerguss über den Keks laufen lassen – das sieht aus wie Schnee."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🕯️",
+   "t": "Lebkuchen-Kerze mit Mandel-Flamme",
+   "z": [
+    "Lebkuchen-Sterne oder -Herzen mit Loch",
+    "Waffelröllchen",
+    "geschälte ganze Mandeln",
+    "Puderzucker + 1 Eiweiß (Guss)",
+    "etwas Kuvertüre"
+   ],
+   "s": [
+    "Kuvertüre schmelzen und einen Klecks auf jeden Lebkuchen geben.",
+    "Ein Waffelröllchen senkrecht in das Loch bzw. in die Schokolade stellen.",
+    "Puderzucker mit Eiweiß zu dickem Guss rühren und oben über das Röllchen laufen lassen – wie tropfendes Wachs.",
+    "Die Mandel mit der Spitze nach oben hineinstecken: die Flamme. Fest werden lassen."
+   ],
+   "tipp": "Mandeln mit Haut kurz in kochendes Wasser geben – dann lässt sich die Haut leicht abziehen."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🏠",
+   "t": "Hexenhaus aus Butterkeksen",
+   "z": [
+    "5 Butterkekse",
+    "dicker Zuckerguss",
+    "Gummibärchen, Smarties, Streusel",
+    "Puderzucker zum Bestäuben"
+   ],
+   "s": [
+    "Ein Keks ist der Boden. Zwei Kekse als Seitenwände mit Zuckerguss daraufstellen.",
+    "Zwei weitere Kekse als spitzes Dach gegeneinander lehnen und am First gut mit Guss verkleben.",
+    "Etwas stützen und 30 Minuten trocknen lassen.",
+    "Dach und Wände mit Guss bestreichen und mit Süßigkeiten verzieren – zum Schluss Puderzucker als Schnee."
+   ],
+   "tipp": "Für Dachziegel eignen sich Mandelblättchen oder kleine Schokoplättchen.",
+   "tuerchen": 18,
+   "link": "https://www.lecker.de/buntes-hexenhaus-26290.html"
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "👼",
+   "t": "Engel aus Nudeln (Baumschmuck)",
+   "z": [
+    "1 Penne oder Rigatoni (Körper)",
+    "1 Farfalle (Flügel)",
+    "1 Holzperle (Kopf)",
+    "Bastelkleber, goldene Acrylfarbe, Faden"
+   ],
+   "s": [
+    "Die Farfalle hinten oben an die Penne kleben – das sind die Flügel.",
+    "Die Holzperle oben als Kopf aufkleben, durch das Loch vorher einen Faden zum Aufhängen ziehen.",
+    "Trocknen lassen und alles mit goldener Farbe anmalen.",
+    "Gesicht mit feinem Stift aufmalen – fertig für den Tannenbaum."
+   ],
+   "tipp": "Dieser Engel ist nicht zum Essen, aber er hält viele Jahre. Haare aus Grieß: Kopf mit Kleber bestreichen und in Grieß tupfen.",
+   "tuerchen": 12,
+   "link": "https://www.tu-chemnitz.de/advent/2010/17/",
+   "dauer": "ca. 30 Minuten + trocknen",
+   "kinder": true
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🎅",
+   "t": "Nikolaus aus Schokokuss",
+   "z": [
+    "1 Schokokuss",
+    "1 Erdbeere oder rotes Marzipan (Mütze)",
+    "Kokosraspeln",
+    "weißer Zuckerguss, 2 Zuckerperlen"
+   ],
+   "s": [
+    "Den Schokokuss auf einen Teller stellen.",
+    "Die Erdbeere (Spitze nach oben) als Mütze oben aufsetzen, mit etwas Guss festkleben.",
+    "Unten rundherum Guss auftragen und in Kokosraspeln drücken – der Bart.",
+    "Einen Gusspunkt als Bommel an die Mütze, zwei Zuckerperlen als Augen."
+   ],
+   "tipp": "Schön auf einem Teller neben dem Nikolausstiefel.",
+   "tuerchen": 4
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🦌",
+   "t": "Rentier aus Marshmallow",
+   "z": [
+    "große Marshmallows",
+    "Holzspieße",
+    "Vollmilch-Schokolade",
+    "kleine Brezeln, Schokoaugen, rote Schokolinsen"
+   ],
+   "s": [
+    "Marshmallow auf einen Spieß stecken und in geschmolzene Schokolade tauchen.",
+    "Eine Brezel in der Mitte durchbrechen – zwei Hälften sind das Geweih. Oben in die noch weiche Schokolade stecken.",
+    "Schokoaugen und eine rote Linse als Nase aufsetzen.",
+    "Im Glas aufrecht fest werden lassen."
+   ],
+   "tipp": "Mit der roten Nase ist es natürlich Rudolph!",
+   "tuerchen": 8,
+   "link": "https://tv.orf.at/program/kids/box-weihnachtliche-jause100.pdf"
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🎄",
+   "t": "Tannenbaum aus Eiswaffel",
+   "z": [
+    "1 spitze Eiswaffel",
+    "Puderzucker + grüne Lebensmittelfarbe",
+    "Smarties oder Zuckerperlen",
+    "1 Butterkeks, 1 Stern aus Marzipan"
+   ],
+   "s": [
+    "Puderzucker mit wenig Wasser und grüner Farbe zu dickem Guss rühren.",
+    "Die Eiswaffel umgedreht auf den Butterkeks setzen und ringsum mit grünem Guss bestreichen.",
+    "Smarties als Christbaumkugeln eindrücken.",
+    "Den Marzipanstern auf die Spitze kleben."
+   ],
+   "tipp": "Mit einer Gabel Zacken in den Guss ziehen – dann sieht es aus wie Tannennadeln.",
+   "tuerchen": 22
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🛷",
+   "t": "Schlitten aus Zuckerstangen",
+   "z": [
+    "2 kleine Zuckerstangen (Kufen)",
+    "1 Schokoriegel (z. B. Kitkat)",
+    "3–5 kleine Pralinen oder Schokotäfelchen",
+    "Geschenkband, flüssige Schokolade"
+   ],
+   "s": [
+    "Die Zuckerstangen nebeneinander hinlegen, Bogen nach vorne – das sind die Kufen.",
+    "Den Schokoriegel mit Schokolade quer darauf kleben.",
+    "Die Pralinen wie Pakete darauf stapeln und festkleben.",
+    "Mit Geschenkband umwickeln – ein tolles Mitbringsel."
+   ],
+   "tipp": "Statt Pralinen gehen auch kleine Schokoweihnachtsmänner."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🐧",
+   "t": "Pinguin aus Mini-Schokoküssen",
+   "z": [
+    "Mini-Schokoküsse",
+    "weißes Marzipan",
+    "orange Fruchtgummis",
+    "Zuckerguss"
+   ],
+   "s": [
+    "Aus Marzipan ein ovales Plättchen ausrollen und als weißen Bauch vorne aufkleben.",
+    "Aus Fruchtgummi einen kleinen Schnabel und zwei Füße schneiden.",
+    "Schnabel oben, Füße unten mit Guss ankleben.",
+    "Zwei Gusspunkte als Augen."
+   ],
+   "tipp": "Mehrere Pinguine nebeneinander auf Kokos-Schnee sehen herrlich aus."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "✨",
+   "t": "Zauberstäbe aus Salzstangen",
+   "z": [
+    "dicke Salzstangen oder Brezelstangen",
+    "weiße und dunkle Schokolade",
+    "bunte Zuckerstreusel, Sternchen"
+   ],
+   "s": [
+    "Schokolade schmelzen.",
+    "Die Stangen zu zwei Dritteln eintauchen und abtropfen lassen.",
+    "Sofort in Streusel drehen oder darüberstreuen.",
+    "Auf Backpapier fest werden lassen."
+   ],
+   "tipp": "In ein Glas gestellt sind sie eine süße Tischdeko."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🥄",
+   "t": "Schokolöffel für heiße Milch",
+   "z": [
+    "Teelöffel oder Holzlöffel",
+    "Zartbitter-Schokolade",
+    "Mini-Marshmallows, Zimt"
+   ],
+   "s": [
+    "Schokolade schmelzen und die Löffel damit füllen.",
+    "Mini-Marshmallows daraufsetzen und eine Prise Zimt darüber.",
+    "Im Kühlschrank fest werden lassen.",
+    "In Folie wickeln – zum Verschenken: in heiße Milch rühren, fertig ist der Kakao."
+   ],
+   "tipp": "Mit einem Kärtchen „Für kalte Wintertage“ ein schönes kleines Geschenk.",
+   "tuerchen": 15,
+   "link": "https://www.dm.at/inspiration-und-beratung/ernaehrung/rezepte-kochtipps/schokoloeffel-rezept-491614"
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🍊",
+   "t": "Mandarinen-Licht (Luciatag)",
+   "z": [
+    "1 Mandarine",
+    "Speiseöl",
+    "Teller"
+   ],
+   "s": [
+    "Die Mandarine rundherum in der Mitte einritzen und die Schale vorsichtig als zwei Hälften abnehmen.",
+    "Der weiße Strang in der unteren Hälfte bleibt stehen – das ist der Docht.",
+    "Etwas Öl hineingießen, den Docht damit tränken und 5 Minuten warten.",
+    "Den Docht anzünden. In die obere Hälfte ein kleines Loch schneiden und als Deckel aufsetzen."
+   ],
+   "tipp": "Echte Flamme: nie unbeaufsichtigt brennen lassen! Das Fruchtfleisch schmeckt dazu.",
+   "tuerchen": 13
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🎁",
+   "t": "Päckchen aus Dominosteinen",
+   "z": [
+    "Dominosteine",
+    "weißer Zuckerguss (Spritzbeutel)",
+    "rote Zuckerperlen"
+   ],
+   "s": [
+    "Guss in einen kleinen Beutel füllen und eine winzige Ecke abschneiden.",
+    "Auf jeden Dominostein ein Kreuz spritzen – das Geschenkband.",
+    "Oben eine kleine Schleife spritzen und eine Zuckerperle in die Mitte setzen.",
+    "Trocknen lassen."
+   ],
+   "tipp": "Auf einem Teller unter dem Eiswaffel-Tannenbaum sieht das aus wie Bescherung."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "❄️",
+   "t": "Schneeflocke aus Brezeln",
+   "z": [
+    "6 Mini-Brezeln",
+    "weiße Schokolade",
+    "Puderzucker"
+   ],
+   "s": [
+    "Weiße Schokolade schmelzen.",
+    "Die Brezeln sternförmig auf Backpapier legen, so dass sie sich in der Mitte berühren.",
+    "In die Mitte einen dicken Klecks Schokolade geben und alle Spitzen damit verbinden.",
+    "Fest werden lassen und mit Puderzucker bestäuben."
+   ],
+   "tipp": "Mit einem Faden lassen sie sich auch an den Baum hängen.",
+   "tuerchen": 11
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "⛄",
+   "t": "Marshmallow-Schneemann am Spieß",
+   "z": [
+    "3 große Marshmallows",
+    "1 Holzspieß",
+    "Lebensmittelstift",
+    "Fruchtgummischnur, 1 Zuckerstange oder Salzstange"
+   ],
+   "s": [
+    "Die Marshmallows auf den Spieß stecken.",
+    "Mit dem Lebensmittelstift Augen, Mund und Knöpfe malen.",
+    "Eine Möhrennase aus orangem Fruchtgummi eindrücken.",
+    "Schal aus Fruchtgummischnur umbinden, Salzstangen als Arme."
+   ],
+   "tipp": "In eine Tasse heißen Kakao gestellt: ein „badender Schneemann“."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🌲",
+   "t": "Keks-Tannen",
+   "z": [
+    "Sternkekse in 5 Größen",
+    "grüner Zuckerguss",
+    "Zuckerperlen, Puderzucker"
+   ],
+   "s": [
+    "Die Kekse der Größe nach sortieren.",
+    "Den größten Stern hinlegen, Guss in die Mitte und den nächstkleineren leicht verdreht daraufsetzen.",
+    "So weiter bis zum kleinsten Stern.",
+    "Zuckerperlen an die Zacken, oben ein kleiner Stern hochkant – Puderzucker als Schnee."
+   ],
+   "tipp": "Mit selbst gebackenen Zimtsternen wird es besonders fein."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🫙",
+   "t": "Naschglas-Schneekugel",
+   "z": [
+    "kleines Schraubglas",
+    "Kokosraspeln",
+    "Marzipan oder kleiner Lebkuchenbaum",
+    "Gummibärchen oder Pralinen"
+   ],
+   "s": [
+    "Den Deckel innen mit Zuckerguss bestreichen und Kokosraspeln darauf drücken.",
+    "Ein Marzipanbäumchen oder eine kleine Figur darauf kleben.",
+    "Das Glas mit Süßigkeiten füllen.",
+    "Zuschrauben und umdrehen – fertig ist die Schneekugel zum Naschen."
+   ],
+   "tipp": "Mit Namensschild ein schönes Geschenk für Nachbarn."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🦔",
+   "t": "Apfel-Igel",
+   "z": [
+    "1 roter Apfel",
+    "Mandelstifte",
+    "2 Gewürznelken oder Schokoaugen",
+    "1 Rosine (Nase)"
+   ],
+   "s": [
+    "Den Apfel hinlegen, die vordere Seite ist das Gesicht.",
+    "Rundherum auf der Rückseite Mandelstifte als Stacheln hineinstecken.",
+    "Vorne zwei Nelken oder Schokoaugen als Augen, eine Rosine als Nase.",
+    "Auf Kokos-Schnee oder Moos setzen."
+   ],
+   "tipp": "Mit geröstetem Mandelstift duftet er nach Weihnachten."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🐑",
+   "t": "Stall aus Zwieback",
+   "z": [
+    "6 Zwieback",
+    "Salzstangen",
+    "Zuckerguss",
+    "Marzipan oder Gummitiere"
+   ],
+   "s": [
+    "Zwei Zwieback als Rückwand und Seiten auf einen Teller kleben.",
+    "Zwei Zwieback als schräges Dach aufsetzen, gut trocknen lassen.",
+    "Vorne einen Zaun aus Salzstangen in Guss stecken.",
+    "Tiere aus Marzipan oder Gummitiere hineinstellen, Stroh aus Kokosraspeln."
+   ],
+   "tipp": "So entsteht eine kleine Krippe zum Naschen."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🧁",
+   "t": "Schneemann-Muffin",
+   "z": [
+    "Muffins",
+    "weißer Zuckerguss",
+    "große Marshmallows",
+    "Schokolinsen, Lebensmittelstift"
+   ],
+   "s": [
+    "Die Muffins oben mit weißem Guss bestreichen – der Schnee.",
+    "Einen Marshmallow als Kopf an den Rand setzen, so dass er herausschaut.",
+    "Mit Lebensmittelstift ein Gesicht malen.",
+    "Zwei Schokolinsen als Knöpfe in den Guss drücken."
+   ],
+   "tipp": "Es sieht aus, als würde der Schneemann im Schnee schmelzen."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "❤️",
+   "t": "Zuckerstangen-Herz",
+   "z": [
+    "2 Zuckerstangen pro Herz",
+    "Zartbitter- oder weiße Schokolade",
+    "Streusel"
+   ],
+   "s": [
+    "Die Zuckerstangen auf Backpapier so legen, dass die Bögen ein Herz bilden.",
+    "Schokolade schmelzen und das Herz innen damit füllen.",
+    "Streusel darüberstreuen.",
+    "Im Kühlschrank fest werden lassen und vorsichtig lösen."
+   ],
+   "tipp": "Ein süßer Gruß – auch als Anhänger am Geschenk."
+  },
+  {
+   "quelle": "club-nasch",
+   "sym": "🥝",
+   "t": "Obst-Tannenbaum",
+   "z": [
+    "Kiwi, grüne Weintrauben",
+    "1 Apfel",
+    "1 Karotte",
+    "Granatapfelkerne oder Johannisbeeren"
+   ],
+   "s": [
+    "Den Apfel halbieren und mit der flachen Seite auf einen Teller legen – das ist der Fuß.",
+    "Die Karotte als Stamm hineinstecken.",
+    "Kiwi-Scheiben und Trauben mit Zahnstochern von unten nach oben immer kleiner anstecken.",
+    "Granatapfelkerne als Kugeln, oben ein Stern aus Apfel oder Karotte."
+   ],
+   "tipp": "Gesund und bunt – ein schöner Gegenpol zu den Plätzchen."
+  }
+ ],
+ "bastel": [
+  {
+   "quelle": "club-basteln",
+   "sym": "⭐",
+   "t": "Sterne aus Butterbrottüten",
+   "z": [
+    "7 Butterbrottüten",
+    "Klebestift",
+    "Schere, Bleistift",
+    "Band zum Aufhängen"
+   ],
+   "s": [
+    "Die Tüten flach aufeinanderkleben – jeweils unten einen breiten Streifen und senkrecht einen in der Mitte (wie ein „T“).",
+    "Oben eine Spitze oder einen Bogen aufzeichnen und den ganzen Stapel zuschneiden, an den Seiten kleine Muster herausschneiden.",
+    "Die oberste und die unterste Tüte zusammenkleben – der Stern klappt auf.",
+    "Band durchziehen und ans Fenster hängen."
+   ],
+   "tipp": "Mit einer Lichterkette dahinter leuchtet der Stern wie eine Laterne.",
+   "dauer": "ca. 30 Minuten",
+   "kinder": true,
+   "tuerchen": 2,
+   "link": "https://www.dm.de/tipps-und-trends/bastelideen/bastelideen-weihnachten/himmlische-papiersterne-aus-butterbrottueten-475304"
+  },
+  {
+   "quelle": "club-deko",
+   "sym": "🫙",
+   "t": "Frost-Windlicht mit Salzkristallen",
+   "z": [
+    "schmale, hohe Gläser",
+    "grobes Salz",
+    "Wasser",
+    "Teelicht (am besten LED)",
+    "Tannengrün, Schnur, Zapfen"
+   ],
+   "s": [
+    "Etwa 1 cm hoch grobes Salz in jedes Glas füllen.",
+    "Nur so viel Wasser dazugeben, dass das Salz feucht ist – es soll nicht schwimmen.",
+    "Die Gläser an einen warmen Ort stellen (Fensterbank über der Heizung) und das Salz feucht halten – nach ein paar Tagen klettern Kristalle wie Raureif hoch.",
+    "Teelicht hinein, Schnur um den Hals, Tannengrün und Zapfen daneben."
+   ],
+   "tipp": "Heute ansetzen – zum 2. Advent glitzert es wie Frost.",
+   "dauer": "10 Minuten + ein paar Tage warten",
+   "kinder": true,
+   "tuerchen": 3,
+   "link": "https://www.heleneweberhaus.de/wp-content/uploads/2022/11/Upcycling-Schneelichter-aus-Salzkristallen.pdf"
+  },
+  {
+   "quelle": "club-basteln",
+   "sym": "🥾",
+   "t": "Nikolausstiefel aus Filz",
+   "z": [
+    "roter und weißer Filz",
+    "Papier für die Schablone",
+    "Schere, Locher",
+    "Wollfaden oder Pfeifenputzer"
+   ],
+   "s": [
+    "Einen Stiefel auf Papier zeichnen, ausschneiden und zweimal auf roten Filz übertragen.",
+    "Beide Teile ausschneiden und aufeinanderlegen.",
+    "Rundherum (außer oben) mit dem Locher Löcher stanzen und mit Wolle oder Pfeifenputzer zusammenfädeln.",
+    "Oben einen weißen Filzstreifen als Fellrand aufkleben, Schlaufe zum Aufhängen anbringen."
+   ],
+   "tipp": "Heute Abend vor die Tür stellen – morgen ist Nikolaus!",
+   "dauer": "ca. 45 Minuten",
+   "kinder": "mit Hilfe",
+   "tuerchen": 5,
+   "link": "https://www.dm.de/tipps-und-trends/bastelideen/bastelideen-kinder/nikolausstiefel-andere-weihnachtsdeko-aus-filz-58928"
+  },
+  {
+   "quelle": "club-deko",
+   "sym": "🍊",
+   "t": "Girlande aus Orangenscheiben",
+   "z": [
+    "2–4 Orangen",
+    "Backgitter + Blech",
+    "Nadel und Faden",
+    "nach Wunsch Zimtstangen, Sternanis"
+   ],
+   "s": [
+    "Die Orangen in etwa ½ cm dünne Scheiben schneiden.",
+    "Auf das Backgitter legen, ein Blech darunterschieben (tropft).",
+    "Bei 100 °C etwa eine Stunde trocknen, dann auf dem Gitter auskühlen lassen.",
+    "Die Scheiben in der Mitte auffädeln – nach Wunsch abwechselnd mit Zimtstangen."
+   ],
+   "tipp": "Duftet herrlich am Fenster oder am Tannenbaum.",
+   "dauer": "ca. 1½ Stunden (meist Backofen)",
+   "kinder": "mit Hilfe",
+   "tuerchen": 7,
+   "link": "https://www.nau.ch/lifestyle/wohnen/orangegirlande-simple-weihnachtsdeko-zum-selbermachen-65826299"
+  },
+  {
+   "quelle": "club-basteln",
+   "sym": "❄️",
+   "t": "Schneeflocken aus Papier",
+   "z": [
+    "quadratisches weißes Papier (z. B. 20 × 20 cm)",
+    "Schere",
+    "Bleistift",
+    "Faden"
+   ],
+   "s": [
+    "Das Papier dreimal falten: längs zur Hälfte, quer zum Quadrat, dann schräg zum Dreieck.",
+    "Die Ecke mit der Papiermitte festhalten und die gegenüberliegende Seite rund abschneiden.",
+    "An den Seiten kleine Dreiecke, Bögen und Zacken herausschneiden – die Kanten nie ganz durchschneiden.",
+    "Vorsichtig auffalten, glatt streichen, aufhängen."
+   ],
+   "tipp": "Butterbrotpapier lässt sich besonders leicht schneiden.",
+   "dauer": "ca. 15 Minuten",
+   "kinder": true,
+   "tuerchen": 9,
+   "link": "https://www.wdrmaus.de/elefantenseite/elternseiten/selbermachen/pdfs/Bastelanleitung-Papier-Schneeflocke.pdf"
+  },
+  {
+   "quelle": "club-deko",
+   "sym": "🌲",
+   "t": "Zapfenwichtel",
+   "z": [
+    "Tannen- oder Kiefernzapfen",
+    "Filzreste",
+    "Plüsch oder Watte (Bart)",
+    "Holzperle (Nase)",
+    "Heißkleber oder Bastelkleber"
+   ],
+   "s": [
+    "Für jeden Zapfen zwei Mützenhälften aus Filz schneiden, die Ränder zusammenkleben und umstülpen.",
+    "Aus Plüsch oder Watte einen Bart schneiden und vorne an den Zapfen kleben.",
+    "Die Holzperle als Nase daraufsetzen.",
+    "Mütze aufkleben – nach Wunsch ein Band zum Aufhängen anbringen."
+   ],
+   "tipp": "Jede Mütze passt du an deinen Zapfen an – deshalb gibt es keine feste Vorlage.",
+   "dauer": "ca. 1 Stunde",
+   "kinder": "mit Hilfe",
+   "tuerchen": 10,
+   "link": "https://www.vbs-hobby.at/zapfenwichtel-basteln-t6004/?format=pdf"
+  },
+  {
+   "quelle": "club-deko",
+   "sym": "🍊",
+   "t": "Duft-Orange mit Nelken",
+   "z": [
+    "1 feste Orange",
+    "ganze Gewürznelken (ca. 24)",
+    "Holzspieß zum Vorstechen",
+    "Band"
+   ],
+   "s": [
+    "Die Orange kurz in der Hand rollen, damit die Schale etwas weicher wird.",
+    "Mit dem Holzspieß kleine Löcher vorstechen – in Streifen, Spiralen oder als Stern.",
+    "Die Nelken mit dem Stiel voran hineinstecken.",
+    "Ein Band herumbinden und aufhängen oder auf einen Teller legen."
+   ],
+   "tipp": "In Schweden steckt man genau 24 Nelken – und zieht jeden Tag eine heraus, wie bei einem Adventskalender.",
+   "dauer": "ca. 20 Minuten",
+   "kinder": true,
+   "tuerchen": 14,
+   "link": "https://utopia.de/ratgeber/weihnachtsduefte-die-klassiker-ohne-chemie-einfach-selbstgemacht_272916/"
+  },
+  {
+   "quelle": "club-basteln",
+   "sym": "💌",
+   "t": "Karte mit Stehauf-Tannenbäumen",
+   "z": [
+    "Tonpapier (doppelte Kartengröße)",
+    "grünes Papier",
+    "Schere, Klebestift",
+    "Plätzchenform als Vorlage"
+   ],
+   "s": [
+    "Das Tonpapier zuschneiden und in der Mitte falten – das ist die Karte.",
+    "Auf grünes Papier Tannenbäume in verschiedenen Größen zeichnen und unten an beiden Seiten einen schmalen Klebestreifen dazuzeichnen.",
+    "Ausschneiden, jeden Baum senkrecht in der Mitte falten, die Klebestreifen nach hinten knicken.",
+    "Die Streifen mit Kleber bestreichen und die Bäume mittig in die Falz kleben – beim Aufklappen stehen sie auf."
+   ],
+   "tipp": "Ein paar Sterne aus Goldpapier über den Bäumen – fertig ist der Winterwald.",
+   "dauer": "ca. 30 Minuten",
+   "kinder": true,
+   "tuerchen": 16,
+   "link": "https://www.fuersie.de/lifestyle/weihnachten/galerie/weihnachtskarten-selbermachen"
+  },
+  {
+   "quelle": "club-deko",
+   "sym": "🏺",
+   "t": "Leuchtende Doppelvase",
+   "z": [
+    "eine große und eine schmale Vase",
+    "LED-Lichterkette (ca. 2 m)",
+    "Weihnachtskugeln",
+    "Tannenzweige",
+    "nach Wunsch Schnee- oder Goldspray"
+   ],
+   "s": [
+    "Die Lichterkette um die schmale Vase wickeln.",
+    "Die schmale Vase mittig in die große stellen.",
+    "Den Zwischenraum mit Weihnachtskugeln füllen.",
+    "Tannenzweige (nach Wunsch mit Schneespray) in die schmale Vase stecken."
+   ],
+   "tipp": "Mit Batterie-Lichterkette bleibt die Steckdose frei – Batteriefach unten verstecken.",
+   "dauer": "ca. 20 Minuten",
+   "kinder": true,
+   "tuerchen": 17,
+   "link": "https://www.desired.de/artikel/kreativer-weihnachtszauber-selbstgemachte-deko-die-deinen-tisch-zum-strahlen-bringt--g34f84g8rx"
+  },
+  {
+   "quelle": "club-basteln",
+   "sym": "🥔",
+   "t": "Geschenkpapier mit Kartoffeldruck",
+   "z": [
+    "Kartoffeln",
+    "Messer, Plätzchenform",
+    "Acryl- oder Wasserfarbe, Pinsel",
+    "Packpapier"
+   ],
+   "s": [
+    "Kartoffel waschen, trocknen und halbieren.",
+    "Eine Plätzchenform (Stern, Baum) in die Schnittfläche drücken und den Rand rundherum wegschneiden.",
+    "Den Stempel mit dem Pinsel einfärben und fest auf das Packpapier drücken.",
+    "Wiederholen, bis das Muster gefällt, dann 1–2 Stunden trocknen lassen."
+   ],
+   "tipp": "Erst einen Probedruck auf Schmierpapier machen.",
+   "dauer": "ca. 45 Minuten + trocknen",
+   "kinder": "mit Hilfe",
+   "tuerchen": 19,
+   "link": "https://utopia.de/ratgeber/geschenkpapier-selber-machen-gestalten-einfach_36918/"
+  },
+  {
+   "quelle": "club-deko",
+   "sym": "🍽️",
+   "t": "Servietten-Tannenbaum",
+   "z": [
+    "grüne Stoff- oder Papierservietten",
+    "Bügeleisen (bei Stoff)",
+    "nach Wunsch ein kleiner Stern"
+   ],
+   "s": [
+    "Die Serviette zweimal zum Quadrat falten, die offenen Ecken zeigen nach oben.",
+    "Die einzelnen Lagen nacheinander nach unten falten, jede ein Stück versetzt – wie Tannenäste.",
+    "Umdrehen und die Seiten zur Mitte einschlagen, so dass ein spitzer Baum entsteht.",
+    "Wieder umdrehen, die Lagen etwas nach oben schieben, Stern auf die Spitze."
+   ],
+   "tipp": "Stoffservietten vorher glatt bügeln – dann halten die Falten besser.",
+   "dauer": "ca. 5 Minuten je Serviette",
+   "kinder": true,
+   "tuerchen": 21,
+   "link": "https://www.dm.de/tipps-und-trends/bastelideen/bastelideen-weihnachten/weihnachtsbaum-serviette-2570968"
+  },
+  {
+   "quelle": "club-basteln",
+   "sym": "🎁",
+   "t": "Geschenke natürlich verpacken",
+   "z": [
+    "Packpapier",
+    "Jutegarn oder Kordel",
+    "Zimtstangen, Zapfen, getrocknete Orangen",
+    "Baumrinde oder Pappe, Lochzange",
+    "Heißkleber"
+   ],
+   "s": [
+    "Das Geschenk in Packpapier einwickeln und mit Jutegarn verschnüren.",
+    "Zimtstangen, Zapfen oder Orangenscheiben unter das Garn stecken oder festkleben.",
+    "Aus Rinde oder Pappe einen Stern oder ein Herz als Namensschild schneiden.",
+    "Ein Loch stanzen, Namen draufschreiben und mit Kordel ans Geschenk binden."
+   ],
+   "tipp": "Last minute – und es duftet nach Weihnachten.",
+   "dauer": "ca. 30 Minuten",
+   "kinder": true,
+   "tuerchen": 23,
+   "link": "https://www.vbs-hobby.at/natuerliche-geschenkverpackung-zu-weihnachten-t6007/?format=pdf"
+  }
+ ]
+}
